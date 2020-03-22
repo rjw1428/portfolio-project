@@ -1,0 +1,16 @@
+.project-wrapper {
+    width: 65%;
+    height: 200px;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 10px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+    .project-wrapper {
+        width: 100%;
+    }
+}

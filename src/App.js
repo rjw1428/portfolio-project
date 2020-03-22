@@ -1,24 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/header/Header'
+import ProjectIndicator from './components/ProjectIndicator/ProjectIndicator';
 
 function App() {
+  document.title = "Ryan's Portfolio"
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="background-wrapper">
+        <div className="background"></div>
+      </div>
+      <div className="container">
+        <div className="content-wrapper">
+          <Header />
+          <div className="projects">
+            <ProjectIndicator className="item1" name="Brody's Burgers" link="https://brodysburgersandbeer.com/"/>
+            <ProjectIndicator className="item2" name="Alpine Knives" link="https://alpineknives.com"/>
+            <ProjectIndicator className="item3" name="SSR Digital Displays" link="https://ssrdigitaldisplays.com/display/restfest/2"/>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
