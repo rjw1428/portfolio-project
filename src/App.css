@@ -1,13 +1,28 @@
-.App {
-  overflow: hidden;
+@import url("https://fonts.googleapis.com/css2?family=Play&family=Roboto&display=swap");
 
-}
+
 
 :root {
-  --bgColor: #000;
+  --bgColor1: #FFF;
+  --bgColor2: #EEE;
   --rotationTime: 450s;
+  /* --color-alt: #4A5356;
+  --color-main: #2F749C;
+  --color-bg: #A79A89;
+  --color-text: #26252A; */
+
+  --color-alt: #884426;
+  --color-alt2: #1A424E;
+  --color-main: #7C9E3D;
+  --color-bg: #FDFFF9;
+  --color-text: #3C3D3B;
 }
 
+.App {
+  /* overflow: hidden; */
+  background-color: var(--color-bg);
+}
+/* 
 .background-wrapper {
   position: fixed;
   height: 100vh;
@@ -20,43 +35,23 @@
   width: 400%;
   left: -150%;
   top: -150%;
-  background: var(--bgColor) repeating-conic-gradient(hsla(0,0%,100%,.1) 0 15deg, hsla(0,0%,100%,.05) 0 30deg);
+  background: var(--bgColor1) repeating-conic-gradient(var(--bgColor1) 0 15deg, var(--bgColor2) 0 30deg);
   animation: pos var(--rotationTime) linear 0s infinite normal forwards;
-}
-.container{
-  display: flex;
-  justify-content: center;
-  width: 100vw;
+  z-index: 0;
+} */
+
+.header-wrapper {
+  position: relative;
+  padding-top: 10vh;
+  background-color: rgb(0,0,0,0);
 }
 
 .content-wrapper {
-  position: absolute;
+  margin: 1em 10%;
+  /* position: relative;
   top: 10vh;
   text-align: center;
-  width: 100vw;
-  max-width: 800px;
-}
-
-.projects {
-  margin-top: 100px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 50px;
-  grid-row-gap: 10px;
-  justify-items: center;
-}
-
-.item1 {
-  grid-column: 1;
-}
-
-.item2 {
-  grid-column: 2;
-}
-
-.item3 {
-  grid-column: 3;
+  width: 100vw; */
 }
 
 @keyframes pos {
@@ -68,9 +63,8 @@
   }
 }
 
-@media only screen and (min-width: 768px) {
-  .projects {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-  }
+
+.resume-link {
+  display: flex;
+  justify-content: center;
 }

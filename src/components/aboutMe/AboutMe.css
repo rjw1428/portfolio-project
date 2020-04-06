@@ -1,0 +1,21 @@
+p {
+    text-align: justify;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text)
+}
+
+/* p::first-letter {
+    font-size: 250%;
+    float: left;
+    line-height: 1;
+    margin: 0 .2em 0 0;
+  } */
+
+.extra {
+    display: none;
+}
+
+.show-more-text {
+    font-style: italic;
+}

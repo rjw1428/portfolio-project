@@ -4,16 +4,37 @@
     font-size: 32px;
 }
 
-.header-wrapper {
-    width: 100%;
-    height: 50vh;
-    background-image: url();
+.header-content {
+    background-image: url('../../images/header-img1.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 10px 10px 10px black;
+}
+
+.subtitle {
+    margin: 0 10%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+.title {
+    width: 100%;
+    font-size: 2em;
+    font-family: 'Play', sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+h1, h3 {
+    color: white;
+    text-shadow: 2px 2px 2px black;
 }
 
 .letter {
@@ -36,4 +57,15 @@
     .keyword {
         font-size: 48px;
     }
+    .title {
+        font-size: 3em;
+    }
+    .subtitle {
+        font-size: 18px;
+        margin: 0 20%;
+    }
+}
+
+.test {
+    border: 1px solid red;
 }

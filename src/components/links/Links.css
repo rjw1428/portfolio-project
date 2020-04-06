@@ -1,0 +1,17 @@
+.link-list {
+    padding-top: 10px;
+    color: var(--color-text);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.link {
+    margin: 0 10px;
+}
+
+@media only screen and (min-width: 996px) {
+    .link {
+        margin: 0 30px;
+    }
+}
