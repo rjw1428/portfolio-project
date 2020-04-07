@@ -6,9 +6,7 @@ import SectionTitle from './components/sectionTitle/SectionTitle'
 import ProjectSection from './components/projects/ProjectsSection'
 import Links from './components/links/Links'
 
-
 function App() {
-  document.title = "Ryan's Portfolio"
   return (
     <div className="App">
       <div className="background-wrapper">
@@ -20,7 +18,10 @@ function App() {
       <div className="content-wrapper">
         <SectionTitle name="About Me" />
         <AboutMe />
+        <SectionTitle name="Projects" />
         <ProjectSection />
+        {/* <SectionTitle name="Cool Things" /> */}
+        {/* AMERICAN FLAG... LEGO COSTUME... IDK */}
         <SectionTitle name="More Info" />
         <Links />
       </div>

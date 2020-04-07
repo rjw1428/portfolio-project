@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './ProjectsSection.css';
 import ProjectIndicator from './ProjectIndicator/ProjectIndicator';
-import SectionTitle from '../sectionTitle/SectionTitle'
 import brodysIcon from '../../images/brodys-icon.png'
 import alpineIcon from '../../images/alpine-icon.png'
 import ssrIcon from '../../images/ssr-icon.jpg'
@@ -18,7 +17,6 @@ class ProjectSection extends Component {
     render() {
         return (
             <div>
-                <SectionTitle name="Projects" />
                 <div className="projects">
                     <ProjectIndicator 
                         className="item1" 

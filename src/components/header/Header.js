@@ -92,14 +92,14 @@ class Header extends Component {
     // updateWindowDimensions() {
     //     this.setState({ width: window.innerWidth });
     //   }
-
-    render() {
-        return (
+    //render() =>
             // <div className="header-wrapper keyword" style={{backgroundImage: 'url('+backgroundImg+')'}}>
             //     <div >
             //         {this.createDials(this.phrases[this.state.count - 1])}
             //     </div>
             // </div>
+    render() {
+        return (
             <div className="header-content" style={{height: '50vh', maxHeight: '500px'}}>
                 <h1 className="title">Hi, I'm <strong>Ryan Wilk</strong></h1>
                 <h3 className="subtitle">I am a front end web developer who enjoyes manipulating bits and bytes to explore the world of software development.</h3>

@@ -6,7 +6,7 @@
     height: 250px;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: all 300ms ease-in-out 300ms;
+    transition: all 300ms ease-in-out;
 }
 
 .project-wrapper-front {
@@ -40,7 +40,12 @@ img {
     opacity: .5;
     width: 250px; 
     height: 250px;
+    transition: all 300ms ease-in-out;
 }
+img:hover {
+    opacity: .9;
+}
+
 @media only screen and (min-width: 1200px) {
     .project-wrapper {
         max-width: 300px;

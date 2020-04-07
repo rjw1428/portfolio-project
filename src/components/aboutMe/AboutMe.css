@@ -1,21 +1,130 @@
-p {
+.about-content p {
     text-align: justify;
     font-size: 16px;
     line-height: 1.5;
-    color: var(--color-text)
+    color: var(--color-text);
 }
 
-/* p::first-letter {
-    font-size: 250%;
+.about-content .first {
+    min-height: 450px;
+}
+
+.about-content p::first-letter {
+    font-size: 2.5em;
     float: left;
     line-height: 1;
-    margin: 0 .2em 0 0;
-  } */
+    margin: 0 .1em 0 0;
+    text-shadow: 1px 1px 5px rgb(20,20,20,.7);
+  }
 
-.extra {
+.hide {
     display: none;
+    /* margin-left: 100%; */
+}
+
+.show {
+    /* margin-left: 0; */
+    /* transition: all 900ms ease-in-out 1s; */
 }
 
 .show-more-text {
+    display: flex;
+    width: 100%;
     font-style: italic;
+    justify-content: center;
+}
+
+.slant {
+    filter: drop-shadow(3px 3px 3px black);
+}
+
+.slant-left{
+    position: relative;
+    float: left;
+    height: 450px;
+    width: 200px;
+    background-image: url('../../images/img1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+    shape-outside: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+    transform: translate(-10vw );
+    margin-right: -8vw;
+    margin-bottom: 10px;
+    z-index: 0;
+}
+
+.slant-right{
+    position: relative;
+    float: right;
+    height: 400px;
+    width: 200px;
+    background-image: url('../../images/sd1.jpg');
+    background-repeat: no-repeat;
+    background-position: 87% 50%;
+    background-size: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 25% 100%);
+    shape-outside: polygon(0 0, 100% 0, 100% 100%, 25% 100%);
+    transform: translate(10vw);
+    margin-left: -8vw;
+    margin-bottom: 10px;
+    z-index: 0;
+}
+
+.slant-bottom{
+    position: relative;
+    float: left;
+    height: 400px;
+    width: 200px;
+    background-image: url('../../images/philly1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    clip-path: polygon(0 0, 75% 0, 100% 100%, 0 100%);
+    shape-outside:polygon(0 0, 75% 0, 100% 100%, 0 100%);
+    transform: translate(-10vw);
+    margin-right: -8vw;
+    margin-bottom: 10px;
+    z-index: 0;
+}
+
+.row {
+    display: none;
+}
+
+.display-lg {
+    opacity: 1;
+    width: 170px;
+    height: 240px;
+    box-shadow: 5px 5px 5px black;
+}
+
+.display-lg-2 {
+    opacity: 1;
+    width: 350px;
+    height: 240px;
+    box-shadow: 5px 5px 5px black;
+}
+
+.display-lg-3 {
+    opacity: 1;
+    width: 300px;
+    height: 300px;
+    box-shadow: 5px 5px 5px black;
+    margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+    .slant {
+        display: none;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+    }
+    .about-content .first {
+        min-height: unset;
+    }
 }
