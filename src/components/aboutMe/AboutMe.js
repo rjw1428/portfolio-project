@@ -51,7 +51,7 @@ class AboutMe extends Component {
                     I created a few desktop applications to make filling out QA forms simpler, and even built up to a
                     system that would keep track of product and inventory throught the production line.
                     </p>
-                    <div class="row">
+                    <div className="row">
                         <img className="display-lg" style={{marginBottom:this.state.display === 'hide'?'20px':'0'}} src={pic1} />
                     </div>
                 </div>
@@ -68,7 +68,7 @@ class AboutMe extends Component {
                     and the means storing them to be primative and flawed. I set out to design a front end desktop application that would build
                     our reports in a consistent way, while taking the information and storing it in a back end database that would be easier to query and maintain.
                     </p>
-                    <div class="row">
+                    <div className="row">
                         <img className="display-lg-2" src={pic2} />
                     </div>
                     <p>But the real game-changing project came one night (as so much great innovation often does) with my friends at our favorite bar.
@@ -83,7 +83,7 @@ class AboutMe extends Component {
                     </p>
                     <p>Then I moved to working for Comcast, which has been amazing. Currently the UI team lead for a telemetry product.
                     </p>
-                    <div class="row">
+                    <div className="row">
                         <img className="display-lg-3" src={pic3} />
                     </div>
                 </div>

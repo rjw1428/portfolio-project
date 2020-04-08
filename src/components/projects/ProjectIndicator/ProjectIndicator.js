@@ -12,7 +12,8 @@ class ProjectIndicator extends Component {
             <div className={["project-wrapper", this.props.flipId===this.props.id?"flip":""].join(" ")}>
                 <div className={"project-wrapper-front"} onClick={() => this.emit(this.props.id)}>
                     <img src={this.props.icon} style={{position: 'absolute', zIndex: '10'}} alt={this.props.name}/>
-                    <h1 className={"tile-title"}>{this.props.name}</h1>
+                    <img className="logo" src={this.props.logo} style={{position: 'absolute', zIndex: '10'}} alt={this.props.name}/>
+                    {/* <h1 className={"tile-title"}>{this.props.name}</h1> */}
                     {/* onClick={()=> window.location.assign(this.link)} */}
                 </div> 
                 <div className={"project-wrapper-back"} onClick={() => this.emit(this.id)}>
