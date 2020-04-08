@@ -1,9 +1,3 @@
-.keyword {
-    color: white;
-    text-shadow: 5px 5px 5px black;
-    font-size: 32px;
-}
-
 .header-content {
     background-image: url('../../images/header-img2.jpg');
     background-size: cover;
@@ -28,31 +22,27 @@
 }
 
 .title {
-    width: 100%;
     font-size: 2em;
     font-family: 'Play', sans-serif;
-    font-weight: 400;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-}
-
-h1, h3 {
     color: white;
     text-shadow: 2px 2px 2px black;
 }
 
 .letter {
     display: inline-block;
-    vertical-align: top;
     transition: top 1s ease;
     position: relative;
+    top: 0;
 }
 
 .letter-ticker {
     height: 1em;
     overflow: hidden;
     position: relative;
+}
+
+.ticker-wrapper {
+    margin-bottom: 5%;
 }
 
 @media only screen and (min-width: 768px) {

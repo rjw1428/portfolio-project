@@ -19,21 +19,14 @@ class Header extends Component {
                 count: 1,
             })
         }, 100)
-        
-        // this.interval = setInterval(() => {
-        //     const c = this.state.count % this.phrases.length
-        //     this.setState({
-        //         count: c + 1,
-        //     })
-        // }, 1000 * this.intervalDelay)
     }
 
     componentWillUnmount() {
-        // clearInterval(this.interval);
         window.removeEventListener('resize', this.updateWindowDimensions)
     }
 
     updateWindowDimensions() {
+        console.log("HERE")
         // this.setState({ width: window.innerWidth });
     }
 
@@ -48,7 +41,7 @@ class Header extends Component {
                         <div className="letter" 
                             key={i} 
                             id={"dial" + i} 
-                            style={this.setStyle(offset)}>
+                            style={this.setStyle(offset, i)}>
                             {this.createDial(i)}
                         </div>
                     )
@@ -60,7 +53,7 @@ class Header extends Component {
 
     createDial(dialNum) {
         return this.letters.map((val, i) => {
-            return <div key={dialNum.toString() + i.toString()} id={"dial" + dialNum}>
+            return <div style={{ height: "1em"}} key={dialNum.toString() + i.toString()} id={"dial" + dialNum}>
                 {val.toUpperCase()}
             </div>
         })
@@ -72,24 +65,27 @@ class Header extends Component {
         return num<0?28:num
     }
 
-    setStyle(offset) {
+    setStyle(offset, letterNum) {
         let w=offset>25?.4:.6
         w = (offset === 22 || offset === 12)?.9:w
         let a=offset>25?'left':'center'
         let h=1
         return {
-            top:  -offset+"em",
+            // transform: "translateY(-"+offset*h+"em)",//"calc(-"+h+"em *"+ offset +")",
+            top: -offset*h+"em",
             width: w+"em",
             lineHeight: h+"em",
-            height: h*28+"em",
-            textAlign: a
+            height: -h*28+"em",
+            textAlign: a,
+            fontWeight: letterNum>=8?700:400,
         }
     }
     render() {
         return (
             <div className="header-content title" style={{height: '50vh', maxHeight: '500px'}}>
-                {this.createDials(this.phrases[this.state.count])}
-                {/* <h1 className="title">Hi, I'm <strong>Ryan Wilk</strong></h1> */}
+                <div className="ticker-wrapper">
+                    {this.createDials(this.phrases[this.state.count])}
+                </div>
                 <h3 className="subtitle">I am a front end web developer who enjoyes manipulating bits and bytes to explore the world of software development.</h3>
             </div>
         )
