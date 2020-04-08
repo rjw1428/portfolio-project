@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import './Header.css';
 
 class Header extends Component {
-    interval = null
-    intervalDelay = 5 //seconds
     letters = Array.apply(null, {length: 26}).map((val,i)=>String.fromCodePoint(i+65).toLowerCase()).concat(["'",","])
     phrases = ["AAAAAAAAAAAAAAAAA","Hi, I'm Ryan Wilk"]
     constructor(props) {
@@ -26,8 +24,7 @@ class Header extends Component {
     }
 
     updateWindowDimensions() {
-        console.log("HERE")
-        // this.setState({ width: window.innerWidth });
+
     }
 
     createDials(phrase) {
@@ -71,7 +68,6 @@ class Header extends Component {
         let a=offset>25?'left':'center'
         let h=1
         return {
-            // transform: "translateY(-"+offset*h+"em)",//"calc(-"+h+"em *"+ offset +")",
             top: -offset*h+"em",
             width: w+"em",
             lineHeight: h+"em",

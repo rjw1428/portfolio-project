@@ -14,7 +14,6 @@ class AboutMe extends Component {
         showImg1: false
     }
     componentDidMount() {
-        let img1TopPosition = this.image1.offsetTop
         window.addEventListener('scroll', this.listenToScroll)
     }
 
@@ -52,7 +51,7 @@ class AboutMe extends Component {
                     system that would keep track of product and inventory throught the production line.
                     </p>
                     <div className="row">
-                        <img className="display-lg" style={{marginBottom:this.state.display === 'hide'?'20px':'0'}} src={pic1} />
+                        <img className="display-lg" style={{marginBottom:this.state.display === 'hide'?'20px':'0'}} src={pic1} alt="me at horseshoe bend AZ"/>
                     </div>
                 </div>
                 <div className={this.state.display}>
@@ -69,7 +68,7 @@ class AboutMe extends Component {
                     our reports in a consistent way, while taking the information and storing it in a back end database that would be easier to query and maintain.
                     </p>
                     <div className="row">
-                        <img className="display-lg-2" src={pic2} />
+                        <img className="display-lg-2" src={pic2} alt="San Diego, CA"/>
                     </div>
                     <p>But the real game-changing project came one night (as so much great innovation often does) with my friends at our favorite bar.
                     One of my friends owned a restaurant and wanted digital menu boards, but thought they current systems on the market were too expensive. Knowing that I had
@@ -84,7 +83,7 @@ class AboutMe extends Component {
                     <p>Then I moved to working for Comcast, which has been amazing. Currently the UI team lead for a telemetry product.
                     </p>
                     <div className="row">
-                        <img className="display-lg-3" src={pic3} />
+                        <img className="display-lg-3" src={pic3} alt="Philly, PA" />
                     </div>
                 </div>
                 <div className="show-more-text" onClick={() => this.handleExpandText()}>{this.state.display === 'hide' ? "Read More" : "Show Less"}</div>
