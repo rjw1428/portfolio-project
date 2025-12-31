@@ -66,3 +66,20 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+```bash
+docker build -t portfolio-app .
+```
+
+To run the container, use this command:
+
+```bash
+docker run -p 80:3001 portfolio-app
+```
+
+The React app will be available at `http://localhost`, and you can access the metrics at `http://localhost/api/metrics`.
+
+```bash
+docker-compose up -d
+```
+

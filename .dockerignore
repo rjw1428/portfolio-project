@@ -1,0 +1,25 @@
+# Ignore node_modules folders
+node_modules
+server/node_modules
+
+# Ignore .git folder
+.git
+
+# Ignore build folder
+build
+
+# Ignore Dockerfile
+Dockerfile
+
+# Ignore .env file
+.env
+
+# Ignore docker-compose file
+docker-compose.yml
+
+# Ignore .dockerignore file
+.dockerignore
+
+# Ignore nginx-proxy-manager data
+data
+letsencrypt
