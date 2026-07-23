@@ -25,3 +25,9 @@ yarn-error.log*
 data/
 letsencrypt/
 server/node_modules
+
+# local infra & secrets — never commit
+/letsencrypt
+/data
+/.firebase
+.DS_Store
