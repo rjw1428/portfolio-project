@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /gallery.html
 
-Sitemap: https://ryanwilk.com/sitemap.xml
+Sitemap: https://www.ryanwilk.com/sitemap.xml
