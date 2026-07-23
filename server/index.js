@@ -3,6 +3,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3201;
+const siteDir = path.join(__dirname, '../poc');
 
 // Logger middleware
 app.use((req, res, next) => {
@@ -10,23 +11,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../build')));
-
 // API endpoint for metrics
 app.get('/api/metrics', (req, res) => {
-  // In a real application, you would gather and return actual metrics.
-  // For now, we'll just return a dummy object.
   res.json({
-    dailyVisitors: 123,
     health: 'OK',
+    uptimeSeconds: Math.round(process.uptime()),
   });
 });
 
-// For any other request, serve the React app's index.html
-// For any other request, serve the React app's index.html
+// Static site: the shell is index.html; experiences are plain pages.
+// HTML revalidates on every visit (pages change during iteration);
+// the og image can cache for a day.
+app.use(
+  express.static(siteDir, {
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache');
+      } else if (filePath.endsWith('.png') || filePath.endsWith('.svg')) {
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+      }
+    },
+  })
+);
+
+// Anything unmatched is a real 404 — this is not a SPA.
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'));
+  res.status(404).sendFile(path.join(siteDir, '404.html'));
 });
 
 app.listen(port, '0.0.0.0', () => {

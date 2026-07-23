@@ -1,25 +1,13 @@
-# Stage 1: Build the React app
-FROM node:16-alpine as builder
+# Static experience pages + Express server — no build step required.
+FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install
-
-COPY . ./
-RUN npm run build
-
-# Stage 2: Create the production server
-FROM node:16-alpine
-
-WORKDIR /app
-
-COPY --from=builder /app/build ./build
+COPY poc ./poc
 COPY server ./server
 
 WORKDIR /app/server
-RUN npm install
+RUN npm install --omit=dev
 
 EXPOSE 3201
 
