@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Ryan Wilk</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: #0b0c0e;
+    color: #e8e6e1;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    display: grid; place-items: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .flaps {
+    display: inline-flex; gap: 6px;
+    margin-bottom: 22px;
+  }
+  .flap {
+    position: relative;
+    width: clamp(52px, 12vw, 84px);
+    height: clamp(72px, 17vw, 118px);
+    background: #1d1f24;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-size: clamp(40px, 9vw, 66px);
+    font-weight: 700;
+    color: #ffb340;
+  }
+  .flap::after {
+    content: "";
+    position: absolute; left: 0; right: 0; top: 50%;
+    height: 2px; background: #0b0c0e;
+  }
+  .eyebrow {
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    color: #9a9da6; margin-bottom: 10px;
+  }
+  p { color: #9a9da6; font-size: 14px; line-height: 1.6; max-width: 44ch; margin: 0 auto 26px; }
+  a.btn {
+    display: inline-block;
+    color: #ffb340; text-decoration: none;
+    border: 1px solid rgba(255, 179, 64, .4);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    transition: background .15s, color .15s;
+  }
+  a.btn:hover, a.btn:focus-visible { background: #ffb340; color: #0b0c0e; outline: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Service not found</div>
+  <div class="flaps" aria-hidden="true">
+    <div class="flap">4</div><div class="flap">0</div><div class="flap">4</div>
+  </div>
+  <p>This platform doesn't exist — the service you're looking for was never scheduled, or has been retired from the board.</p>
+  <a class="btn" href="/">Back to the station</a>
+</main>
+</body>
+</html>

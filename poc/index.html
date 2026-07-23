@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ryan Wilk</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Principal Software Engineer">
+<meta property="og:description" content="Principal engineer, AI-native developer workflows, customer-facing engineering. This site has five versions of itself — you get one at random.">
+<meta property="og:url" content="https://ryanwilk.com/">
+<meta property="og:image" content="https://ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Principal Software Engineer">
+<meta name="twitter:description" content="Principal engineer, AI-native developer workflows, customer-facing engineering. This site has five versions of itself — you get one at random.">
+<meta name="twitter:image" content="https://ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://ryanwilk.com/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --shell-bg: #0b0c0e;
+    --pill-bg: rgba(16, 17, 20, .82);
+    --pill-line: rgba(255, 255, 255, .14);
+    --pill-text: #e8e6e1;
+    --pill-dim: #9a9da6;
+    --amber: #ffb340;
+    --blue: #6fa8ff;
+    --cyan: #4fd8c4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; background: var(--shell-bg); }
+  body { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+  /* ---- experience frame ---- */
+  #stage { position: fixed; inset: 0; }
+  #frame {
+    width: 100%; height: 100%;
+    border: 0; display: block;
+    opacity: 0;
+    transition: opacity .45s ease;
+  }
+  #frame.live { opacity: 1; }
+
+  /* ---- boot roulette ---- */
+  #boot {
+    position: fixed; inset: 0;
+    display: grid; place-items: center;
+    background: var(--shell-bg);
+    z-index: 30;
+    transition: opacity .4s ease;
+  }
+  #boot.done { opacity: 0; pointer-events: none; }
+  .boot-inner { text-align: center; }
+  .boot-label {
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--pill-dim); margin-bottom: 14px;
+  }
+  #boot-name {
+    font-size: clamp(22px, 5vw, 40px);
+    font-weight: 700; letter-spacing: .08em;
+    color: var(--pill-text);
+    min-height: 1.4em;
+  }
+  #boot-name .accent { transition: color .15s; }
+
+  /* ---- switcher pill ---- */
+  #switcher {
+    position: fixed;
+    left: 50%; bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 40;
+    display: flex; align-items: center; gap: 2px;
+    background: var(--pill-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--pill-line);
+    border-radius: 999px;
+    padding: 6px 8px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  #switcher.hidden-ui { opacity: 0; transform: translateX(-50%) translateY(8px); pointer-events: none; }
+  #switcher button {
+    appearance: none; border: 0; background: none;
+    color: var(--pill-dim);
+    font: inherit; font-size: 14px;
+    width: 34px; height: 34px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: color .15s, background .15s;
+  }
+  #switcher button:hover { color: var(--pill-text); background: rgba(255,255,255,.07); }
+  #switcher button:focus-visible { outline: 2px solid var(--accent, var(--pill-text)); outline-offset: 1px; }
+  #exp-label {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 168px; padding: 0 10px;
+    cursor: pointer; border-radius: 8px;
+  }
+  #exp-label:focus-visible { outline: 2px solid var(--accent, var(--pill-text)); outline-offset: 2px; }
+  #exp-name {
+    font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent, var(--pill-text));
+  }
+  #exp-sub {
+    font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--pill-dim); margin-top: 2px;
+  }
+  .dots { display: flex; gap: 5px; margin-top: 4px; }
+  .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(255,255,255,.18);
+    transition: background .2s, transform .2s;
+  }
+  .dot.on { background: var(--accent, var(--pill-text)); transform: scale(1.25); }
+
+  /* ---- collapsed chip ---- */
+  #chip {
+    position: fixed; right: 18px; bottom: 18px; z-index: 40;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--pill-line);
+    background: var(--pill-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--accent, var(--pill-text));
+    font-size: 20px; line-height: 1;
+    display: grid; place-items: center;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .3s ease, transform .3s ease, color .15s;
+  }
+  #chip.on { opacity: 1; pointer-events: auto; transform: none; }
+  #chip:hover { color: var(--pill-text); }
+  #chip:focus-visible { outline: 2px solid var(--accent, var(--pill-text)); outline-offset: 2px; }
+
+  /* ---- experience accent theming of the pill ---- */
+  body[data-exp="departures"] { --accent: var(--amber); }
+  body[data-exp="blueprint"]  { --accent: var(--blue); }
+  body[data-exp="telemetry"]  { --accent: var(--cyan); }
+  body[data-exp="voyage"]     { --accent: #e8c15a; }
+  body[data-exp="arcade"]     { --accent: #ff7a9c; }
+
+  /* ---- static (channel-change) overlay ---- */
+  #static {
+    position: fixed; inset: 0; z-index: 20;
+    pointer-events: none; opacity: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+      var(--shell-bg);
+  }
+  #static.zap { animation: zap .38s steps(6) both; }
+  @keyframes zap {
+    0%   { opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #frame, #boot, #switcher, #chip { transition: none; }
+    #static.zap { animation: none; }
+  }
+  @media (max-width: 480px) {
+    #exp-label { min-width: 128px; }
+    #switcher { bottom: 12px; }
+    #chip { right: 12px; bottom: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <iframe id="frame" title="Portfolio experience"></iframe>
+</div>
+
+<div id="static" aria-hidden="true"></div>
+
+<div id="boot" aria-hidden="true">
+  <div class="boot-inner">
+    <div class="boot-label">Assigning experience</div>
+    <div id="boot-name"><span class="accent">&nbsp;</span></div>
+  </div>
+</div>
+
+<nav id="switcher" aria-label="Experience switcher">
+  <button id="prev" aria-label="Previous experience">&#8249;</button>
+  <div id="exp-label" role="button" tabindex="0" aria-label="Shuffle to a random experience" title="Shuffle">
+    <span id="exp-name">&nbsp;</span>
+    <span id="exp-sub">experience</span>
+    <span class="dots" id="dots"></span>
+  </div>
+  <button id="next" aria-label="Next experience">&#8250;</button>
+</nav>
+
+<button id="chip" aria-label="Show experience switcher" title="Switch experience">&#9860;</button>
+
+<script>
+(function () {
+  var EXPERIENCES = [
+    { id: 'departures', name: 'Departures', file: '01-departures.html', color: '#ffb340' },
+    { id: 'blueprint',  name: 'Blueprint',  file: '02-blueprint.html',  color: '#6fa8ff' },
+    { id: 'telemetry',  name: 'Telemetry',  file: '03-telemetry.html',  color: '#4fd8c4' },
+    { id: 'voyage',     name: 'Voyage',     file: '04-voyage.html',     color: '#e8c15a' },
+    { id: 'arcade',     name: 'Arcade',     file: '05-arcade.html',     color: '#ff7a9c' }
+  ];
+
+  var frame = document.getElementById('frame');
+  var boot = document.getElementById('boot');
+  var bootName = document.getElementById('boot-name');
+  var expName = document.getElementById('exp-name');
+  var dotsEl = document.getElementById('dots');
+  var staticEl = document.getElementById('static');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // dots
+  EXPERIENCES.forEach(function () {
+    var d = document.createElement('span');
+    d.className = 'dot';
+    dotsEl.appendChild(d);
+  });
+  var dots = dotsEl.children;
+
+  // ?exp=departures deep link wins; otherwise random. Nothing is stored.
+  var param = new URLSearchParams(location.search).get('exp');
+  var current = EXPERIENCES.findIndex(function (e) { return e.id === param; });
+  var wasDeepLinked = current >= 0;
+  if (current < 0) current = Math.floor(Math.random() * EXPERIENCES.length);
+
+  function paint() {
+    var exp = EXPERIENCES[current];
+    document.body.dataset.exp = exp.id;
+    expName.textContent = exp.name;
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle('on', i === current);
+    // keep the URL shareable without adding history entries
+    history.replaceState(null, '', '?exp=' + exp.id);
+  }
+
+  function load() {
+    frame.classList.remove('live');
+    var exp = EXPERIENCES[current];
+    frame.src = exp.file;
+    frame.addEventListener('load', function onload() {
+      frame.removeEventListener('load', onload);
+      frame.classList.add('live');
+      watchBottom();
+    });
+    paint();
+    if (firstLoad) {
+      firstLoad = false;
+      collapseUI(); // start the visitor off with just the chip
+    } else {
+      scheduleCollapse(); // switches flash the pill briefly as feedback
+    }
+  }
+
+  function switchTo(idx) {
+    if (idx === current) return;
+    expandUI(); // show the pill so the change is visible, then re-collapse
+    current = (idx + EXPERIENCES.length) % EXPERIENCES.length;
+    if (!reduced) {
+      staticEl.classList.remove('zap');
+      void staticEl.offsetWidth; // restart animation
+      staticEl.classList.add('zap');
+    }
+    setTimeout(load, reduced ? 0 : 120);
+  }
+
+  function shuffle() {
+    var next;
+    do { next = Math.floor(Math.random() * EXPERIENCES.length); } while (next === current);
+    switchTo(next);
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { switchTo(current - 1); });
+  document.getElementById('next').addEventListener('click', function () { switchTo(current + 1); });
+  var label = document.getElementById('exp-label');
+  label.addEventListener('click', shuffle);
+  label.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); shuffle(); }
+  });
+  window.addEventListener('keydown', function (e) {
+    if (e.key === '[') switchTo(current - 1);
+    if (e.key === ']') switchTo(current + 1);
+  });
+
+  // ---- chip-first switcher: chip by default, pill on hover/tap and at page bottom ----
+  var switcher = document.getElementById('switcher');
+  var chip = document.getElementById('chip');
+  var collapseTimer = null;
+  var COLLAPSE_MS = 4000;
+  var firstLoad = true;
+
+  // present the selector when the visitor reaches the bottom of the experience
+  function watchBottom() {
+    var w = frame.contentWindow;
+    if (!w) return;
+    // clear the pill zone: pad the embedded page so no content ends up under the selector
+    w.document.body.style.paddingBottom = '110px';
+    var atBottom = false;
+    w.addEventListener('scroll', function () {
+      var doc = w.document.documentElement;
+      var bottom = w.scrollY + w.innerHeight >= doc.scrollHeight - 80;
+      if (bottom && !atBottom) {
+        atBottom = true;
+        expandUI();
+        clearTimeout(collapseTimer); // stay open while they're at the end
+      } else if (!bottom && atBottom) {
+        atBottom = false;
+        scheduleCollapse();
+      }
+    }, { passive: true });
+  }
+
+  function collapseUI() {
+    switcher.classList.add('hidden-ui');
+    chip.classList.add('on');
+  }
+  function expandUI() {
+    chip.classList.remove('on');
+    switcher.classList.remove('hidden-ui');
+    scheduleCollapse();
+  }
+  function scheduleCollapse() {
+    clearTimeout(collapseTimer);
+    collapseTimer = setTimeout(collapseUI, COLLAPSE_MS);
+  }
+
+  // stay open while the visitor is using it
+  switcher.addEventListener('pointerenter', function () { clearTimeout(collapseTimer); });
+  switcher.addEventListener('pointerleave', scheduleCollapse);
+  switcher.addEventListener('focusin', function () { clearTimeout(collapseTimer); });
+  switcher.addEventListener('focusout', function (e) {
+    if (!switcher.contains(e.relatedTarget)) scheduleCollapse();
+  });
+
+  chip.addEventListener('pointerenter', expandUI);
+  chip.addEventListener('click', function () {
+    expandUI();
+    document.getElementById('exp-label').focus();
+  });
+
+  // ---- boot roulette: flicker through names before settling ----
+  function bootSequence() {
+    if (reduced || wasDeepLinked) {
+      boot.classList.add('done');
+      load();
+      return;
+    }
+    var ticks = 0;
+    var total = 11; // odd flickers, then settle
+    var iv = setInterval(function () {
+      var e = EXPERIENCES[ticks % EXPERIENCES.length];
+      bootName.innerHTML = '<span class="accent" style="color:' + e.color + '">' + e.name.toUpperCase() + '</span>';
+      ticks++;
+      if (ticks > total) {
+        clearInterval(iv);
+        var chosen = EXPERIENCES[current];
+        bootName.innerHTML = '<span class="accent" style="color:' + chosen.color + '">' + chosen.name.toUpperCase() + '</span>';
+        setTimeout(function () {
+          boot.classList.add('done');
+          load();
+        }, 450);
+      }
+    }, 90);
+  }
+
+  bootSequence();
+})();
+</script>
+</body>
+</html>

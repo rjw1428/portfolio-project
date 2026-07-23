@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryan Wilk — Principal Software Engineer</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Arcade">
+<meta property="og:description" content="A career as a playable 16-bit level. Principal engineer: AI-native workflows, full-stack, achievements unlocked.">
+<meta property="og:url" content="https://ryanwilk.com/05-arcade.html">
+<meta property="og:image" content="https://ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Arcade">
+<meta name="twitter:description" content="A career as a playable 16-bit level. Principal engineer: AI-native workflows, full-stack, achievements unlocked.">
+<meta name="twitter:image" content="https://ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://ryanwilk.com/05-arcade.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<meta name="description" content="Ryan Wilk: Principal Software Engineer — AI-native developer workflows, customer-facing engineering, 10+ years shipping production software. Career as a playable side-scroller.">
+<style>
+/* ============================================================
+   POC 5 / ARCADE — Ryan Wilk
+   Palette: dusk-sky 16-bit. One bold element: the scrubbed level.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+:root{
+  --night:  #160f2e;
+  --dusk:   #2a1e52;
+  --horizon:#432a66;
+  --coral:  #d95763;
+  --amber:  #f2a65a;
+  --gold:   #ffd35c;
+  --mint:   #6fe3a5;
+  --ink:    #0e0921;
+  --paper:  #e8e2f5;
+  --dim:    #a89cc8;
+  --px: 'Press Start 2P','Courier New',monospace;
+  --body: 'Space Grotesk','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --hud-h: 44px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+html:focus-within{ scroll-behavior:smooth; }
+body{
+  background:var(--night);
+  color:var(--paper);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.6;
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{ max-width:100%; }
+svg{ shape-rendering:crispEdges; }
+a{ color:var(--gold); text-decoration-color:rgba(255,211,92,.4); text-underline-offset:3px; }
+a:hover{ color:#fff; }
+:focus-visible{ outline:3px solid var(--gold); outline-offset:3px; }
+::selection{ background:var(--coral); color:#fff; }
+
+.px{ font-family:var(--px); }
+
+.skip-link{
+  position:fixed; left:8px; top:-60px; z-index:200;
+  background:var(--gold); color:var(--ink);
+  font-family:var(--px); font-size:10px; padding:10px 14px;
+  transition:top .15s;
+}
+.skip-link:focus{ top:8px; }
+
+/* ============ HUD ============ */
+.hud{
+  position:fixed; inset:0 0 auto 0; height:var(--hud-h); z-index:100;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:0 14px;
+  background:var(--ink);
+  border-bottom:3px solid var(--dusk);
+  box-shadow:0 3px 0 rgba(0,0,0,.35);
+  font-family:var(--px); font-size:10px; letter-spacing:.5px;
+  transform:translateY(-110%);
+  transition:transform .35s steps(6);
+}
+.hud.on{ transform:translateY(0); }
+.hud .cell{ display:flex; align-items:center; gap:8px; white-space:nowrap; }
+.hud .lbl{ color:var(--coral); }
+.hud .val{ color:var(--gold); }
+.hud #hud-world{ color:#fff; }
+.hud .hearts{ display:flex; gap:6px; }
+.hud .heart{ width:22px; height:19px; position:relative; }
+.hud .heart i{ position:absolute; left:0; top:0; width:3px; height:3px; }
+.hud .heart .full{ opacity:.22; transition:opacity .25s steps(3); }
+.hud .heart.lit .full{ opacity:1; }
+@media (max-width:520px){
+  .hud{ font-size:8px; padding:0 8px; }
+  .hud .lbl{ display:none; }
+}
+
+/* ============ TITLE SCREEN ============ */
+.title-screen{
+  min-height:100vh; min-height:100svh;
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:80px 16px 140px;
+  background:linear-gradient(
+    var(--night) 0 34%,
+    var(--dusk) 34% 48%,
+    var(--horizon) 48% 58%,
+    #6e3a63 58% 66%,
+    var(--coral) 66% 73%,
+    var(--amber) 73% 79%,
+    #ffcf8a 79% 84%,
+    var(--horizon) 84% 100%);
+}
+.title-screen::after{ /* ground strip */
+  content:""; position:absolute; left:0; right:0; bottom:0; height:56px;
+  background:
+    linear-gradient(#3b2b63 0 6px, transparent 6px),
+    repeating-linear-gradient(90deg, #241a45 0 28px, #2a1e52 28px 56px);
+}
+.t-cloud{ position:absolute; width:3px; height:3px; opacity:.85; }
+.title-inner{ position:relative; z-index:2; width:100%; max-width:900px; }
+.t-copyright{
+  font-family:var(--px); font-size:9px; color:var(--dim);
+  margin-bottom:34px; letter-spacing:1px;
+}
+.t-logo{
+  font-family:var(--px);
+  font-size:clamp(26px, 7.4vw, 68px);
+  line-height:1.25;
+  color:#fff;
+  text-shadow:
+    0 .09em 0 var(--coral),
+    0 .18em 0 #8a3547,
+    0 .27em 0 var(--ink);
+  margin-bottom:.85em;
+}
+.t-logo span{ display:block; }
+.t-sub{
+  display:inline-block;
+  font-family:var(--px); font-size:clamp(10px,2.2vw,15px);
+  color:var(--ink); background:var(--gold);
+  padding:9px 14px 8px;
+  box-shadow:0 4px 0 #b98f2e;
+  margin-bottom:18px;
+}
+.t-sub2{
+  font-family:var(--px); font-size:clamp(7px,1.6vw,9px); line-height:2.1;
+  color:var(--dim); letter-spacing:1px;
+  margin:0 auto 40px; max-width:640px;
+}
+.press-start{
+  display:block; margin:0 auto 52px;
+  background:none; border:0; cursor:pointer;
+  font-family:var(--px); font-size:clamp(13px,3vw,20px);
+  color:var(--gold);
+  animation:blink 1.1s steps(2, jump-none) infinite;
+  padding:12px;
+}
+.press-start:hover{ color:#fff; animation-play-state:paused; }
+@keyframes blink{ 0%{opacity:1} 50%{opacity:.12} 100%{opacity:1} }
+.level-select{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+  list-style:none;
+}
+.level-select button{
+  cursor:pointer;
+  font-family:var(--px); font-size:8px; line-height:1.7;
+  color:var(--paper);
+  background:rgba(14,9,33,.72);
+  border:3px solid var(--dusk);
+  padding:10px 8px 8px; min-width:96px;
+  transition:transform .12s steps(2), border-color .12s;
+}
+.level-select button:hover{ border-color:var(--gold); transform:translateY(-4px); }
+.level-select .ls-code{ display:block; color:var(--amber); font-size:10px; margin-bottom:5px; }
+.level-select .ls-now{ color:var(--mint); }
+.t-hint{
+  position:absolute; bottom:76px; left:0; right:0; z-index:2;
+  font-family:var(--px); font-size:8px; color:var(--dim);
+}
+.down-caret{
+  display:inline-block; width:10px; height:8px; margin-left:4px;
+  background:var(--gold);
+  clip-path:polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* ============ LEVEL (signature) ============ */
+.level-track{ position:relative; height:1000vh; }
+.level-stage{
+  position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  background:linear-gradient(
+    var(--night) 0 30%,
+    var(--dusk) 30% 46%,
+    var(--horizon) 46% 57%,
+    #6e3a63 57% 64%,
+    var(--coral) 64% 71%,
+    var(--amber) 71% 77%,
+    #ffcf8a 77% 82%,
+    #4a2f6e 82% 100%);
+}
+.layer{ position:absolute; inset:0; will-change:transform; }
+.l-sun{
+  position:absolute; right:12%; top:46%; width:96px; height:96px;
+  background:var(--gold); opacity:.85;
+  clip-path:polygon(25% 0,75% 0,75% 8%,88% 8%,88% 18%,100% 18%,100% 82%,88% 82%,88% 92%,75% 92%,75% 100%,25% 100%,25% 92%,12% 92%,12% 82%,0 82%,0 18%,12% 18%,12% 8%,25% 8%);
+}
+.l-clouds .cl{ position:absolute; width:3px; height:3px; }
+.l-mountains{ bottom:0; top:auto; height:46%; }
+.l-mountains svg{ position:absolute; bottom:96px; height:100%; width:auto; }
+.world{ position:absolute; inset:0; }
+.world .ground{
+  position:absolute; bottom:0; height:96px; left:0; width:var(--world-w,9650px);
+  background:
+    linear-gradient(#5c3a6e 0 8px, #3b2b63 8px 14px, transparent 14px),
+    repeating-linear-gradient(90deg, #241a45 0 30px, #2a1e52 30px 60px);
+  border-top:0;
+}
+.zone{ position:absolute; bottom:96px; left:var(--zx); }
+.landmark{ position:absolute; bottom:0; left:0; }
+.landmark svg{ max-width:none; display:block; }
+.sign{
+  position:absolute; bottom:150px; left:-30px; width:max-content;
+  font-family:var(--px); font-size:9px; line-height:1.9; text-align:center;
+  color:var(--paper);
+  background:var(--ink);
+  border:3px solid var(--coral);
+  padding:9px 12px 7px;
+  box-shadow:0 4px 0 rgba(0,0,0,.4);
+}
+.sign::after{ /* signpost, reaches the ground */
+  content:""; position:absolute; left:50%; bottom:-150px; width:8px; height:150px;
+  transform:translateX(-50%);
+  background:#241a45;
+  z-index:-1;
+}
+.sign .s-code{ display:block; color:var(--gold); font-size:11px; margin-bottom:4px; }
+.coin{
+  position:absolute; bottom:150px; width:3px; height:3px;
+  transition:transform .3s steps(4), opacity .3s steps(4);
+}
+.coin.got{ transform:translateY(-34px); opacity:0; }
+
+/* character */
+.char{
+  position:absolute; bottom:96px; width:60px; height:80px;
+  will-change:transform;
+  z-index:5;
+}
+.char .frame{ position:absolute; left:0; top:0; width:3px; height:3px; opacity:0; }
+.char .f-idle{ opacity:1; }
+.char.run .f-idle{ opacity:0; }
+.char.run .f-a{ animation:runA .32s steps(1) infinite; }
+.char.run .f-b{ animation:runB .32s steps(1) infinite; }
+@keyframes runA{ 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes runB{ 0%,49.9%{opacity:0} 50%,99.9%{opacity:1} 100%{opacity:0} }
+
+/* caption panel */
+.caption{
+  position:absolute; left:18px; top:calc(var(--hud-h) + 44px); z-index:6;
+  width:min(460px, calc(100vw - 36px));
+  background:rgba(14,9,33,.92);
+  border:3px solid var(--dusk);
+  box-shadow:0 5px 0 rgba(0,0,0,.4);
+  padding:16px 18px 15px;
+  opacity:0; transform:translateY(-12px);
+  transition:opacity .3s, transform .3s steps(4);
+}
+.caption.show{ opacity:1; transform:translateY(0); }
+.caption .c-code{ font-family:var(--px); font-size:9px; color:var(--amber); margin-bottom:8px; }
+.caption h3{ font-family:var(--px); font-size:11px; line-height:1.8; color:#fff; margin-bottom:9px; }
+.caption p{ font-size:15px; color:var(--paper); line-height:1.55; }
+@media (max-width:520px){
+  .caption{ top:calc(var(--hud-h) + 116px); padding:12px 13px; }
+  .caption p{ font-size:13.5px; }
+  .level-progress{ display:none; }
+}
+
+/* level progress bar */
+.level-progress{
+  position:absolute; left:18px; top:calc(var(--hud-h) + 14px); z-index:6;
+  width:min(300px, 50vw); height:12px;
+  background:var(--ink); border:3px solid var(--dusk);
+}
+.level-progress i{
+  display:block; height:100%; background:var(--mint);
+  transform-origin:left; transform:scaleX(0); will-change:transform;
+}
+
+/* toast */
+.toast{
+  position:fixed; right:14px; top:calc(var(--hud-h) + 14px); z-index:120;
+  max-width:min(360px, calc(100vw - 28px));
+  background:var(--ink); border:3px solid var(--mint);
+  box-shadow:0 5px 0 rgba(0,0,0,.5);
+  padding:13px 16px 11px;
+  font-family:var(--px); font-size:9px; line-height:1.9;
+  color:var(--paper);
+  transform:translateX(120%); opacity:0;
+  transition:transform .3s steps(5), opacity .3s;
+  pointer-events:none;
+}
+.toast.show{ transform:translateX(0); opacity:1; }
+.toast .t-head{ color:var(--mint); font-size:8px; margin-bottom:5px; }
+.toast .t-xp{ color:var(--gold); }
+
+/* static fallback for the level (reduced motion / no JS).
+   Default: visually hidden but present for screen readers. */
+.level-static{
+  position:absolute; width:1px; height:1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap;
+  padding:90px 20px; max-width:820px; margin:0 auto;
+}
+.level-static ol{ list-style:none; display:grid; gap:22px; }
+.level-static li{
+  background:rgba(14,9,33,.75); border:3px solid var(--dusk);
+  padding:22px 24px 20px;
+}
+.level-static .z-code{ font-family:var(--px); font-size:10px; color:var(--amber); margin-bottom:10px; }
+.level-static h3{ font-family:var(--px); font-size:12px; line-height:1.8; color:#fff; margin-bottom:10px; }
+.level-static p{ color:var(--paper); margin-bottom:12px; }
+.level-static .z-ach{ font-family:var(--px); font-size:8.5px; line-height:1.9; color:var(--mint); }
+.level-static .z-ach b{ color:var(--gold); font-weight:400; }
+
+/* ============ SHARED SECTION CHROME ============ */
+.stage-section{ position:relative; padding:110px 20px 120px; }
+.stage-inner{ max-width:1060px; margin:0 auto; }
+.stage-head{ text-align:center; margin-bottom:58px; }
+.stage-eyebrow{
+  font-family:var(--px); font-size:9px; color:var(--coral);
+  letter-spacing:2px; margin-bottom:16px;
+}
+.stage-title{
+  font-family:var(--px); font-size:clamp(15px,3.6vw,26px); line-height:1.6;
+  color:#fff;
+  text-shadow:0 .14em 0 var(--ink);
+}
+.stage-blurb{ max-width:560px; margin:20px auto 0; color:var(--dim); font-size:16px; }
+
+.rise{ opacity:0; transform:translateY(26px); transition:opacity .5s, transform .5s steps(7); }
+.rise.in{ opacity:1; transform:translateY(0); }
+
+/* ============ PROJECTS: CARTRIDGE SHELF ============ */
+.projects{ background:linear-gradient(var(--night), #1b1338); }
+.shelf{
+  display:grid; gap:34px 26px;
+  grid-template-columns:repeat(auto-fit, minmax(235px, 1fr));
+  perspective:1400px;
+}
+.cart-slot{ position:relative; padding-bottom:16px; }
+.cart-slot::after{ /* shelf plank */
+  content:""; position:absolute; left:-8px; right:-8px; bottom:0; height:10px;
+  background:linear-gradient(#4a2f6e 0 4px, #241a45 4px);
+}
+.cart{
+  position:relative; width:100%; aspect-ratio:5/6.2;
+  cursor:pointer; border:0; background:none; padding:0;
+  font:inherit; color:inherit; text-align:left;
+  transform-style:preserve-3d;
+  transition:transform .18s steps(3);
+}
+.cart:hover{ transform:translateY(-8px) rotateX(4deg) rotateY(-5deg); }
+.cart.flipped:hover{ transform:none; }
+.cart-inner{
+  position:absolute; inset:0;
+  transform-style:preserve-3d;
+  transition:transform .5s steps(9);
+  will-change:transform;
+}
+.cart.flipped .cart-inner{ transform:rotateY(180deg); }
+.cart-face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  border:4px solid var(--ink);
+  box-shadow:0 7px 0 rgba(0,0,0,.45);
+  overflow:hidden;
+}
+.cart-front{
+  background:linear-gradient(#3b2b63, #2a1e52);
+  display:flex; flex-direction:column;
+}
+.cart-front::before{ /* cartridge grip ridges */
+  content:""; height:16px;
+  background:repeating-linear-gradient(90deg, #241a45 0 10px, #43315f 10px 20px);
+}
+.cart-label{
+  flex:1; margin:12px; padding:14px 13px;
+  background:var(--label-bg, var(--coral));
+  color:var(--label-ink, #fff);
+  display:flex; flex-direction:column;
+}
+.cart-icon{ height:64px; margin-bottom:12px; }
+.cart-icon svg{ height:100%; width:auto; display:block; }
+.cart-name{
+  font-family:var(--px); font-size:12px; line-height:1.7;
+  margin-bottom:8px;
+}
+.cart-tag{ font-size:13.5px; line-height:1.4; opacity:.92; margin-top:auto; }
+.cart-flipnote{
+  font-family:var(--px); font-size:7px; color:var(--dim);
+  padding:0 12px 10px; text-align:right;
+}
+.cart-back{
+  transform:rotateY(180deg);
+  background:var(--ink);
+  padding:15px 15px 12px;
+  display:flex; flex-direction:column;
+  font-size:14px;
+}
+.cart-back h4{ font-family:var(--px); font-size:9px; color:var(--amber); margin-bottom:8px; }
+.cart-back p{ color:var(--paper); font-size:13px; line-height:1.45; margin-bottom:10px; }
+.item-list{ list-style:none; margin-bottom:10px; }
+.item-list li{
+  font-family:var(--px); font-size:7.5px; line-height:2.1; color:var(--paper);
+}
+.item-list li::before{ content:"▶ "; color:var(--coral); font-size:6px; }
+.hi-score{
+  margin-top:auto;
+  border-top:3px solid var(--dusk); padding-top:8px;
+  font-family:var(--px); font-size:8px; line-height:1.9;
+}
+.hi-score .hs-l{ color:var(--coral); display:block; margin-bottom:3px; }
+.hi-score .hs-v{ color:var(--gold); font-size:10px; }
+.cart-link{ font-size:12.5px; margin-bottom:8px; display:inline-block; }
+/* special edition (flagship cartridge) */
+.cart-special .cart-face{ border-color:#b98f2e; }
+.cart-special .cart-front::before{
+  background:repeating-linear-gradient(90deg, #b98f2e 0 10px, #ffd35c 10px 20px);
+}
+.cart-badge{
+  position:absolute; top:34px; right:-38px; z-index:2;
+  transform:rotate(45deg);
+  font-family:var(--px); font-size:7px; letter-spacing:1px;
+  color:var(--ink); background:var(--gold);
+  padding:5px 40px 4px;
+  pointer-events:none;
+}
+
+/* retro classics: archived bottom shelf */
+.retro-head{ margin:70px 0 22px; text-align:center; }
+.retro-head .stage-eyebrow{ color:var(--amber); margin-bottom:8px; }
+.retro-blurb{ font-size:14px; color:var(--dim); }
+.retro-shelf{
+  list-style:none; display:grid; gap:14px;
+  grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+}
+.retro-cart{
+  background:rgba(14,9,33,.6);
+  border:3px solid var(--dusk); border-top:8px solid #43315f;
+  padding:13px 14px 11px;
+}
+.retro-name{ font-size:9px; line-height:1.7; color:var(--paper); margin-bottom:7px; }
+.retro-tag{ font-size:13px; color:var(--dim); line-height:1.5; }
+.retro-tag a{ font-size:12.5px; }
+
+/* ============ SKILLS: STAT SCREEN ============ */
+.skills{ background:#1b1338; }
+.stat-grid{
+  display:grid; gap:26px;
+  grid-template-columns:repeat(auto-fit, minmax(265px, 1fr));
+}
+.branch{
+  background:rgba(14,9,33,.8);
+  border:3px solid var(--dusk);
+  box-shadow:0 6px 0 rgba(0,0,0,.4);
+  padding:22px 20px 18px;
+}
+.branch-head{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--px); font-size:11px; color:#fff;
+  border-bottom:3px solid var(--dusk);
+  padding-bottom:14px; margin-bottom:18px;
+}
+.branch-head .b-badge{
+  width:14px; height:14px; flex:none;
+  background:var(--b-color, var(--coral));
+}
+.stat{ margin-bottom:16px; }
+.stat:last-child{ margin-bottom:2px; }
+.stat-row{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:var(--px); font-size:8.5px; margin-bottom:7px;
+}
+.stat-row .s-name{ color:var(--paper); }
+.stat-row .s-lv{ color:var(--gold); }
+.bar{
+  position:relative; height:16px; overflow:hidden;
+  background:#241a45; border:3px solid var(--dusk);
+}
+.bar .fill{
+  position:absolute; inset:0; width:var(--w,80%);
+  background:var(--b-color, var(--coral));
+  transform-origin:left; transform:scaleX(0);
+}
+.branch.in .fill{ animation:fill 1s steps(10, jump-none) forwards; animation-delay:var(--d,0s); }
+@keyframes fill{ from{ transform:scaleX(0) } to{ transform:scaleX(1) } }
+.bar .cells{
+  position:absolute; inset:-1px; pointer-events:none;
+  background:repeating-linear-gradient(90deg, transparent 0 calc(10% - 3px), #0e0921 calc(10% - 3px) 10%);
+}
+.branch-foot{ margin-top:16px; font-size:13.5px; color:var(--dim); line-height:1.5; }
+
+/* ============ TRAINING (education) ============ */
+.training{ background:linear-gradient(#1b1338, var(--night)); }
+.badge-row{
+  list-style:none; display:grid; gap:22px;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+}
+.badge-card{
+  position:relative; text-align:center;
+  background:rgba(14,9,33,.8);
+  border:3px solid var(--dusk);
+  box-shadow:0 6px 0 rgba(0,0,0,.4);
+  padding:26px 20px 20px;
+}
+.badge-card::before{ /* pixel medal */
+  content:""; display:block; width:22px; height:22px; margin:0 auto 14px;
+  background:var(--gold);
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+}
+.badge-card .b-unlock{
+  font-family:var(--px); font-size:8px; color:var(--mint);
+  letter-spacing:1px; margin-bottom:12px;
+}
+.badge-card h3{
+  font-family:var(--px); font-size:10px; line-height:1.9;
+  color:#fff; margin-bottom:8px;
+}
+.badge-card p{ font-size:14px; color:var(--dim); line-height:1.5; }
+.badge-card .b-gpa{ color:var(--gold); }
+
+/* ============ CONTINUE / CONTACT ============ */
+.continue{
+  background:var(--ink);
+  text-align:center;
+  border-top:4px solid var(--dusk);
+}
+.count-digit{
+  font-family:var(--px);
+  font-size:clamp(64px, 18vw, 128px);
+  color:var(--gold);
+  text-shadow:0 .08em 0 var(--coral), 0 .16em 0 #241a45;
+  line-height:1;
+  margin:8px 0 26px;
+}
+.count-digit.tick{ animation:pop .28s steps(3); }
+@keyframes pop{ 0%{transform:scale(1.14)} 100%{transform:scale(1)} }
+.continue-copy{ max-width:520px; margin:0 auto 44px; color:var(--dim); }
+.coin-slot{
+  font-family:var(--px); font-size:9px; color:var(--coral);
+  margin-bottom:44px; letter-spacing:1px;
+  animation:blink 1.4s steps(2, jump-none) infinite;
+}
+.menu{ list-style:none; display:inline-block; text-align:left; }
+.menu li{ margin-bottom:18px; }
+.menu a{
+  display:flex; align-items:baseline; gap:14px;
+  font-family:var(--px); font-size:clamp(10px,2.6vw,13px); line-height:1.9;
+  color:var(--paper); text-decoration:none;
+  padding:6px 10px;
+}
+.menu a .arrow{ color:var(--gold); opacity:0; transition:opacity .1s; }
+.menu a:hover .arrow, .menu a:focus-visible .arrow{ opacity:1; }
+.menu a:hover{ color:#fff; }
+.menu a .m-val{ color:var(--amber); font-size:.82em; }
+@media (max-width:520px){
+  .menu a{ flex-direction:column; gap:4px; }
+}
+
+/* footer */
+.game-footer{
+  background:var(--ink);
+  border-top:3px solid var(--dusk);
+  padding:26px 20px 30px;
+  display:flex; flex-wrap:wrap; gap:12px 26px; justify-content:center;
+  font-family:var(--px); font-size:8px; color:var(--dim); line-height:2;
+  text-align:center;
+}
+.game-footer span{ letter-spacing:1px; }
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  .press-start, .coin-slot{ animation:none; opacity:1; }
+  .level-track{ display:none; }
+  .level-static{
+    position:static; width:auto; height:auto; overflow:visible;
+    clip-path:none; white-space:normal; display:block;
+  }
+  .rise{ opacity:1; transform:none; }
+  .bar .fill{ transform:scaleX(1); }
+  .cart:hover{ transform:none; }
+}
+</style>
+<noscript>
+<style>
+  .level-track{ display:none; }
+  .level-static{
+    position:static; width:auto; height:auto; overflow:visible;
+    clip-path:none; white-space:normal; display:block;
+  }
+  .hud{ display:none; }
+  .rise{ opacity:1; transform:none; }
+  .bar .fill{ transform:scaleX(1); }
+</style>
+</noscript>
+</head>
+<body>
+
+<a class="skip-link" href="#level">Skip to career level</a>
+
+<!-- ============ HUD ============ -->
+<div class="hud" id="hud" aria-hidden="true">
+  <div class="cell"><span class="lbl">SCORE</span> <span class="val" id="hud-score">000000</span></div>
+  <div class="cell"><span class="lbl">WORLD</span> <span id="hud-world">TITLE</span></div>
+  <div class="cell hearts" id="hud-hearts" title="Worlds cleared">
+    <span class="heart" data-h="0"><i class="full"></i></span>
+    <span class="heart" data-h="1"><i class="full"></i></span>
+    <span class="heart" data-h="2"><i class="full"></i></span>
+    <span class="heart" data-h="3"><i class="full"></i></span>
+  </div>
+</div>
+
+<!-- ============ TITLE SCREEN ============ -->
+<header class="title-screen" id="title">
+  <div class="t-cloud" data-cloud style="left:12%; top:18%;" aria-hidden="true"></div>
+  <div class="t-cloud" data-cloud style="left:70%; top:12%;" aria-hidden="true"></div>
+  <div class="t-cloud" data-cloud style="left:82%; top:34%;" aria-hidden="true"></div>
+  <div class="title-inner">
+    <p class="t-copyright">© WILKWARE &nbsp;·&nbsp; 1 PLAYER GAME</p>
+    <h1 class="t-logo"><span>RYAN</span><span>WILK</span></h1>
+    <p class="t-sub">PRINCIPAL SOFTWARE ENGINEER</p>
+    <p class="t-sub2">AI-NATIVE DEVELOPER WORKFLOWS · CUSTOMER-FACING ENGINEERING<br>10+ YEARS SHIPPING PRODUCTION SOFTWARE</p>
+    <button class="press-start" id="press-start" type="button">▶ PRESS START ◀</button>
+    <nav aria-label="Level select">
+      <ul class="level-select" id="level-select">
+        <li><button type="button" data-zone="0"><span class="ls-code">1-1</span>RAIL YARD</button></li>
+        <li><button type="button" data-zone="1"><span class="ls-code">1-2</span>U.S. NAVY</button></li>
+        <li><button type="button" data-zone="2"><span class="ls-code">2-1</span>STARTUP</button></li>
+        <li><button type="button" data-zone="3"><span class="ls-code">2-2</span>ACCENTURE</button></li>
+        <li><button type="button" data-zone="4"><span class="ls-code">3-1</span>TELEMETRY</button></li>
+        <li><button type="button" data-zone="5"><span class="ls-code">3-2</span>FORT ROBOTICS</button></li>
+        <li><button type="button" data-zone="6"><span class="ls-code">4-1</span>XUMO TV</button></li>
+        <li><button type="button" data-zone="7"><span class="ls-code">4-2</span>X1 <span class="ls-now">◀ NOW</span></button></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="t-hint" aria-hidden="true">SCROLL TO PLAY THE CAREER LEVEL <span class="down-caret"></span></p>
+</header>
+
+<!-- ============ THE LEVEL ============ -->
+<main>
+<section id="level" aria-label="Career — playable level">
+
+  <div class="level-track" id="level-track" aria-hidden="true">
+    <div class="level-stage">
+      <div class="l-sun"></div>
+
+      <div class="layer l-clouds" id="l-clouds">
+        <div class="cl" data-cloud style="left:8%; top:14%;"></div>
+        <div class="cl" data-cloud style="left:34%; top:8%;"></div>
+        <div class="cl" data-cloud style="left:58%; top:20%;"></div>
+        <div class="cl" data-cloud style="left:82%; top:11%;"></div>
+        <div class="cl" data-cloud style="left:118%; top:16%;"></div>
+        <div class="cl" data-cloud style="left:136%; top:9%;"></div>
+        <div class="cl" data-cloud style="left:154%; top:19%;"></div>
+        <div class="cl" data-cloud style="left:172%; top:12%;"></div>
+      </div>
+
+      <div class="layer l-mountains" id="l-mountains">
+        <svg viewBox="0 0 1600 300" preserveAspectRatio="none" style="width:5200px; left:0;">
+          <polygon points="0,300 0,190 90,110 180,190 240,150 330,230 420,140 540,240 640,170 760,270 860,180 980,260 1080,150 1200,250 1300,190 1400,120 1500,220 1600,170 1600,300" fill="#2a1e52"/>
+          <polygon points="0,300 60,240 200,290 320,210 470,290 600,230 780,300 900,240 1060,300 1200,230 1380,300 1500,260 1600,300" fill="#241a45"/>
+        </svg>
+      </div>
+
+      <div class="layer world" id="world">
+        <div class="ground"></div>
+
+        <!-- Zone 0 : Norfolk Southern rail yard -->
+        <div class="zone" style="--zx:650px;">
+          <div class="landmark">
+            <svg width="260" height="120" viewBox="0 0 130 60">
+              <rect x="4" y="20" width="70" height="26" fill="#43315f"/>
+              <rect x="4" y="16" width="70" height="4" fill="#d95763"/>
+              <rect x="58" y="4" width="22" height="42" fill="#3b2b63"/>
+              <rect x="62" y="10" width="6" height="8" fill="#ffd35c"/>
+              <rect x="71" y="10" width="6" height="8" fill="#ffd35c"/>
+              <rect x="10" y="6" width="8" height="14" fill="#241a45"/>
+              <rect x="8" y="2" width="12" height="4" fill="#241a45"/>
+              <rect x="10" y="26" width="30" height="8" fill="#241a45"/>
+              <rect x="0" y="46" width="130" height="3" fill="#241a45"/>
+              <rect x="0" y="49" width="130" height="4" fill="#160f2e"/>
+              <rect x="10" y="42" width="12" height="12" fill="#241a45"/>
+              <rect x="13" y="45" width="6" height="6" fill="#8f86b5"/>
+              <rect x="30" y="42" width="12" height="12" fill="#241a45"/>
+              <rect x="33" y="45" width="6" height="6" fill="#8f86b5"/>
+              <rect x="58" y="42" width="12" height="12" fill="#241a45"/>
+              <rect x="61" y="45" width="6" height="6" fill="#8f86b5"/>
+              <rect x="74" y="34" width="14" height="12" fill="#43315f"/>
+              <rect x="88" y="24" width="26" height="6" fill="#3b2b63"/>
+              <rect x="96" y="30" width="6" height="18" fill="#3b2b63"/>
+              <rect x="104" y="12" width="20" height="34" fill="#2a1e52"/>
+              <rect x="108" y="18" width="4" height="4" fill="#f2a65a"/>
+              <rect x="116" y="18" width="4" height="4" fill="#f2a65a"/>
+              <rect x="108" y="28" width="4" height="4" fill="#f2a65a"/>
+              <rect x="116" y="28" width="4" height="4" fill="#f2a65a"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 1-1</span>RAIL YARD · NORFOLK SOUTHERN</p>
+        </div>
+
+        <!-- Zone 1 : NAVSEA, U.S. Navy, San Diego -->
+        <div class="zone" style="--zx:1800px;">
+          <div class="landmark">
+            <svg width="340" height="130" viewBox="0 0 170 65">
+              <rect x="0" y="56" width="150" height="9" fill="#1c2f52"/>
+              <rect x="0" y="53" width="150" height="3" fill="#2d477a"/>
+              <!-- pixel trophy: U.S. Navy Innovation Award -->
+              <g aria-hidden="true">
+                <rect x="150" y="59" width="20" height="6" fill="#241a45"/>
+                <rect x="152" y="55" width="16" height="4" fill="#43315f"/>
+                <rect x="154" y="51" width="12" height="4" fill="#b98f2e"/>
+                <rect x="157" y="45" width="6" height="6" fill="#b98f2e"/>
+                <rect x="153" y="35" width="14" height="10" fill="#ffd35c"/>
+                <rect x="152" y="31" width="16" height="4" fill="#ffd35c"/>
+                <rect x="149" y="32" width="3" height="7" fill="#b98f2e"/>
+                <rect x="168" y="32" width="3" height="7" fill="#b98f2e"/>
+                <rect x="158" y="37" width="4" height="4" fill="#d95763"/>
+                <rect x="159" y="24" width="2" height="2" fill="#ffd35c"/>
+                <rect x="155" y="27" width="2" height="2" fill="#ffd35c"/>
+                <rect x="163" y="27" width="2" height="2" fill="#ffd35c"/>
+              </g>
+              <polygon points="8,52 142,52 132,38 20,38" fill="#5a6478"/>
+              <rect x="20" y="34" width="112" height="4" fill="#6b7488"/>
+              <rect x="44" y="22" width="52" height="12" fill="#6b7488"/>
+              <rect x="52" y="14" width="26" height="8" fill="#7d8698"/>
+              <rect x="62" y="2" width="4" height="12" fill="#8f97a8"/>
+              <rect x="58" y="6" width="12" height="2" fill="#8f97a8"/>
+              <rect x="48" y="25" width="5" height="4" fill="#241a45"/>
+              <rect x="60" y="25" width="5" height="4" fill="#241a45"/>
+              <rect x="72" y="25" width="5" height="4" fill="#241a45"/>
+              <rect x="84" y="25" width="5" height="4" fill="#241a45"/>
+              <rect x="104" y="26" width="14" height="8" fill="#7d8698"/>
+              <rect x="26" y="41" width="8" height="6" fill="#454e63"/>
+              <rect x="112" y="41" width="8" height="6" fill="#454e63"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 1-2</span>NAVSEA · U.S. NAVY</p>
+        </div>
+
+        <!-- Zone 2 : SSR startup -->
+        <div class="zone" style="--zx:2950px;">
+          <div class="landmark">
+            <svg width="220" height="150" viewBox="0 0 110 75">
+              <rect x="48" y="40" width="8" height="35" fill="#241a45"/>
+              <rect x="8" y="2" width="88" height="42" fill="#241a45"/>
+              <rect x="12" y="6" width="80" height="34" fill="#0e0921"/>
+              <rect x="16" y="10" width="34" height="5" fill="#ffd35c"/>
+              <rect x="16" y="19" width="46" height="4" fill="#6fe3a5"/>
+              <rect x="16" y="26" width="40" height="4" fill="#6fe3a5"/>
+              <rect x="16" y="33" width="50" height="4" fill="#d95763"/>
+              <rect x="70" y="10" width="18" height="12" fill="#f2a65a"/>
+              <rect x="70" y="26" width="18" height="4" fill="#8f86b5"/>
+              <rect x="70" y="33" width="12" height="4" fill="#8f86b5"/>
+              <rect x="30" y="52" width="44" height="16" fill="#3b2b63"/>
+              <rect x="34" y="56" width="10" height="12" fill="#241a45"/>
+              <rect x="52" y="56" width="8" height="6" fill="#ffd35c"/>
+              <rect x="64" y="56" width="8" height="6" fill="#ffd35c"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 2-1</span>SSR DIGITAL DISPLAYS</p>
+        </div>
+
+        <!-- Zone 3 : Accenture -->
+        <div class="zone" style="--zx:4100px;">
+          <div class="landmark">
+            <svg width="240" height="170" viewBox="0 0 120 85">
+              <rect x="10" y="20" width="34" height="65" fill="#2a1e52"/>
+              <rect x="50" y="4" width="40" height="81" fill="#3b2b63"/>
+              <rect x="96" y="34" width="20" height="51" fill="#2a1e52"/>
+              <rect x="66" y="0" width="8" height="4" fill="#d95763"/>
+              <rect x="14" y="26" width="5" height="5" fill="#f2a65a"/><rect x="24" y="26" width="5" height="5" fill="#43315f"/><rect x="34" y="26" width="5" height="5" fill="#f2a65a"/>
+              <rect x="14" y="38" width="5" height="5" fill="#43315f"/><rect x="24" y="38" width="5" height="5" fill="#f2a65a"/><rect x="34" y="38" width="5" height="5" fill="#f2a65a"/>
+              <rect x="14" y="50" width="5" height="5" fill="#f2a65a"/><rect x="24" y="50" width="5" height="5" fill="#f2a65a"/><rect x="34" y="50" width="5" height="5" fill="#43315f"/>
+              <rect x="14" y="62" width="5" height="5" fill="#f2a65a"/><rect x="24" y="62" width="5" height="5" fill="#43315f"/><rect x="34" y="62" width="5" height="5" fill="#f2a65a"/>
+              <rect x="56" y="10" width="6" height="6" fill="#ffd35c"/><rect x="67" y="10" width="6" height="6" fill="#43315f"/><rect x="78" y="10" width="6" height="6" fill="#ffd35c"/>
+              <rect x="56" y="22" width="6" height="6" fill="#ffd35c"/><rect x="67" y="22" width="6" height="6" fill="#ffd35c"/><rect x="78" y="22" width="6" height="6" fill="#43315f"/>
+              <rect x="56" y="34" width="6" height="6" fill="#43315f"/><rect x="67" y="34" width="6" height="6" fill="#ffd35c"/><rect x="78" y="34" width="6" height="6" fill="#ffd35c"/>
+              <rect x="56" y="46" width="6" height="6" fill="#ffd35c"/><rect x="67" y="46" width="6" height="6" fill="#ffd35c"/><rect x="78" y="46" width="6" height="6" fill="#ffd35c"/>
+              <rect x="56" y="58" width="6" height="6" fill="#43315f"/><rect x="67" y="58" width="6" height="6" fill="#ffd35c"/><rect x="78" y="58" width="6" height="6" fill="#43315f"/>
+              <rect x="56" y="70" width="6" height="6" fill="#ffd35c"/><rect x="67" y="70" width="6" height="6" fill="#43315f"/><rect x="78" y="70" width="6" height="6" fill="#ffd35c"/>
+              <rect x="100" y="40" width="4" height="4" fill="#f2a65a"/><rect x="108" y="40" width="4" height="4" fill="#43315f"/>
+              <rect x="100" y="52" width="4" height="4" fill="#43315f"/><rect x="108" y="52" width="4" height="4" fill="#f2a65a"/>
+              <rect x="100" y="64" width="4" height="4" fill="#f2a65a"/><rect x="108" y="64" width="4" height="4" fill="#f2a65a"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 2-2</span>ACCENTURE</p>
+        </div>
+
+        <!-- Zone 4 : Comcast telemetry -->
+        <div class="zone" style="--zx:5250px;">
+          <div class="landmark">
+            <svg width="220" height="140" viewBox="0 0 110 70">
+              <rect x="18" y="6" width="4" height="64" fill="#241a45"/>
+              <rect x="10" y="16" width="20" height="3" fill="#241a45"/>
+              <rect x="12" y="28" width="16" height="3" fill="#241a45"/>
+              <rect x="16" y="0" width="8" height="6" fill="#d95763"/>
+              <rect x="28" y="6" width="4" height="4" fill="#ffd35c"/>
+              <rect x="34" y="2" width="4" height="4" fill="#ffd35c"/>
+              <rect x="44" y="26" width="52" height="44" fill="#2a1e52"/>
+              <rect x="48" y="30" width="44" height="24" fill="#0e0921"/>
+              <rect x="52" y="46" width="5" height="6" fill="#6fe3a5"/>
+              <rect x="60" y="40" width="5" height="12" fill="#6fe3a5"/>
+              <rect x="68" y="44" width="5" height="8" fill="#f2a65a"/>
+              <rect x="76" y="36" width="5" height="16" fill="#6fe3a5"/>
+              <rect x="84" y="42" width="5" height="10" fill="#d95763"/>
+              <rect x="64" y="58" width="12" height="12" fill="#241a45"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 3-1</span>COMCAST X1 TELEMETRY</p>
+        </div>
+
+        <!-- Zone 5 : Fort Robotics -->
+        <div class="zone" style="--zx:6400px;">
+          <div class="landmark">
+            <svg width="180" height="160" viewBox="0 0 90 80">
+              <rect x="43" y="6" width="4" height="8" fill="#241a45"/>
+              <rect x="41" y="2" width="8" height="5" fill="#d95763"/>
+              <rect x="30" y="14" width="30" height="22" fill="#8f97a8"/>
+              <rect x="34" y="20" width="6" height="6" fill="#6fe3a5"/>
+              <rect x="50" y="20" width="6" height="6" fill="#6fe3a5"/>
+              <rect x="38" y="30" width="14" height="3" fill="#241a45"/>
+              <rect x="26" y="38" width="38" height="28" fill="#6b7488"/>
+              <rect x="38" y="44" width="14" height="10" fill="#ffd35c"/>
+              <rect x="41" y="47" width="8" height="4" fill="#241a45"/>
+              <rect x="14" y="40" width="12" height="6" fill="#8f97a8"/>
+              <rect x="14" y="46" width="6" height="14" fill="#8f97a8"/>
+              <rect x="64" y="40" width="12" height="6" fill="#8f97a8"/>
+              <rect x="70" y="46" width="6" height="14" fill="#8f97a8"/>
+              <rect x="22" y="66" width="46" height="14" fill="#241a45"/>
+              <rect x="26" y="70" width="6" height="6" fill="#43315f"/>
+              <rect x="42" y="70" width="6" height="6" fill="#43315f"/>
+              <rect x="58" y="70" width="6" height="6" fill="#43315f"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 3-2</span>FORT ROBOTICS</p>
+        </div>
+
+        <!-- Zone 6 : Comcast Xumo TV -->
+        <div class="zone" style="--zx:7550px;">
+          <div class="landmark">
+            <svg width="200" height="140" viewBox="0 0 100 70">
+              <rect x="8" y="6" width="84" height="52" fill="#241a45"/>
+              <rect x="14" y="12" width="72" height="40" fill="#0e0921"/>
+              <rect x="18" y="16" width="14" height="10" fill="#d95763"/>
+              <rect x="36" y="16" width="14" height="10" fill="#6fe3a5"/>
+              <rect x="54" y="16" width="14" height="10" fill="#f2a65a"/>
+              <rect x="72" y="16" width="10" height="10" fill="#43315f"/>
+              <rect x="18" y="30" width="50" height="4" fill="#43315f"/>
+              <rect x="18" y="38" width="40" height="4" fill="#43315f"/>
+              <rect x="72" y="30" width="10" height="12" fill="#ffd35c"/>
+              <rect x="44" y="58" width="12" height="6" fill="#241a45"/>
+              <rect x="32" y="64" width="36" height="6" fill="#241a45"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 4-1</span>COMCAST · XUMO TV</p>
+        </div>
+
+        <!-- Zone 7 : Comcast X1 checkpoint -->
+        <div class="zone" style="--zx:8700px;">
+          <div class="landmark">
+            <svg width="200" height="180" viewBox="0 0 100 90">
+              <rect x="14" y="6" width="4" height="84" fill="#241a45"/>
+              <rect x="12" y="2" width="8" height="6" fill="#ffd35c"/>
+              <g class="flag-a">
+                <rect x="18" y="10" width="30" height="6" fill="#6fe3a5"/>
+                <rect x="18" y="16" width="26" height="6" fill="#6fe3a5"/>
+                <rect x="18" y="22" width="30" height="6" fill="#59c98e"/>
+              </g>
+              <g class="flag-b" opacity="0">
+                <rect x="18" y="10" width="26" height="6" fill="#6fe3a5"/>
+                <rect x="18" y="16" width="30" height="6" fill="#59c98e"/>
+                <rect x="18" y="22" width="24" height="6" fill="#6fe3a5"/>
+              </g>
+              <rect x="52" y="40" width="34" height="50" fill="#2a1e52"/>
+              <rect x="56" y="46" width="7" height="7" fill="#f2a65a"/><rect x="72" y="46" width="7" height="7" fill="#f2a65a"/>
+              <rect x="56" y="60" width="7" height="7" fill="#f2a65a"/><rect x="72" y="60" width="7" height="7" fill="#43315f"/>
+              <rect x="56" y="74" width="7" height="7" fill="#43315f"/><rect x="72" y="74" width="7" height="7" fill="#f2a65a"/>
+              <rect x="66" y="28" width="4" height="12" fill="#241a45"/>
+              <rect x="60" y="28" width="16" height="3" fill="#241a45"/>
+              <rect class="beacon" x="65" y="20" width="6" height="6" fill="#d95763"/>
+            </svg>
+          </div>
+          <p class="sign"><span class="s-code">WORLD 4-2</span>COMCAST X1 · CURRENT SAVE</p>
+        </div>
+      </div>
+
+      <div class="char" id="char">
+        <div class="frame f-idle" id="fr-idle"></div>
+        <div class="frame f-a" id="fr-a"></div>
+        <div class="frame f-b" id="fr-b"></div>
+      </div>
+
+      <div class="level-progress"><i id="level-bar"></i></div>
+
+      <div class="caption" id="caption">
+        <p class="c-code" id="cap-code"></p>
+        <h3 id="cap-title"></h3>
+        <p id="cap-copy"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full career content: source of truth. Shown when motion is reduced or JS is off. -->
+  <div class="level-static" id="level-static">
+    <div class="stage-head">
+      <p class="stage-eyebrow">STAGE 1</p>
+      <h2 class="stage-title">THE CAREER LEVEL</h2>
+    </div>
+    <ol id="zone-data">
+      <li data-code="1-1" data-name="RAIL YARD · NORFOLK SOUTHERN" data-ach="SELF-TAUGHT CODER" data-xp="500" data-ach2="+8 HRS/WEEK SAVED" data-xp2="250">
+        <p class="z-code">WORLD 1-1 · RAIL YARD, NORFOLK SOUTHERN — ALTOONA, PA</p>
+        <h3>Mechanical Supervisor (2013–2015)</h3>
+        <p>I started on a shop floor at Norfolk Southern, supervising locomotive production lines — and taught myself to program to fix them. I built a multi-tier data system for the production line and Python automation for CNC quality control that eliminated 8 hours a week of manual data entry. That's where engineering turned into software for me.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: SELF-TAUGHT CODER <b>+500 XP</b></p>
+        <p class="z-ach">🏆 ACHIEVEMENT: +8 HRS/WEEK SAVED <b>+250 XP</b></p>
+      </li>
+      <li data-code="1-2" data-name="NAVSEA · U.S. NAVY" data-ach="NAVY INNOVATION AWARD" data-xp="1500">
+        <p class="z-code">WORLD 1-2 · NAVSEA SWRMC, U.S. NAVY — SAN DIEGO</p>
+        <h3>Engineering Technician V (2015–2018)</h3>
+        <p>At NAVSEA's Southwest Regional Maintenance Center I built a MERN-stack data collection system that cut processing time and automated reporting to stakeholders — and it won a U.S. Navy Innovation Award. My first full-stack product, shipped where the stakes were real.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: NAVY INNOVATION AWARD <b>+1500 XP</b></p>
+      </li>
+      <li data-code="2-1" data-name="SSR DIGITAL DISPLAYS" data-ach="FOUNDED A STARTUP" data-xp="2000">
+        <p class="z-code">WORLD 2-1 · SSR DIGITAL DISPLAYS</p>
+        <h3>Founder (est. ~2016)</h3>
+        <p>I founded SSR Digital Displays: real-time digital menu boards a bar owner can update from any web-connected device. Installed in 3 San Diego bars and 2 Philadelphia bars. Sales, install, code, and support — all of it was me.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: FOUNDED A STARTUP <b>+2000 XP</b></p>
+      </li>
+      <li data-code="2-2" data-name="ACCENTURE" data-ach="-84% CLIENT ISSUES" data-xp="1000">
+        <p class="z-code">WORLD 2-2 · ACCENTURE</p>
+        <h3>Senior Analyst (2018–2019)</h3>
+        <p>Embedded with Accenture's Life Science Cloud clients, I ran discovery on their document-upload pain points, then shipped the fixes and automation myself — cutting client-reported issues 84% and saving roughly $45k a year. Customer-facing engineering, enterprise stakes.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: -84% CLIENT ISSUES <b>+1000 XP</b></p>
+      </li>
+      <li data-code="3-1" data-name="COMCAST X1 TELEMETRY" data-ach="TEAM LEAD UNLOCKED" data-xp="1500" data-ach2="30,000,000 DEVICES" data-xp2="3000">
+        <p class="z-code">WORLD 3-1 · COMCAST X1 TELEMETRY, VIA TEKSYSTEMS</p>
+        <h3>Front-End Team Lead (2019–2021)</h3>
+        <p>I led 3 devs re-architecting the real-time telemetry front-end around NgRx — 87% of tech debt resolved, feature delivery 200% faster. Our JS data-collection library scaled to 30 million devices, feeding D3.js visualizations including a live per-market map of the U.S., with Python blue/green drift monitoring watching every release. First flag planted at Comcast; not the last.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: TEAM LEAD UNLOCKED <b>+1500 XP</b></p>
+        <p class="z-ach">🏆 ACHIEVEMENT: 30,000,000 DEVICES <b>+3000 XP</b></p>
+      </li>
+      <li data-code="3-2" data-name="FORT ROBOTICS" data-ach="0→1 PRODUCT SHIPPED" data-xp="2000">
+        <p class="z-code">WORLD 3-2 · FORT ROBOTICS</p>
+        <h3>Senior Engineer / Front End Team Lead</h3>
+        <p>From April 2021 to May 2022 I led a team of five at Fort Robotics building the company's first client-facing product: an Angular web + Ionic mobile device-management portal for their robotic safety-controller platform — the launch that enabled the pivot from hardware shop to platform-first software company. I built the core component library: infinite-scroll and lazy-load directives, form wizards, and async validators, all in strict TypeScript and RxJS.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: 0→1 PRODUCT SHIPPED <b>+2000 XP</b></p>
+      </li>
+      <li data-code="4-1" data-name="COMCAST · XUMO TV" data-ach="AI ACADEMY GRADUATE" data-xp="500" data-ach2="PROMOTED TO PRINCIPAL" data-xp2="5000">
+        <p class="z-code">WORLD 4-1 · COMCAST, XUMO TV</p>
+        <h3>Senior Engineer → Principal, Technical Lead (2022–2025)</h3>
+        <p>Back at Comcast from May 2022, I was technical lead for the resident app on Xumo smart TVs — the layer that bridges the client-facing UI, third-party apps, the physical TV hardware, and external APIs. I created the TV Toolkit, a one-click debugging and device-interface suite for devs and QA that cut onboarding and dev cycles 10%. And my AI Academy capstone shipped an XGBoost model that raised acceptance of suggested next actions 30% in a customer-facing troubleshooting chat app. Along the way I was promoted to Principal Engineer.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: AI ACADEMY GRADUATE <b>+500 XP</b></p>
+        <p class="z-ach">🏆 ACHIEVEMENT: PROMOTED TO PRINCIPAL <b>+5000 XP</b></p>
+      </li>
+      <li data-code="4-2" data-name="COMCAST X1 · CURRENT SAVE" data-ach="-80% VULNERABILITIES" data-xp="4000" data-ach2="CHECKPOINT REACHED" data-xp2="2500">
+        <p class="z-code">WORLD 4-2 · COMCAST X1 — CURRENT SAVE POINT</p>
+        <h3>Principal Engineer — AI Technical Lead, X1 Platform (2025–present)</h3>
+        <p>Since May 2025 I've led a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows shipped and adopted company-wide. An agentic vulnerability-fix pipeline with human-in-the-loop PRs cut open security vulnerabilities 80%. A spec-driven, AI-assisted migration is moving a mission-critical app from Java 8 to 25. An AI system repairs broken tests, finds E2E coverage gaps, and generates new tests. An org-wide LLM onboarding tool brings non-technical stakeholders along. The checkpoint flag is planted here — for now.</p>
+        <p class="z-ach">🏆 ACHIEVEMENT: -80% VULNERABILITIES <b>+4000 XP</b></p>
+        <p class="z-ach">🏆 ACHIEVEMENT: CHECKPOINT REACHED <b>+2500 XP</b></p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="stage-section projects" id="projects" aria-label="Projects">
+  <div class="stage-inner">
+    <div class="stage-head rise">
+      <p class="stage-eyebrow">BONUS STAGE</p>
+      <h2 class="stage-title">THE CARTRIDGE SHELF</h2>
+      <p class="stage-blurb">Eleven releases I actually shipped — new titles up top, retro classics on the bottom shelf. Flip a cartridge for the back-of-box specs.</p>
+    </div>
+
+    <div class="shelf">
+      <div class="cart-slot rise">
+        <div class="cart cart-special" role="button" tabindex="0" aria-expanded="false"
+             aria-label="myInkwell cartridge — activate to flip for tech specs"
+             style="--label-bg:#ffd35c; --label-ink:#0e0921;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <p class="cart-badge" aria-hidden="true">SPECIAL EDITION</p>
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="4" y="6" width="15" height="20" fill="#f4ead8"/><rect x="21" y="6" width="15" height="20" fill="#f4ead8"/><rect x="19" y="6" width="2" height="22" fill="#241a45"/><rect x="4" y="26" width="32" height="2" fill="#241a45"/><rect x="7" y="10" width="9" height="2" fill="#d95763"/><rect x="7" y="15" width="9" height="2" fill="#8f86b5"/><rect x="7" y="19" width="7" height="2" fill="#8f86b5"/><rect x="24" y="10" width="9" height="8" fill="#6fe3a5"/><rect x="24" y="21" width="9" height="2" fill="#8f86b5"/><rect x="33" y="2" width="3" height="3" fill="#f2a65a"/><rect x="36" y="0" width="2" height="2" fill="#f2a65a"/></svg>
+                </div>
+                <p class="cart-name px">MYINKWELL</p>
+                <p class="cart-tag">Solo-built production platform: design your characters, generate AI-illustrated stories, and order them as real hardcover books — a physical collector's item.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>ANGULAR + PY FASTAPI</li>
+                <li>AWS + MONGODB</li>
+                <li>MULTI-PROVIDER AI</li>
+                <li>STRIPE + CLOUDFLARE</li>
+                <li>AXIOM · POSTHOG</li>
+              </ul>
+              <p>Prompt iteration, cost/latency tradeoffs, blue/green rollouts, E2E, observability. Shipped 2026.</p>
+              <a class="cart-link" href="https://myinkwellbooks.com" target="_blank" rel="noopener">myinkwellbooks.com ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">SHIPS IN HARDCOVER</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-slot rise">
+        <div class="cart" role="button" tabindex="0" aria-expanded="false"
+             aria-label="SpendWatch cartridge — activate to flip for tech specs"
+             style="--label-bg:#d95763;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="6" y="4" width="14" height="24" fill="#241a45"/><rect x="8" y="7" width="10" height="16" fill="#0e0921"/><rect x="10" y="9" width="6" height="2" fill="#6fe3a5"/><rect x="10" y="13" width="6" height="2" fill="#8f86b5"/><rect x="10" y="17" width="4" height="2" fill="#8f86b5"/><rect x="12" y="25" width="2" height="1" fill="#8f86b5"/><rect x="24" y="8" width="12" height="12" fill="#ffd35c"/><rect x="26" y="10" width="8" height="8" fill="#d9a63e"/><rect x="29" y="11" width="2" height="6" fill="#ffd35c"/><rect x="27" y="12" width="6" height="1" fill="#ffd35c"/><rect x="27" y="15" width="6" height="1" fill="#ffd35c"/><rect x="24" y="22" width="12" height="4" fill="#6fe3a5"/></svg>
+                </div>
+                <p class="cart-name px">SPENDWATCH</p>
+                <p class="cart-tag">Multi-tenant household finance with AI coaching — one budget, every phone in the house. Live on the App Store and Google Play.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>FLUTTER / DART</li>
+                <li>AWS: COGNITO · S3</li>
+                <li>DYNAMODB · CLOUDFRONT</li>
+                <li>GOOGLE GEMINI</li>
+                <li>ELASTICSEARCH</li>
+              </ul>
+              <p>AI coaching, performance charting, push notifications; publishing automated via GitHub Actions. 2025.</p>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">LIVE ON 2 APP STORES</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-slot rise">
+        <div class="cart" role="button" tabindex="0" aria-expanded="false"
+             aria-label="taskr cartridge — activate to flip for tech specs"
+             style="--label-bg:#6fe3a5; --label-ink:#0e0921;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="4" y="4" width="20" height="24" fill="#f4ead8"/><rect x="7" y="9" width="5" height="5" fill="#241a45"/><rect x="8" y="10" width="3" height="3" fill="#6b8f3d"/><rect x="14" y="10" width="8" height="3" fill="#8f86b5"/><rect x="7" y="17" width="5" height="5" fill="#241a45"/><rect x="14" y="18" width="8" height="3" fill="#8f86b5"/><rect x="27" y="8" width="10" height="18" fill="#241a45"/><rect x="29" y="10" width="6" height="12" fill="#0e0921"/><rect x="31" y="24" width="2" height="1" fill="#8f86b5"/><rect x="30" y="12" width="4" height="4" fill="#6fe3a5"/></svg>
+                </div>
+                <p class="cart-name px">TASKR</p>
+                <p class="cart-tag">Cross-platform goal tracking with built-in AI coaching — check-ins and plans generated from your health data, goals, and performance.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>FLUTTER / DART</li>
+                <li>iOS · ANDROID · DESKTOP · WEB</li>
+                <li>GOOGLE GEMINI</li>
+                <li>FIREBASE</li>
+              </ul>
+              <a class="cart-link" href="https://github.com/rjw1428/taskr" target="_blank" rel="noopener">github.com/rjw1428/taskr ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">4 PLATFORMS, 1 CODEBASE</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-slot rise">
+        <div class="cart" role="button" tabindex="0" aria-expanded="false"
+             aria-label="MCP tool server cartridge — activate to flip for tech specs"
+             style="--label-bg:#8f86b5; --label-ink:#0e0921;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="4" y="8" width="18" height="16" fill="#241a45"/><rect x="7" y="11" width="4" height="4" fill="#6fe3a5"/><rect x="7" y="18" width="4" height="4" fill="#d95763"/><rect x="13" y="12" width="7" height="2" fill="#43315f"/><rect x="13" y="19" width="7" height="2" fill="#43315f"/><rect x="22" y="14" width="8" height="4" fill="#ffd35c"/><rect x="30" y="12" width="4" height="8" fill="#241a45"/><rect x="34" y="13" width="3" height="2" fill="#241a45"/><rect x="34" y="17" width="3" height="2" fill="#241a45"/></svg>
+                </div>
+                <p class="cart-name px">MCP TOOL SERVER</p>
+                <p class="cart-tag">Locally hosted MCP server that hands my AI agents custom tools — like a resilient weather cache.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>PYTHON</li>
+                <li>FASTAPI + FASTMCP</li>
+                <li>SELF-HOSTED</li>
+              </ul>
+              <a class="cart-link" href="https://github.com/rjw1428/weather-api" target="_blank" rel="noopener">github.com/rjw1428/weather-api ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">100% LOCAL TOOLS</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-slot rise">
+        <div class="cart" role="button" tabindex="0" aria-expanded="false"
+             aria-label="Rehuman cartridge — activate to flip for tech specs"
+             style="--label-bg:#f2a65a; --label-ink:#0e0921;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="6" y="6" width="6" height="6" fill="#d95763"/><rect x="16" y="6" width="6" height="6" fill="#d95763"/><rect x="4" y="10" width="20" height="6" fill="#d95763"/><rect x="6" y="16" width="16" height="4" fill="#b23a47"/><rect x="10" y="20" width="8" height="4" fill="#b23a47"/><rect x="13" y="24" width="2" height="2" fill="#b23a47"/><rect x="26" y="8" width="10" height="16" fill="#241a45"/><rect x="28" y="10" width="6" height="12" fill="#0e0921"/><rect x="28" y="15" width="2" height="2" fill="#6fe3a5"/><rect x="30" y="12" width="2" height="5" fill="#6fe3a5"/><rect x="32" y="15" width="2" height="2" fill="#6fe3a5"/></svg>
+                </div>
+                <p class="cart-name px">REHUMAN</p>
+                <p class="cart-tag">Forward-deployed with a healthcare AI startup — Accenture's first entrepreneur-in-residence — as architect of the core product.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>REACT</li>
+                <li>RABBITMQ</li>
+                <li>DOCKER + KUBERNETES</li>
+                <li>AZURE</li>
+              </ul>
+              <p>Pipeline feeding wearable health data into their AI engine — ETL plus B2B/B2C portals. 2023.</p>
+              <a class="cart-link" href="https://rehuman.co.uk" target="_blank" rel="noopener">rehuman.co.uk ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">WEARABLES → AI ENGINE</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-slot rise">
+        <div class="cart" role="button" tabindex="0" aria-expanded="false"
+             aria-label="Workflow Manager cartridge — activate to flip for tech specs"
+             style="--label-bg:#43315f;">
+          <div class="cart-inner">
+            <div class="cart-face cart-front">
+              <div class="cart-label">
+                <div class="cart-icon" aria-hidden="true">
+                  <svg viewBox="0 0 40 32"><rect x="4" y="4" width="18" height="24" fill="#f4ead8"/><rect x="9" y="2" width="8" height="4" fill="#8f86b5"/><rect x="7" y="10" width="4" height="4" fill="#241a45"/><rect x="13" y="11" width="7" height="2" fill="#8f86b5"/><rect x="7" y="17" width="4" height="4" fill="#241a45"/><rect x="13" y="18" width="7" height="2" fill="#8f86b5"/><rect x="26" y="18" width="3" height="8" fill="#6fe3a5"/><rect x="30" y="12" width="3" height="14" fill="#f2a65a"/><rect x="34" y="8" width="3" height="18" fill="#d95763"/><rect x="25" y="26" width="13" height="2" fill="#241a45"/></svg>
+                </div>
+                <p class="cart-name px">WORKFLOW MANAGER</p>
+                <p class="cart-tag">JIRA for contractors — bidding and estimation tracking with dashboards, reports, and charting.</p>
+              </div>
+              <p class="cart-flipnote">FLIP ▶</p>
+            </div>
+            <div class="cart-face cart-back">
+              <h4>ITEM LIST</h4>
+              <ul class="item-list">
+                <li>ANGULAR 12 + NGRX</li>
+                <li>NODE / EXPRESS</li>
+                <li>WEBSOCKETS</li>
+                <li>MYSQL</li>
+              </ul>
+              <p>Report exports, file attachments, live updates over websockets. 2020 — demo still up.</p>
+              <a class="cart-link" href="https://test.workflowmanagerpro.com/login?demo=true" target="_blank" rel="noopener">PLAY THE DEMO ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">PLAYABLE DEMO</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="retro-head rise">
+      <p class="stage-eyebrow">RETRO CLASSICS</p>
+      <p class="retro-blurb">Earlier releases — still in the collection, some still running.</p>
+    </div>
+    <ul class="retro-shelf rise">
+      <li class="retro-cart">
+        <p class="retro-name px">SSR DIGITAL DISPLAYS</p>
+        <p class="retro-tag">Real-time bar menu boards — my startup, 5 venues live. Angular + Firebase, solo-built end to end.</p>
+      </li>
+      <li class="retro-cart">
+        <p class="retro-name px">ALPINE KNIVES</p>
+        <p class="retro-tag">E-commerce for a custom knife maker — Stripe checkout, order emails.</p>
+      </li>
+      <li class="retro-cart">
+        <p class="retro-name px">BRODY'S BURGERS</p>
+        <p class="retro-tag">Restaurant site the owner edits from his phone — no developer call.</p>
+      </li>
+      <li class="retro-cart">
+        <p class="retro-name px">THIS SITE'S ENGINE</p>
+        <p class="retro-tag">The page you're reading, self-hosted: Node/Express, Docker Compose, nginx, Let's Encrypt — my metal, my TLS.</p>
+      </li>
+      <li class="retro-cart">
+        <p class="retro-name px">THE BURWELL PROJECT</p>
+        <p class="retro-tag">Co-op workspace rental sim — scheduling, billing, reservations in one campaign. Angular + Firebase + Stripe.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="stage-section skills" id="skills" aria-label="Skills">
+  <div class="stage-inner">
+    <div class="stage-head rise">
+      <p class="stage-eyebrow">CHARACTER STATS</p>
+      <h2 class="stage-title">SKILL TREE</h2>
+      <p class="stage-blurb">Honest levels — points earned in production, not in tutorials.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="branch rise" style="--b-color:#d95763;">
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>FRONTEND</h3>
+        <div class="stat"><div class="stat-row"><span class="s-name">ANGULAR + NGRX</span><span class="s-lv">LV 9</span></div>
+          <div class="bar"><i class="fill" style="--w:90%; --d:.0s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">TYPESCRIPT</span><span class="s-lv">LV 9</span></div>
+          <div class="bar"><i class="fill" style="--w:90%; --d:.12s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">REACT</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">RXJS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">D3.JS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.48s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">FLUTTER / DART</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.6s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">GRAPHQL</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.72s"></i><i class="cells"></i></div></div>
+        <p class="branch-foot">Daily drivers: Angular + NgRx at telemetry scale, D3 for the data-heavy screens; Flutter for taskr and SpendWatch; React on Rehuman and side quests.</p>
+      </div>
+
+      <div class="branch rise" style="--b-color:#f2a65a;">
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>BACKEND</h3>
+        <div class="stat"><div class="stat-row"><span class="s-name">NODE.JS / EXPRESS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.0s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">PYTHON / FASTAPI</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.12s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">JAVA</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.24s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">SQL</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">MONGODB</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.48s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">FIREBASE / FIRESTORE</span><span class="s-lv">LV 9</span></div>
+          <div class="bar"><i class="fill" style="--w:90%; --d:.6s"></i><i class="cells"></i></div></div>
+        <p class="branch-foot">Realtime sync, payments, background workers — plus a mission-critical Java 8→25 migration currently underway, spec-driven and AI-assisted.</p>
+      </div>
+
+      <div class="branch rise" style="--b-color:#ffd35c;">
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>AI</h3>
+        <div class="stat"><div class="stat-row"><span class="s-name">AGENTIC PR REVIEW + FIX LOOPS</span><span class="s-lv">LV 9</span></div>
+          <div class="bar"><i class="fill" style="--w:90%; --d:.0s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">AI-ASSISTED MIGRATIONS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.12s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">SPEC → IMPLEMENTATION SYSTEMS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">AI TEST GENERATION</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">PROMPT ITERATION</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.48s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">HUMAN-IN-THE-LOOP ROLLOUTS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.6s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">APPLIED ML (XGBOOST)</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.72s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">MCP / FASTMCP</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.84s"></i><i class="cells"></i></div></div>
+        <p class="branch-foot">Comcast AI Academy graduate. Multi-provider AI in myInkwell, Gemini in taskr and SpendWatch — and at work, agentic workflows the whole org runs on.</p>
+      </div>
+
+      <div class="branch rise" style="--b-color:#6fe3a5;">
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>INFRA</h3>
+        <div class="stat"><div class="stat-row"><span class="s-name">AWS</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.0s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">AZURE</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.12s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">DOCKER + KUBERNETES</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">CI/CD: ACTIONS · CONCOURSE</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">MYSQL · ELASTIC · NEO4J</span><span class="s-lv">LV 7</span></div>
+          <div class="bar"><i class="fill" style="--w:70%; --d:.48s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">CYPRESS + JEST</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.6s"></i><i class="cells"></i></div></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">BLUE/GREEN + CANARY</span><span class="s-lv">LV 8</span></div>
+          <div class="bar"><i class="fill" style="--w:80%; --d:.72s"></i><i class="cells"></i></div></div>
+        <p class="branch-foot">Comfortable owning the box and the pipeline: Nx monorepos, Docker Compose to Kubernetes, nginx + Let's Encrypt on my own metal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAINING / EDUCATION ============ -->
+<section class="stage-section training" id="training" aria-label="Education">
+  <div class="stage-inner">
+    <div class="stage-head rise">
+      <p class="stage-eyebrow">EDUCATION</p>
+      <h2 class="stage-title">TRAINING COMPLETE</h2>
+    </div>
+    <ul class="badge-row">
+      <li class="badge-card rise">
+        <p class="b-unlock">★ UNLOCKED 2022</p>
+        <h3>GRADUATE COURSEWORK · CS</h3>
+        <p>Johns Hopkins University — <span class="b-gpa">4.0 GPA</span></p>
+      </li>
+      <li class="badge-card rise">
+        <p class="b-unlock">★ UNLOCKED 2016</p>
+        <h3>ADDITIONAL B.S.</h3>
+        <p>TU Darmstadt — Darmstadt, Germany</p>
+      </li>
+      <li class="badge-card rise">
+        <p class="b-unlock">★ UNLOCKED 2012</p>
+        <h3>B.S. MECHANICAL ENGINEERING</h3>
+        <p>Virginia Tech</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CONTINUE / CONTACT ============ -->
+<section class="stage-section continue" id="contact" aria-label="Contact">
+  <div class="stage-inner rise">
+    <p class="stage-eyebrow">GAME OVER? NOT QUITE</p>
+    <h2 class="stage-title">CONTINUE?</h2>
+    <p class="count-digit" id="countdown" aria-hidden="true">9</p>
+    <p class="continue-copy">Your run doesn't have to end here. I'm a Principal Software Engineer with 10+ years shipping production software — from shop floors to Navy ships to bars to smart TVs — now leading AI-native developer workflows on Comcast's X1 platform. Always up for talking shop.</p>
+    <p class="coin-slot" aria-hidden="true">▶ INSERT COIN · SELECT AN OPTION ◀</p>
+    <ul class="menu">
+      <li><a href="mailto:software@ryanwilk.com"><span class="arrow" aria-hidden="true">▶</span> EMAIL <span class="m-val">software@ryanwilk.com</span></a></li>
+      <li><a href="https://github.com/rjw1428" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> GITHUB <span class="m-val">github.com/rjw1428</span></a></li>
+      <li><a href="https://linkedin.com/in/rjw1428" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> LINKEDIN <span class="m-val">linkedin.com/in/rjw1428</span></a></li>
+      <li><a href="https://ryanwilk.com" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> WEBSITE <span class="m-val">ryanwilk.com</span></a></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="game-footer">
+  <span>POC 5 / ARCADE</span>
+  <span>RYAN WILK · PRINCIPAL SOFTWARE ENGINEER</span>
+  <span>NO QUARTERS WERE HARMED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var clamp = function(v,a,b){ return v < a ? a : v > b ? b : v; };
+
+/* ==================================================
+   PIXEL ART FROM STRING MAPS (static box-shadow)
+   ================================================== */
+var PAL = {
+  R:'#d95763', S:'#f2c09b', E:'#241a45', W:'#f4ead8',
+  P:'#3d2f6b', K:'#241a45', G:'#ffd35c', D:'#b98f2e', H:'#d95763'
+};
+
+function paint(el, rows, size){
+  var sh = [];
+  for(var y=0; y<rows.length; y++){
+    for(var x=0; x<rows[y].length; x++){
+      var c = PAL[rows[y][x]];
+      if(c) sh.push((x*size)+'px '+(y*size)+'px 0 0 '+c);
+    }
+  }
+  el.style.width = size+'px';
+  el.style.height = size+'px';
+  el.style.boxShadow = sh.join(',');
+}
+
+/* character: 12 x 16 grid, 4px pixels (48 x 64) */
+var CHAR_IDLE = [
+  "...RRRRR....",
+  "..RRRRRRR...",
+  "..RRRRRRRR..",
+  "..SSSSSS....",
+  "..SSESSE....",
+  "..SSSSSS....",
+  "...SSSS.....",
+  "..WWWWWW....",
+  ".WWWWWWWW...",
+  ".SWWWWWWS...",
+  ".SWWWWWWS...",
+  "..PPPPPP....",
+  "..PPPPPP....",
+  "..PP..PP....",
+  "..PP..PP....",
+  ".KKK..KKK..."
+];
+var CHAR_RUN_A = [
+  "...RRRRR....",
+  "..RRRRRRR...",
+  "..RRRRRRRR..",
+  "..SSSSSS....",
+  "..SSESSE....",
+  "..SSSSSS....",
+  "...SSSS.....",
+  "..WWWWWW....",
+  ".WWWWWWWW...",
+  "S.WWWWWW.S..",
+  "..WWWWWW....",
+  "..PPPPPP....",
+  ".PPP..PPP...",
+  ".PP....PP...",
+  "KKK....KKK..",
+  "............"
+];
+var CHAR_RUN_B = [
+  "............",
+  "...RRRRR....",
+  "..RRRRRRR...",
+  "..RRRRRRRR..",
+  "..SSSSSS....",
+  "..SSESSE....",
+  "..SSSSSS....",
+  "...SSSS.....",
+  ".SWWWWWW....",
+  ".WWWWWWWW...",
+  "..WWWWWWS...",
+  "..PPPPPP....",
+  "...PPPP.....",
+  "...PPPP.....",
+  "..KKKK......",
+  "............"
+];
+var HEART = [
+  ".RR.RR.",
+  "RRRRRRR",
+  "RRRRRRR",
+  ".RRRRR.",
+  "..RRR..",
+  "...R..."
+];
+var COIN = [
+  ".GGGG.",
+  "GGGWGG",
+  "GGWGGG",
+  "GGGGGG",
+  "GDGGDG",
+  ".DDDD."
+];
+var CLOUD = [
+  "....WWWW........",
+  "..WWWWWWWW.WW...",
+  ".WWWWWWWWWWWWW..",
+  "WWWWWWWWWWWWWWW.",
+  ".WWWW..WWWWW...."
+];
+
+paint(document.getElementById('fr-idle'), CHAR_IDLE, 5);
+paint(document.getElementById('fr-a'),    CHAR_RUN_A, 5);
+paint(document.getElementById('fr-b'),    CHAR_RUN_B, 5);
+
+document.querySelectorAll('.hud .heart .full').forEach(function(el){ paint(el, HEART, 3); });
+document.querySelectorAll('[data-cloud]').forEach(function(el){
+  paint(el, CLOUD, 5); el.style.opacity = .5;
+});
+
+/* ==================================================
+   ZONE DATA — read from the static markup (source of truth)
+   ================================================== */
+var ZX = [650, 1800, 2950, 4100, 5250, 6400, 7550, 8700];  /* world x per zone (px) */
+var WORLD_W = 9650;
+var zones = [];
+document.querySelectorAll('#zone-data > li').forEach(function(li, i){
+  zones.push({
+    x: ZX[i],
+    code: li.getAttribute('data-code'),
+    name: li.getAttribute('data-name'),
+    ach: li.getAttribute('data-ach'),
+    xp: parseInt(li.getAttribute('data-xp'), 10),
+    ach2: li.getAttribute('data-ach2'),
+    xp2: parseInt(li.getAttribute('data-xp2') || '0', 10),
+    title: li.querySelector('h3').textContent,
+    copy: li.querySelector('p:nth-of-type(2)').textContent,
+    reached: false
+  });
+});
+
+document.getElementById('world').style.setProperty('--world-w', WORLD_W+'px');
+
+/* coins scattered along the ground */
+var world = document.getElementById('world');
+var coins = [];
+if(!RM){
+  var coinXs = [];
+  ZX.forEach(function(zx, i){
+    if(i === 0) return;
+    var prev = ZX[i-1];
+    coinXs.push(prev + 420, prev + 480, prev + 540);
+  });
+  coinXs.push(WORLD_W - 520, WORLD_W - 460);
+  coinXs.forEach(function(cx){
+    var c = document.createElement('div');
+    c.className = 'coin';
+    c.style.left = cx + 'px';
+    paint(c, COIN, 3);
+    world.appendChild(c);
+    coins.push({ x: cx, el: c, got: false });
+  });
+}
+
+/* ==================================================
+   HUD: score / world / hearts
+   ================================================== */
+var hud       = document.getElementById('hud');
+var hudScore  = document.getElementById('hud-score');
+var hudWorld  = document.getElementById('hud-world');
+var hearts    = document.querySelectorAll('.hud .heart');
+var scoreTarget = 0, scoreShown = 0, bonus = 0;
+
+function setWorld(txt){
+  if(hudWorld.textContent !== txt) hudWorld.textContent = txt;
+}
+function litHearts(n){
+  hearts.forEach(function(h, i){ h.classList.toggle('lit', i < n); });
+}
+
+/* ==================================================
+   TOASTS
+   ================================================== */
+var toastEl = document.createElement('div');
+toastEl.className = 'toast';
+toastEl.setAttribute('role','status');
+toastEl.innerHTML = '<p class="t-head">▶ ACHIEVEMENT UNLOCKED!</p><p class="t-body"></p>';
+document.body.appendChild(toastEl);
+var toastBody = toastEl.querySelector('.t-body');
+var toastQ = [], toastBusy = false;
+
+function toast(text, xp){
+  toastQ.push({ t:text, xp:xp });
+  if(!toastBusy) nextToast();
+}
+function nextToast(){
+  var item = toastQ.shift();
+  if(!item){ toastBusy = false; return; }
+  toastBusy = true;
+  toastBody.innerHTML = item.t + ' <span class="t-xp">+' + item.xp + ' XP</span>';
+  toastEl.classList.add('show');
+  setTimeout(function(){
+    toastEl.classList.remove('show');
+    setTimeout(nextToast, 350);
+  }, 2300);
+}
+
+/* ==================================================
+   LEVEL SCRUB (rAF, transform-only)
+   ================================================== */
+var track    = document.getElementById('level-track');
+var worldEl  = document.getElementById('world');
+var mtnEl    = document.getElementById('l-mountains');
+var cloudEl  = document.getElementById('l-clouds');
+var charEl   = document.getElementById('char');
+var levelBar = document.getElementById('level-bar');
+var capEl    = document.getElementById('caption');
+var capCode  = document.getElementById('cap-code');
+var capTitle = document.getElementById('cap-title');
+var capCopy  = document.getElementById('cap-copy');
+
+var vw = innerWidth, vh = innerHeight;
+var trackTop = 0, trackLen = 1;
+var lastY = -1, lastMove = 0, activeZone = -1, maxDepth = 0;
+var docLen = 1;
+
+function measure(){
+  vw = innerWidth; vh = innerHeight;
+  var r = track ? track.getBoundingClientRect() : null;
+  if(r){
+    trackTop = r.top + (window.pageYOffset || 0);
+    trackLen = Math.max(1, track.offsetHeight - vh);
+  }
+  docLen = Math.max(1, document.documentElement.scrollHeight - vh);
+}
+measure();
+addEventListener('resize', measure);
+addEventListener('load', measure);
+
+function charX(){ return clamp(vw * 0.26, 70, 330); }
+
+function setCaption(i){
+  if(i === activeZone) return;
+  activeZone = i;
+  if(i < 0) { capEl.classList.remove('show'); return; }
+  var z = zones[i];
+  capCode.textContent = 'WORLD ' + z.code + ' · ' + z.name;
+  capTitle.textContent = z.title;
+  capCopy.textContent = z.copy;
+  capEl.classList.remove('show');
+  /* force restart of the pop-in */
+  void capEl.offsetWidth;
+  capEl.classList.add('show');
+}
+
+function heartsFromZones(){
+  var n = 0;
+  if(zones[1] && zones[1].reached) n = 1;   /* world 1 cleared */
+  if(zones[3] && zones[3].reached) n = 2;   /* world 2 cleared */
+  if(zones[5] && zones[5].reached) n = 3;   /* world 3 cleared */
+  if(zones[7] && zones[7].reached) n = 4;   /* world 4 checkpoint */
+  litHearts(n);
+}
+
+function frame(now){
+  var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  var moved = y !== lastY;
+  if(moved){
+    if(y < lastY) charEl.classList.add('back'); else charEl.classList.remove('back');
+    lastMove = now;
+    lastY = y;
+  }
+
+  /* HUD visibility + hearts */
+  hud.classList.toggle('on', y > vh * 0.5);
+
+  /* score: depth-based + achievement bonuses */
+  maxDepth = Math.max(maxDepth, y / docLen);
+  scoreTarget = Math.round((maxDepth * 750)) * 10 + bonus;
+  if(scoreShown !== scoreTarget){
+    scoreShown += Math.ceil((scoreTarget - scoreShown) * 0.12);
+    if(Math.abs(scoreTarget - scoreShown) < 2) scoreShown = scoreTarget;
+    var s = String(clamp(scoreShown, 0, 999999));
+    hudScore.textContent = ('000000' + s).slice(-6);
+  }
+
+  if(!RM && track){
+    var p = clamp((y - trackTop) / trackLen, 0, 1);
+    var inLevel = y > trackTop - vh * 0.5 && y < trackTop + track.offsetHeight;
+    var wx = p * (WORLD_W - vw);
+    var cx = charX();
+
+    worldEl.style.transform = 'translate3d(' + (-wx) + 'px,0,0)';
+    mtnEl.style.transform   = 'translate3d(' + (-wx * 0.25) + 'px,0,0)';
+    cloudEl.style.transform = 'translate3d(' + (-wx * 0.1) + 'px,0,0)';
+    charEl.style.transform  = 'translate3d(' + cx + 'px,0,0)' +
+      (charEl.classList.contains('back') ? ' scaleX(-1)' : '');
+    levelBar.style.transform = 'scaleX(' + p + ')';
+
+    /* run vs idle */
+    var running = moved || (now - lastMove < 160);
+    charEl.classList.toggle('run', running && inLevel);
+
+    var charWorld = wx + cx;
+
+    /* zone reach + caption */
+    var nearest = -1;
+    for(var i = 0; i < zones.length; i++){
+      var z = zones[i];
+      if(!z.reached && charWorld >= z.x - 40){
+        z.reached = true;
+        bonus += z.xp;
+        toast(z.ach, z.xp);
+        if(z.ach2){ bonus += z.xp2; toast(z.ach2, z.xp2); }
+        heartsFromZones();
+      }
+      if(charWorld > z.x - 560 && charWorld < z.x + 620) nearest = i;
+    }
+    if(inLevel){
+      if(nearest >= 0) setCaption(nearest);
+      setWorld(nearest >= 0 ? zones[nearest].code :
+        (activeZone >= 0 ? zones[activeZone].code : '1-1'));
+    }
+
+    /* coins */
+    for(var c = 0; c < coins.length; c++){
+      var coin = coins[c];
+      if(!coin.got && charWorld >= coin.x - 10){
+        coin.got = true;
+        coin.el.classList.add('got');
+        bonus += 10;
+      }
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+if(!RM){
+  requestAnimationFrame(frame);
+}else{
+  /* reduced motion: fill HUD from static state, no ticking */
+  hud.classList.add('on');
+  hudScore.textContent = '023750';
+  litHearts(4);
+  setWorld('4-2');
+}
+
+/* HUD world label outside the level */
+var sectionCodes = [
+  { el: document.getElementById('title'),    code: 'TITLE' },
+  { el: document.getElementById('projects'), code: 'BONUS' },
+  { el: document.getElementById('skills'),   code: 'STATS' },
+  { el: document.getElementById('training'), code: 'EDU' },
+  { el: document.getElementById('contact'),  code: 'CONT.' }
+];
+if('IntersectionObserver' in window && !RM){
+  var secIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var m = sectionCodes.find(function(s){ return s.el === en.target; });
+        if(m) setWorld(m.code);
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });
+  sectionCodes.forEach(function(s){ if(s.el) secIO.observe(s.el); });
+}
+
+/* ==================================================
+   TITLE: press start + level select
+   ================================================== */
+function scrollToProgress(p){
+  var target = trackTop + p * trackLen;
+  window.scrollTo({ top: target, behavior: RM ? 'auto' : 'smooth' });
+}
+function zoneProgress(i){
+  return clamp((ZX[i] - charX()) / (WORLD_W - vw), 0, 1);
+}
+document.getElementById('press-start').addEventListener('click', function(){
+  measure();
+  if(RM){ document.getElementById('level-static').scrollIntoView(); return; }
+  scrollToProgress(0.02);
+});
+document.querySelectorAll('#level-select button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    measure();
+    var i = parseInt(btn.getAttribute('data-zone'), 10);
+    if(RM){
+      var li = document.querySelectorAll('#zone-data > li')[i];
+      if(li) li.scrollIntoView();
+      return;
+    }
+    scrollToProgress(zoneProgress(i));
+  });
+});
+addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && (window.pageYOffset || 0) < vh * 0.4 &&
+     document.activeElement === document.body){
+    document.getElementById('press-start').click();
+  }
+});
+
+/* ==================================================
+   CARTRIDGE FLIP
+   ================================================== */
+document.querySelectorAll('.cart').forEach(function(cart){
+  function flip(){
+    var on = cart.classList.toggle('flipped');
+    cart.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  cart.addEventListener('click', function(e){
+    if(e.target.closest('a')) return;   /* let links work */
+    flip();
+  });
+  cart.addEventListener('keydown', function(e){
+    if((e.key === 'Enter' || e.key === ' ') && e.target === cart){
+      e.preventDefault(); flip();
+    }
+  });
+});
+
+/* ==================================================
+   REVEALS (IntersectionObserver)
+   ================================================== */
+if('IntersectionObserver' in window && !RM){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.rise, .branch').forEach(function(el){ io.observe(el); });
+}else{
+  document.querySelectorAll('.rise, .branch').forEach(function(el){ el.classList.add('in'); });
+}
+
+/* ==================================================
+   FLAG WAVE + BEACON (steps, opacity only)
+   ================================================== */
+if(!RM){
+  var st = document.createElement('style');
+  st.textContent =
+    '.flag-a{ animation: wave 0.9s steps(1) infinite; }' +
+    '.flag-b{ animation: waveB 0.9s steps(1) infinite; }' +
+    '@keyframes wave{ 0%,100%{opacity:1} 50%{opacity:0} }' +
+    '@keyframes waveB{ 0%,49.9%{opacity:0} 50%,99.9%{opacity:1} 100%{opacity:0} }' +
+    '.beacon{ animation: wave 1.6s steps(1) infinite; }';
+  document.head.appendChild(st);
+}
+
+/* ==================================================
+   CONTINUE COUNTDOWN 9 → 0, loops harmlessly
+   ================================================== */
+var cd = document.getElementById('countdown');
+var n = 9;
+if(RM){
+  cd.textContent = '9';
+}else{
+  setInterval(function(){
+    n = n - 1;
+    if(n < 0){ n = 9; }
+    cd.textContent = String(n);
+    cd.classList.remove('tick');
+    void cd.offsetWidth;
+    cd.classList.add('tick');
+  }, 1000);
+}
+
+})();
+</script>
+</body>
+</html>

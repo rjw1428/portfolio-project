@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryan Wilk — Blueprint → Build</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Blueprint">
+<meta property="og:description" content="From mechanical drawings to production software. A career rendered as an engineering drawing that assembles itself as you scroll.">
+<meta property="og:url" content="https://ryanwilk.com/02-blueprint.html">
+<meta property="og:image" content="https://ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Blueprint">
+<meta name="twitter:description" content="From mechanical drawings to production software. A career rendered as an engineering drawing that assembles itself as you scroll.">
+<meta name="twitter:image" content="https://ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://ryanwilk.com/02-blueprint.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ============================================================
+   POC 2 / BLUEPRINT — Ryan Wilk
+   Cyanotype drafting sheet that assembles itself on scroll.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,500;10..72,700;10..72,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:        #0A2540;   /* prussian paper */
+  --bg-2:      #0F3459;   /* panel */
+  --bg-3:      #0C2C4C;   /* card */
+  --line:      #7FA8CF;   /* drafting hairline */
+  --line-dim:  rgba(127,168,207,.38);
+  --grid:      rgba(127,168,207,.085);
+  --grid-maj:  rgba(127,168,207,.16);
+  --ink:       #C9DEF2;   /* body text */
+  --ink-dim:   #8FB2D4;
+  --bright:    #EAF4FF;   /* white ink headings */
+  --accent:    #F5A83C;   /* amber "built" state */
+  --accent-dim:rgba(245,168,60,.55);
+  --disp: "Big Shoulders", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  /* engineering grid paper: minor 24px, major 120px */
+  background-image:
+    linear-gradient(var(--grid-maj) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-maj) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+a { color: var(--bright); text-decoration-color: var(--accent-dim); text-underline-offset: 4px; }
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+a:focus-visible, button:focus-visible {
+  outline: 2px dashed var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ---------- shared sheet layout ---------- */
+.sheet {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: clamp(4rem, 10vh, 7.5rem) clamp(1.25rem, 5vw, 3rem);
+  position: relative;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .22em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+.eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line-dim);
+}
+
+h2 {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: .015em;
+  text-transform: uppercase;
+  color: var(--bright);
+  margin-bottom: 1rem;
+}
+
+.lede {
+  max-width: 42rem;
+  color: var(--ink);
+}
+.lede em { font-style: normal; color: var(--accent); }
+
+/* two-corner crop marks */
+.corners::before, .corners::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.corners::before { top: 0; left: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.corners::after  { bottom: 0; right: 0; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+
+/* ---------- reveal on intersect ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.22,.8,.32,1);
+}
+.js .reveal.in-view { opacity: 1; transform: none; }
+
+/* drawn linework paths (pathLength=1 everywhere) */
+svg .dp {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.6;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+.js svg .dp { stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+/* career glyphs draw when their step enters */
+.js .step .dp { transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1); }
+.js .step.in-view .dp { stroke-dashoffset: 0; }
+.js .step .dp:nth-of-type(2) { transition-delay: .12s; }
+.js .step .dp:nth-of-type(3) { transition-delay: .24s; }
+.js .step .dp:nth-of-type(4) { transition-delay: .36s; }
+.js .step .dp:nth-of-type(5) { transition-delay: .48s; }
+.js .step .dp:nth-of-type(6) { transition-delay: .6s; }
+.js .step .dp:nth-of-type(7) { transition-delay: .72s; }
+.js .step .dp:nth-of-type(8) { transition-delay: .84s; }
+
+/* ============================================================
+   HERO — SHEET 1
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--line-dim);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+h1 {
+  font-family: var(--disp);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 11vw, 7.5rem);
+  line-height: .92;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  color: var(--bright);
+}
+
+/* dimension line under the name: |—— label ——| */
+.dim {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin: 1.4rem 0 1.6rem;
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .18em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.dim::before, .dim::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  min-width: 1.5rem;
+}
+.dim .tick { width: 1px; height: 14px; background: var(--line); flex: none; }
+
+.hero p.lede { margin-bottom: 2rem; }
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem 1rem;
+  font-family: var(--mono);
+  font-size: .82rem;
+  letter-spacing: .06em;
+}
+.hero-links a {
+  border: 1px solid var(--line-dim);
+  padding: .55rem 1.1rem;
+  text-decoration: none;
+  color: var(--ink);
+  transition: border-color .25s ease, color .25s ease, transform .25s ease;
+}
+.hero-links a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+.hero-links a.primary { border-color: var(--accent); color: var(--accent); }
+
+.hero-fig { position: relative; }
+.hero-fig svg { width: 100%; height: auto; display: block; }
+.hero-fig figcaption {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: .8rem;
+}
+
+/* hero draws itself on load */
+.js .hero .dp {
+  animation: draw 1.3s cubic-bezier(.4,0,.2,1) forwards;
+  animation-delay: calc(var(--d, 0) * 1s);
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.scroll-cue {
+  margin-top: clamp(2.5rem, 7vh, 4.5rem);
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .26em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.scroll-cue .arrow {
+  display: inline-block;
+  animation: nudge 2.2s ease-in-out infinite;
+  color: var(--accent);
+}
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ============================================================
+   CAREER — SHEET 2, assembly sequence with scrubbed spine
+   ============================================================ */
+.steps {
+  position: relative;
+  margin-top: 3.5rem;
+  padding-left: clamp(2.4rem, 6vw, 3.6rem);
+}
+/* static hairline spine */
+.steps::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-dim);
+}
+/* scrubbed fill spine (scaleY driven by scroll) */
+.spine-fill {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  transform-origin: top center;
+  transform: scaleY(0);
+  will-change: transform;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: clamp(1.2rem, 4vw, 2.6rem);
+  align-items: start;
+  padding: 2.4rem 0;
+}
+.step + .step { border-top: 1px dashed var(--line-dim); }
+
+/* station marker on the spine */
+.step::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * clamp(2.4rem, 6vw, 3.6rem) + 4px);
+  top: 3.05rem;
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  transform: rotate(45deg);
+  transition: background .4s ease, border-color .4s ease;
+}
+.step.in-view::before { background: var(--accent); border-color: var(--accent); }
+
+.step-glyph svg { width: 100%; max-width: 150px; height: auto; display: block; }
+
+.step-no {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .22em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: .35rem;
+}
+.step h3 {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--bright);
+  line-height: 1.05;
+  margin-bottom: .6rem;
+}
+.step p { max-width: 38rem; color: var(--ink); }
+.step .note {
+  margin-top: .7rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   ARCHITECTURE — SHEET 3, scroll-scrubbed centerpiece
+   ============================================================ */
+.arch-wrap { border-top: 1px solid var(--line-dim); border-bottom: 1px solid var(--line-dim); }
+
+#arch { height: 380vh; position: relative; }
+
+/* no-JS: skip the scroll runway, show the drawing statically */
+html:not(.js) #arch { height: auto; }
+html:not(.js) .arch-sticky { position: static; height: auto; padding-top: 4rem; padding-bottom: 4rem; }
+
+.arch-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem clamp(1rem, 4vw, 3rem);
+  overflow: hidden;
+}
+
+.arch-head {
+  width: 100%;
+  max-width: 1160px;
+  margin-bottom: .5rem;
+}
+.arch-head .eyebrow { margin-bottom: .6rem; }
+.arch-head h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin-bottom: 0; }
+
+.arch-svg {
+  width: min(700px, 94vw);
+  max-height: 66svh;
+  height: auto;
+  flex: 0 1 auto;
+}
+
+.arch-caption {
+  width: 100%;
+  max-width: 700px;
+  min-height: 3.6rem;
+  margin-top: .75rem;
+  font-family: var(--mono);
+  font-size: clamp(.72rem, 1.8vw, .84rem);
+  letter-spacing: .04em;
+  line-height: 1.55;
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+}
+.arch-caption .stage-no { color: var(--accent); display: block; letter-spacing: .2em; font-size: .68rem; margin-bottom: .15rem; }
+
+/* svg text */
+.arch-svg text {
+  font-family: var(--mono);
+  fill: var(--bright);
+}
+.arch-svg .t-title { font-size: 19px; font-weight: 500; letter-spacing: .04em; }
+.arch-svg .t-sub   { font-size: 12.5px; fill: var(--ink-dim); letter-spacing: .03em; }
+.arch-svg .t-note  { font-size: 11.5px; fill: var(--line); letter-spacing: .08em; }
+.arch-svg .t-amber { fill: var(--accent); }
+
+.js .arch-svg .lbl { opacity: 0; }
+
+/* dashed paths can't draw via dashoffset — they fade in instead */
+.arch-svg .dpo {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.6;
+  stroke-dasharray: 7 5;
+}
+.js .arch-svg .dpo { opacity: 0; }
+
+/* built (as-built) overlay */
+#built { opacity: 0; }
+#built .fillbox { fill: var(--bg-2); stroke: var(--accent); stroke-width: 1.6; }
+#built .aline { fill: none; stroke: var(--accent); stroke-width: 1.8; }
+#built .adash { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 7 5; }
+
+/* ============================================================
+   PROJECTS — SHEET 4, drawing sheets
+   ============================================================ */
+.sheets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
+  margin-top: 3rem;
+}
+
+.dwg {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  display: flex;
+  flex-direction: column;
+  transition: transform .35s cubic-bezier(.22,.8,.32,1), border-color .35s ease;
+}
+.dwg:hover, .dwg:focus-within { transform: translateY(-5px); border-color: var(--accent); }
+/* inner hairline frame, classic double border */
+.dwg::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--line-dim);
+  pointer-events: none;
+}
+
+.dwg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.4rem 1.6rem .4rem;
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .18em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+
+.dwg-body {
+  padding: .4rem 1.6rem 1.4rem;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 1.3rem;
+  align-items: start;
+  flex: 1;
+}
+.dwg-body svg { width: 84px; height: auto; display: block; margin-top: .4rem; }
+.dwg .dp { transition: stroke .35s ease; }
+.dwg:hover .dp, .dwg:focus-within .dp { stroke: var(--accent); }
+.js .dwg.in-view .dp { stroke-dashoffset: 0; transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1) .2s, stroke .35s ease; }
+
+.dwg h3 {
+  font-family: var(--disp);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--bright);
+  line-height: 1.05;
+  margin-bottom: .5rem;
+}
+.dwg h3 a { color: inherit; text-decoration: none; }
+.dwg h3 a:hover { color: var(--accent); }
+.dwg h3 a::after { content: ""; position: absolute; inset: 0; } /* whole-card link */
+.dwg p { font-size: .96rem; }
+.dwg .visit {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: .7rem;
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .1em;
+}
+
+/* title block strip */
+.tblock {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  margin-top: auto;
+}
+.tblock > div {
+  padding: .55rem .8rem .6rem;
+  border-right: 1px solid var(--line-dim);
+  min-width: 0;
+}
+.tblock > div:last-child { border-right: none; }
+.tblock dt {
+  font-size: .58rem;
+  letter-spacing: .2em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: .15rem;
+}
+.tblock dd { font-size: .74rem; color: var(--bright); letter-spacing: .03em; overflow-wrap: break-word; }
+.tblock .mat { grid-column: span 2; }
+.tblock .mat dd { color: var(--accent); }
+
+/* flagship drawing gets the full sheet width and a larger figure */
+.dwg.flagship { grid-column: 1 / -1; }
+.dwg.flagship .dwg-body { grid-template-columns: 120px minmax(0, 1fr); }
+.dwg.flagship .dwg-body svg { width: 120px; }
+.dwg.flagship p { max-width: 46rem; }
+
+/* superseded drawings index — compact archival table */
+.sup { margin-top: clamp(2.5rem, 6vh, 4rem); }
+.sup h3 {
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .24em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+.sup-wrap { overflow-x: auto; }
+.sup table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 620px;
+  font-family: var(--mono);
+  font-size: .76rem;
+}
+.sup th, .sup td {
+  border: 1px solid var(--line-dim);
+  padding: .55rem .8rem;
+  text-align: left;
+  letter-spacing: .04em;
+  vertical-align: top;
+}
+.sup th { font-size: .62rem; letter-spacing: .2em; color: var(--ink-dim); text-transform: uppercase; font-weight: 500; }
+.sup td { color: var(--ink); }
+.sup td:first-child { color: var(--accent); white-space: nowrap; }
+.sup td:last-child { color: var(--ink-dim); text-transform: uppercase; font-size: .66rem; letter-spacing: .16em; white-space: nowrap; }
+.sup td a { text-decoration: none; border-bottom: 1px solid var(--accent-dim); }
+.sup td a:hover { border-bottom-color: var(--accent); }
+
+/* ============================================================
+   FOOTER — SHEET 5, title block + BOM + revisions
+   ============================================================ */
+footer.sheet { padding-bottom: 3rem; }
+
+.bom { margin: 3rem 0 4rem; }
+.bom + .bom { margin-top: -2.4rem; }
+.bom h3, .revs h3 {
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .24em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+.bom ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  border-top: 1px solid var(--line-dim);
+  border-left: 1px solid var(--line-dim);
+}
+.bom li {
+  background: var(--bg);
+  border-right: 1px solid var(--line-dim);
+  border-bottom: 1px solid var(--line-dim);
+  padding: .7rem .9rem;
+  font-family: var(--mono);
+  font-size: .78rem;
+  letter-spacing: .04em;
+  color: var(--bright);
+}
+.bom li span { color: var(--ink-dim); font-size: .64rem; letter-spacing: .16em; display: block; margin-bottom: .1rem; }
+
+.foot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.revs table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: .78rem; }
+.revs th, .revs td {
+  border: 1px solid var(--line-dim);
+  padding: .5rem .8rem;
+  text-align: left;
+  letter-spacing: .04em;
+}
+.revs th { font-size: .62rem; letter-spacing: .2em; color: var(--ink-dim); text-transform: uppercase; font-weight: 500; }
+.revs td:first-child { color: var(--accent); width: 3.2rem; text-align: center; }
+.revs td { color: var(--ink); }
+.revs tr.current td { color: var(--bright); }
+.revs tr.current td:first-child { color: var(--accent); }
+
+.titleblock {
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+  font-family: var(--mono);
+}
+.titleblock .tb-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line-dim);
+}
+.titleblock .tb-row:last-child { border-bottom: none; }
+.titleblock .cell { padding: .7rem 1rem .75rem; border-right: 1px solid var(--line-dim); min-width: 0; }
+.titleblock .cell:last-child { border-right: none; }
+.titleblock .cell.wide { grid-column: span 2; }
+.titleblock dt { font-size: .58rem; letter-spacing: .22em; color: var(--ink-dim); text-transform: uppercase; margin-bottom: .2rem; }
+.titleblock dd { font-size: .84rem; color: var(--bright); overflow-wrap: break-word; }
+.titleblock dd a { text-decoration: none; border-bottom: 1px solid var(--accent-dim); }
+.titleblock dd a:hover { border-bottom-color: var(--accent); }
+
+.certs { margin-top: 2rem; }
+.certs td:first-child { width: 4.5rem; white-space: nowrap; }
+
+.foot-cta h2 { font-size: clamp(2rem, 5vw, 3rem); }
+.foot-cta p { max-width: 34rem; margin-bottom: 1.6rem; }
+
+.donotscale {
+  margin-top: 3.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line-dim);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .6rem 2rem;
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .2em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+.donotscale .poc { color: var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-fig { max-width: 440px; }
+  .sheets-grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .step { grid-template-columns: 1fr; gap: 1rem; padding: 2rem 0; }
+  .step-glyph svg { max-width: 110px; }
+  .step::before { top: 2.6rem; }
+  .tblock { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tblock > div:nth-child(2) { border-right: none; }
+  .tblock > div:nth-child(-n+2) { border-bottom: 1px solid var(--line-dim); }
+  .dwg-body { grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; }
+  .dwg-body svg { width: 64px; }
+  .dwg.flagship .dwg-body { grid-template-columns: 64px minmax(0, 1fr); }
+  .dwg.flagship .dwg-body svg { width: 64px; }
+  .dim { font-size: .6rem; letter-spacing: .08em; gap: .5rem; }
+  .dim::before, .dim::after { min-width: .5rem; }
+}
+
+/* ============================================================
+   REDUCED MOTION — everything arrives pre-built
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .js svg .dp { stroke-dashoffset: 0 !important; animation: none !important; transition: none !important; }
+  .js .arch-svg .lbl { opacity: 1 !important; }
+  .js .arch-svg .dpo { opacity: 1 !important; }
+  .scroll-cue .arrow { animation: none; }
+  .spine-fill { transform: scaleY(1) !important; }
+  #arch { height: auto; }
+  .arch-sticky { position: static; height: auto; padding: 4rem clamp(1rem, 4vw, 3rem); }
+  #built { opacity: 1 !important; }
+  #stages { opacity: .25; }
+  .dwg, .hero-links a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SHEET 1 — HERO
+     ============================================================ -->
+<header class="hero sheet corners">
+  <p class="eyebrow">DWG NO. POC-02 &middot; TITLE: BLUEPRINT &rarr; BUILD &middot; SHEET 1 OF 5</p>
+  <div class="hero-grid">
+    <div>
+      <h1>Ryan<br>Wilk</h1>
+      <p class="dim" aria-label="Principal software engineer. AI-native developer workflows. Customer-facing engineering.">
+        <span class="tick"></span>Principal software engineer &middot; AI-native developer workflows &middot; customer-facing engineering<span class="tick"></span>
+      </p>
+      <p class="lede">Ten-plus years shipping production software &mdash; and I was a mechanical
+        engineer before any of it, so I still work the same way: <em>draw it first, then
+        build it.</em> This page does both &mdash; every section starts as linework and
+        assembles as you scroll.</p>
+      <nav class="hero-links" aria-label="Contact">
+        <a class="primary" href="mailto:software@ryanwilk.com">software@ryanwilk.com</a>
+        <a href="https://github.com/rjw1428">github.com/rjw1428</a>
+        <a href="https://linkedin.com/in/rjw1428">linkedin.com/in/rjw1428</a>
+        <a href="https://ryanwilk.com">ryanwilk.com</a>
+      </nav>
+      <p class="scroll-cue">Scroll to assemble <span class="arrow" aria-hidden="true">&darr;</span></p>
+    </div>
+
+    <figure class="hero-fig" aria-hidden="true">
+      <svg viewBox="0 0 560 240" role="img" aria-label="A locomotive wheelset drawn as linework, an arrow, and a browser window">
+        <!-- wheelset -->
+        <circle class="dp" style="--d:0"    cx="75"  cy="120" r="48" pathLength="1"/>
+        <circle class="dp" style="--d:.15"  cx="175" cy="120" r="48" pathLength="1"/>
+        <circle class="dp" style="--d:.3"   cx="75"  cy="120" r="11" pathLength="1"/>
+        <circle class="dp" style="--d:.35"  cx="175" cy="120" r="11" pathLength="1"/>
+        <path   class="dp" style="--d:.42"  d="M86 120 H164" pathLength="1"/>
+        <path   class="dp" style="--d:.5"   d="M12 174 H 238" pathLength="1"/>
+        <!-- becomes -->
+        <path class="dp" style="--d:.7"  d="M258 120 H 316" pathLength="1"/>
+        <path class="dp" style="--d:.8"  d="M306 111 L318 120 L306 129" pathLength="1"/>
+        <!-- browser -->
+        <rect class="dp" style="--d:.9"   x="340" y="55" width="204" height="134" pathLength="1"/>
+        <path class="dp" style="--d:1.05" d="M340 87 H544" pathLength="1"/>
+        <circle class="dp" style="--d:1.1" cx="356" cy="71" r="4" pathLength="1"/>
+        <circle class="dp" style="--d:1.15" cx="372" cy="71" r="4" pathLength="1"/>
+        <circle class="dp" style="--d:1.2" cx="388" cy="71" r="4" pathLength="1"/>
+        <path class="dp" style="--d:1.3" d="M360 112 H 472" pathLength="1"/>
+        <path class="dp" style="--d:1.4" d="M360 132 H 512" pathLength="1"/>
+        <path class="dp" style="--d:1.5" d="M360 152 H 444" pathLength="1"/>
+      </svg>
+      <figcaption>Fig. 1 &mdash; career, section view</figcaption>
+    </figure>
+  </div>
+</header>
+
+<!-- ============================================================
+     SHEET 2 — CAREER ASSEMBLY SEQUENCE
+     ============================================================ -->
+<section class="sheet" id="career" aria-labelledby="career-h">
+  <p class="eyebrow reveal">SHEET 2 OF 5 &middot; ASSEMBLY SEQUENCE</p>
+  <h2 id="career-h" class="reveal">Assembly sequence</h2>
+  <p class="lede reveal">Eight steps, in order. Each one taught me something the next one needed.</p>
+
+  <div class="steps">
+    <div class="spine-fill" aria-hidden="true"></div>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <circle class="dp" cx="45" cy="55" r="30" pathLength="1"/>
+          <circle class="dp" cx="105" cy="55" r="30" pathLength="1"/>
+          <circle class="dp" cx="45" cy="55" r="7" pathLength="1"/>
+          <circle class="dp" cx="105" cy="55" r="7" pathLength="1"/>
+          <path class="dp" d="M52 55 H98" pathLength="1"/>
+          <path class="dp" d="M6 90 H144" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 01 &middot; Norfolk Southern &middot; 2013</p>
+        <h3>Mechanical supervisor, locomotive works</h3>
+        <p>I supervised production lines at the locomotive works in Altoona, PA &mdash; and got
+          tired of paper travelers. So I taught myself to program on the shop floor: a
+          multi-tier data system tracking work across the production line, and Python
+          automation pulling QC measurements straight off the CNC machines &mdash; eliminating
+          eight hours a week of manual data entry.</p>
+        <p class="note">Self-taught, on the clock &middot; &minus;8 hrs/wk manual entry &middot; Jan 2013 &ndash; Jul 2015</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <path class="dp" d="M10 70 L28 92 H122 L140 70 Z" pathLength="1"/>
+          <path class="dp" d="M40 70 V52 H110 V70" pathLength="1"/>
+          <path class="dp" d="M58 52 V34 H92 V52" pathLength="1"/>
+          <path class="dp" d="M75 34 V12" pathLength="1"/>
+          <path class="dp" d="M75 18 H92" pathLength="1"/>
+          <path class="dp" d="M4 100 H146" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 02 &middot; NAVSEA SWRMC, U.S. Navy &middot; 2015</p>
+        <h3>Engineering technician, San Diego waterfront</h3>
+        <p>Engineering Technician V at the Southwest Regional Maintenance Center &mdash; where
+          the software kept outrunning the day job. I built a MERN-stack data collection
+          system that cut data processing time and automated stakeholder reporting, and it
+          earned a <strong>U.S. Navy Innovation Award</strong>.</p>
+        <p class="note">U.S. Navy Innovation Award &middot; MERN stack &middot; Aug 2015 &ndash; May 2018</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="20" y="14" width="110" height="70" pathLength="1"/>
+          <path class="dp" d="M32 32 H86" pathLength="1"/>
+          <path class="dp" d="M32 50 H74" pathLength="1"/>
+          <path class="dp" d="M32 68 H92" pathLength="1"/>
+          <path class="dp" d="M104 32 H118 M104 50 H118 M104 68 H118" pathLength="1"/>
+          <path class="dp" d="M60 84 V98 H90 V84" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 03 &middot; Founder &middot; c. 2016</p>
+        <h3>SSR Digital Displays</h3>
+        <p>Nights and weekends of the San Diego years: I founded a digital menu-board
+          startup &mdash; real-time boards a bar owner updates from any web-connected device.
+          Installed in five venues. Sales, installs, and every line of code &mdash; mine.</p>
+        <p class="note">Field-installed: 5 venues &middot; San Diego + Philadelphia</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="14" y="40" width="34" height="58" pathLength="1"/>
+          <rect class="dp" x="58" y="14" width="34" height="84" pathLength="1"/>
+          <rect class="dp" x="102" y="52" width="34" height="46" pathLength="1"/>
+          <path class="dp" d="M22 54 H40 M22 68 H40 M22 82 H40" pathLength="1"/>
+          <path class="dp" d="M66 28 H84 M66 44 H84 M66 60 H84 M66 76 H84" pathLength="1"/>
+          <path class="dp" d="M110 66 H128 M110 82 H128" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 04 &middot; Accenture &middot; 2018</p>
+        <h3>Senior analyst, Life Science Cloud</h3>
+        <p>Big codebases, bigger stakeholder maps. Working with Life Science Cloud clients,
+          I ran discovery on their document-upload pain, then shipped the fixes and
+          automation myself &mdash; cutting client-reported issues 84% and saving roughly
+          $45k a year. Sitting with the customer first became the habit.</p>
+        <p class="note">&minus;84% client-reported issues &middot; ~$45k/yr saved &middot; May 2018 &ndash; Apr 2019</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="14" y="14" width="122" height="82" pathLength="1"/>
+          <path class="dp" d="M14 38 H136" pathLength="1"/>
+          <path class="dp" d="M26 82 L48 62 L68 72 L92 50 L114 58 L124 46" pathLength="1"/>
+          <path class="dp" d="M26 26 H58" pathLength="1"/>
+          <circle class="dp" cx="124" cy="26" r="5" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 05 &middot; Comcast X1 telemetry &middot; 2019</p>
+        <h3>Front-end team lead, real-time telemetry</h3>
+        <p>Leading three developers, I re-architected the real-time telemetry front end
+          around NgRx &mdash; resolving 87% of the tech debt and tripling feature delivery.
+          I built the JavaScript data-collection library that scaled to <strong>30 million
+          devices</strong>, D3.js visualizations including a live per-market map of the U.S.,
+          and Python blue/green monitoring to catch data drift. Instrumenting heavy
+          machinery, if you squint &mdash; just with better tooling.</p>
+        <p class="note">30M devices &middot; 87% tech debt resolved &middot; +200% feature delivery &middot; Apr 2019 &ndash; May 2021</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="48" y="26" width="54" height="38" pathLength="1"/>
+          <circle class="dp" cx="64" cy="45" r="6" pathLength="1"/>
+          <circle class="dp" cx="86" cy="45" r="6" pathLength="1"/>
+          <path class="dp" d="M75 26 V12" pathLength="1"/>
+          <circle class="dp" cx="75" cy="9" r="3" pathLength="1"/>
+          <path class="dp" d="M58 64 V82 H92 V64" pathLength="1"/>
+          <path class="dp" d="M48 40 H32 V58 M102 40 H118 V58" pathLength="1"/>
+          <path class="dp" d="M14 96 H136" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 06 &middot; Fort Robotics &middot; 2021</p>
+        <h3>Senior engineer, front-end team lead</h3>
+        <p>I led a team of five building Fort's first client-facing product: an Angular web
+          and Ionic mobile portal for managing their robotic safety-controller platform
+          &mdash; the release that let a hardware company pivot to platform-first software.
+          I machined the core component library myself: infinite-scroll and lazy-load
+          directives, form wizards, async validators.</p>
+        <p class="note">Angular &middot; Ionic &middot; strict TypeScript &middot; RxJS &middot; team of 5 &middot; 2021&ndash;2022</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="16" y="14" width="118" height="68" pathLength="1"/>
+          <path class="dp" d="M64 38 L92 48 L64 58 Z" pathLength="1"/>
+          <path class="dp" d="M58 82 L50 96 M92 82 L100 96" pathLength="1"/>
+          <path class="dp" d="M40 96 H110" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 07 &middot; Comcast &middot; Xumo TV &middot; 2022</p>
+        <h3>Principal engineer, technical lead &mdash; smart-TV app</h3>
+        <p>Technical lead on the resident smart-TV application &mdash; the layer where
+          client-facing UI, third-party apps, physical TV hardware, and external APIs all
+          meet on one screen. I built TV Toolkit, a one-click debugging and device-interface
+          suite for developers and QA that cut onboarding and dev cycles 10%. My AI Academy
+          capstone shipped an XGBoost model into a customer-facing troubleshooting chat app,
+          raising next-action acceptance 30% &mdash; and I was promoted to Principal Engineer
+          along the way.</p>
+        <p class="note">TV Toolkit: &minus;10% dev cycles &middot; XGBoost: +30% acceptance &middot; May 2022 &ndash; 2025</p>
+      </div>
+    </article>
+
+    <article class="step reveal">
+      <div class="step-glyph" aria-hidden="true">
+        <svg viewBox="0 0 150 110">
+          <rect class="dp" x="30" y="62" width="90" height="26" pathLength="1"/>
+          <circle class="dp" cx="46" cy="75" r="4" pathLength="1"/>
+          <path class="dp" d="M92 75 H108" pathLength="1"/>
+          <circle class="dp" cx="75" cy="48" r="3" pathLength="1"/>
+          <path class="dp" d="M62 42 A18 18 0 0 1 88 42" pathLength="1"/>
+          <path class="dp" d="M52 32 A32 32 0 0 1 98 32" pathLength="1"/>
+          <path class="dp" d="M42 22 A46 46 0 0 1 108 22" pathLength="1"/>
+          <path class="dp" d="M14 98 H136" pathLength="1"/>
+        </svg>
+      </div>
+      <div>
+        <p class="step-no">Step 08 &middot; Comcast &middot; X1 &middot; AS BUILT</p>
+        <h3>Principal engineer &mdash; AI technical lead, X1 platform</h3>
+        <p>The current revision. I lead a squad embedded across the X1 org: we run discovery
+          to find where developers actually lose time, then ship AI workflows that get
+          adopted company-wide. An agentic vulnerability-fix pipeline with human-in-the-loop
+          PRs has <strong>cut open security vulnerabilities 80%</strong>. A spec-driven,
+          AI-assisted migration is moving a mission-critical app from Java&nbsp;8 to
+          Java&nbsp;25 &mdash; literally working from the drawings. An AI system repairs broken
+          tests, finds E2E coverage gaps, and generates new tests; an org-wide LLM onboarding
+          tool puts the same leverage in non-technical hands.</p>
+        <p class="note">&minus;80% open security vulns &middot; adopted company-wide &middot; May 2025 &ndash; present</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================
+     SHEET 3 — ARCHITECTURE DIAGRAM (scroll-scrubbed centerpiece)
+     ============================================================ -->
+<div class="arch-wrap">
+<section id="arch" aria-labelledby="arch-h">
+  <div class="arch-sticky">
+    <div class="arch-head">
+      <p class="eyebrow">SHEET 3 OF 5 &middot; SYSTEM DIAGRAM &middot; AS-BUILT</p>
+      <h2 id="arch-h">How this site is served</h2>
+    </div>
+
+    <svg class="arch-svg" viewBox="0 0 760 640" role="img"
+         aria-label="Architecture diagram: a browser connects over HTTPS to an nginx reverse proxy with Let's Encrypt certificates, which forwards to a Node and Express server, backed by SQLite on a volume and external Firebase services. nginx, Node, and SQLite run inside a Docker Compose enclosure on a self-hosted server.">
+
+      <g id="stages">
+        <!-- STAGE 0: client -->
+        <g data-s="0,0.13">
+          <rect class="dp" x="250" y="20" width="260" height="100" pathLength="1"/>
+          <path class="dp" d="M250 48 H510" pathLength="1"/>
+          <circle class="dp" cx="266" cy="34" r="3.5" pathLength="1"/>
+          <circle class="dp" cx="281" cy="34" r="3.5" pathLength="1"/>
+          <circle class="dp" cx="296" cy="34" r="3.5" pathLength="1"/>
+        </g>
+        <!-- STAGE 1: https + let's encrypt -->
+        <g data-s="0.11,0.24">
+          <path class="dp" d="M380 120 V158" pathLength="1"/>
+          <path class="dp" d="M372 150 L380 160 L388 150" pathLength="1"/>
+          <rect class="dp" x="318" y="136" width="16" height="13" pathLength="1"/>
+          <path class="dp" d="M321 136 V130 a5 5 0 0 1 10 0 V136" pathLength="1"/>
+        </g>
+        <!-- STAGE 2: nginx -->
+        <g data-s="0.22,0.36">
+          <rect class="dp" x="230" y="180" width="300" height="76" pathLength="1"/>
+        </g>
+        <!-- STAGE 3: proxy pass + node -->
+        <g data-s="0.34,0.50">
+          <path class="dp" d="M380 256 V294" pathLength="1"/>
+          <path class="dp" d="M372 286 L380 296 L388 286" pathLength="1"/>
+          <rect class="dp" x="230" y="300" width="300" height="76" pathLength="1"/>
+        </g>
+        <!-- STAGE 4: data layer -->
+        <g data-s="0.48,0.66">
+          <path class="dp" d="M310 376 V412 H190 V446" pathLength="1"/>
+          <path class="dp" d="M182 438 L190 448 L198 438" pathLength="1"/>
+          <rect class="dp" x="90" y="452" width="200" height="72" pathLength="1"/>
+          <path class="dp" d="M450 376 V412 H650 V446" pathLength="1"/>
+          <path class="dp" d="M642 438 L650 448 L658 438" pathLength="1"/>
+          <rect class="dp" x="560" y="452" width="180" height="72" pathLength="1"/>
+        </g>
+        <!-- STAGE 5: compose enclosure + dimension -->
+        <g data-s="0.64,0.82">
+          <path class="dpo" d="M60 168 H530 V560 H60 Z"/>
+          <path class="dp" d="M28 168 H44" pathLength="1"/>
+          <path class="dp" d="M28 560 H44" pathLength="1"/>
+          <path class="dp" d="M36 176 V552" pathLength="1"/>
+          <path class="dp" d="M31 184 L36 174 L41 184" pathLength="1"/>
+          <path class="dp" d="M31 544 L36 554 L41 544" pathLength="1"/>
+        </g>
+      </g>
+
+      <!-- as-built overlay, fades in at the end -->
+      <g id="built" aria-hidden="true">
+        <rect class="fillbox" x="250" y="20" width="260" height="100"/>
+        <path class="aline" d="M250 48 H510"/>
+        <rect class="fillbox" x="230" y="180" width="300" height="76"/>
+        <rect class="fillbox" x="230" y="300" width="300" height="76"/>
+        <rect class="fillbox" x="90" y="452" width="200" height="72"/>
+        <rect class="fillbox" x="560" y="452" width="180" height="72"/>
+        <path class="aline" d="M380 120 V158 M372 150 L380 160 L388 150"/>
+        <path class="aline" d="M380 256 V294 M372 286 L380 296 L388 286"/>
+        <path class="aline" d="M310 376 V412 H190 V446 M182 438 L190 448 L198 438"/>
+        <path class="aline" d="M450 376 V412 H650 V446 M642 438 L650 448 L658 438"/>
+        <path class="adash" d="M60 168 H530 V560 H60 Z"/>
+      </g>
+
+      <!-- labels, always on top -->
+      <g id="labels">
+        <text class="lbl t-title" data-s="0,0.13" x="380" y="82" text-anchor="middle">Client</text>
+        <text class="lbl t-sub"   data-s="0,0.13" x="380" y="104" text-anchor="middle">any web-connected device</text>
+
+        <text class="lbl t-note t-amber" data-s="0.11,0.24" x="392" y="145">HTTPS :443</text>
+        <text class="lbl t-note" data-s="0.11,0.24" x="308" y="146" text-anchor="end">Let's Encrypt</text>
+
+        <text class="lbl t-title" data-s="0.22,0.36" x="380" y="214" text-anchor="middle">nginx</text>
+        <text class="lbl t-sub"   data-s="0.22,0.36" x="380" y="238" text-anchor="middle">reverse proxy &middot; TLS termination</text>
+
+        <text class="lbl t-note t-amber" data-s="0.34,0.50" x="392" y="281">proxy_pass &rarr; :3000</text>
+        <text class="lbl t-title" data-s="0.34,0.50" x="380" y="334" text-anchor="middle">Node / Express</text>
+        <text class="lbl t-sub"   data-s="0.34,0.50" x="380" y="358" text-anchor="middle">REST API &middot; static assets</text>
+
+        <text class="lbl t-title" data-s="0.48,0.66" x="190" y="484" text-anchor="middle">SQLite</text>
+        <text class="lbl t-sub"   data-s="0.48,0.66" x="190" y="506" text-anchor="middle">app data &middot; mounted volume</text>
+        <text class="lbl t-title" data-s="0.48,0.66" x="650" y="484" text-anchor="middle">Firebase</text>
+        <text class="lbl t-sub"   data-s="0.48,0.66" x="650" y="506" text-anchor="middle">auth &middot; Firestore</text>
+        <text class="lbl t-note"  data-s="0.48,0.66" x="650" y="548" text-anchor="middle">managed &middot; external</text>
+
+        <text class="lbl t-note t-amber" data-s="0.64,0.82" x="64" y="158">docker-compose.yml</text>
+        <text class="lbl t-note" data-s="0.64,0.82" x="24" y="364" transform="rotate(-90 24 364)" text-anchor="middle">SELF-HOSTED</text>
+      </g>
+    </svg>
+
+    <p class="arch-caption" id="arch-caption">
+      <span class="stage-no">SYSTEM DIAGRAM</span>
+      <span id="arch-caption-text">I recently migrated this site off Firebase hosting onto a box I run myself. Keep scrolling &mdash; the stack draws itself.</span>
+    </p>
+  </div>
+</section>
+</div>
+
+<!-- ============================================================
+     SHEET 4 — PROJECT DRAWING SHEETS
+     ============================================================ -->
+<section class="sheet" aria-labelledby="proj-h">
+  <p class="eyebrow reveal">SHEET 4 OF 5 &middot; RELEASED DRAWINGS</p>
+  <h2 id="proj-h" class="reveal">Selected work</h2>
+  <p class="lede reveal">Real products, in service &mdash; the newest ones drawn around AI.
+    Title blocks list the material each one is machined from.</p>
+
+  <div class="sheets-grid">
+
+    <article class="dwg flagship reveal">
+      <div class="dwg-head"><span>DWG INK-001 &middot; ISS. 2026</span><span>Sht 4.1</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <path class="dp" d="M12 30 Q27 22 42 30 V70 Q27 62 12 70 Z" pathLength="1"/>
+          <path class="dp" d="M72 30 Q57 22 42 30 V70 Q57 62 72 70 Z" pathLength="1"/>
+          <path class="dp" d="M19 40 Q28 36 36 40 M19 50 Q28 46 36 50" pathLength="1"/>
+          <path class="dp" d="M48 40 Q56 36 65 40 M48 50 Q56 46 65 50" pathLength="1"/>
+          <path class="dp" d="M62 6 V20 M55 13 H69" pathLength="1"/>
+          <path class="dp" d="M18 12 V20 M14 16 H22" pathLength="1"/>
+        </svg>
+        <div>
+          <h3><a href="https://myinkwellbooks.com">myInkwell</a></h3>
+          <p>A production platform I built solo: design your characters, generate
+            AI-illustrated stories around them, and order the result as a hardcover book
+            &mdash; software that ends as a physical part, the finished piece off this
+            drawing. I own every layer: prompt iteration, cost and latency tradeoffs,
+            blue/green rollouts, end-to-end testing, and production observability.</p>
+          <a class="visit" href="https://myinkwellbooks.com">myinkwellbooks.com &nearr;</a>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>INK-001</dd></div>
+        <div><dt>Rev</dt><dd>A</dd></div>
+        <div class="mat"><dt>Material</dt><dd>Angular &middot; Python FastAPI &middot; AWS &middot; MongoDB &middot; multi-provider AI &middot; Stripe &middot; Cloudflare &middot; Axiom &middot; PostHog</dd></div>
+      </dl>
+    </article>
+
+    <article class="dwg reveal">
+      <div class="dwg-head"><span>DWG SPW-003 &middot; ISS. 2025</span><span>Sht 4.2</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <rect class="dp" x="8" y="12" width="46" height="60" pathLength="1"/>
+          <path class="dp" d="M16 26 H46 M16 38 H46 M16 50 H34" pathLength="1"/>
+          <circle class="dp" cx="62" cy="56" r="15" pathLength="1"/>
+          <circle class="dp" cx="62" cy="56" r="9" pathLength="1"/>
+          <path class="dp" d="M62 47 V65" pathLength="1"/>
+        </svg>
+        <div>
+          <h3>SpendWatch</h3>
+          <p>Multi-tenant household finance &mdash; everyone budgets from the same set of
+            numbers, with AI coaching and performance charting on top. Cloud functions,
+            push notifications, and automated publishing through GitHub Actions. Live on
+            the App Store and Google Play.</p>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>SPW-003</dd></div>
+        <div><dt>Rev</dt><dd>B</dd></div>
+        <div class="mat"><dt>Material</dt><dd>Flutter &middot; AWS (Cognito &middot; S3 &middot; DynamoDB &middot; CloudFront) &middot; Gemini &middot; Elasticsearch</dd></div>
+      </dl>
+    </article>
+
+    <article class="dwg reveal">
+      <div class="dwg-head"><span>DWG TSK-021</span><span>Sht 4.3</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <rect class="dp" x="6" y="12" width="54" height="38" pathLength="1"/>
+          <path class="dp" d="M33 50 V58" pathLength="1"/>
+          <path class="dp" d="M20 58 H46" pathLength="1"/>
+          <rect class="dp" x="58" y="30" width="20" height="44" pathLength="1"/>
+          <path class="dp" d="M20 32 L27 39 L44 22" pathLength="1"/>
+          <path class="dp" d="M63 52 L67 56 L73 47" pathLength="1"/>
+        </svg>
+        <div>
+          <h3><a href="https://github.com/rjw1428/taskr">taskr</a></h3>
+          <p>Cross-platform goal tracking with an AI coach built in: Gemini-powered
+            check-ins and plan generation from your health data, goals, and performance.
+            One Flutter codebase &mdash; iOS, Android, desktop, and web.</p>
+          <a class="visit" href="https://github.com/rjw1428/taskr">github.com/rjw1428/taskr &nearr;</a>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>TSK-021</dd></div>
+        <div><dt>Rev</dt><dd>B</dd></div>
+        <div class="mat"><dt>Material</dt><dd>Flutter / Dart &middot; Firebase &middot; Gemini</dd></div>
+      </dl>
+    </article>
+
+    <article class="dwg reveal">
+      <div class="dwg-head"><span>DWG MCP-007</span><span>Sht 4.4</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <rect class="dp" x="12" y="10" width="52" height="64" pathLength="1"/>
+          <path class="dp" d="M12 31 H64 M12 52 H64" pathLength="1"/>
+          <circle class="dp" cx="22" cy="20" r="2.4" pathLength="1"/>
+          <circle class="dp" cx="22" cy="41" r="2.4" pathLength="1"/>
+          <circle class="dp" cx="22" cy="62" r="2.4" pathLength="1"/>
+          <path class="dp" d="M64 41 H73" pathLength="1"/>
+          <circle class="dp" cx="77" cy="41" r="3" pathLength="1"/>
+        </svg>
+        <div>
+          <h3><a href="https://github.com/rjw1428/weather-api">MCP tool server</a></h3>
+          <p>A locally hosted MCP server that hands my AI agents custom tooling &mdash;
+            fixtures machined to spec, like a resilient weather cache. Small parts,
+            tight tolerances.</p>
+          <a class="visit" href="https://github.com/rjw1428/weather-api">github.com/rjw1428/weather-api &nearr;</a>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>MCP-007</dd></div>
+        <div><dt>Rev</dt><dd>A</dd></div>
+        <div class="mat"><dt>Material</dt><dd>Python &middot; FastAPI &middot; FastMCP</dd></div>
+      </dl>
+    </article>
+
+    <article class="dwg reveal">
+      <div class="dwg-head"><span>DWG RHU-004 &middot; ISS. 2023</span><span>Sht 4.5</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <rect class="dp" x="22" y="24" width="34" height="36" pathLength="1"/>
+          <path class="dp" d="M30 24 V12 H48 V24" pathLength="1"/>
+          <path class="dp" d="M30 60 V72 H48 V60" pathLength="1"/>
+          <path class="dp" d="M26 42 H33 L37 32 L42 52 L46 42 H52" pathLength="1"/>
+          <path class="dp" d="M62 32 A14 14 0 0 1 62 52" pathLength="1"/>
+          <path class="dp" d="M68 26 A22 22 0 0 1 68 58" pathLength="1"/>
+        </svg>
+        <div>
+          <h3><a href="https://rehuman.co.uk">Rehuman</a></h3>
+          <p>Forward-deployed with Accenture's first entrepreneur-in-residence &mdash; a
+            healthcare AI startup. I architected the core product: the pipeline ingesting
+            wearable healthcare data into their AI engine, the ETL behind it, and the
+            B2B and B2C portals in front of it.</p>
+          <a class="visit" href="https://rehuman.co.uk">rehuman.co.uk &nearr;</a>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>RHU-004</dd></div>
+        <div><dt>Rev</dt><dd>A</dd></div>
+        <div class="mat"><dt>Material</dt><dd>React &middot; RabbitMQ &middot; Docker &middot; Kubernetes &middot; Azure</dd></div>
+      </dl>
+    </article>
+
+    <article class="dwg reveal">
+      <div class="dwg-head"><span>DWG WFM-012 &middot; ISS. 2020</span><span>Sht 4.6</span></div>
+      <div class="dwg-body">
+        <svg viewBox="0 0 84 84" aria-hidden="true">
+          <rect class="dp" x="12" y="12" width="60" height="62" pathLength="1"/>
+          <path class="dp" d="M32 12 V6 H52 V12" pathLength="1"/>
+          <path class="dp" d="M20 28 H40" pathLength="1"/>
+          <path class="dp" d="M28 40 H54" pathLength="1"/>
+          <path class="dp" d="M38 52 H64" pathLength="1"/>
+          <path class="dp" d="M20 64 H32" pathLength="1"/>
+          <path class="dp" d="M20 22 V68 M46 22 V68" pathLength="1"/>
+        </svg>
+        <div>
+          <h3><a href="https://test.workflowmanagerpro.com/login?demo=true">Workflow Manager</a></h3>
+          <p>JIRA for contractors: bidding and estimation tracking with dashboards,
+            reports, charting, exports, and file attachments &mdash; the paper traveler
+            problem again, solved for the building trades this time.</p>
+          <a class="visit" href="https://test.workflowmanagerpro.com/login?demo=true">live demo &nearr;</a>
+        </div>
+      </div>
+      <dl class="tblock">
+        <div><dt>Part no.</dt><dd>WFM-012</dd></div>
+        <div><dt>Rev</dt><dd>C</dd></div>
+        <div class="mat"><dt>Material</dt><dd>Angular 12 &middot; NgRx &middot; Node / Express &middot; websockets &middot; MySQL</dd></div>
+      </dl>
+    </article>
+
+  </div>
+
+  <div class="sup reveal">
+    <h3>Superseded drawings &middot; retained for reference</h3>
+    <div class="sup-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Part no.</th><th scope="col">Drawing</th><th scope="col">Material</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SSR-001</td>
+            <td>SSR Digital Displays &mdash; real-time menu boards, five venues</td>
+            <td>Angular &middot; Firebase realtime sync</td>
+            <td>Superseded</td>
+          </tr>
+          <tr>
+            <td>ALP-008</td>
+            <td>Alpine Knives &mdash; e-commerce for a custom knife maker, Stripe checkout to transactional email</td>
+            <td>Angular &middot; Firebase &middot; Stripe &middot; SendGrid</td>
+            <td>In service</td>
+          </tr>
+          <tr>
+            <td>BRD-002</td>
+            <td>Brody's Burgers &mdash; restaurant site the owner edits from his phone</td>
+            <td>Angular &middot; Firebase content sync</td>
+            <td>In service</td>
+          </tr>
+          <tr>
+            <td>RW-1428</td>
+            <td>This site's infrastructure &mdash; Sheet 3 is the as-built drawing</td>
+            <td>Node/Express &middot; Docker Compose &middot; nginx &middot; Let's Encrypt</td>
+            <td>As built</td>
+          </tr>
+          <tr>
+            <td>BUR-005</td>
+            <td>The Burwell Project &mdash; collaborative workspace rental management, scheduling to billing to reservations on one drawing</td>
+            <td>Angular &middot; Firebase &middot; Stripe</td>
+            <td>In service</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SHEET 5 — BOM, REVISIONS, TITLE BLOCK
+     ============================================================ -->
+<footer class="sheet corners" aria-labelledby="contact-h">
+  <p class="eyebrow reveal">SHEET 5 OF 5 &middot; TITLE BLOCK</p>
+
+  <div class="bom reveal">
+    <h3>Bill of materials</h3>
+    <ul>
+      <li><span>Item 01 &middot; Lang</span>TypeScript / JavaScript</li>
+      <li><span>Item 02 &middot; Lang</span>Python</li>
+      <li><span>Item 03 &middot; Lang</span>Java</li>
+      <li><span>Item 04 &middot; Lang</span>SQL</li>
+      <li><span>Item 05 &middot; Frame</span>Angular &middot; NgRx</li>
+      <li><span>Item 06 &middot; Frame</span>React</li>
+      <li><span>Item 07 &middot; Frame</span>RxJS</li>
+      <li><span>Item 08 &middot; Frame</span>Node &middot; FastAPI</li>
+      <li><span>Item 09 &middot; Frame</span>GraphQL</li>
+      <li><span>Item 10 &middot; Frame</span>D3.js</li>
+      <li><span>Item 11 &middot; Cloud</span>AWS &middot; Azure</li>
+      <li><span>Item 12 &middot; Cloud</span>Docker &middot; Kubernetes</li>
+      <li><span>Item 13 &middot; Cloud</span>Nx monorepos</li>
+      <li><span>Item 14 &middot; Data</span>MongoDB &middot; MySQL</li>
+      <li><span>Item 15 &middot; Data</span>Elasticsearch</li>
+      <li><span>Item 16 &middot; Data</span>Neo4j</li>
+      <li><span>Item 17 &middot; Ship</span>GitHub Actions &middot; Concourse</li>
+      <li><span>Item 18 &middot; Ship</span>Cypress &middot; Jest</li>
+      <li><span>Item 19 &middot; Ship</span>Blue/green &middot; canary</li>
+      <li><span>Item 20 &middot; Ship</span>Observability</li>
+    </ul>
+  </div>
+
+  <div class="bom reveal">
+    <h3>Special processes &middot; AI workflows</h3>
+    <ul>
+      <li><span>Proc AI-01</span>Agentic PR review + fix loops</li>
+      <li><span>Proc AI-02</span>AI-assisted migrations</li>
+      <li><span>Proc AI-03</span>Spec &rarr; implementation systems</li>
+      <li><span>Proc AI-04</span>AI test generation</li>
+      <li><span>Proc AI-05</span>Prompt iteration</li>
+      <li><span>Proc AI-06</span>Human-in-the-loop rollout design</li>
+      <li><span>Proc AI-07</span>Applied ML (XGBoost)</li>
+    </ul>
+  </div>
+
+  <div class="foot-grid">
+    <div class="foot-cta reveal">
+      <h2 id="contact-h">Issue for construction</h2>
+      <p>If you have something worth building &mdash; a product, a team, a stubborn problem
+        &mdash; send a print. I'll redline it with you.</p>
+
+      <div class="revs">
+        <h3>Revision history</h3>
+        <table>
+          <thead><tr><th scope="col">Rev</th><th scope="col">Description</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>Mechanical supervisor &mdash; Norfolk Southern locomotive works &middot; 2013</td></tr>
+            <tr><td>B</td><td>Engineering technician &mdash; NAVSEA SWRMC, U.S. Navy &middot; 2015</td></tr>
+            <tr><td>C</td><td>Founder &mdash; SSR Digital Displays &middot; c. 2016</td></tr>
+            <tr><td>D</td><td>Senior analyst &mdash; Accenture &middot; 2018</td></tr>
+            <tr><td>E</td><td>Front-end team lead, X1 telemetry &mdash; Comcast &middot; 2019</td></tr>
+            <tr><td>F</td><td>Front-end team lead &mdash; Fort Robotics &middot; 2021</td></tr>
+            <tr><td>G</td><td>Principal engineer, Xumo TV &mdash; Comcast &middot; 2022</td></tr>
+            <tr class="current"><td>H</td><td>Principal engineer &mdash; AI technical lead, X1 &mdash; Comcast &middot; 2025 (as built)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+    <dl class="titleblock reveal">
+      <div class="tb-row">
+        <div class="cell"><dt>Drawn by</dt><dd>Ryan Wilk</dd></div>
+        <div class="cell"><dt>Checked by</dt><dd>You, just now</dd></div>
+      </div>
+      <div class="tb-row">
+        <div class="cell wide"><dt>Email</dt><dd><a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a></dd></div>
+      </div>
+      <div class="tb-row">
+        <div class="cell"><dt>GitHub</dt><dd><a href="https://github.com/rjw1428">github.com/rjw1428</a></dd></div>
+        <div class="cell"><dt>LinkedIn</dt><dd><a href="https://linkedin.com/in/rjw1428">linkedin.com/in/rjw1428</a></dd></div>
+      </div>
+      <div class="tb-row">
+        <div class="cell wide"><dt>Web</dt><dd><a href="https://ryanwilk.com">ryanwilk.com</a></dd></div>
+      </div>
+      <div class="tb-row">
+        <div class="cell"><dt>Scale</dt><dd>NTS</dd></div>
+        <div class="cell"><dt>Sheet</dt><dd>5 of 5</dd></div>
+      </div>
+      <div class="tb-row">
+        <div class="cell"><dt>Dwg no.</dt><dd>POC-02</dd></div>
+        <div class="cell"><dt>Title</dt><dd>Blueprint &rarr; Build</dd></div>
+      </div>
+    </dl>
+
+    <div class="revs certs reveal">
+      <h3>Material certifications</h3>
+      <table>
+        <thead><tr><th scope="col">Cert</th><th scope="col">Description</th></tr></thead>
+        <tbody>
+          <tr><td>GC-CS</td><td>Graduate coursework, Computer Science &mdash; Johns Hopkins University &middot; 4.0 GPA &middot; 2022</td></tr>
+          <tr><td>BS-DE</td><td>B.S. &mdash; Technische Universit&auml;t Darmstadt, Germany &middot; 2016</td></tr>
+          <tr><td>BSME</td><td>B.S. Mechanical Engineering &mdash; Virginia Tech &middot; 2012</td></tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+
+  <p class="donotscale">
+    <span>Do not scale drawing &middot; tolerances &plusmn;1px unless otherwise noted</span>
+    <span class="poc">POC 2 / Blueprint</span>
+  </p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+
+  /* ---------- intersection reveals ---------- */
+  var revealables = document.querySelectorAll('.reveal, .step, .dwg');
+  if (reduced || !('IntersectionObserver' in window)) {
+    revealables.forEach(function (el) { el.classList.add('in-view'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+    revealables.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- scrub 1: architecture diagram ---------- */
+  var arch = document.getElementById('arch');
+  var stages = [];
+  arch.querySelectorAll('#stages g[data-s]').forEach(function (g) {
+    var r = g.getAttribute('data-s').split(',');
+    stages.push({
+      start: +r[0], end: +r[1],
+      paths: Array.prototype.slice.call(g.querySelectorAll('.dp')),
+      fades: Array.prototype.slice.call(g.querySelectorAll('.dpo'))
+    });
+  });
+  var labels = [];
+  arch.querySelectorAll('#labels .lbl').forEach(function (t) {
+    var r = t.getAttribute('data-s').split(',');
+    labels.push({ start: +r[0], end: +r[1], el: t });
+  });
+  var builtEl = document.getElementById('built');
+  var stagesEl = document.getElementById('stages');
+  var captionText = document.getElementById('arch-caption-text');
+  var captionNo = document.querySelector('#arch-caption .stage-no');
+
+  var CAPTIONS = [
+    ['STAGE 1 / 6 — CLIENT', 'Any web-connected device requests the page. No app, no install — a URL.'],
+    ['STAGE 2 / 6 — EDGE', "TLS terminates at the edge. Certificates from Let's Encrypt, renewed automatically."],
+    ['STAGE 3 / 6 — REVERSE PROXY', 'nginx listens on :443 and routes traffic to the app container.'],
+    ['STAGE 4 / 6 — APPLICATION', 'Node/Express serves the API and static assets on :3000.'],
+    ['STAGE 5 / 6 — DATA', 'SQLite on a mounted volume for app data; Firebase stays for auth and Firestore.'],
+    ['STAGE 6 / 6 — ORCHESTRATION', 'The whole stack is declared in one docker-compose.yml. One command brings it up.'],
+    ['ASSEMBLY COMPLETE', 'This exact stack serves the page you are reading. Migrated from Firebase hosting onto a box I run myself.']
+  ];
+  var CAP_AT = [0.11, 0.22, 0.34, 0.48, 0.64, 0.86];
+  var capIdx = -1;
+
+  var BUILD_START = 0.86;
+
+  function applyArch(p) {
+    var i, s, lp, b;
+    for (i = 0; i < stages.length; i++) {
+      s = stages[i];
+      lp = clamp((p - s.start) / (s.end - s.start), 0, 1);
+      for (var j = 0; j < s.paths.length; j++) {
+        s.paths[j].style.strokeDashoffset = String(1 - lp);
+      }
+      for (j = 0; j < s.fades.length; j++) {
+        s.fades[j].style.opacity = String(lp);
+      }
+    }
+    for (i = 0; i < labels.length; i++) {
+      s = labels[i];
+      lp = clamp((p - s.start) / (s.end - s.start), 0, 1);
+      s.el.style.opacity = String(lp);
+    }
+    b = clamp((p - BUILD_START) / (1 - BUILD_START), 0, 1);
+    builtEl.style.opacity = String(b);
+    stagesEl.style.opacity = String(1 - 0.8 * b);
+
+    var idx = 0;
+    for (i = 0; i < CAP_AT.length; i++) { if (p >= CAP_AT[i]) idx = i + 1; }
+    if (idx !== capIdx) {
+      capIdx = idx;
+      captionNo.textContent = CAPTIONS[idx][0];
+      captionText.textContent = CAPTIONS[idx][1];
+    }
+  }
+
+  /* ---------- scrub 2: career spine ---------- */
+  var career = document.getElementById('career');
+  var spine = career.querySelector('.spine-fill');
+
+  function applyCareer() {
+    var r = career.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var p = clamp((vh * 0.82 - r.top) / r.height, 0, 1);
+    spine.style.transform = 'scaleY(' + p.toFixed(4) + ')';
+  }
+
+  function archProgress() {
+    var r = arch.getBoundingClientRect();
+    var total = r.height - window.innerHeight;
+    if (total <= 0) return 1;
+    return clamp(-r.top / total, 0, 1);
+  }
+
+  if (reduced) {
+    applyArch(1);
+    spine.style.transform = 'scaleY(1)';
+    return;
+  }
+
+  var ticking = false;
+  var lastP = -1;
+  function update() {
+    ticking = false;
+    var p = archProgress();
+    if (Math.abs(p - lastP) > 0.0005) {
+      lastP = p;
+      applyArch(p);
+    }
+    applyCareer();
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

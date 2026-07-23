@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Modernization — POC Gallery</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #101114;
+    --panel: #17181c;
+    --line: #2a2c33;
+    --text: #e8e6e1;
+    --dim: #8b8e98;
+    --amber: #ffb340;
+    --blue: #6fa8ff;
+    --cyan: #4fd8c4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 48px 24px;
+  }
+  main { width: 100%; max-width: 880px; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: .18em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -.02em; margin-bottom: 8px; }
+  .sub { color: var(--dim); margin-bottom: 40px; max-width: 60ch; line-height: 1.5; }
+  .cards { display: grid; gap: 16px; }
+  a.card {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  a.card:hover, a.card:focus-visible { transform: translateX(6px); border-color: var(--accent); outline: none; }
+  a.card:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+  .num {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .card h2 { font-size: 19px; margin-bottom: 4px; }
+  .card p { color: var(--dim); font-size: 14px; line-height: 1.45; max-width: 52ch; }
+  .arrow { color: var(--accent); font-size: 20px; }
+  .c1 { --accent: var(--amber); }
+  .c2 { --accent: var(--blue); }
+  .c3 { --accent: var(--cyan); }
+  .c4 { --accent: #e8c15a; }
+  .c5 { --accent: #ff7a9c; }
+  .c6 { --accent: #b8bcc8; }
+  footer { margin-top: 40px; color: var(--dim); font-size: 13px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  @media (max-width: 560px) {
+    a.card { grid-template-columns: 1fr; gap: 8px; }
+    .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">rjw1428 / portfolio-project / poc</div>
+  <h1>Five directions</h1>
+  <p class="sub">Proof-of-concept pages for the portfolio rebuild. Each is one self-contained HTML file — scroll-driven, no dependencies. Visitors get one at random via the shuffle shell; browse them all here.</p>
+  <div class="cards">
+    <a class="card c1" href="01-departures.html">
+      <span class="num">01</span>
+      <span>
+        <h2>Departures</h2>
+        <p>Split-flap mechanical board — the old letter-ticker reborn. Career history as a station departures board; locomotive-works roots.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="card c2" href="02-blueprint.html">
+      <span class="num">02</span>
+      <span>
+        <h2>Blueprint → Build</h2>
+        <p>Engineering drawings that assemble into finished UI as you scroll. Centerpiece: the real self-hosted Docker/nginx/Node stack, drawn live.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="card c3" href="03-telemetry.html">
+      <span class="num">03</span>
+      <span>
+        <h2>Telemetry</h2>
+        <p>The page as an instrument monitoring its own reader — live HUD with scroll depth, velocity waveform, and section signal.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="card c4" href="04-voyage.html">
+      <span class="num">04</span>
+      <span>
+        <h2>Voyage</h2>
+        <p>Deep-space expedition — career as a gravity-assist trajectory, projects as planetary flybys, skills as constellations.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="card c5" href="05-arcade.html">
+      <span class="num">05</span>
+      <span>
+        <h2>Arcade</h2>
+        <p>16-bit platformer — scroll drives a pixel character through career worlds; projects as cartridges, skills as an RPG tree.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="card c6" href="./">
+      <span class="num">⚄</span>
+      <span>
+        <h2>Shuffle shell</h2>
+        <p>The site entry: random experience on load, no persistence, switcher pill to browse — deep-linkable with ?exp=.</p>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+  <footer>generated 2026-07-23 · iterate freely, nothing here is precious</footer>
+</main>
+</body>
+</html>

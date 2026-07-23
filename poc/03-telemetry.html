@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryan Wilk — Telemetry</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Telemetry">
+<meta property="og:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
+<meta property="og:url" content="https://ryanwilk.com/03-telemetry.html">
+<meta property="og:image" content="https://ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Telemetry">
+<meta name="twitter:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
+<meta name="twitter:image" content="https://ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://ryanwilk.com/03-telemetry.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<meta name="description" content="Ryan Wilk, Principal Software Engineer — AI-native developer workflows, customer-facing engineering. Portfolio POC 3: the page as a live instrument.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* ============ tokens ============ */
+:root{
+  --bg:#05080F;
+  --panel:#0A111E;
+  --panel2:#070C16;
+  --line:rgba(146,176,220,.14);
+  --line2:rgba(146,176,220,.06);
+  --txt:#CBD8EC;
+  --dim:#7C8FA9;
+  --faint:#46566E;
+  --fe:#54D8F2;   /* CH-A frontend */
+  --be:#F2AE4E;   /* CH-B backend  */
+  --inf:#BE8CFF;  /* CH-C infra    */
+  --ai:#F470C9;   /* CH-D ai       */
+  --ok:#5FE6A8;   /* status nominal */
+  --hud:44px;
+  --disp:'Archivo',system-ui,'Helvetica Neue',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:var(--disp);
+  font-size:16px;
+  line-height:1.65;
+  /* faint large graticule over the whole panel */
+  background-image:
+    linear-gradient(var(--line2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line2) 1px, transparent 1px);
+  background-size:72px 72px;
+}
+::selection{background:rgba(84,216,242,.28);color:#EAF6FC}
+a{color:var(--fe);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--fe);outline-offset:3px;border-radius:2px}
+img,svg,canvas{max-width:100%}
+
+.wrap{max-width:1160px;margin:0 auto;padding-inline:clamp(20px,5vw,56px)}
+.mono{font-family:var(--mono)}
+
+/* ============ HUD (signature) ============ */
+#hud{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:var(--hud);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:0 clamp(12px,3vw,28px);
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  color:var(--dim);
+  background:rgba(5,8,15,.82);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+#hud .k{color:var(--faint);margin-right:6px}
+#hud .v{color:var(--txt);font-weight:500;font-variant-numeric:tabular-nums}
+.hud-l,.hud-c,.hud-r{display:flex;align-items:center;gap:14px;white-space:nowrap}
+.hud-sig{color:var(--txt);font-weight:600;letter-spacing:.14em}
+.hud-sig i{font-style:normal;color:var(--ok);text-shadow:0 0 6px rgba(95,230,168,.7)}
+.hud-poc{color:var(--faint);letter-spacing:.12em}
+.hud-cell{display:inline-flex;align-items:center}
+#hud-sec{color:var(--fe)}
+#spark{width:88px;height:22px;margin-left:8px;display:block;opacity:.95}
+#depth-bar{
+  position:absolute;left:0;bottom:-1px;height:2px;width:100%;
+  background:linear-gradient(90deg,var(--fe),var(--inf));
+  transform:scaleX(0);transform-origin:left center;
+}
+@media (max-width:640px){
+  #hud{font-size:10px;gap:8px}
+  .hud-poc{display:none}
+  .hud-l,.hud-c,.hud-r{gap:8px}
+}
+@media (max-width:520px){
+  #spark{display:none}
+  #hud .k{margin-right:3px}
+}
+@media (max-width:380px){
+  .hud-sig{display:none}
+}
+
+/* ============ sections shared ============ */
+main{padding-top:var(--hud)}
+section{position:relative}
+.sec-head{margin-bottom:clamp(28px,5vw,52px)}
+.sec-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  color:var(--c,var(--fe));
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.sec-tag::before{content:'';width:26px;height:1px;background:var(--c,var(--fe));display:inline-block}
+.sec-head h2{
+  font-weight:900;font-size:clamp(1.9rem,4.6vw,3.1rem);
+  letter-spacing:.01em;line-height:1.06;text-transform:uppercase;
+}
+.sec-sub{color:var(--dim);font-size:.95rem;margin-top:10px;max-width:56ch}
+
+/* type-on */
+[data-type] .rest{visibility:hidden}
+[data-type].typing .typed::after{
+  content:'▌';color:var(--fe);margin-left:2px;
+  animation:blink 1s steps(1) infinite;
+  text-shadow:0 0 8px rgba(84,216,242,.8);
+}
+@keyframes blink{50%{opacity:0}}
+
+/* reveals */
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.on{opacity:1;transform:none}
+.js .rv:nth-child(2){transition-delay:.08s}
+.js .rv:nth-child(3){transition-delay:.16s}
+.js .rv:nth-child(4){transition-delay:.24s}
+
+/* EKG dividers */
+.ekg{display:block;width:100%;height:72px;pointer-events:none}
+
+/* ============ hero ============ */
+#hero{
+  min-height:calc(100vh - var(--hud));
+  display:flex;align-items:center;
+  overflow:clip;
+}
+#hero::before{ /* finer grid only over the hero */
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line2) 1px, transparent 1px);
+  background-size:18px 18px;
+  mask-image:radial-gradient(120% 90% at 30% 40%,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(120% 90% at 30% 40%,#000 30%,transparent 75%);
+}
+.hero-inner{position:relative;padding-block:clamp(48px,8vh,90px);width:100%}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--dim);
+  margin-bottom:20px;
+}
+.eyebrow b{color:var(--ok);font-weight:500;text-shadow:0 0 8px rgba(95,230,168,.55)}
+#hero h1{
+  font-weight:900;text-transform:uppercase;
+  font-size:clamp(3.4rem,13vw,9rem);
+  line-height:.92;letter-spacing:-.015em;
+  margin-bottom:26px;
+}
+#hero h1 .dim{color:var(--faint)}
+.hero-sub{
+  max-width:58ch;color:var(--dim);font-size:clamp(1rem,1.6vw,1.12rem);
+  margin-bottom:34px;
+}
+.hero-sub strong{color:var(--txt);font-weight:500}
+#bootlog{
+  font-family:var(--mono);font-size:12.5px;line-height:1.9;color:var(--faint);
+  border-left:1px solid var(--line);padding-left:16px;
+  max-width:640px;
+}
+#bootlog .bl{display:block;white-space:pre-wrap}
+#bootlog .ok{color:var(--ok)}
+#bootlog .hi{color:var(--fe)}
+.sweep-cue{
+  margin-top:42px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  color:var(--faint);display:inline-flex;align-items:center;gap:10px;
+}
+.sweep-cue i{
+  font-style:normal;color:var(--fe);
+  animation:cue 2.2s ease-in-out infinite;display:inline-block;
+}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(5px);opacity:1}}
+/* reticle behind name */
+.reticle{
+  position:absolute;right:clamp(-120px,-4vw,0px);top:50%;
+  width:clamp(280px,38vw,520px);height:auto;
+  transform:translateY(-50%);
+  opacity:.16;pointer-events:none;
+}
+.reticle .spin{transform-origin:200px 200px;animation:spin 90s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ timeline ============ */
+#history .wrap{padding-block:0}
+#tl-wrap{height:520vh}
+.tl-sticky{
+  position:sticky;top:var(--hud);
+  min-height:calc(100vh - var(--hud));
+  display:flex;flex-direction:column;justify-content:center;
+  padding-block:clamp(20px,4vh,44px);
+}
+.tl-stage{position:relative}
+#tl-svg{width:100%;height:auto;display:block}
+.tl-marks{position:relative;height:38px;font-family:var(--mono)}
+.tl-mark{
+  position:absolute;top:0;transform:translateX(-50%);
+  text-align:center;font-size:10px;letter-spacing:.14em;color:var(--faint);
+  transition:color .3s ease;
+}
+.tl-mark i{
+  font-style:normal;display:block;font-size:11px;margin-bottom:2px;
+}
+.tl-mark.on{color:var(--dim)}
+.tl-mark.on i{color:var(--fe);text-shadow:0 0 8px rgba(84,216,242,.6)}
+.tl-mark.live.on i{color:var(--ok);text-shadow:0 0 8px rgba(95,230,168,.7);animation:blink 1.2s steps(1) infinite}
+.tl-mark.live.on b{color:var(--ok)}
+.tl-mark b{font-weight:500;display:block}
+@media (max-width:719px){.tl-mark b{display:none}.tl-marks{height:22px}}
+
+#ev-card{
+  margin-top:clamp(14px,3vh,30px);
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  padding:clamp(18px,3vw,28px) clamp(18px,3.4vw,32px);
+  min-height:300px;position:relative;
+}
+#ev-card::before,#ev-card::after{
+  content:'';position:absolute;width:14px;height:14px;
+  border:1px solid rgba(146,176,220,.4);
+}
+#ev-card::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+#ev-card::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+#ev-inner header{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;
+}
+#ev-id{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--fe)}
+#ev-name{font-weight:900;text-transform:uppercase;font-size:clamp(1.15rem,2.6vw,1.6rem);letter-spacing:.01em}
+#ev-role{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:10px}
+#ev-body{color:var(--dim);max-width:72ch}
+#ev-body strong{color:var(--txt);font-weight:500}
+#ev-stats{margin-top:14px}
+#ev-card.tick #ev-inner{animation:evtick .32s ease}
+@keyframes evtick{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#tl-static{display:none}
+#tl-static .pstats{margin-top:14px}
+@media (max-width:640px){#ev-card{min-height:470px}}
+
+/* reduced-motion / short-viewport timeline fallback */
+.rm #tl-wrap{height:auto}
+.rm .tl-sticky{position:static;min-height:0;padding-block:clamp(40px,8vh,80px)}
+.rm #ev-card,.rm #tl-dot,.rm #tl-hair{display:none}
+.rm #tl-static{display:block}
+#tl-static .st-ev{
+  border:1px solid var(--line);background:var(--panel);
+  padding:20px 24px;margin-top:16px;
+}
+#tl-static .st-ev h3{font-weight:900;text-transform:uppercase;font-size:1.2rem}
+#tl-static .st-ev .sid{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--fe)}
+#tl-static .st-ev .srole{font-family:var(--mono);font-size:12px;color:var(--dim);margin:6px 0 8px}
+#tl-static .st-ev p{color:var(--dim)}
+@media (max-height:520px){
+  #tl-wrap{height:auto}
+  .tl-sticky{position:static;min-height:0}
+}
+
+/* ============ systems (projects) ============ */
+#systems{padding-block:clamp(64px,10vh,120px)}
+.panel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(16px,2.4vw,28px)}
+@media (max-width:820px){.panel-grid{grid-template-columns:1fr}}
+.panel{
+  position:relative;border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  padding:clamp(20px,3vw,30px);
+  display:flex;flex-direction:column;gap:14px;
+}
+.panel::before,.panel::after{
+  content:'';position:absolute;width:14px;height:14px;
+  border:1px solid rgba(146,176,220,.4);
+}
+.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.panel-top{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+}
+.led{
+  width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none;
+  box-shadow:0 0 8px rgba(95,230,168,.8),0 0 2px rgba(95,230,168,1);
+  animation:led 2.6s ease-in-out infinite;
+}
+@keyframes led{0%,100%{opacity:1}50%{opacity:.45}}
+.sys{color:var(--dim)}
+.pstat{margin-left:auto;color:var(--ok);letter-spacing:.14em}
+.pstat a{color:var(--ok)}
+.panel h3{font-weight:900;text-transform:uppercase;font-size:clamp(1.1rem,2.2vw,1.4rem);letter-spacing:.01em}
+.panel .pdesc{color:var(--dim);font-size:.95rem}
+.panel .pdesc strong{color:var(--txt);font-weight:500}
+.pstats{
+  list-style:none;display:flex;flex-wrap:wrap;gap:12px clamp(18px,3vw,36px);
+  font-family:var(--mono);border-top:1px dashed var(--line);padding-top:14px;
+}
+.pstats:empty{display:none}
+.pstats li{display:flex;flex-direction:column;gap:2px}
+.pstats b{
+  font-size:1.45rem;font-weight:600;color:var(--txt);
+  font-variant-numeric:tabular-nums;line-height:1.1;
+}
+.pstats span{font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.tags li{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  padding:4px 10px;border:1px solid var(--line);color:var(--dim);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.tags li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--tc,var(--dim))}
+.t-fe{--tc:var(--fe)}
+.t-be{--tc:var(--be)}
+.t-inf{--tc:var(--inf)}
+.t-ai{--tc:var(--ai)}
+.plink{font-family:var(--mono);font-size:12px;letter-spacing:.06em}
+
+/* archived / standby systems strip */
+.arc{
+  margin-top:clamp(24px,4vw,44px);border:1px solid var(--line);
+  background:var(--panel2);
+}
+.arc-head{
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--faint);
+  padding:11px 18px;border-bottom:1px solid var(--line);
+}
+.arc-rows{list-style:none}
+.arc-rows li{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:11px 18px;border-top:1px solid var(--line2);
+  font-family:var(--mono);font-size:12px;color:var(--dim);
+}
+.arc-rows li:first-child{border-top:0}
+.arc-led{
+  width:6px;height:6px;border-radius:50%;background:var(--faint);
+  flex:none;align-self:center;
+}
+.arc-led.live{background:var(--ok);box-shadow:0 0 6px rgba(95,230,168,.7)}
+.arc-id{color:var(--faint);letter-spacing:.18em;font-size:10px}
+.arc-name{color:var(--txt);font-weight:600;letter-spacing:.04em}
+.arc-note{flex:1;min-width:220px}
+.arc-stat{color:var(--faint);letter-spacing:.16em;font-size:10px}
+.arc-rows a{font-size:11px}
+
+/* calibration records (education) */
+#calibration{padding-block:clamp(48px,8vh,96px)}
+.cal-rows .arc-name{min-width:220px}
+.cal-rows b{
+  font-family:var(--mono);font-weight:600;color:var(--txt);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ============ channel matrix ============ */
+#matrix{padding-block:clamp(64px,10vh,120px)}
+.chan{
+  border:1px solid var(--line);border-left:2px solid var(--cc);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  padding:clamp(18px,2.6vw,26px) clamp(18px,3vw,30px);
+  margin-bottom:14px;
+  display:grid;grid-template-columns:220px 1fr;gap:18px 28px;align-items:start;
+}
+@media (max-width:719px){.chan{grid-template-columns:1fr;gap:12px}}
+.chan-id{display:flex;flex-direction:column;gap:8px}
+.chan-id .cid{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--cc);
+}
+.chan-id h3{font-weight:900;text-transform:uppercase;font-size:1.15rem;letter-spacing:.02em}
+.chan-id svg{display:block;opacity:.85}
+.chan-body p{color:var(--dim);font-size:.93rem;margin-bottom:12px;max-width:64ch}
+.ch-fe{--cc:var(--fe)}
+.ch-be{--cc:var(--be)}
+.ch-inf{--cc:var(--inf)}
+.ch-ai{--cc:var(--ai)}
+
+/* ============ contact ============ */
+#contact{padding-block:clamp(72px,12vh,140px)}
+#contact .sec-head{margin-bottom:24px}
+#contact .lead{color:var(--dim);max-width:56ch;margin-bottom:32px}
+.term{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  font-family:var(--mono);font-size:14px;line-height:2.1;
+  padding:clamp(20px,3vw,30px);max-width:560px;
+}
+.term .pr{color:var(--faint);margin-right:10px;user-select:none}
+.term .out{color:var(--faint);margin-right:10px;user-select:none}
+.term a{font-weight:500}
+.term a.gh{color:var(--inf)}
+.term a.gh:focus-visible{outline-color:var(--inf)}
+.term a.li{color:var(--be)}
+.term a.li:focus-visible{outline-color:var(--be)}
+.term a.web{color:var(--ok)}
+.term a.web:focus-visible{outline-color:var(--ok)}
+
+/* ============ footer ============ */
+footer{
+  border-top:1px solid var(--line);
+  padding:28px 0 40px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--faint);
+}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ============ reduced motion ============ */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+  [data-type] .rest{visibility:visible}
+}
+.rm .rv{opacity:1!important;transform:none!important}
+</style>
+</head>
+<body>
+
+<!-- ================= HUD ================= -->
+<header id="hud" aria-label="Live page telemetry">
+  <div class="hud-l">
+    <span class="hud-sig"><i>●</i> RW·TLM</span>
+    <span class="hud-poc">POC 3 / TELEMETRY</span>
+  </div>
+  <div class="hud-c">
+    <span class="hud-cell"><span class="k">SEC</span><span class="v" id="hud-sec">HERO</span></span>
+  </div>
+  <div class="hud-r">
+    <span class="hud-cell"><span class="k">DEPTH</span><span class="v" id="hud-depth">000%</span></span>
+    <span class="hud-cell"><span class="k">VEL</span><span class="v" id="hud-vel">0000</span><canvas id="spark" width="88" height="22" aria-hidden="true"></canvas></span>
+    <span class="hud-cell"><span class="k">UPTIME</span><span class="v" id="hud-up">T+00:00</span></span>
+  </div>
+  <i id="depth-bar" aria-hidden="true"></i>
+</header>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section id="hero" data-sec="HERO">
+  <div class="wrap hero-inner">
+    <svg class="reticle" viewBox="0 0 400 400" aria-hidden="true">
+      <g class="spin" fill="none" stroke="#54D8F2" stroke-width="1">
+        <circle cx="200" cy="200" r="185" stroke-dasharray="2 14"/>
+        <circle cx="200" cy="200" r="150" opacity=".5"/>
+        <circle cx="200" cy="200" r="90" stroke-dasharray="1 8" opacity=".7"/>
+      </g>
+      <g fill="none" stroke="#54D8F2" stroke-width="1" opacity=".6">
+        <line x1="200" y1="0" x2="200" y2="86"/>
+        <line x1="200" y1="314" x2="200" y2="400"/>
+        <line x1="0" y1="200" x2="86" y2="200"/>
+        <line x1="314" y1="200" x2="400" y2="200"/>
+        <circle cx="200" cy="200" r="4"/>
+      </g>
+    </svg>
+    <p class="eyebrow"><b>SIGNAL ACQUIRED</b> &nbsp;//&nbsp; PRINCIPAL SOFTWARE ENGINEER · AI-NATIVE DEVELOPER WORKFLOWS · CUSTOMER-FACING ENGINEERING</p>
+    <h1>Ryan<br>Wilk<span class="dim">_</span></h1>
+    <p class="hero-sub">
+      <strong>Principal Software Engineer at Comcast</strong> — AI Technical Lead on the X1
+      platform, 10+ years shipping production software. I build AI-native developer workflows
+      and the customer-facing systems they serve. Before this: locomotives, Navy ships, a
+      menu-board startup, Fortune&nbsp;500 consulting, robot safety controllers, smart TVs.
+      <strong>This page is an instrument,</strong> and right now it&rsquo;s measuring you.
+      Check the strip at the top.
+    </p>
+    <div id="bootlog" aria-label="Session boot log">
+      <span class="bl">&gt; session.init ..................... <span class="ok">ok</span></span>
+      <span class="bl">&gt; observers.attach [scroll, velocity, viewport] <span class="ok">ok</span></span>
+      <span class="bl">&gt; operator.stats [devices: 30,000,000] [open_vulns: <span class="hi">−80%</span>] [yrs: 10+] <span class="ok">ok</span></span>
+      <span class="bl">&gt; subject.id = <span class="hi">"visitor"</span></span>
+      <span class="bl">&gt; telemetry live — all readouts real. begin sweep.</span>
+    </div>
+    <p class="sweep-cue">BEGIN SWEEP <i>▼</i></p>
+  </div>
+</section>
+
+<canvas class="ekg" data-ch="fe" aria-hidden="true"></canvas>
+
+<!-- ================= SIGNAL HISTORY ================= -->
+<section id="history" data-sec="HISTORY">
+  <div class="wrap">
+    <div id="tl-wrap">
+      <div class="tl-sticky">
+        <div class="sec-head">
+          <span class="sec-tag" style="--c:var(--fe)">01 · SIGNAL HISTORY</span>
+          <h2 data-type>One career, one trace</h2>
+          <p class="sec-sub">Eight events on a single line. Scroll to scrub the cursor through time — each spike is a place where the signal changed. The last one is still transmitting.</p>
+        </div>
+        <div class="tl-stage">
+          <svg id="tl-svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Career timeline trace from Norfolk Southern locomotive works to Principal Engineer — AI Technical Lead on the Comcast X1 platform">
+            <line x1="0" y1="150" x2="1000" y2="150" stroke="rgba(146,176,220,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <path id="tl-ghost" fill="none" stroke="rgba(146,176,220,.14)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <path id="tl-path" fill="none" stroke="#54D8F2" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="filter:drop-shadow(0 0 4px rgba(84,216,242,.55))"/>
+            <line id="tl-hair" x1="0" y1="14" x2="0" y2="226" stroke="rgba(84,216,242,.35)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+            <circle id="tl-dot" cx="0" cy="150" r="5" fill="#54D8F2" style="filter:drop-shadow(0 0 6px rgba(84,216,242,.9))"/>
+          </svg>
+          <div class="tl-marks" aria-hidden="true">
+            <span class="tl-mark" style="left:7%"><i>2013</i><b>LOCO WORKS</b></span>
+            <span class="tl-mark" style="left:19.5%"><i>2015</i><b>NAVSEA · SD</b></span>
+            <span class="tl-mark" style="left:32%"><i>2016</i><b>SSR DISPLAYS</b></span>
+            <span class="tl-mark" style="left:44.5%"><i>2018</i><b>ACCENTURE</b></span>
+            <span class="tl-mark" style="left:57%"><i>2019</i><b>X1 TELEMETRY</b></span>
+            <span class="tl-mark" style="left:69.5%"><i>2021</i><b>FORT ROBOTICS</b></span>
+            <span class="tl-mark" style="left:82%"><i>2022</i><b>XUMO TV</b></span>
+            <span class="tl-mark live" style="left:94.5%"><i>2025</i><b>X1 · LIVE</b></span>
+          </div>
+        </div>
+        <article id="ev-card" aria-live="polite">
+          <div id="ev-inner">
+            <header>
+              <span id="ev-id">EVT-01</span>
+              <h3 id="ev-name">Norfolk Southern · Loco Works</h3>
+            </header>
+            <p id="ev-role">Mechanical Supervisor, Altoona Locomotive Works</p>
+            <p id="ev-body"></p>
+            <ul class="pstats" id="ev-stats"></ul>
+          </div>
+        </article>
+        <div id="tl-static"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<canvas class="ekg" data-ch="be" aria-hidden="true"></canvas>
+
+<!-- ================= ACTIVE SYSTEMS ================= -->
+<section id="systems" data-sec="SYSTEMS">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag" style="--c:var(--be)">02 · ACTIVE SYSTEMS</span>
+      <h2 data-type>Things I shipped that stayed shipped</h2>
+      <p class="sec-sub">Every panel below is a real system with real users. Channel colors: <span class="mono" style="color:var(--fe)">■ frontend</span> &nbsp;<span class="mono" style="color:var(--be)">■ backend</span> &nbsp;<span class="mono" style="color:var(--inf)">■ infra</span> &nbsp;<span class="mono" style="color:var(--ai)">■ ai</span>.</p>
+    </div>
+    <div class="panel-grid">
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-01</span>
+          <span class="pstat"><a href="https://myinkwellbooks.com" rel="noopener">FLAGSHIP · LIVE ↗</a></span>
+        </header>
+        <h3>myInkwell</h3>
+        <p class="pdesc">Solo-built production platform: design your characters, get
+          <strong>AI-illustrated stories</strong>, order them as <strong>real hardcover
+          books</strong>. I own every layer — prompt iteration, cost/latency tradeoffs,
+          blue/green rollouts, E2E testing, and full production observability: tracing,
+          metrics, alerting. A telemetry page respects a system that reports its own vitals.</p>
+        <ul class="pstats">
+          <li><b>MULTI</b><span>AI providers, swappable</span></li>
+          <li><b data-count="1">0</b><span>engineer, every layer</span></li>
+          <li><b>2026</b><span>commissioned</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-fe">Angular</li>
+          <li class="t-be">Python / FastAPI</li>
+          <li class="t-be">MongoDB</li>
+          <li class="t-inf">AWS</li>
+          <li class="t-ai">Multi-provider AI</li>
+          <li class="t-be">Stripe</li>
+          <li class="t-inf">Cloudflare</li>
+          <li class="t-inf">Axiom</li>
+          <li class="t-inf">PostHog</li>
+        </ul>
+        <a class="plink" href="https://myinkwellbooks.com" rel="noopener">myinkwellbooks.com ↗</a>
+      </article>
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-02</span>
+          <span class="pstat">2 STORES · 2025</span>
+        </header>
+        <h3>SpendWatch</h3>
+        <p class="pdesc">Multi-tenant household finance, live on the App Store and Google Play —
+          one budget, <strong>every phone in the house sees the same numbers</strong> — with AI
+          spending coaching, performance charting, cloud functions, and push notifications.
+          Publishing to both stores is automated through GitHub Actions: tag, build, ship.</p>
+        <ul class="pstats">
+          <li><b data-count="2">0</b><span>app stores, live</span></li>
+          <li><b>Gemini</b><span>coaching engine</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-fe">Flutter / Dart</li>
+          <li class="t-inf">AWS · Cognito · S3 · DynamoDB</li>
+          <li class="t-inf">CloudFront</li>
+          <li class="t-ai">Gemini</li>
+          <li class="t-be">Elasticsearch</li>
+          <li class="t-inf">GitHub Actions</li>
+        </ul>
+      </article>
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-03</span>
+          <span class="pstat"><a href="https://github.com/rjw1428/taskr" rel="noopener">SOURCE ↗</a></span>
+        </header>
+        <h3>taskr</h3>
+        <p class="pdesc">Cross-platform goal tracker with <strong>an AI coach built in</strong> —
+          check-ins and plan generation driven by your health data, your goals, and how
+          you&rsquo;re actually performing. One Flutter codebase, four kinds of screen.</p>
+        <ul class="pstats">
+          <li><b data-count="4">0</b><span>platforms, 1 codebase</span></li>
+          <li><b>Gemini</b><span>coaching engine</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-fe">Flutter / Dart</li>
+          <li class="t-be">Firebase</li>
+          <li class="t-ai">Gemini</li>
+        </ul>
+        <a class="plink" href="https://github.com/rjw1428/taskr" rel="noopener">github.com/rjw1428/taskr ↗</a>
+      </article>
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-04</span>
+          <span class="pstat">SERVING</span>
+        </header>
+        <h3>MCP Tool Server</h3>
+        <p class="pdesc">A locally hosted MCP server feeding custom tools to my AI agents —
+          <strong>instrumentation for the instruments.</strong> On a telemetry page, this is the
+          panel that matters: the plumbing that lets an agent read the world. Example tool: a
+          resilient weather cache that keeps answering when the upstream API won&rsquo;t.</p>
+        <ul class="pstats">
+          <li><b>MCP</b><span>protocol served</span></li>
+          <li><b>Local</b><span>host: my own rack</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-be">Python / FastAPI</li>
+          <li class="t-ai">FastMCP</li>
+          <li class="t-inf">Self-hosted</li>
+        </ul>
+        <a class="plink" href="https://github.com/rjw1428/weather-api" rel="noopener">github.com/rjw1428/weather-api ↗</a>
+      </article>
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-05</span>
+          <span class="pstat"><a href="https://rehuman.co.uk" rel="noopener">LIVE ↗</a></span>
+        </header>
+        <h3>Rehuman</h3>
+        <p class="pdesc">Forward-deployed engagement with Accenture&rsquo;s first
+          entrepreneur-in-residence startup — healthcare AI. I architected the core product:
+          a pipeline ingesting <strong>wearable healthcare data into their AI engine</strong>,
+          the ETL behind it, and the B2B and B2C portals in front of it.</p>
+        <ul class="pstats">
+          <li><b>1st</b><span>EIR startup at accenture</span></li>
+          <li><b>B2B+B2C</b><span>portals shipped</span></li>
+          <li><b>2023</b><span>commissioned</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-fe">React</li>
+          <li class="t-be">RabbitMQ</li>
+          <li class="t-inf">Docker</li>
+          <li class="t-inf">Kubernetes</li>
+          <li class="t-inf">Azure</li>
+        </ul>
+        <a class="plink" href="https://rehuman.co.uk" rel="noopener">rehuman.co.uk ↗</a>
+      </article>
+
+      <article class="panel rv">
+        <header class="panel-top">
+          <span class="led" aria-hidden="true"></span>
+          <span class="sys">SYS-06</span>
+          <span class="pstat"><a href="https://test.workflowmanagerpro.com/login?demo=true" rel="noopener">DEMO ↗</a></span>
+        </header>
+        <h3>Workflow Manager</h3>
+        <p class="pdesc"><strong>JIRA for contractors:</strong> bidding and estimation tracking —
+          data entry, dashboards, reports, charting, exports, file attachments. Websockets keep
+          every open dashboard current, so the office and the job site read the same numbers.</p>
+        <ul class="pstats">
+          <li><b>WS</b><span>live dashboards</span></li>
+          <li><b>2020</b><span>commissioned</span></li>
+        </ul>
+        <ul class="tags">
+          <li class="t-fe">Angular 12</li>
+          <li class="t-fe">NgRx</li>
+          <li class="t-be">Node / Express</li>
+          <li class="t-be">Websockets</li>
+          <li class="t-be">MySQL</li>
+        </ul>
+        <a class="plink" href="https://test.workflowmanagerpro.com/login?demo=true" rel="noopener">test.workflowmanagerpro.com ↗</a>
+      </article>
+
+    </div>
+
+    <div class="arc rv" role="group" aria-label="Archived and standby systems">
+      <p class="arc-head">DECOMMISSIONED / STANDBY SYSTEMS · 2018–2025</p>
+      <ul class="arc-rows">
+        <li>
+          <span class="arc-led" aria-hidden="true"></span>
+          <span class="arc-id">ARC-01</span>
+          <span class="arc-name">SSR Digital Displays</span>
+          <span class="arc-note">real-time menu boards · 5 venues, 2 cities · founder / dev / support</span>
+          <span class="arc-stat">DECOMM</span>
+        </li>
+        <li>
+          <span class="arc-led live" aria-hidden="true"></span>
+          <span class="arc-id">ARC-02</span>
+          <span class="arc-name">Alpine Knives</span>
+          <span class="arc-note">e-commerce, Stripe + SendGrid — money moves through this one</span>
+          <span class="arc-stat">STANDBY</span>
+        </li>
+        <li>
+          <span class="arc-led live" aria-hidden="true"></span>
+          <span class="arc-id">ARC-03</span>
+          <span class="arc-name">Brody&rsquo;s Burgers</span>
+          <span class="arc-note">owner-editable restaurant site — the CMS is his phone</span>
+          <span class="arc-stat">STANDBY</span>
+        </li>
+        <li>
+          <span class="arc-led live" aria-hidden="true"></span>
+          <span class="arc-id">ARC-04</span>
+          <span class="arc-name">This Site&rsquo;s Own Rack</span>
+          <span class="arc-note">Node/Express behind nginx, Docker Compose, Let&rsquo;s Encrypt — self-hosted, worth monitoring</span>
+          <span class="arc-stat">ACTIVE</span>
+        </li>
+        <li>
+          <span class="arc-led live" aria-hidden="true"></span>
+          <span class="arc-id">ARC-05</span>
+          <span class="arc-name">The Burwell Project</span>
+          <span class="arc-note">collaborative workspace rental control — scheduling, billing, reservations · Angular / Firebase / Stripe</span>
+          <span class="arc-stat">STANDBY</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<canvas class="ekg" data-ch="inf" aria-hidden="true"></canvas>
+
+<!-- ================= CHANNEL MATRIX ================= -->
+<section id="matrix" data-sec="MATRIX">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag" style="--c:var(--inf)">03 · CHANNEL MATRIX</span>
+      <h2 data-type>Full stack, four channels</h2>
+      <p class="sec-sub">Same engineer on every channel. That&rsquo;s the point — I&rsquo;ve owned whole systems alone, so I know what each layer costs the others.</p>
+    </div>
+
+    <div class="chan ch-fe rv">
+      <div class="chan-id">
+        <span class="cid">CH-A · FRONTEND</span>
+        <h3>Interface</h3>
+        <svg width="130" height="26" viewBox="0 0 130 26" aria-hidden="true">
+          <path d="M0 13 C 8 2, 16 2, 24 13 S 40 24, 48 13 S 64 2, 72 13 S 88 24, 96 13 S 112 2, 120 13 L 130 13"
+                fill="none" stroke="#54D8F2" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="chan-body">
+        <p>Where I live day to day — I&rsquo;ve led UI teams from telemetry dashboards to smart-TV apps to robot-fleet portals, so state management and render performance are the job, not a nice-to-have. NgRx re-architectures and D3 instrument panels are home turf.</p>
+        <ul class="tags">
+          <li class="t-fe">React</li>
+          <li class="t-fe">Angular</li>
+          <li class="t-fe">NgRx</li>
+          <li class="t-fe">RxJS</li>
+          <li class="t-fe">TypeScript</li>
+          <li class="t-fe">D3.js</li>
+          <li class="t-fe">Flutter / Dart</li>
+          <li class="t-fe">Ionic</li>
+          <li class="t-fe">Tailwind</li>
+          <li class="t-fe">Cypress / Jest</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chan ch-be rv">
+      <div class="chan-id">
+        <span class="cid">CH-B · BACKEND</span>
+        <h3>Service</h3>
+        <svg width="130" height="26" viewBox="0 0 130 26" aria-hidden="true">
+          <path d="M0 20 L14 20 L14 6 L40 6 L40 20 L66 20 L66 6 L92 6 L92 20 L118 20 L118 6 L130 6"
+                fill="none" stroke="#F2AE4E" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="chan-body">
+        <p>APIs, data models, and the integrations that move money and mail — from Stripe checkouts real businesses depend on to the mission-critical Java migration I&rsquo;m steering right now.</p>
+        <ul class="tags">
+          <li class="t-be">Node / Express</li>
+          <li class="t-be">Python / FastAPI</li>
+          <li class="t-be">Java</li>
+          <li class="t-be">SQL</li>
+          <li class="t-be">GraphQL</li>
+          <li class="t-be">Firebase / Firestore</li>
+          <li class="t-be">MongoDB</li>
+          <li class="t-be">Stripe</li>
+          <li class="t-be">SendGrid</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chan ch-inf rv">
+      <div class="chan-id">
+        <span class="cid">CH-C · INFRA</span>
+        <h3>Substrate</h3>
+        <svg width="130" height="26" viewBox="0 0 130 26" aria-hidden="true">
+          <path d="M0 20 L26 6 L26 20 L52 6 L52 20 L78 6 L78 20 L104 6 L104 20 L130 6"
+                fill="none" stroke="#BE8CFF" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="chan-body">
+        <p>From my own rack to two clouds: containers, orchestration, reverse proxies, TLS — plus the pipelines that ship it all, and the rollout patterns (blue/green, canary) that keep shipping boring.</p>
+        <ul class="tags">
+          <li class="t-inf">AWS</li>
+          <li class="t-inf">Azure</li>
+          <li class="t-inf">Kubernetes</li>
+          <li class="t-inf">Docker</li>
+          <li class="t-inf">nginx</li>
+          <li class="t-inf">Nx</li>
+          <li class="t-inf">MySQL</li>
+          <li class="t-inf">Elasticsearch</li>
+          <li class="t-inf">Neo4j</li>
+          <li class="t-inf">GitHub Actions</li>
+          <li class="t-inf">Concourse</li>
+          <li class="t-inf">Blue/green + canary</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chan ch-ai rv">
+      <div class="chan-id">
+        <span class="cid">CH-D · AI</span>
+        <h3>Inference</h3>
+        <svg width="130" height="26" viewBox="0 0 130 26" aria-hidden="true">
+          <path d="M0 13 L10 13 L16 5 L22 21 L28 9 L34 13 L52 13 L58 3 L64 23 L70 7 L76 13 L94 13 L100 6 L106 20 L112 10 L118 13 L130 13"
+                fill="none" stroke="#F470C9" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="chan-body">
+        <p>The channel the whole board watches now. At Comcast I lead AI-native developer workflows adopted company-wide — vulnerability-fix agents, AI-assisted migrations, generated tests. At home, the same discipline ships myInkwell and taskr. I integrate models the way I integrate any unreliable upstream: carefully, with fallbacks and a human in the loop.</p>
+        <ul class="tags">
+          <li class="t-ai">Agentic PR review / fix loops</li>
+          <li class="t-ai">AI-assisted migrations</li>
+          <li class="t-ai">Spec → implementation systems</li>
+          <li class="t-ai">AI test generation</li>
+          <li class="t-ai">Prompt iteration</li>
+          <li class="t-ai">Human-in-the-loop rollout design</li>
+          <li class="t-ai">Applied ML (XGBoost)</li>
+          <li class="t-ai">Multi-provider integration</li>
+          <li class="t-ai">MCP / FastMCP</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CALIBRATION RECORDS ================= -->
+<section id="calibration" data-sec="CALIB">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag" style="--c:var(--be)">04 · CALIBRATION RECORDS</span>
+      <h2 data-type>Instrument certified</h2>
+    </div>
+    <div class="arc rv" role="group" aria-label="Education records">
+      <p class="arc-head">FORMAL CALIBRATION · MOST RECENT FIRST</p>
+      <ul class="arc-rows cal-rows">
+        <li>
+          <span class="arc-led live" aria-hidden="true"></span>
+          <span class="arc-id">CAL-03</span>
+          <span class="arc-name">Johns Hopkins University</span>
+          <span class="arc-note">graduate coursework, computer science</span>
+          <b>4.0 GPA</b>
+          <span class="arc-stat">2022</span>
+        </li>
+        <li>
+          <span class="arc-led" aria-hidden="true"></span>
+          <span class="arc-id">CAL-02</span>
+          <span class="arc-name">TU Darmstadt · Germany</span>
+          <span class="arc-note">additional B.S.</span>
+          <span class="arc-stat">2016</span>
+        </li>
+        <li>
+          <span class="arc-led" aria-hidden="true"></span>
+          <span class="arc-id">CAL-01</span>
+          <span class="arc-name">Virginia Tech</span>
+          <span class="arc-note">B.S. mechanical engineering</span>
+          <span class="arc-stat">2012</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<canvas class="ekg" data-ch="ok" aria-hidden="true"></canvas>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" data-sec="CONTACT">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-tag" style="--c:var(--ok)">05 · OPEN CHANNEL</span>
+      <h2 data-type>Transmit</h2>
+    </div>
+    <p class="lead rv">If you&rsquo;re building something worth monitoring — or you just want to
+      argue about RxJS operators — the channel is open.</p>
+    <div class="term rv" role="group" aria-label="Contact channels">
+      <p><span class="pr">$</span>contact --via email<br>
+         <span class="out">&gt;</span><a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a></p>
+      <p><span class="pr">$</span>contact --via github<br>
+         <span class="out">&gt;</span><a class="gh" href="https://github.com/rjw1428" rel="noopener">github.com/rjw1428</a></p>
+      <p><span class="pr">$</span>contact --via linkedin<br>
+         <span class="out">&gt;</span><a class="li" href="https://linkedin.com/in/rjw1428" rel="noopener">linkedin.com/in/rjw1428</a></p>
+      <p><span class="pr">$</span>contact --via web<br>
+         <span class="out">&gt;</span><a class="web" href="https://ryanwilk.com" rel="noopener">ryanwilk.com</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>POC 3 / TELEMETRY — experimental direction, one of several</span>
+    <span>single HTML file · every readout is a real measurement · © Ryan Wilk</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var doc = document.documentElement;
+doc.classList.add('js');
+var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (RM) doc.classList.add('rm');
+
+function $(s, c){ return (c || document).querySelector(s); }
+function $$(s, c){ return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
+function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+var COL = {
+  fe: '#54D8F2', be: '#F2AE4E', inf: '#BE8CFF', ai: '#F470C9', ok: '#5FE6A8'
+};
+
+/* ---------------- HUD refs ---------------- */
+var hudDepth = $('#hud-depth'),
+    hudVel   = $('#hud-vel'),
+    hudSec   = $('#hud-sec'),
+    hudUp    = $('#hud-up'),
+    depthBar = $('#depth-bar'),
+    spark    = $('#spark'),
+    sctx     = spark.getContext('2d');
+
+/* ---------------- uptime ---------------- */
+var t0 = Date.now();
+function fmtUp(){
+  var s = Math.floor((Date.now() - t0) / 1000);
+  var m = Math.floor(s / 60);
+  return 'T+' + String(Math.min(m, 99)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+}
+setInterval(function(){ hudUp.textContent = fmtUp(); }, 1000);
+
+/* ---------------- sections ---------------- */
+var sections = $$('[data-sec]');
+
+/* ---------------- canvas sizing ---------------- */
+function sizeCanvas(c){
+  var d = Math.min(window.devicePixelRatio || 1, 2);
+  var r = c.getBoundingClientRect();
+  c.width  = Math.max(1, Math.round(r.width * d));
+  c.height = Math.max(1, Math.round(r.height * d));
+  return d;
+}
+var sdpr = 1;
+
+/* ---------------- velocity sparkline ---------------- */
+var SN = 90, sbuf = new Float32Array(SN), shead = 0;
+function drawSpark(){
+  var w = spark.width, h = spark.height;
+  sctx.clearRect(0, 0, w, h);
+  var mx = 350, i, v;
+  for (i = 0; i < SN; i++) if (sbuf[i] > mx) mx = sbuf[i];
+  sctx.beginPath();
+  for (i = 0; i < SN; i++){
+    v = sbuf[(shead + i) % SN];
+    var x = i / (SN - 1) * w;
+    var y = (h - 2 * sdpr) - (v / mx) * (h - 5 * sdpr);
+    if (i === 0) sctx.moveTo(x, y); else sctx.lineTo(x, y);
+  }
+  sctx.strokeStyle = COL.fe;
+  sctx.lineWidth = 1.2 * sdpr;
+  sctx.stroke();
+}
+
+/* ---------------- EKG dividers ---------------- */
+var ekgs = $$('.ekg').map(function(c){
+  return { c: c, ctx: c.getContext('2d'), off: Math.random() * 400, dpr: 1,
+           col: COL[c.getAttribute('data-ch')] || COL.ok };
+});
+/* piecewise PQRST-ish pulse, u in [0,1) -> -1..1 */
+var EKG_K = [[0,0],[0.40,0],[0.44,-0.16],[0.50,1],[0.55,-0.42],[0.60,0],[0.68,0.18],[0.75,0],[1,0]];
+function ekgV(u){
+  for (var i = 1; i < EKG_K.length; i++){
+    if (u <= EKG_K[i][0]){
+      var a = EKG_K[i-1], b = EKG_K[i];
+      var t = (u - a[0]) / ((b[0] - a[0]) || 1);
+      return a[1] + (b[1] - a[1]) * t;
+    }
+  }
+  return 0;
+}
+function drawEkg(e, vel){
+  var c = e.c, ctx = e.ctx, w = c.width, h = c.height;
+  ctx.clearRect(0, 0, w, h);
+  var base = h * 0.56;
+  var amp  = h * 0.12 + clamp(vel, 0, 700) / 700 * h * 0.34;
+  var per  = Math.max(150 * e.dpr, w / 5);
+  ctx.globalAlpha = 0.12;
+  ctx.strokeStyle = e.col;
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, base); ctx.lineTo(w, base); ctx.stroke();
+  function pass(lw, al){
+    ctx.beginPath();
+    var step = 3 * e.dpr;
+    for (var x = 0; x <= w; x += step){
+      var u = ((((x + e.off * e.dpr) % per) + per) % per) / per;
+      var y = base - ekgV(u) * amp;
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.lineWidth = lw * e.dpr;
+    ctx.globalAlpha = al;
+    ctx.stroke();
+  }
+  pass(3, 0.14);   /* phosphor bloom */
+  pass(1.3, 0.9);  /* trace */
+  ctx.globalAlpha = 1;
+}
+
+/* ---------------- career timeline ---------------- */
+var EVENTS = [
+  { x: 70,  amp: 36, id: 'EVT-01', name: 'Norfolk Southern · Loco Works',
+    role: 'Mechanical Supervisor, Altoona Locomotive Works · Jan 2013 – Jul 2015',
+    body: 'Locomotive overhauls — and a wall of paper tracking all of it. I taught myself software on the job and replaced the clipboards: a multi-tier data system for the production line, plus Python automation pulling QC measurements straight off the CNC machines. First time I watched software change a shop floor.',
+    stats: [ { v: '−8h', k: 'weekly manual entry' }, { v: 'CNC→QC', k: 'python automation' } ] },
+  { x: 195, amp: 46, id: 'EVT-02', name: 'NAVSEA SWRMC · U.S. Navy',
+    role: 'Engineering Technician V, San Diego · Aug 2015 – May 2018',
+    body: 'Fleet maintenance engineering — and the paperwork problem followed me to the pier. I built a MERN-stack data collection system that cut processing time and automated stakeholder reporting. The Navy gave it a U.S. Navy Innovation Award.',
+    stats: [ { v: 'AWARD', k: 'u.s. navy innovation' }, { v: 'MERN', k: 'stack, self-directed' } ] },
+  { x: 320, amp: 56, id: 'EVT-03', name: 'SSR Digital Displays',
+    role: 'Founder · San Diego era, ~2016',
+    body: 'A real-time digital menu-board system a bar owner could update from any web-connected device. Installed in five venues across San Diego and Philadelphia. Sales, installs, and the 2 a.m. support calls: all me.',
+    stats: [ { v: '5', k: 'venues live' }, { v: '1', k: 'founder / dev / support' } ] },
+  { x: 445, amp: 66, id: 'EVT-04', name: 'Accenture',
+    role: 'Senior Analyst, Life Science Cloud clients · May 2018 – Apr 2019',
+    body: 'Enterprise scale: big systems, long release trains, rooms full of stakeholders. I ran discovery on why document uploads kept hurting, then shipped the fixes and automation myself. I learned to move the needle inside constraints I didn’t choose.',
+    stats: [ { v: '−84%', k: 'client-reported issues' }, { v: '$45k', k: 'saved per year' } ] },
+  { x: 570, amp: 76, id: 'EVT-05', name: 'Comcast · X1 Telemetry',
+    role: 'Front-end team lead (via TekSystems) · Apr 2019 – May 2021',
+    body: 'Led three devs re-architecting the real-time telemetry front end around NgRx, built the JS data-collection library running on 30 million devices, D3 visualizations including a live per-market U.S. map, and Python blue/green data-drift monitoring. This job is why this page looks the way it does — the whole aesthetic is a tribute to it.',
+    stats: [ { v: '30M', k: 'devices reporting' }, { v: '87%', k: 'tech debt resolved' }, { v: '+200%', k: 'feature delivery speed' } ] },
+  { x: 695, amp: 86, id: 'EVT-06', name: 'Fort Robotics',
+    role: 'Senior engineer / front-end team lead, Series B · Apr 2021 – May 2022',
+    body: 'Led a team of five building the company’s first client-facing product: an Angular web + Ionic mobile portal for managing robotic safety controllers — the product that let a hardware company pivot to platform-first software. I built the core component library: infinite-scroll and lazy-load directives, form wizards, async validators. Strict TypeScript, RxJS everywhere.',
+    stats: [ { v: '5', k: 'engineers led' }, { v: '1st', k: 'client-facing product' } ] },
+  { x: 820, amp: 96, id: 'EVT-07', name: 'Comcast · Xumo TV',
+    role: 'Principal Engineer, Technical Lead · May 2022 – 2025',
+    body: 'Technical lead for the resident smart-TV app — the layer bridging client-facing UI, third-party apps, physical TV hardware, and external APIs. Built TV Toolkit, a one-click debugging and device-interface suite for devs and QA. AI Academy capstone shipped an XGBoost model into a customer-facing troubleshooting chat app.',
+    stats: [ { v: '−10%', k: 'onboarding + dev cycles' }, { v: '+30%', k: 'suggested-action acceptance' } ] },
+  { x: 945, amp: 108, id: 'EVT-08', name: 'Comcast · X1 Platform',
+    role: 'Principal Engineer — AI Technical Lead · May 2025 – present — ● LIVE',
+    body: 'I lead a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows adopted company-wide — an agentic vulnerability-fix pipeline with human-in-the-loop PRs, a spec-driven AI-assisted Java 8→25 migration of a mission-critical app, an AI system that repairs broken tests and finds E2E coverage gaps, and an org-wide LLM onboarding tool for non-technical stakeholders. Current position of the cursor — the signal is live, and you’re watching it get drawn.',
+    stats: [ { v: '−80%', k: 'open vulnerabilities' }, { v: '8→25', k: 'java, spec-driven' }, { v: 'ORG-WIDE', k: 'adoption' } ] }
+];
+
+var tlWrap = $('#tl-wrap'), tlPath = $('#tl-path'), tlGhost = $('#tl-ghost'),
+    tlDot = $('#tl-dot'), tlHair = $('#tl-hair');
+var marks = $$('.tl-mark');
+var evId = $('#ev-id'), evName = $('#ev-name'), evRole = $('#ev-role'),
+    evBody = $('#ev-body'), evCard = $('#ev-card'), evStats = $('#ev-stats');
+
+function fillStats(ul, stats){
+  ul.innerHTML = '';
+  (stats || []).forEach(function(s){
+    var li = document.createElement('li');
+    var b = document.createElement('b'); b.textContent = s.v;
+    var sp = document.createElement('span'); sp.textContent = s.k;
+    li.appendChild(b); li.appendChild(sp);
+    ul.appendChild(li);
+  });
+}
+
+(function buildPath(){
+  var d = 'M 0 150';
+  EVENTS.forEach(function(e){
+    var x = e.x, a = e.amp;
+    d += ' L ' + (x-46) + ' 150' +
+         ' L ' + (x-26) + ' 150' +
+         ' L ' + (x-18) + ' ' + (150 + a*0.16) +
+         ' L ' + (x-8)  + ' ' + (150 - a) +
+         ' L ' + (x+2)  + ' ' + (150 + a*0.42) +
+         ' L ' + (x+10) + ' ' + (150 - a*0.12) +
+         ' L ' + (x+20) + ' 150';
+  });
+  d += ' L 1000 150';
+  tlPath.setAttribute('d', d);
+  tlGhost.setAttribute('d', d);
+})();
+var tlLen = tlPath.getTotalLength();
+if (!RM){
+  tlPath.style.strokeDasharray = tlLen;
+  tlPath.style.strokeDashoffset = tlLen;
+}
+
+var evIdx = -1;
+function setEvent(i){
+  i = clamp(i, 0, EVENTS.length - 1);
+  if (i === evIdx) return;
+  evIdx = i;
+  var e = EVENTS[i];
+  evId.textContent = e.id;
+  evName.textContent = e.name;
+  evRole.textContent = e.role;
+  evBody.textContent = e.body;
+  fillStats(evStats, e.stats);
+  marks.forEach(function(m, j){ m.classList.toggle('on', j <= i); });
+  evCard.classList.remove('tick');
+  void evCard.offsetWidth;
+  evCard.classList.add('tick');
+}
+setEvent(0);
+
+function updateTl(){
+  var wr = tlWrap.getBoundingClientRect();
+  var vh = window.innerHeight;
+  if (wr.bottom < 0 || wr.top > vh) return;
+  var total = wr.height - vh;
+  var p;
+  if (total > 40){
+    p = clamp(-wr.top / total, 0, 1);
+  } else {
+    p = clamp((vh * 0.9 - wr.top) / (wr.height || 1), 0, 1);
+  }
+  var pp = clamp((p - 0.03) / 0.92, 0, 1);
+  var L = pp * tlLen;
+  tlPath.style.strokeDashoffset = tlLen - L;
+  var pt = tlPath.getPointAtLength(L);
+  tlDot.setAttribute('cx', pt.x);
+  tlDot.setAttribute('cy', pt.y);
+  tlHair.setAttribute('x1', pt.x);
+  tlHair.setAttribute('x2', pt.x);
+  var i = 0;
+  for (var j = 0; j < EVENTS.length; j++){
+    if (pt.x >= EVENTS[j].x - 10) i = j;
+  }
+  setEvent(i);
+}
+
+/* ---------------- counters (scroll-scrubbed) ---------------- */
+var counters = $$('[data-count]');
+counters.forEach(function(el){
+  el._target = parseInt(el.getAttribute('data-count'), 10) || 0;
+  el._v = -1;
+});
+function updateCounters(vh){
+  counters.forEach(function(el){
+    var r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) return;
+    var p = clamp((vh * 0.9 - r.top) / (vh * 0.45), 0, 1);
+    var v = Math.round(p * el._target);
+    if (v !== el._v){ el._v = v; el.textContent = v; }
+  });
+}
+
+/* ---------------- reveals ---------------- */
+if ('IntersectionObserver' in window && !RM){
+  var rio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        en.target.classList.add('on');
+        rio.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  $$('.rv').forEach(function(el){ rio.observe(el); });
+} else {
+  $$('.rv').forEach(function(el){ el.classList.add('on'); });
+}
+
+/* ---------------- type-on headers ---------------- */
+var typeEls = $$('[data-type]');
+if (!RM && 'IntersectionObserver' in window){
+  typeEls.forEach(function(el){
+    var txt = el.textContent;
+    el.textContent = '';
+    var a = document.createElement('span'); a.className = 'typed';
+    var b = document.createElement('span'); b.className = 'rest';
+    b.textContent = txt;
+    el.appendChild(a); el.appendChild(b);
+    el._a = a; el._b = b;
+  });
+  var tio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        tio.unobserve(en.target);
+        runType(en.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  typeEls.forEach(function(el){ tio.observe(el); });
+}
+function runType(el){
+  el.classList.add('typing');
+  var iv = setInterval(function(){
+    var t = el._b.textContent;
+    if (!t){
+      clearInterval(iv);
+      setTimeout(function(){ el.classList.remove('typing'); }, 900);
+      return;
+    }
+    el._a.textContent += t.charAt(0);
+    el._b.textContent = t.slice(1);
+  }, 32);
+}
+
+/* ---------------- boot log ---------------- */
+var blLines = $$('#bootlog .bl');
+if (!RM){
+  blLines.forEach(function(l){
+    l._full = l.innerHTML;          /* keep colored spans */
+    l._text = l.textContent;
+    l.innerHTML = '';
+    l.style.minHeight = '1em';
+  });
+  var li = 0;
+  function nextLine(){
+    if (li >= blLines.length) return;
+    var l = blLines[li++];
+    var s = l._text, i = 0;
+    var iv = setInterval(function(){
+      i += 2;
+      l.textContent = s.slice(0, i);
+      if (i >= s.length){
+        clearInterval(iv);
+        l.innerHTML = l._full;      /* restore colored markup once typed */
+        setTimeout(nextLine, 240);
+      }
+    }, 13);
+  }
+  setTimeout(nextLine, 450);
+}
+
+/* ---------------- main rAF loop ---------------- */
+var lastY = window.scrollY, lastT = performance.now(), velS = 0;
+
+function frame(now){
+  var dt = Math.max(1, now - lastT); lastT = now;
+  var y = window.scrollY;
+  var dy = y - lastY; lastY = y;
+  var inst = Math.abs(dy) / dt * 1000;              /* px/s */
+  velS += (inst - velS) * Math.min(1, dt / 170);    /* EMA ~170ms */
+  if (velS < 0.5) velS = 0;
+
+  var vh = window.innerHeight;
+  var max = doc.scrollHeight - vh;
+  var depth = max > 0 ? y / max : 0;
+
+  hudDepth.textContent = String(Math.round(depth * 100)).padStart(3, '0') + '%';
+  depthBar.style.transform = 'scaleX(' + depth + ')';
+  hudVel.textContent = String(clamp(Math.round(velS), 0, 9999)).padStart(4, '0');
+
+  /* current section */
+  var cur = 'HERO';
+  for (var i = 0; i < sections.length; i++){
+    var r = sections[i].getBoundingClientRect();
+    if (r.top <= vh * 0.5) cur = sections[i].getAttribute('data-sec');
+  }
+  if (hudSec.textContent !== cur) hudSec.textContent = cur;
+
+  /* sparkline */
+  sbuf[shead] = velS; shead = (shead + 1) % SN;
+  drawSpark();
+
+  /* dividers — only when visible */
+  for (i = 0; i < ekgs.length; i++){
+    var e = ekgs[i];
+    var er = e.c.getBoundingClientRect();
+    if (er.bottom < 0 || er.top > vh) continue;
+    e.off += (dt / 1000) * (60 + velS * 0.35);
+    drawEkg(e, velS);
+  }
+
+  updateTl();
+  updateCounters(vh);
+
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- init / reduced motion ---------------- */
+function sizeAll(){
+  sdpr = sizeCanvas(spark);
+  ekgs.forEach(function(e){ e.dpr = sizeCanvas(e.c); });
+  if (RM){
+    ekgs.forEach(function(e){ drawEkg(e, 0); });
+    drawSpark();
+  }
+}
+window.addEventListener('resize', function(){
+  sizeAll();
+});
+sizeAll();
+
+if (RM){
+  /* static rendering: everything readable, no animation loop */
+  marks.forEach(function(m){ m.classList.add('on'); });
+  var st = $('#tl-static');
+  EVENTS.forEach(function(e){
+    var art = document.createElement('article');
+    art.className = 'st-ev';
+    art.innerHTML = '<span class="sid">' + e.id + '</span><h3></h3><p class="srole"></p><p></p><ul class="pstats"></ul>';
+    art.querySelector('h3').textContent = e.name;
+    art.querySelector('.srole').textContent = e.role;
+    art.querySelectorAll('p')[1].textContent = e.body;
+    fillStats(art.querySelector('.pstats'), e.stats);
+    st.appendChild(art);
+  });
+  counters.forEach(function(el){ el.textContent = el._target; });
+  var rmTick = function(){
+    var vh = window.innerHeight;
+    var y = window.scrollY;
+    var max = doc.scrollHeight - vh;
+    var depth = max > 0 ? y / max : 0;
+    hudDepth.textContent = String(Math.round(depth * 100)).padStart(3, '0') + '%';
+    depthBar.style.transform = 'scaleX(' + depth + ')';
+    var cur = 'HERO';
+    for (var i = 0; i < sections.length; i++){
+      var r = sections[i].getBoundingClientRect();
+      if (r.top <= vh * 0.5) cur = sections[i].getAttribute('data-sec');
+    }
+    hudSec.textContent = cur;
+  };
+  window.addEventListener('scroll', rmTick, { passive: true });
+  rmTick();
+} else {
+  requestAnimationFrame(frame);
+}
+})();
+</script>
+</body>
+</html>

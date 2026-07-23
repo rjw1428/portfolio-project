@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ryan Wilk — Principal Software Engineer. AI-native developer workflows, customer-facing engineering. From locomotive shop floors to Navy ships to smart TVs to leading AI adoption across Comcast's X1 platform.">
+<title>Ryan Wilk — Departures</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Departures">
+<meta property="og:description" content="A career told as a split-flap departures board. Principal engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
+<meta property="og:url" content="https://ryanwilk.com/01-departures.html">
+<meta property="og:image" content="https://ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Departures">
+<meta name="twitter:description" content="A career told as a split-flap departures board. Principal engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
+<meta name="twitter:image" content="https://ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://ryanwilk.com/01-departures.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   DEPARTURES — POC 1
+   Ryan Wilk, full-stack engineer.
+   Split-flap terminal board. Amber on machined charcoal.
+   Oswald (flaps) · IBM Plex Mono (plates) · Archivo (body)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&display=swap');
+
+:root{
+  --bg:        #0f1013;
+  --bg-deep:   #0b0c0f;
+  --panel:     #16181d;
+  --panel-hi:  #1b1e24;
+  --amber:     #f0a83a;
+  --amber-hi:  #ffc668;
+  --white:     #e9e3d6;
+  --steel:     #8d939c;
+  --body:      #b4b8bf;
+  --line:      rgba(255,255,255,.08);
+  --line-soft: rgba(255,255,255,.045);
+  --f-disp:    'Oswald','Arial Narrow',Impact,'Helvetica Neue',sans-serif;
+  --f-mono:    'IBM Plex Mono','SF Mono',Menlo,Consolas,monospace;
+  --f-body:    'Archivo','Helvetica Neue',Arial,sans-serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+body{
+  background:var(--bg);
+  color:var(--body);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+}
+
+::selection{ background:var(--amber); color:#161006; }
+
+a{ color:var(--white); text-decoration-color:rgba(240,168,58,.5); text-underline-offset:3px; }
+a:hover{ color:var(--amber-hi); }
+
+:focus-visible{
+  outline:2px solid var(--amber);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+.wrap{
+  max-width:1060px;
+  margin:0 auto;
+  padding:0 clamp(18px,4.5vw,40px);
+}
+
+/* ---------- engraved plates ---------- */
+.plate{
+  display:inline-flex;
+  align-items:center;
+  gap:.6em;
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.18em;
+  color:var(--steel);
+  text-shadow:0 -1px 0 rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(180deg,#1c1e24,#141519);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:7px 12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  white-space:nowrap;
+}
+
+/* ============================================================
+   SPLIT-FLAP CELLS
+   Each cell: static top half (next char) + static bottom half
+   (current char) + two rotating half-flaps driven by WAAPI.
+   ============================================================ */
+.flap-line{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:var(--fg,3px);
+  min-height:calc(var(--cw,20px) * 1.5); /* holds space pre-build */
+}
+.fl-center{ justify-content:center; }
+
+.fl-xl{ --cw:clamp(29px, 8.4vw, 72px);  --fg:calc(var(--cw) * .10); }
+.fl-lg{ --cw:clamp(13px, 4.1vw, 31px);  --fg:calc(var(--cw) * .11); }
+.fl-bd{ --cw:var(--smw, clamp(11px, 3vw, 19px)); --fg:var(--smg, 2px); }
+
+.cell{
+  position:relative;
+  width:var(--cw);
+  height:calc(var(--cw) * 1.5);
+  perspective:calc(var(--cw) * 7);
+  flex:none;
+  border-radius:calc(var(--cw) * .09);
+  background:var(--bg-deep);
+}
+/* hinge shadow line */
+.cell::after{
+  content:'';
+  position:absolute;
+  z-index:5;
+  left:0; right:0;
+  top:50%;
+  height:max(1.5px, calc(var(--cw) * .028));
+  transform:translateY(-50%);
+  background:rgba(0,0,0,.55);
+  pointer-events:none;
+}
+/* axle pins on large cells */
+.fl-xl .cell::before,
+.fl-lg .cell::before{
+  content:'';
+  position:absolute;
+  z-index:6;
+  left:0; right:0;
+  top:50%;
+  transform:translateY(-50%);
+  height:16%;
+  background:
+    linear-gradient(var(--bg-deep),var(--bg-deep)) left center / 7% 100% no-repeat,
+    linear-gradient(var(--bg-deep),var(--bg-deep)) right center / 7% 100% no-repeat;
+  pointer-events:none;
+}
+
+.half{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:50%;
+  overflow:hidden;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.028);
+}
+.h-top,.f-top{
+  top:0;
+  border-radius:calc(var(--cw) * .09) calc(var(--cw) * .09) 0 0;
+  background:linear-gradient(180deg,#2f333c 0%,#252932 100%);
+}
+.h-bot,.f-bot{
+  bottom:0;
+  border-radius:0 0 calc(var(--cw) * .09) calc(var(--cw) * .09);
+  background:linear-gradient(180deg,#21252d 0%,#171a20 100%);
+}
+.f-top{ transform-origin:50% 100%; z-index:3; }
+.f-bot{ transform-origin:50% 0%;   z-index:3; transform:rotateX(90deg); }
+.h-top,.h-bot{ z-index:1; }
+
+.glyph{
+  position:absolute;
+  left:0; top:0;
+  width:100%;
+  height:200%;               /* full cell height inside a half */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--f-disp);
+  font-weight:600;
+  font-size:calc(var(--cw) * 1.12);
+  line-height:1;
+  color:var(--white);
+  user-select:none;
+}
+.h-bot .glyph,
+.f-bot .glyph{ top:-100%; }
+
+.fl-amber .glyph{
+  color:var(--amber);
+  text-shadow:0 0 calc(var(--cw) * .5) rgba(240,168,58,.28);
+}
+
+/* no-JS fallback: show the text plainly */
+.flap-line::before{ content:none; }
+.no-js .flap-line::before{
+  content:attr(data-flap);
+  font-family:var(--f-disp);
+  font-weight:600;
+  font-size:calc(var(--cw,20px) * 1.15);
+  line-height:1.35;
+  color:var(--amber);
+  letter-spacing:.04em;
+  white-space:pre-wrap;
+}
+
+/* ============================================================
+   ROUTE-LINE NAV (fixed left rail)
+   ============================================================ */
+.rail{
+  position:fixed;
+  left:26px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:40;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.rail-line{
+  position:relative;
+  width:2px;
+  height:236px;
+  background:var(--line);
+  border-radius:1px;
+}
+.rail-marker{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:10px; height:10px;
+  margin-left:-5px;
+  margin-top:-5px;
+  border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 10px rgba(240,168,58,.7);
+  will-change:transform;
+}
+.rail-stops{
+  position:absolute;
+  inset:0;
+  list-style:none;
+}
+.rail-stops li{ position:absolute; left:50%; transform:translate(-50%,-50%); }
+.rail-stops li:nth-child(1){ top:0%;   }
+.rail-stops li:nth-child(2){ top:25%;  }
+.rail-stops li:nth-child(3){ top:50%;  }
+.rail-stops li:nth-child(4){ top:75%;  }
+.rail-stops li:nth-child(5){ top:100%; }
+.tick{
+  display:block;
+  width:14px; height:14px;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  position:relative;
+  cursor:pointer;
+  padding:0;
+}
+.tick::after{
+  content:'';
+  position:absolute;
+  inset:4px;
+  border-radius:50%;
+  background:#3a3e46;
+  border:1px solid rgba(255,255,255,.14);
+  transition:background .3s, box-shadow .3s;
+}
+.tick:hover::after{ background:var(--steel); }
+.tick.cur::after{
+  background:var(--amber);
+  box-shadow:0 0 8px rgba(240,168,58,.6);
+}
+.tick .tip{
+  position:absolute;
+  left:22px;
+  top:50%;
+  transform:translateY(-50%);
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.16em;
+  color:var(--steel);
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity .25s;
+  pointer-events:none;
+}
+.tick:hover .tip,
+.tick:focus-visible .tip{ opacity:1; }
+@media (max-width:1120px){ .rail{ display:none; } }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+#hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:clamp(28px,5vh,56px) 0;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;
+  inset:-12% 0;
+  z-index:0;
+  background:
+    repeating-linear-gradient(180deg,
+      transparent 0, transparent 118px,
+      var(--line-soft) 118px, var(--line-soft) 119px),
+    radial-gradient(120% 90% at 50% 0%, #14161b 0%, var(--bg) 62%);
+  pointer-events:none;
+  will-change:transform;
+}
+#hero .wrap{ position:relative; z-index:1; width:100%; }
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:clamp(26px,5vh,52px);
+}
+.clock-dot{
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--amber);
+  flex:none;
+}
+
+.board{
+  position:relative;
+  background:
+    radial-gradient(3px 3px at 14px 14px,            #2e323a 0 38%, #08090b 52%, transparent 68%),
+    radial-gradient(3px 3px at calc(100% - 14px) 14px, #2e323a 0 38%, #08090b 52%, transparent 68%),
+    radial-gradient(3px 3px at 14px calc(100% - 14px), #2e323a 0 38%, #08090b 52%, transparent 68%),
+    radial-gradient(3px 3px at calc(100% - 14px) calc(100% - 14px), #2e323a 0 38%, #08090b 52%, transparent 68%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg,#101216,#0b0c0f);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:clamp(20px,4.5vw,44px);
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  will-change:transform;
+}
+.board-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-bottom:clamp(14px,2.6vw,24px);
+  margin-bottom:clamp(18px,3.4vw,32px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.34em;
+  color:var(--steel);
+  text-shadow:0 -1px 0 rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.05);
+}
+.lamp{
+  width:8px; height:8px;
+  border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 8px rgba(240,168,58,.8);
+  flex:none;
+}
+.board-head .spacer{ flex:1; }
+.board-head .sub{ letter-spacing:.2em; font-size:10px; color:#5d626b; }
+
+.board .flap-line + .flap-line{ margin-top:clamp(10px,2vw,18px); }
+
+.hero-foot{
+  margin-top:clamp(14px,2.6vw,24px);
+  padding-top:clamp(12px,2.2vw,20px);
+  border-top:1px solid var(--line-soft);
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.22em;
+  color:#5d626b;
+}
+.hero-foot span:last-child{ text-align:right; }
+
+.intro{
+  max-width:58ch;
+  margin:clamp(26px,4.5vh,44px) auto 0;
+  text-align:center;
+  font-size:clamp(15px,1.7vw,17px);
+  color:var(--body);
+}
+.intro strong{ color:var(--white); font-weight:600; }
+
+.cue{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-top:clamp(24px,4vh,40px);
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.26em;
+  color:var(--steel);
+  text-decoration:none;
+}
+.cue-row{ text-align:center; }
+.cue .arr{ display:inline-block; animation:cue-bob 1.8s ease-in-out infinite; }
+@keyframes cue-bob{
+  0%,100%{ transform:translateY(-2px); }
+  50%    { transform:translateY(3px); }
+}
+.cue:hover{ color:var(--amber-hi); }
+
+/* ============================================================
+   SECTIONS — shared
+   ============================================================ */
+section{ padding:clamp(64px,11vh,120px) 0; }
+
+.sec-head{ margin-bottom:clamp(30px,5vw,52px); }
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.28em;
+  color:var(--steel);
+  margin-bottom:18px;
+}
+.eyebrow::after{
+  content:'';
+  flex:1;
+  max-width:180px;
+  height:1px;
+  background:var(--line);
+}
+.sec-note{
+  margin-top:16px;
+  max-width:62ch;
+  font-size:15px;
+  color:#9599a1;
+}
+
+/* reveal */
+.rv{
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .65s ease, transform .65s cubic-bezier(.2,.7,.25,1);
+}
+.rv.on{ opacity:1; transform:none; }
+
+/* ============================================================
+   SERVICE HISTORY — departures board
+   ============================================================ */
+#history .board-panel{
+  --smw:clamp(10.5px, 2.9vw, 19px);
+  --smg:2px;
+  --depcol:calc(4 * var(--smw) + 3 * var(--smg));
+  background:linear-gradient(180deg,#101216,#0c0d10);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:clamp(16px,3.4vw,36px);
+  box-shadow:0 18px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.dep-grid{
+  display:grid;
+  grid-template-columns:var(--depcol) 1fr max-content;
+  column-gap:clamp(14px,3vw,30px);
+  align-items:center;
+}
+.dep-head{
+  padding:2px 2px 12px;
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.26em;
+  color:#5d626b;
+  border-bottom:1px solid var(--line);
+}
+.dep-head .h-status{ justify-self:end; }
+.dep-row{
+  row-gap:10px;
+  padding:clamp(16px,2.8vw,24px) 2px;
+  border-bottom:1px solid var(--line-soft);
+}
+.dep-row:last-child{ border-bottom:none; }
+.g-status{
+  justify-self:end;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.dot{
+  width:7px; height:7px;
+  border-radius:50%;
+  background:#3f434b;
+  flex:none;
+}
+.dot.lit{
+  background:var(--amber);
+  box-shadow:0 0 8px rgba(240,168,58,.7);
+  animation:dot-pulse 1.6s ease-in-out infinite;
+}
+@keyframes dot-pulse{
+  0%,100%{ opacity:1; }
+  50%    { opacity:.35; }
+}
+.dep-detail{
+  grid-column:2 / -1;
+  max-width:60ch;
+  font-size:14.5px;
+  line-height:1.6;
+  color:#9599a1;
+}
+.dep-detail strong{ color:var(--white); font-weight:600; }
+/* boarding row: marquee manifest of current services */
+.dep-manifest{
+  grid-column:2 / -1;
+  list-style:none;
+  max-width:60ch;
+  font-size:14.5px;
+  line-height:1.6;
+  color:#9599a1;
+}
+.dep-manifest li{
+  position:relative;
+  padding:8px 0 8px 24px;
+  border-top:1px dashed rgba(255,255,255,.07);
+}
+.dep-manifest li::before{
+  content:'\2192';
+  position:absolute;
+  left:2px;
+  color:var(--amber);
+  font-family:var(--f-mono);
+}
+.dep-manifest strong{ color:var(--white); font-weight:600; }
+@media (max-width:600px){
+  .dep-head{ display:none; }
+  .dep-row{
+    grid-template-columns:1fr max-content;
+    row-gap:9px;
+  }
+  .dep-row .g-dest{ grid-column:1 / -1; grid-row:2; }
+  .dep-detail{ grid-column:1 / -1; }
+  .dep-manifest{ grid-column:1 / -1; }
+}
+
+/* ============================================================
+   TRACK DIVIDER — scroll-scrubbed locomotive
+   ============================================================ */
+.trackline{
+  position:relative;
+  height:34px;
+  margin:0 auto;
+  max-width:1060px;
+  padding:0 clamp(18px,4.5vw,40px);
+  overflow:hidden; /* the consist enters and exits past the track ends */
+}
+.trackline .rails{
+  position:absolute;
+  left:clamp(18px,4.5vw,40px);
+  right:clamp(18px,4.5vw,40px);
+  bottom:8px;
+  height:2px;
+  background:repeating-linear-gradient(90deg,
+    var(--line) 0 22px, transparent 22px 30px);
+}
+.loco{
+  position:absolute;
+  bottom:9px;
+  left:0;
+  width:158px; /* engine + four cars with coupler gaps */
+  height:20px;
+  will-change:transform;
+}
+.loco .engine{
+  position:absolute;
+  right:0; bottom:0;
+  width:52px; height:20px;
+}
+.loco .body{
+  position:absolute;
+  left:0; bottom:5px;
+  width:40px; height:11px;
+  background:#31353e;
+  border-radius:2px 5px 1px 1px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+}
+.loco .cab{
+  position:absolute;
+  right:2px; bottom:9px;
+  width:14px; height:12px;
+  background:#3a3e48;
+  border-radius:2px 2px 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+}
+.loco .win{
+  position:absolute;
+  right:5px; bottom:14px;
+  width:5px; height:4px;
+  background:var(--amber);
+  border-radius:1px;
+  box-shadow:0 0 5px rgba(240,168,58,.8);
+}
+.loco .wheels{
+  position:absolute;
+  left:2px; right:4px; bottom:1px;
+  height:6px;
+  background:
+    radial-gradient(circle at 4px 3px,   #565b66 0 2.4px, transparent 3px),
+    radial-gradient(circle at 18px 3px,  #565b66 0 2.4px, transparent 3px),
+    radial-gradient(circle at 32px 3px,  #565b66 0 2.4px, transparent 3px),
+    radial-gradient(circle at 43px 3px,  #565b66 0 2.4px, transparent 3px);
+}
+/* the consist: box car, flat car, gondola, caboose behind the engine */
+.loco .car{ position:absolute; bottom:0; height:20px; }
+.loco .boxcar { right:55px;  width:26px; }
+.loco .flatcar{ right:84px;  width:24px; }
+.loco .gondola{ right:111px; width:24px; }
+.loco .caboose{ right:138px; width:20px; }
+.loco .hull{ position:absolute; left:0; right:0; display:block; }
+.loco .boxcar .hull{
+  bottom:5px; height:11px;
+  border-radius:1px;
+  background:
+    linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)) center top / 1px 100% no-repeat, /* door line */
+    #2b2f37;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+}
+.loco .flatcar .hull{
+  bottom:5px; height:4px;
+  border-radius:1px;
+  background:#31353e;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.loco .flatcar .hull::after{ /* strapped load on the deck */
+  content:'';
+  position:absolute;
+  left:6px; bottom:4px;
+  width:10px; height:5px;
+  background:#3a3e48;
+  border-radius:1px;
+}
+.loco .gondola .hull{
+  bottom:5px; height:8px;
+  border-radius:1px;
+  background:linear-gradient(180deg,#111318 0 3px,#2e323a 3px); /* open top, dark interior */
+  box-shadow:inset 0 0 0 1.5px #3a3e48;                          /* low side walls */
+}
+.loco .caboose .hull{
+  bottom:5px; height:9px;
+  border-radius:1px;
+  background:#463127; /* the tail reads warmer */
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.loco .caboose .hull::before{ /* cupola */
+  content:'';
+  position:absolute;
+  left:50%; top:-4px;
+  width:8px; height:5px;
+  margin-left:-4px;
+  background:#54382b;
+  border-radius:1px 1px 0 0;
+}
+.loco .caboose .hull::after{ /* marker window */
+  content:'';
+  position:absolute;
+  right:3px; top:2px;
+  width:3px; height:3px;
+  background:var(--amber);
+  border-radius:1px;
+  box-shadow:0 0 4px rgba(240,168,58,.8);
+}
+.loco .axles{
+  position:absolute;
+  left:2px; right:2px; bottom:1px;
+  height:6px;
+  background:
+    radial-gradient(circle at 4px 3px,               #565b66 0 2.4px, transparent 3px),
+    radial-gradient(circle at calc(100% - 4px) 3px,  #565b66 0 2.4px, transparent 3px);
+}
+
+/* ============================================================
+   ARRIVALS — project gate cards
+   ============================================================ */
+.gates{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:clamp(14px,2.6vw,24px);
+}
+@media (max-width:760px){ .gates{ grid-template-columns:1fr; } }
+
+.concourse{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:clamp(30px,5.5vw,48px) 0 clamp(14px,2.6vw,22px);
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.26em;
+  color:#5d626b;
+}
+.concourse::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--line-soft);
+}
+.sec-head + .concourse{ margin-top:0; }
+
+.gate{
+  display:flex;
+  flex-direction:column;
+  background:linear-gradient(180deg,var(--panel-hi),var(--panel));
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:clamp(18px,3vw,28px);
+  transition:transform .22s cubic-bezier(.2,.7,.3,1), border-color .22s, box-shadow .22s;
+}
+.gate:hover{
+  transform:translateY(-4px);
+  border-color:rgba(240,168,58,.35);
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
+}
+.gate-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.gate-no{
+  font-family:var(--f-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.2em;
+  color:var(--amber);
+  background:rgba(240,168,58,.08);
+  border:1px solid rgba(240,168,58,.3);
+  border-radius:4px;
+  padding:5px 10px;
+  white-space:nowrap;
+  transition:box-shadow .22s, background .22s;
+}
+.gate:hover .gate-no{
+  background:rgba(240,168,58,.14);
+  box-shadow:0 0 14px rgba(240,168,58,.22);
+}
+.gate-status{
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.24em;
+  color:var(--steel);
+}
+.gate h3{
+  font-family:var(--f-disp);
+  font-weight:500;
+  font-size:clamp(21px,2.6vw,26px);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:10px;
+}
+.gate p{
+  font-size:15px;
+  color:var(--body);
+  flex:1;
+}
+.gate p strong{ color:var(--white); font-weight:600; }
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:18px;
+}
+.chip{
+  font-family:var(--f-mono);
+  font-size:10.5px;
+  letter-spacing:.14em;
+  color:var(--steel);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:4px 8px;
+  background:rgba(255,255,255,.02);
+}
+.gate-link{
+  margin-top:16px;
+  align-self:flex-start;
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.2em;
+  color:var(--amber);
+  text-decoration:none;
+  border-bottom:1px solid rgba(240,168,58,.35);
+  padding-bottom:2px;
+}
+.gate-link:hover{ color:var(--amber-hi); border-bottom-color:var(--amber-hi); }
+
+/* archive strip — compact rows for earlier services */
+.archive{
+  background:linear-gradient(180deg,#101216,#0c0d10);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:2px clamp(14px,2.8vw,26px);
+}
+.arch-row{
+  display:grid;
+  grid-template-columns:max-content max-content 1fr max-content;
+  align-items:baseline;
+  column-gap:clamp(12px,2.4vw,22px);
+  padding:14px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.arch-row:last-child{ border-bottom:none; }
+.arch-no{
+  font-family:var(--f-mono);
+  font-size:10.5px;
+  letter-spacing:.18em;
+  color:var(--amber);
+  white-space:nowrap;
+}
+.arch-name{
+  font-family:var(--f-disp);
+  font-weight:500;
+  font-size:15px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--white);
+  white-space:nowrap;
+}
+.arch-desc{ font-size:13.5px; color:#9599a1; }
+.arch-link,
+.arch-note{
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.18em;
+  white-space:nowrap;
+}
+.arch-link{ color:var(--amber); text-decoration:none; }
+.arch-link:hover{ color:var(--amber-hi); }
+.arch-note{ color:var(--steel); }
+@media (max-width:760px){
+  .arch-row{ grid-template-columns:max-content 1fr max-content; row-gap:6px; }
+  .arch-desc{ grid-column:1 / -1; }
+}
+
+/* ============================================================
+   ROLLING STOCK — skills status board
+   ============================================================ */
+.stock-board{
+  background:linear-gradient(180deg,#101216,#0c0d10);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:clamp(16px,3.4vw,36px);
+  box-shadow:0 18px 50px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.stock-cat{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:clamp(24px,4.4vw,38px) 2px 2px;
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.26em;
+  color:#5d626b;
+}
+.stock-cat:first-child{ margin-top:0; }
+.stock-cat::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--line-soft);
+}
+.stock-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:clamp(26px,5vw,60px);
+}
+@media (max-width:680px){ .stock-grid{ grid-template-columns:1fr; } }
+.stock-row{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  padding:13px 2px;
+  border-bottom:1px solid var(--line-soft);
+  font-family:var(--f-mono);
+  font-size:clamp(12px,1.5vw,13.5px);
+  letter-spacing:.1em;
+}
+.stock-row .name{ color:var(--white); white-space:nowrap; }
+.stock-row .lead{
+  flex:1;
+  border-bottom:1px dotted rgba(255,255,255,.16);
+  transform:translateY(-4px);
+  min-width:20px;
+}
+.stock-row .st{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:10.5px;
+  letter-spacing:.2em;
+  white-space:nowrap;
+}
+.st-daily   { color:var(--amber); }
+.st-service { color:var(--white); }
+.st-oncall  { color:var(--steel); }
+.st .sdot{ width:6px; height:6px; border-radius:50%; flex:none; }
+.st-daily   .sdot{ background:var(--amber); box-shadow:0 0 6px rgba(240,168,58,.6); }
+.st-service .sdot{ background:var(--white); }
+.st-oncall  .sdot{ background:var(--steel); }
+
+/* ============================================================
+   CREW CERTIFICATIONS — education
+   ============================================================ */
+.certs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(12px,2.2vw,20px);
+}
+@media (max-width:760px){ .certs{ grid-template-columns:1fr; } }
+.cert{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  background:linear-gradient(180deg,var(--panel-hi),var(--panel));
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:15px 18px;
+}
+.cert-yr{
+  font-family:var(--f-mono);
+  font-size:11px;
+  letter-spacing:.18em;
+  color:var(--amber);
+  flex:none;
+}
+.cert p{ font-size:13.5px; line-height:1.55; color:#9599a1; }
+.cert strong{ color:var(--white); font-weight:600; }
+
+/* ============================================================
+   LAST CALL — contact
+   ============================================================ */
+#contact{ text-align:center; padding-bottom:clamp(40px,8vh,80px); }
+#contact .flap-line{ justify-content:center; }
+#contact .sec-head{ margin-bottom:24px; }
+#contact .eyebrow{ justify-content:center; }
+#contact .eyebrow::after{ display:none; }
+.contact-copy{
+  max-width:52ch;
+  margin:0 auto;
+  font-size:clamp(15px,1.8vw,17px);
+}
+.contact-btns{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:clamp(28px,4.5vh,44px);
+}
+.btn{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:4px;
+  min-width:230px;
+  text-align:left;
+  text-decoration:none;
+  font-family:var(--f-mono);
+  background:linear-gradient(180deg,#1c1e24,#141519);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:14px 20px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .2s cubic-bezier(.2,.7,.3,1), border-color .2s;
+}
+.btn:hover{ transform:translateY(-3px); border-color:rgba(240,168,58,.4); }
+.btn .k{
+  font-size:10px;
+  letter-spacing:.3em;
+  color:var(--steel);
+  text-shadow:0 -1px 0 rgba(0,0,0,.75), 0 1px 0 rgba(255,255,255,.05);
+}
+.btn .v{
+  font-size:13px;
+  letter-spacing:.08em;
+  color:var(--amber);
+}
+.btn:hover .v{ color:var(--amber-hi); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  border-top:1px solid var(--line-soft);
+  padding:26px 0 34px;
+}
+.foot-row{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px 24px;
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:.2em;
+  color:#5d626b;
+}
+.foot-row a{ color:#7b8089; text-decoration:none; }
+.foot-row a:hover{ color:var(--amber); }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001s !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001s !important;
+  }
+  .rv{ opacity:1; transform:none; }
+  .cue .arr{ animation:none; }
+  .dot.lit{ animation:none; }
+  .board,.hero-bg,.rail-marker,.loco{ will-change:auto; }
+}
+</style>
+<noscript><style>
+  .rv{ opacity:1; transform:none; }
+  .flap-line{ min-height:0; }
+</style></noscript>
+</head>
+<body class="no-js">
+
+<!-- route-line nav -->
+<nav class="rail" aria-label="Page sections">
+  <div class="rail-line" aria-hidden="true"><div class="rail-marker" id="railMarker"></div></div>
+  <ul class="rail-stops">
+    <li><button class="tick" data-to="hero"><span class="tip">DEPARTURES</span></button></li>
+    <li><button class="tick" data-to="history"><span class="tip">SERVICE HISTORY</span></button></li>
+    <li><button class="tick" data-to="arrivals"><span class="tip">ARRIVALS</span></button></li>
+    <li><button class="tick" data-to="stock"><span class="tip">ROLLING STOCK</span></button></li>
+    <li><button class="tick" data-to="contact"><span class="tip">LAST CALL</span></button></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="hero">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="plate">RJW &middot; 1428</span>
+      <span class="plate"><span class="clock-dot" aria-hidden="true"></span><span id="clock">--:--:--</span>&nbsp;LOCAL</span>
+    </div>
+
+    <div class="board" id="heroBoard">
+      <div class="board-head">
+        <span class="lamp" aria-hidden="true"></span>
+        <span>DEPARTURES</span>
+        <span class="spacer" aria-hidden="true"></span>
+        <span class="sub">ALL SERVICES</span>
+      </div>
+      <h1 class="flap-line fl-xl fl-amber fl-center" data-flap="RYAN WILK" aria-label="Ryan Wilk"></h1>
+      <p class="flap-line fl-lg fl-center" data-flap="PRINCIPAL ENGINEER" aria-label="Principal software engineer"></p>
+      <p class="flap-line fl-lg fl-center" data-flap="AI-NATIVE WORKFLOWS" aria-label="AI-native developer workflows, customer-facing engineering"></p>
+      <div class="hero-foot">
+        <span>ORIGIN: LOCOMOTIVE WORKS &middot; 2013</span>
+        <span>CURRENT: COMCAST X1 &middot; AI TECHNICAL LEAD</span>
+      </div>
+    </div>
+
+    <p class="intro rv">I started out fixing locomotives and ended up building software.
+    Ten-plus years of shipping production code later, the habit never changed:
+    <strong>open it up, learn every moving part, put it back together better than you
+    found it.</strong> Today I'm a Principal Engineer and AI Technical Lead on Comcast's
+    X1 platform, doing the customer-facing kind of engineering &mdash; embed with the
+    teams feeling the pain, find the bottleneck, then ship AI-native workflows the whole
+    company ends up boarding. Before that &mdash; smart TVs, robot safety controllers,
+    Navy ships, my own startup, and a lot of bars with very good screens.</p>
+
+    <div class="cue-row rv">
+      <a class="cue" href="#history"><span class="arr" aria-hidden="true">&darr;</span>SERVICE HISTORY</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ SERVICE HISTORY ============ -->
+<section id="history">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">PLATFORM 1 &middot; WHERE I'VE BEEN</p>
+      <h2 class="flap-line fl-lg fl-amber" data-flap="SERVICE HISTORY" data-auto aria-label="Service history"></h2>
+      <p class="sec-note rv">Every stop is real. Every stop taught me something I still use.</p>
+    </div>
+
+    <div class="board-panel rv">
+      <div class="dep-grid dep-head" aria-hidden="true">
+        <span>DEP</span>
+        <span>DESTINATION / SERVICE</span>
+        <span class="h-status">STATUS</span>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2013" aria-label="Departed 2013"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="NORFOLK SOUTHERN    " aria-label="Norfolk Southern, Altoona locomotive works"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Mechanical Supervisor at the Altoona locomotive works &mdash; engines,
+        wheelsets, traction motors. Taught myself to code on nights and built the shop's
+        multi-tier production-line data system, plus Python CNC quality-control automation
+        that erased eight hours a week of manual entry.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2015" aria-label="Departed 2015"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="NAVSEA &middot; SAN DIEGO  " aria-label="NAVSEA SWRMC, U.S. Navy, San Diego"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Engineering Technician V at NAVSEA SWRMC. Won a <strong>U.S. Navy
+        innovation award</strong> for a MERN-stack data collection system that cut
+        information-processing time and automated stakeholder reporting &mdash; my first
+        software with users beyond a shop floor.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2016" aria-label="Departed around 2016"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="SSR DIGITAL DISPLAYS" aria-label="SSR Digital Displays"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Founded a digital menu-board company in the San Diego years.
+        Real-time boards a bar owner updates from any web-connected device &mdash; installed
+        in five venues across two coasts.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2018" aria-label="Departed 2018"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="ACCENTURE           " aria-label="Accenture"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Senior Analyst embedded with Life Science Cloud clients. Led discovery
+        on document-upload pain points, then shipped the fixes and automation &mdash;
+        client-reported issues down 84%, about $45k a year saved. Learned how software ships
+        at enterprise scale &mdash; the process, the politics, and the parts worth keeping.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2019" aria-label="Departed 2019"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="COMCAST &middot; TELEMETRY " aria-label="Comcast X1 telemetry, via TekSystems"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">First stop at Comcast, via TekSystems: front-end team lead on X1's
+        real-time telemetry product &mdash; the first software team I ran instead of a shop
+        floor. Led three devs re-architecting the front-end around NgRx: 87% of tech debt
+        resolved, feature delivery up 200%. Built a JS data-collection library scaled to
+        <strong>30 million devices</strong>, D3.js visualizations including a live per-market
+        U.S. performance map, and Python blue/green monitoring to catch data drift.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2021" aria-label="Departed 2021"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="FORT ROBOTICS       " aria-label="Fort Robotics"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Senior engineer and front-end team lead. Ran a team of five building
+        the company's first client-facing product &mdash; an Angular web and Ionic mobile portal
+        for managing their robotic safety controllers &mdash; the pivot from hardware company to
+        platform-first software company. Built the core component library along the way:
+        infinite-scroll and lazy-load directives, form wizards, async validators, all strict
+        TypeScript and RxJS.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2022" aria-label="Departed 2022"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="COMCAST &middot; XUMO TV   " aria-label="Comcast, Xumo TV"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
+        <p class="dep-detail">Principal Engineer and technical lead on the resident smart-TV app &mdash;
+        the layer that bridges client-facing UI, third-party apps, physical TV hardware, and
+        external APIs. Created the <strong>TV Toolkit</strong>, a one-click debugging and
+        device-interface suite for devs and QA that cut onboarding and dev cycles 10%.
+        Graduated the Comcast AI Academy &mdash; capstone shipped an XGBoost model that lifted
+        acceptance of suggested next actions 30% in a customer-facing troubleshooting chat app.</p>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow data-boarding>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap=" NOW" aria-label="Departing now"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="COMCAST &middot; X1        " aria-label="Comcast, X1 platform"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="BOARDING" aria-label="Status: boarding"></div></div>
+        <p class="dep-detail"><strong>Principal Engineer &mdash; AI Technical Lead, X1 Platform.</strong>
+        I lead a squad embedded with teams across the X1 org: run discovery to find where
+        development drags, then ship AI workflows the whole company adopts. On the board so far:</p>
+        <ul class="dep-manifest">
+          <li>An agentic vulnerability-fix pipeline opening human-in-the-loop PRs &mdash;
+          <strong>open security vulnerabilities down 80%</strong></li>
+          <li>A spec-driven, AI-assisted migration of a mission-critical Java app &mdash;
+          <strong>Java 8 to Java 25</strong></li>
+          <li>An AI system that repairs broken tests, finds E2E coverage gaps, and generates
+          new tests</li>
+          <li>An org-wide LLM onboarding tool &mdash; non-technical stakeholders explore the
+          codebase and mock up features</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- track divider with scroll-scrubbed consist: engine + box car, flat car, gondola, caboose -->
+<div class="trackline" id="trackline" aria-hidden="true">
+  <div class="rails"></div>
+  <div class="loco" id="loco">
+    <div class="engine">
+      <div class="body"></div>
+      <div class="cab"></div>
+      <div class="win"></div>
+      <div class="wheels"></div>
+    </div>
+    <div class="car boxcar"><span class="hull"></span><span class="axles"></span></div>
+    <div class="car flatcar"><span class="hull"></span><span class="axles"></span></div>
+    <div class="car gondola"><span class="hull"></span><span class="axles"></span></div>
+    <div class="car caboose"><span class="hull"></span><span class="axles"></span></div>
+  </div>
+</div>
+
+<!-- ============ ARRIVALS / PROJECTS ============ -->
+<section id="arrivals">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">PLATFORM 2 &middot; WHAT I'VE SHIPPED</p>
+      <h2 class="flap-line fl-lg fl-amber" data-flap="ARRIVALS" data-auto aria-label="Arrivals"></h2>
+      <p class="sec-note rv">Gate codes are honest: A means Angular (with the version when it
+      matters), FL means Flutter, R is React, M is the MCP line, S0 means it hosts itself.</p>
+    </div>
+
+    <p class="concourse rv">CONCOURSE A &middot; FEATURED SERVICES</p>
+    <div class="gates">
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE A1</span>
+          <span class="gate-status">IN SERVICE &middot; 2026</span>
+        </div>
+        <h3>myInkwell</h3>
+        <p>Solo-built production platform where kids' imaginations become
+        <strong>hardcover books</strong>: design the characters, AI generates the
+        illustrated story, order the physical book to your door. I own every layer
+        &mdash; prompt iteration, cost and latency tradeoffs, blue/green rollouts,
+        E2E testing, observability.</p>
+        <div class="chips">
+          <span class="chip">ANGULAR</span><span class="chip">FASTAPI / PYTHON</span><span class="chip">AWS</span><span class="chip">MONGODB</span><span class="chip">MULTI-PROVIDER AI</span><span class="chip">STRIPE</span><span class="chip">CLOUDFLARE</span><span class="chip">AXIOM + POSTHOG</span>
+        </div>
+        <a class="gate-link" href="https://myinkwellbooks.com" target="_blank" rel="noopener">VISIT MYINKWELLBOOKS.COM &rarr;</a>
+      </article>
+
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE FL2</span>
+          <span class="gate-status">IN SERVICE &middot; 2025</span>
+        </div>
+        <h3>SpendWatch</h3>
+        <p>Multi-tenant household finance &mdash; one budget, every phone in the house
+        &mdash; live on the App Store and Google Play. AI spending coach on Gemini,
+        performance charting, cloud functions, push notifications, and publishing
+        fully automated through GitHub Actions.</p>
+        <div class="chips">
+          <span class="chip">FLUTTER</span><span class="chip">AWS COGNITO / S3 / DYNAMODB</span><span class="chip">CLOUDFRONT</span><span class="chip">GEMINI</span><span class="chip">ELASTICSEARCH</span><span class="chip">GITHUB ACTIONS</span>
+        </div>
+      </article>
+
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE FL1</span>
+          <span class="gate-status">IN SERVICE</span>
+        </div>
+        <h3>taskr</h3>
+        <p>Cross-platform goal tracker &mdash; one Flutter codebase for iOS, Android,
+        desktop, and web &mdash; with an AI coach built in: check-ins and plan
+        generation from your health data, goals, and performance. Gemini-powered,
+        Firebase-backed.</p>
+        <div class="chips">
+          <span class="chip">FLUTTER</span><span class="chip">GEMINI</span><span class="chip">FIREBASE</span><span class="chip">iOS / ANDROID / DESKTOP / WEB</span>
+        </div>
+        <a class="gate-link" href="https://github.com/rjw1428/taskr" target="_blank" rel="noopener">GITHUB / TASKR &rarr;</a>
+      </article>
+
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE M1</span>
+          <span class="gate-status">IN SERVICE</span>
+        </div>
+        <h3>MCP Tool Server</h3>
+        <p>A locally hosted MCP server delivering custom tools to my AI agents.
+        Python, FastAPI, FastMCP. Example tool on the line: a resilient weather
+        cache that keeps answering when the upstream API doesn't.</p>
+        <div class="chips">
+          <span class="chip">PYTHON</span><span class="chip">FASTAPI</span><span class="chip">FASTMCP</span><span class="chip">MCP</span>
+        </div>
+        <a class="gate-link" href="https://github.com/rjw1428/weather-api" target="_blank" rel="noopener">GITHUB / WEATHER-API &rarr;</a>
+      </article>
+
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE R1</span>
+          <span class="gate-status">DELIVERED &middot; 2023</span>
+        </div>
+        <h3>Rehuman</h3>
+        <p>Forward-deployed engagement with Accenture's first entrepreneur-in-residence
+        &mdash; a healthcare AI startup. Architected the core product: a pipeline
+        ingesting wearable healthcare data into their AI engine, the ETL behind it,
+        and the B2B and B2C web portals.</p>
+        <div class="chips">
+          <span class="chip">REACT</span><span class="chip">RABBITMQ</span><span class="chip">DOCKER</span><span class="chip">KUBERNETES</span><span class="chip">AZURE</span>
+        </div>
+        <a class="gate-link" href="https://rehuman.co.uk" target="_blank" rel="noopener">VISIT REHUMAN.CO.UK &rarr;</a>
+      </article>
+
+      <article class="gate rv">
+        <div class="gate-top">
+          <span class="gate-no">GATE A12</span>
+          <span class="gate-status">IN SERVICE &middot; 2020</span>
+        </div>
+        <h3>Workflow Manager</h3>
+        <p>JIRA for contractors: bidding and estimation tracking built for a
+        construction company &mdash; data entry, dashboards, reports, charting,
+        exports, file attachments. Live demo on the line.</p>
+        <div class="chips">
+          <span class="chip">ANGULAR 12</span><span class="chip">NGRX</span><span class="chip">NODE / EXPRESS</span><span class="chip">WEBSOCKETS</span><span class="chip">MYSQL</span>
+        </div>
+        <a class="gate-link" href="https://test.workflowmanagerpro.com/login?demo=true" target="_blank" rel="noopener">BOARD THE DEMO &rarr;</a>
+      </article>
+    </div>
+
+    <p class="concourse rv">CONCOURSE B &middot; EARLIER SERVICES &middot; 2018&ndash;2025</p>
+    <div class="archive rv">
+      <article class="arch-row">
+        <span class="arch-no">GATE F1</span>
+        <h3 class="arch-name">SSR Digital Displays</h3>
+        <p class="arch-desc">Founded a real-time menu-board company &mdash; change a price from
+        any device, the screens over the taps update instantly. Five venues, two coasts.</p>
+        <span class="arch-note">RETIRED</span>
+      </article>
+      <article class="arch-row">
+        <span class="arch-no">GATE A8</span>
+        <h3 class="arch-name">Alpine Knives</h3>
+        <p class="arch-desc">End-to-end e-commerce for a custom knife maker &mdash; catalog, cart,
+        Stripe checkout, SendGrid order email. Still taking orders.</p>
+      </article>
+      <article class="arch-row">
+        <span class="arch-no">GATE B2</span>
+        <h3 class="arch-name">Brody's Burgers</h3>
+        <p class="arch-desc">Restaurant site whose owner edits menu, hours, and specials from his
+        phone &mdash; no developer in the loop. That was the whole spec. It still holds.</p>
+      </article>
+      <article class="arch-row">
+        <span class="arch-no">GATE S0</span>
+        <h3 class="arch-name">This Site's Own Rails</h3>
+        <p class="arch-desc">The portfolio hosts itself &mdash; Node/Express behind an nginx reverse
+        proxy, composed with Docker, certificates from Let's Encrypt. You're looking at the deployment.</p>
+      </article>
+      <article class="arch-row">
+        <span class="arch-no">GATE C5</span>
+        <h3 class="arch-name">The Burwell Project</h3>
+        <p class="arch-desc">Collaborative workspace rentals run to timetable &mdash; scheduling,
+        billing, and reservations on one line. Angular up front, Firebase on the signals, Stripe at the fare gate.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROLLING STOCK / SKILLS ============ -->
+<section id="stock">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">PLATFORM 3 &middot; WHAT I RUN</p>
+      <h2 class="flap-line fl-lg fl-amber" data-flap="ROLLING STOCK" data-auto aria-label="Rolling stock"></h2>
+      <p class="sec-note rv"><span class="st-daily">DAILY</span> is what I'm using this week.
+      <span class="st-service">IN SERVICE</span> is running in production I still maintain.
+      <span class="st-oncall">ON CALL</span> is serviced and ready.</p>
+    </div>
+
+    <div class="stock-board rv">
+      <p class="stock-cat">AI WORKFLOWS</p>
+      <div class="stock-grid">
+        <div class="stock-row"><span class="name">AGENTIC PR / FIX LOOPS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">AI-ASSISTED MIGRATIONS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">SPEC &rarr; IMPLEMENTATION</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">AI TEST GENERATION</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">PROMPT ITERATION</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">HUMAN-IN-THE-LOOP ROLLOUTS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">MCP / GEMINI / LLM APIS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">APPLIED ML / XGBOOST</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+      </div>
+
+      <p class="stock-cat">FRONT OF TRAIN</p>
+      <div class="stock-grid">
+        <div class="stock-row"><span class="name">ANGULAR + NGRX</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">TYPESCRIPT / RXJS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">FLUTTER / DART</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">TAILWIND</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">REACT</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">D3.JS</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+      </div>
+
+      <p class="stock-cat">MOTIVE POWER &middot; BACK END + DATA</p>
+      <div class="stock-grid">
+        <div class="stock-row"><span class="name">NODE / EXPRESS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">PYTHON / FASTAPI</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">JAVA</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">SQL / MYSQL</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">GRAPHQL</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">MONGODB</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">ELASTICSEARCH</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">NEO4J</span><span class="lead" aria-hidden="true"></span><span class="st st-oncall"><span class="sdot" aria-hidden="true"></span>ON CALL</span></div>
+      </div>
+
+      <p class="stock-cat">YARD &amp; SIGNALING &middot; INFRA + QUALITY</p>
+      <div class="stock-grid">
+        <div class="stock-row"><span class="name">AWS</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">GITHUB ACTIONS / CONCOURSE</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">CYPRESS / JEST</span><span class="lead" aria-hidden="true"></span><span class="st st-daily"><span class="sdot" aria-hidden="true"></span>DAILY</span></div>
+        <div class="stock-row"><span class="name">DOCKER / KUBERNETES</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">NX MONOREPOS</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">BLUE/GREEN + CANARY</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">OBSERVABILITY</span><span class="lead" aria-hidden="true"></span><span class="st st-service"><span class="sdot" aria-hidden="true"></span>IN SERVICE</span></div>
+        <div class="stock-row"><span class="name">AZURE</span><span class="lead" aria-hidden="true"></span><span class="st st-oncall"><span class="sdot" aria-hidden="true"></span>ON CALL</span></div>
+      </div>
+    </div>
+
+    <p class="concourse rv">CREW CERTIFICATIONS</p>
+    <div class="certs rv">
+      <div class="cert">
+        <span class="cert-yr">2022</span>
+        <p><strong>Johns Hopkins University</strong> &mdash; graduate coursework,
+        Computer Science. 4.0 GPA.</p>
+      </div>
+      <div class="cert">
+        <span class="cert-yr">2016</span>
+        <p><strong>TU Darmstadt</strong>, Germany &mdash; additional B.S.</p>
+      </div>
+      <div class="cert">
+        <span class="cert-yr">2012</span>
+        <p><strong>Virginia Tech</strong> &mdash; B.S., Mechanical Engineering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAST CALL / CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow rv">PLATFORM 4 &middot; FINAL BOARDING</p>
+      <h2 class="flap-line fl-lg fl-amber" data-flap="LAST CALL" data-auto aria-label="Last call"></h2>
+    </div>
+    <p class="contact-copy rv">The next stop isn't posted yet. If you're building something
+    and could use a principal engineer who has run a shop floor, a startup, front-end
+    teams, and an AI squad &mdash; any address below reaches me.</p>
+    <div class="contact-btns rv">
+      <a class="btn" href="mailto:software@ryanwilk.com">
+        <span class="k">EMAIL</span>
+        <span class="v">SOFTWARE@RYANWILK.COM</span>
+      </a>
+      <a class="btn" href="https://github.com/rjw1428" target="_blank" rel="noopener">
+        <span class="k">GITHUB</span>
+        <span class="v">GITHUB.COM/RJW1428</span>
+      </a>
+      <a class="btn" href="https://linkedin.com/in/rjw1428" target="_blank" rel="noopener">
+        <span class="k">LINKEDIN</span>
+        <span class="v">LINKEDIN.COM/IN/RJW1428</span>
+      </a>
+      <a class="btn" href="https://ryanwilk.com" target="_blank" rel="noopener">
+        <span class="k">HOME STATION</span>
+        <span class="v">RYANWILK.COM</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>POC 1 / DEPARTURES</span>
+    <span>RYAN WILK &middot; PRINCIPAL ENGINEER &middot; AI TECHNICAL LEAD</span>
+    <span>NO FRAMEWORK &middot; NO IMAGES &middot; ONE FILE</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+document.body.classList.remove('no-js');
+
+var MOTION = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·-/&+';
+var EASE_IN  = 'cubic-bezier(.62,.04,.86,.3)';   /* gravity drop of the top flap */
+var EASE_OUT = 'cubic-bezier(.28,1.32,.58,1)';   /* overshoot settle of the bottom flap */
+var CAN_ANIM = MOTION && typeof Element.prototype.animate === 'function';
+
+function rand(n){ return Math.floor(Math.random() * n); }
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+/* ---------- build split-flap cells ---------- */
+function buildLine(line){
+  var text = line.getAttribute('data-flap');
+  if (!line.getAttribute('aria-label')) line.setAttribute('aria-label', text.replace(/\s+/g,' ').trim());
+  var frag  = document.createDocumentFragment();
+  var cells = [];
+  for (var i = 0; i < text.length; i++){
+    var ch   = text[i] === ' ' ? ' ' : text[i].toUpperCase();
+    var cell = document.createElement('span');
+    cell.className = 'cell';
+    cell.setAttribute('aria-hidden','true');
+    var parts = {};
+    ['h-top','h-bot','f-top','f-bot'].forEach(function(cls){
+      var h = document.createElement('span');
+      h.className = 'half ' + cls;
+      var g = document.createElement('span');
+      g.className = 'glyph';
+      h.appendChild(g);
+      cell.appendChild(h);
+      parts[cls] = { h:h, g:g };
+    });
+    frag.appendChild(cell);
+    cells.push({
+      st: parts['h-top'], sb: parts['h-bot'],
+      ft: parts['f-top'], fb: parts['f-bot'],
+      ch: ' ', target: ch, busy: false
+    });
+  }
+  line.textContent = '';
+  line.appendChild(frag);
+  line._cells = cells;
+}
+
+/* ---------- one mechanical flap: current char -> next char ---------- */
+function stepCell(c, next){
+  return new Promise(function(res){
+    c.st.g.textContent = next;   /* revealed as the top flap falls   */
+    c.ft.g.textContent = c.ch;   /* the flap that falls              */
+    c.fb.g.textContent = next;   /* the flap that swings in below    */
+    c.sb.g.textContent = c.ch;   /* stays until the new flap lands   */
+    var a1 = c.ft.h.animate(
+      [{ transform:'rotateX(0deg)' }, { transform:'rotateX(-90deg)' }],
+      { duration: 68 + rand(26), easing: EASE_IN, fill:'forwards' });
+    a1.onfinish = function(){
+      var a2 = c.fb.h.animate(
+        [{ transform:'rotateX(90deg)' }, { transform:'rotateX(0deg)' }],
+        { duration: 96 + rand(34), easing: EASE_OUT, fill:'forwards' });
+      a2.onfinish = function(){
+        c.ch = next;
+        c.sb.g.textContent = next;
+        c.ft.g.textContent = next;
+        a1.cancel();
+        a2.cancel();
+        res();
+      };
+    };
+  });
+}
+
+function setCell(c, ch){
+  c.ch = ch;
+  c.st.g.textContent = ch;
+  c.sb.g.textContent = ch;
+  c.ft.g.textContent = ch;
+  c.fb.g.textContent = ch;
+}
+
+/* spin through 1-3 intermediate characters before landing, like a real board */
+function spinCell(c, target, delay){
+  if (c.busy) return Promise.resolve();
+  c.busy = true;
+  return wait(delay || 0).then(function(){
+    if (!CAN_ANIM){ setCell(c, target); c.busy = false; return; }
+    var seq = [];
+    if (c.ch !== target){
+      var n = (target === ' ') ? 0 : 1 + rand(3);
+      for (var i = 0; i < n; i++) seq.push(CHARS[rand(CHARS.length)]);
+      seq.push(target);
+    }
+    var p = Promise.resolve();
+    seq.forEach(function(ch){ p = p.then(function(){ return stepCell(c, ch); }); });
+    return p.then(function(){ c.busy = false; });
+  });
+}
+
+function spellLine(line, base, stagger){
+  if (!line._cells || line._done) return;
+  line._done = true;
+  base = base || 0;
+  stagger = (stagger == null) ? 45 : stagger;
+  line._cells.forEach(function(c, i){
+    spinCell(c, c.target, base + i * stagger + rand(40));
+  });
+}
+
+/* idle flutter: one cell cycles away and back, like a stuck flap being nudged */
+function flutter(c){
+  if (c.busy || c.ch === ' ' || !CAN_ANIM) return;
+  c.busy = true;
+  var orig = c.ch;
+  stepCell(c, CHARS[rand(CHARS.length)])
+    .then(function(){ return stepCell(c, CHARS[rand(CHARS.length)]); })
+    .then(function(){ return stepCell(c, orig); })
+    .then(function(){ c.busy = false; });
+}
+
+/* ---------- build every flap line up front ---------- */
+var allLines = Array.prototype.slice.call(document.querySelectorAll('.flap-line'));
+allLines.forEach(buildLine);
+
+/* ---------- hero: spell on load ---------- */
+var nameLine = document.querySelector('#hero .fl-xl');
+var subLines = Array.prototype.slice.call(document.querySelectorAll('#hero .fl-lg'));
+window.addEventListener('load', function(){
+  setTimeout(function(){ spellLine(nameLine, 0, 75); }, 350);
+  subLines.forEach(function(l, i){
+    setTimeout(function(){ spellLine(l, 0, 38); }, 1150 + i * 650);
+  });
+});
+/* safety: if load already fired or fonts hang, spell anyway */
+setTimeout(function(){
+  spellLine(nameLine, 0, 75);
+  subLines.forEach(function(l, i){ spellLine(l, 400 + i * 500, 38); });
+}, 2600);
+
+/* ---------- scroll-triggered flaps + reveals ---------- */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (!e.isIntersecting) return;
+    var t = e.target;
+    io.unobserve(t);
+    if (t.classList.contains('rv')){ t.classList.add('on'); return; }
+    if (t.hasAttribute('data-flaprow')){
+      var lines = t.querySelectorAll('.flap-line');
+      Array.prototype.forEach.call(lines, function(l, i){ spellLine(l, i * 150, 40); });
+      if (t.hasAttribute('data-boarding')){
+        setTimeout(function(){
+          var d = t.querySelector('.dot');
+          if (d) d.classList.add('lit');
+        }, CAN_ANIM ? 1400 : 0);
+      }
+      return;
+    }
+    spellLine(t, 0, 55); /* section headings */
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+
+Array.prototype.forEach.call(document.querySelectorAll('.rv, [data-flaprow], .flap-line[data-auto]'),
+  function(el){ io.observe(el); });
+
+/* ---------- clock ---------- */
+var clockEl = document.getElementById('clock');
+function tickClock(){
+  var d = new Date();
+  function p(x){ return (x < 10 ? '0' : '') + x; }
+  clockEl.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+/* ---------- rail nav ---------- */
+var ticks = Array.prototype.slice.call(document.querySelectorAll('.tick'));
+ticks.forEach(function(b){
+  b.addEventListener('click', function(){
+    var el = document.getElementById(b.getAttribute('data-to'));
+    if (el) el.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block:'start' });
+  });
+});
+var secIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (!e.isIntersecting) return;
+    var id = e.target.id;
+    ticks.forEach(function(b){ b.classList.toggle('cur', b.getAttribute('data-to') === id); });
+  });
+}, { rootMargin:'-42% 0px -42% 0px', threshold:0 });
+['hero','history','arrivals','stock','contact'].forEach(function(id){
+  var el = document.getElementById(id);
+  if (el) secIO.observe(el);
+});
+
+/* ---------- hero visibility (gates flutter + parallax) ---------- */
+var heroVisible = true;
+new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ heroVisible = e.isIntersecting; });
+}, { threshold: 0.05 }).observe(document.getElementById('hero'));
+
+/* ---------- ambient flutter on the hero board ---------- */
+if (CAN_ANIM){
+  setInterval(function(){
+    if (!heroVisible || document.hidden) return;
+    var line = Math.random() < 0.6 ? nameLine : subLines[rand(subLines.length)];
+    if (!line._done) return;
+    var live = line._cells.filter(function(c){ return c.ch !== ' ' && !c.busy; });
+    if (live.length) flutter(live[rand(live.length)]);
+  }, 6500);
+}
+
+/* ---------- rAF scroll systems: lerped marker, parallax, loco scrub ---------- */
+var railMarker = document.getElementById('railMarker');
+var heroBoard  = document.getElementById('heroBoard');
+var heroBg     = document.getElementById('heroBg');
+var trackEl    = document.getElementById('trackline');
+var locoEl     = document.getElementById('loco');
+
+var sy = window.pageYOffset, cy = sy, rafId = 0;
+var vh = window.innerHeight, docH = 1, heroH = 1, railLen = 236, trackW = 0, locoW = 158;
+
+function measure(){
+  vh    = window.innerHeight;
+  docH  = Math.max(1, document.documentElement.scrollHeight - vh);
+  heroH = document.getElementById('hero').offsetHeight;
+  var rl = document.querySelector('.rail-line');
+  if (rl) railLen = rl.offsetHeight;
+  trackW = trackEl.clientWidth;
+  locoW  = locoEl.offsetWidth || 158;
+}
+measure();
+window.addEventListener('resize', measure);
+
+function apply(y){
+  /* route marker rides the rail */
+  var p = Math.min(1, Math.max(0, y / docH));
+  railMarker.style.transform = 'translate3d(0,' + (p * railLen).toFixed(1) + 'px,0)';
+
+  if (MOTION){
+    /* hero parallax: board and backdrop drift apart */
+    if (y < heroH + vh){
+      heroBoard.style.transform = 'translate3d(0,' + (y * -0.06).toFixed(1) + 'px,0)';
+      heroBg.style.transform    = 'translate3d(0,' + (y *  0.05).toFixed(1) + 'px,0)';
+    }
+    /* consist scrubs across the divider as it crosses the viewport;
+       travel runs from fully off the left end to fully off the right,
+       so the caboose enters and exits cleanly */
+    var r  = trackEl.getBoundingClientRect();
+    var p2 = (vh - r.top) / (vh + r.height);
+    p2 = Math.min(1, Math.max(0, p2));
+    locoEl.style.transform = 'translate3d(' + (p2 * Math.max(0, trackW + locoW) - locoW).toFixed(1) + 'px,0,0)';
+  }
+}
+
+function frame(){
+  cy += (sy - cy) * 0.16;
+  if (Math.abs(sy - cy) < 0.4) cy = sy;
+  apply(cy);
+  rafId = (cy !== sy) ? requestAnimationFrame(frame) : 0;
+}
+window.addEventListener('scroll', function(){
+  sy = window.pageYOffset;
+  if (!MOTION){ apply(sy); return; }  /* positional, not animated */
+  if (!rafId) rafId = requestAnimationFrame(frame);
+}, { passive:true });
+apply(sy);
+if (!MOTION){
+  /* park the consist mid-track; no scrubbing */
+  locoEl.style.transform = 'translate3d(' + ((trackW - locoW) * 0.5).toFixed(1) + 'px,0,0)';
+}
+})();
+</script>
+</body>
+</html>
