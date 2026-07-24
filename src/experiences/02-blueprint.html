@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<!-- GENERATED from experiences/02-blueprint.html + content.json — do not edit; run `npm run build` -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ryan Wilk — Blueprint → Build</title>
+<title>{{profile.name}} — Blueprint → Build</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ryan Wilk — Blueprint">
+<meta property="og:title" content="{{profile.name}} — Blueprint">
 <meta property="og:description" content="From mechanical drawings to production software. A career rendered as an engineering drawing that assembles itself as you scroll.">
-<meta property="og:url" content="https://www.ryanwilk.com/02-blueprint.html">
+<meta property="og:url" content="{{profile.contact.site}}/02-blueprint.html">
 <meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
-<meta property="og:site_name" content="Ryan Wilk">
+<meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ryan Wilk — Blueprint">
+<meta name="twitter:title" content="{{profile.name}} — Blueprint">
 <meta name="twitter:description" content="From mechanical drawings to production software. A career rendered as an engineering drawing that assembles itself as you scroll.">
 <meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
-<link rel="canonical" href="https://www.ryanwilk.com/02-blueprint.html">
+<link rel="canonical" href="{{profile.contact.site}}/02-blueprint.html">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js');</script>
 <style>
@@ -731,10 +730,10 @@ footer.sheet { padding-bottom: 3rem; }
         build it.</em> This page does both &mdash; every section starts as linework and
         assembles as you scroll.</p>
       <nav class="hero-links" aria-label="Contact">
-        <a class="primary" href="mailto:software@ryanwilk.com">software@ryanwilk.com</a>
-        <a href="https://github.com/rjw1428">github.com/rjw1428</a>
-        <a href="https://linkedin.com/in/rjw1428">linkedin.com/in/rjw1428</a>
-        <a href="https://www.ryanwilk.com">ryanwilk.com</a>
+        <a class="primary" href="mailto:{{profile.contact.email}}">{{profile.contact.email}}</a>
+        <a href="{{profile.contact.github}}">github.com/rjw1428</a>
+        <a href="{{profile.contact.linkedin}}">linkedin.com/in/rjw1428</a>
+        <a href="{{profile.contact.site}}">ryanwilk.com</a>
       </nav>
       <p class="scroll-cue">Scroll to assemble <span class="arrow" aria-hidden="true">&darr;</span></p>
     </div>
@@ -789,7 +788,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 01 &middot; Norfolk Southern &middot; 2013</p>
+        <p class="step-no">Step 01 &middot; {{career.norfolk.company}} &middot; 2013</p>
         <h3>Mechanical supervisor, locomotive works</h3>
         <p>I supervised production lines at the locomotive works in Altoona, PA &mdash; and got
           tired of paper travelers. So I taught myself to program on the shop floor: a
@@ -834,7 +833,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 03 &middot; Founder &middot; c. 2016</p>
+        <p class="step-no">Step 03 &middot; {{career.ssr.role}} &middot; c. 2016</p>
         <h3>SSR Digital Displays</h3>
         <p>Nights and weekends of the San Diego years: I founded a digital menu-board
           startup &mdash; real-time boards a bar owner updates from any web-connected device.
@@ -855,7 +854,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 04 &middot; Accenture &middot; 2018</p>
+        <p class="step-no">Step 04 &middot; {{career.accenture.company}} &middot; 2018</p>
         <h3>Senior analyst, Life Science Cloud</h3>
         <p>Big codebases, bigger stakeholder maps. Working with Life Science Cloud clients,
           I ran discovery on their document-upload pain, then shipped the fixes and
@@ -902,7 +901,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 06 &middot; Fort Robotics &middot; 2021</p>
+        <p class="step-no">Step 06 &middot; {{career.fort-robotics.company}} &middot; 2021</p>
         <h3>Senior engineer, front-end team lead</h3>
         <p>I led a team of five building Fort's first client-facing product: an Angular web
           and Ionic mobile portal for managing their robotic safety-controller platform
@@ -923,7 +922,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 07 &middot; Comcast &middot; Xumo TV &middot; 2022</p>
+        <p class="step-no">Step 07 &middot; {{career.xumo.company}} &middot; Xumo TV &middot; 2022</p>
         <h3>Principal engineer, technical lead &mdash; smart-TV app</h3>
         <p>Technical lead on the resident smart-TV application &mdash; the layer where
           client-facing UI, third-party apps, physical TV hardware, and external APIs all
@@ -950,7 +949,7 @@ footer.sheet { padding-bottom: 3rem; }
         </svg>
       </div>
       <div>
-        <p class="step-no">Step 08 &middot; Comcast &middot; X1 &middot; AS BUILT</p>
+        <p class="step-no">Step 08 &middot; {{career.x1.company}} &middot; X1 &middot; AS BUILT</p>
         <h3>Principal engineer &mdash; AI technical lead, X1 platform</h3>
         <p>The current revision. I lead a squad embedded across the X1 org: we run discovery
           to find where developers actually lose time, then ship AI workflows that get
@@ -1098,13 +1097,13 @@ footer.sheet { padding-bottom: 3rem; }
           <path class="dp" d="M18 12 V20 M14 16 H22" pathLength="1"/>
         </svg>
         <div>
-          <h3><a href="https://myinkwellbooks.com">myInkwell</a></h3>
+          <h3><a href="{{projects.myinkwell.url}}">{{projects.myinkwell.name}}</a></h3>
           <p>A production platform I built solo: design your characters, generate
             AI-illustrated stories around them, and order the result as a hardcover book
             &mdash; software that ends as a physical part, the finished piece off this
             drawing. I own every layer: prompt iteration, cost and latency tradeoffs,
             blue/green rollouts, end-to-end testing, and production observability.</p>
-          <a class="visit" href="https://myinkwellbooks.com">myinkwellbooks.com &nearr;</a>
+          <a class="visit" href="{{projects.myinkwell.url}}">myinkwellbooks.com &nearr;</a>
         </div>
       </div>
       <dl class="tblock">
@@ -1125,7 +1124,7 @@ footer.sheet { padding-bottom: 3rem; }
           <path class="dp" d="M62 47 V65" pathLength="1"/>
         </svg>
         <div>
-          <h3>SpendWatch</h3>
+          <h3>{{projects.spendwatch.name}}</h3>
           <p>Multi-tenant household finance &mdash; everyone budgets from the same set of
             numbers, with AI coaching and performance charting on top. Cloud functions,
             push notifications, and automated publishing through GitHub Actions. Live on
@@ -1151,11 +1150,11 @@ footer.sheet { padding-bottom: 3rem; }
           <path class="dp" d="M63 52 L67 56 L73 47" pathLength="1"/>
         </svg>
         <div>
-          <h3><a href="https://github.com/rjw1428/taskr">taskr</a></h3>
+          <h3><a href="{{projects.taskr.url}}">{{projects.taskr.name}}</a></h3>
           <p>Cross-platform goal tracking with an AI coach built in: Gemini-powered
             check-ins and plan generation from your health data, goals, and performance.
             One Flutter codebase &mdash; iOS, Android, desktop, and web.</p>
-          <a class="visit" href="https://github.com/rjw1428/taskr">github.com/rjw1428/taskr &nearr;</a>
+          <a class="visit" href="{{projects.taskr.url}}">github.com/rjw1428/taskr &nearr;</a>
         </div>
       </div>
       <dl class="tblock">
@@ -1178,11 +1177,11 @@ footer.sheet { padding-bottom: 3rem; }
           <circle class="dp" cx="77" cy="41" r="3" pathLength="1"/>
         </svg>
         <div>
-          <h3><a href="https://github.com/rjw1428/weather-api">MCP tool server</a></h3>
+          <h3><a href="{{projects.mcp-server.url}}">MCP tool server</a></h3>
           <p>A locally hosted MCP server that hands my AI agents custom tooling &mdash;
             fixtures machined to spec, like a resilient weather cache. Small parts,
             tight tolerances.</p>
-          <a class="visit" href="https://github.com/rjw1428/weather-api">github.com/rjw1428/weather-api &nearr;</a>
+          <a class="visit" href="{{projects.mcp-server.url}}">github.com/rjw1428/weather-api &nearr;</a>
         </div>
       </div>
       <dl class="tblock">
@@ -1204,12 +1203,12 @@ footer.sheet { padding-bottom: 3rem; }
           <path class="dp" d="M68 26 A22 22 0 0 1 68 58" pathLength="1"/>
         </svg>
         <div>
-          <h3><a href="https://rehuman.co.uk">Rehuman</a></h3>
+          <h3><a href="{{projects.rehuman.url}}">{{projects.rehuman.name}}</a></h3>
           <p>Forward-deployed with Accenture's first entrepreneur-in-residence &mdash; a
             healthcare AI startup. I architected the core product: the pipeline ingesting
             wearable healthcare data into their AI engine, the ETL behind it, and the
             B2B and B2C portals in front of it.</p>
-          <a class="visit" href="https://rehuman.co.uk">rehuman.co.uk &nearr;</a>
+          <a class="visit" href="{{projects.rehuman.url}}">rehuman.co.uk &nearr;</a>
         </div>
       </div>
       <dl class="tblock">
@@ -1232,11 +1231,11 @@ footer.sheet { padding-bottom: 3rem; }
           <path class="dp" d="M20 22 V68 M46 22 V68" pathLength="1"/>
         </svg>
         <div>
-          <h3><a href="https://test.workflowmanagerpro.com/login?demo=true">Workflow Manager</a></h3>
+          <h3><a href="{{projects.workflow-manager.url}}">{{projects.workflow-manager.name}}</a></h3>
           <p>JIRA for contractors: bidding and estimation tracking with dashboards,
             reports, charting, exports, and file attachments &mdash; the paper traveler
             problem again, solved for the building trades this time.</p>
-          <a class="visit" href="https://test.workflowmanagerpro.com/login?demo=true">live demo &nearr;</a>
+          <a class="visit" href="{{projects.workflow-manager.url}}">live demo &nearr;</a>
         </div>
       </div>
       <dl class="tblock">
@@ -1258,31 +1257,31 @@ footer.sheet { padding-bottom: 3rem; }
         <tbody>
           <tr>
             <td>SSR-001</td>
-            <td>SSR Digital Displays &mdash; real-time menu boards, five venues</td>
+            <td>{{projects.ssr-project.name}} &mdash; real-time menu boards, five venues</td>
             <td>Angular &middot; Firebase realtime sync</td>
             <td>Superseded</td>
           </tr>
           <tr>
             <td>ALP-008</td>
-            <td>Alpine Knives &mdash; e-commerce for a custom knife maker, Stripe checkout to transactional email</td>
+            <td>{{projects.alpine.name}} &mdash; e-commerce for a custom knife maker, Stripe checkout to transactional email</td>
             <td>Angular &middot; Firebase &middot; Stripe &middot; SendGrid</td>
             <td>In service</td>
           </tr>
           <tr>
             <td>BRD-002</td>
-            <td>Brody's Burgers &mdash; restaurant site the owner edits from his phone</td>
+            <td>{{projects.brodys.name}} &mdash; restaurant site the owner edits from his phone</td>
             <td>Angular &middot; Firebase content sync</td>
             <td>In service</td>
           </tr>
           <tr>
             <td>RW-1428</td>
-            <td>This site's infrastructure &mdash; Sheet 3 is the as-built drawing</td>
+            <td>{{projects.self-hosted.name}} &mdash; Sheet 3 is the as-built drawing</td>
             <td>Node/Express &middot; Docker Compose &middot; nginx &middot; Let's Encrypt</td>
             <td>As built</td>
           </tr>
           <tr>
             <td>BUR-005</td>
-            <td>The Burwell Project &mdash; collaborative workspace rental management, scheduling to billing to reservations on one drawing</td>
+            <td>{{projects.burwell.name}} &mdash; collaborative workspace rental management, scheduling to billing to reservations on one drawing</td>
             <td>Angular &middot; Firebase &middot; Stripe</td>
             <td>In service</td>
           </tr>
@@ -1301,26 +1300,26 @@ footer.sheet { padding-bottom: 3rem; }
   <div class="bom reveal">
     <h3>Bill of materials</h3>
     <ul>
-      <li><span>Item 01 &middot; Lang</span>TypeScript / JavaScript</li>
-      <li><span>Item 02 &middot; Lang</span>Python</li>
-      <li><span>Item 03 &middot; Lang</span>Java</li>
-      <li><span>Item 04 &middot; Lang</span>SQL</li>
+      <li><span>Item 01 &middot; Lang</span>{{skills.1.items.0}}</li>
+      <li><span>Item 02 &middot; Lang</span>{{skills.1.items.1}}</li>
+      <li><span>Item 03 &middot; Lang</span>{{skills.1.items.2}}</li>
+      <li><span>Item 04 &middot; Lang</span>{{skills.1.items.3}}</li>
       <li><span>Item 05 &middot; Frame</span>Angular &middot; NgRx</li>
-      <li><span>Item 06 &middot; Frame</span>React</li>
-      <li><span>Item 07 &middot; Frame</span>RxJS</li>
+      <li><span>Item 06 &middot; Frame</span>{{skills.2.items.1}}</li>
+      <li><span>Item 07 &middot; Frame</span>{{skills.2.items.2}}</li>
       <li><span>Item 08 &middot; Frame</span>Node &middot; FastAPI</li>
-      <li><span>Item 09 &middot; Frame</span>GraphQL</li>
-      <li><span>Item 10 &middot; Frame</span>D3.js</li>
+      <li><span>Item 09 &middot; Frame</span>{{skills.3.items.2}}</li>
+      <li><span>Item 10 &middot; Frame</span>{{skills.2.items.4}}</li>
       <li><span>Item 11 &middot; Cloud</span>AWS &middot; Azure</li>
       <li><span>Item 12 &middot; Cloud</span>Docker &middot; Kubernetes</li>
-      <li><span>Item 13 &middot; Cloud</span>Nx monorepos</li>
+      <li><span>Item 13 &middot; Cloud</span>{{skills.4.items.4}}</li>
       <li><span>Item 14 &middot; Data</span>MongoDB &middot; MySQL</li>
-      <li><span>Item 15 &middot; Data</span>Elasticsearch</li>
-      <li><span>Item 16 &middot; Data</span>Neo4j</li>
+      <li><span>Item 15 &middot; Data</span>{{skills.5.items.3}}</li>
+      <li><span>Item 16 &middot; Data</span>{{skills.5.items.4}}</li>
       <li><span>Item 17 &middot; Ship</span>GitHub Actions &middot; Concourse</li>
       <li><span>Item 18 &middot; Ship</span>Cypress &middot; Jest</li>
       <li><span>Item 19 &middot; Ship</span>Blue/green &middot; canary</li>
-      <li><span>Item 20 &middot; Ship</span>Observability</li>
+      <li><span>Item 20 &middot; Ship</span>{{skills.6.items.0}}</li>
     </ul>
   </div>
 
@@ -1331,8 +1330,8 @@ footer.sheet { padding-bottom: 3rem; }
       <li><span>Proc AI-02</span>AI-assisted migrations</li>
       <li><span>Proc AI-03</span>Spec &rarr; implementation systems</li>
       <li><span>Proc AI-04</span>AI test generation</li>
-      <li><span>Proc AI-05</span>Prompt iteration</li>
-      <li><span>Proc AI-06</span>Human-in-the-loop rollout design</li>
+      <li><span>Proc AI-05</span>{{skills.0.items.4}}</li>
+      <li><span>Proc AI-06</span>{{skills.0.items.5}}</li>
       <li><span>Proc AI-07</span>Applied ML (XGBoost)</li>
     </ul>
   </div>
@@ -1348,14 +1347,14 @@ footer.sheet { padding-bottom: 3rem; }
         <table>
           <thead><tr><th scope="col">Rev</th><th scope="col">Description</th></tr></thead>
           <tbody>
-            <tr><td>A</td><td>Mechanical supervisor &mdash; Norfolk Southern locomotive works &middot; 2013</td></tr>
+            <tr><td>A</td><td>Mechanical supervisor &mdash; {{career.norfolk.company}} locomotive works &middot; 2013</td></tr>
             <tr><td>B</td><td>Engineering technician &mdash; NAVSEA SWRMC, U.S. Navy &middot; 2015</td></tr>
-            <tr><td>C</td><td>Founder &mdash; SSR Digital Displays &middot; c. 2016</td></tr>
-            <tr><td>D</td><td>Senior analyst &mdash; Accenture &middot; 2018</td></tr>
+            <tr><td>C</td><td>{{career.ssr.role}} &mdash; {{career.ssr.company}} &middot; c. 2016</td></tr>
+            <tr><td>D</td><td>Senior analyst &mdash; {{career.accenture.company}} &middot; 2018</td></tr>
             <tr><td>E</td><td>Front-end team lead, X1 telemetry &mdash; Comcast &middot; 2019</td></tr>
-            <tr><td>F</td><td>Front-end team lead &mdash; Fort Robotics &middot; 2021</td></tr>
-            <tr><td>G</td><td>Principal engineer, Xumo TV &mdash; Comcast &middot; 2022</td></tr>
-            <tr class="current"><td>H</td><td>Principal engineer &mdash; AI technical lead, X1 &mdash; Comcast &middot; 2025 (as built)</td></tr>
+            <tr><td>F</td><td>Front-end team lead &mdash; {{career.fort-robotics.company}} &middot; 2021</td></tr>
+            <tr><td>G</td><td>Principal engineer, Xumo TV &mdash; {{career.xumo.company}} &middot; 2022</td></tr>
+            <tr class="current"><td>H</td><td>Principal engineer &mdash; AI technical lead, X1 &mdash; {{career.x1.company}} &middot; 2025 (as built)</td></tr>
           </tbody>
         </table>
       </div>
@@ -1364,18 +1363,18 @@ footer.sheet { padding-bottom: 3rem; }
     <div>
     <dl class="titleblock reveal">
       <div class="tb-row">
-        <div class="cell"><dt>Drawn by</dt><dd>Ryan Wilk</dd></div>
+        <div class="cell"><dt>Drawn by</dt><dd>{{profile.name}}</dd></div>
         <div class="cell"><dt>Checked by</dt><dd>You, just now</dd></div>
       </div>
       <div class="tb-row">
-        <div class="cell wide"><dt>Email</dt><dd><a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a></dd></div>
+        <div class="cell wide"><dt>Email</dt><dd><a href="mailto:{{profile.contact.email}}">{{profile.contact.email}}</a></dd></div>
       </div>
       <div class="tb-row">
-        <div class="cell"><dt>GitHub</dt><dd><a href="https://github.com/rjw1428">github.com/rjw1428</a></dd></div>
-        <div class="cell"><dt>LinkedIn</dt><dd><a href="https://linkedin.com/in/rjw1428">linkedin.com/in/rjw1428</a></dd></div>
+        <div class="cell"><dt>GitHub</dt><dd><a href="{{profile.contact.github}}">github.com/rjw1428</a></dd></div>
+        <div class="cell"><dt>LinkedIn</dt><dd><a href="{{profile.contact.linkedin}}">linkedin.com/in/rjw1428</a></dd></div>
       </div>
       <div class="tb-row">
-        <div class="cell wide"><dt>Web</dt><dd><a href="https://www.ryanwilk.com">ryanwilk.com</a></dd></div>
+        <div class="cell wide"><dt>Web</dt><dd><a href="{{profile.contact.site}}">ryanwilk.com</a></dd></div>
       </div>
       <div class="tb-row">
         <div class="cell"><dt>Scale</dt><dd>NTS</dd></div>
@@ -1392,9 +1391,9 @@ footer.sheet { padding-bottom: 3rem; }
       <table>
         <thead><tr><th scope="col">Cert</th><th scope="col">Description</th></tr></thead>
         <tbody>
-          <tr><td>GC-CS</td><td>Graduate coursework, Computer Science &mdash; Johns Hopkins University &middot; 4.0 GPA &middot; 2022</td></tr>
-          <tr><td>BS-DE</td><td>B.S. &mdash; Technische Universit&auml;t Darmstadt, Germany &middot; 2016</td></tr>
-          <tr><td>BSME</td><td>B.S. Mechanical Engineering &mdash; Virginia Tech &middot; 2012</td></tr>
+          <tr><td>GC-CS</td><td>{{education.jhu.credential}} &mdash; {{education.jhu.institution}} &middot; {{education.jhu.detail}} &middot; {{education.jhu.year}}</td></tr>
+          <tr><td>BS-DE</td><td>B.S. &mdash; Technische Universit&auml;t Darmstadt, Germany &middot; {{education.tud.year}}</td></tr>
+          <tr><td>BSME</td><td>{{education.vt.credential}} &mdash; {{education.vt.institution}} &middot; {{education.vt.year}}</td></tr>
         </tbody>
       </table>
     </div>

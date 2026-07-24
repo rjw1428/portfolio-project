@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<!-- GENERATED from experiences/03-telemetry.html + content.json — do not edit; run `npm run build` -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ryan Wilk — Telemetry</title>
+<title>{{profile.name}} — Telemetry</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ryan Wilk — Telemetry">
+<meta property="og:title" content="{{profile.name}} — Telemetry">
 <meta property="og:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
 <meta property="og:url" content="https://www.ryanwilk.com/03-telemetry.html">
 <meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
-<meta property="og:site_name" content="Ryan Wilk">
+<meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ryan Wilk — Telemetry">
+<meta name="twitter:title" content="{{profile.name}} — Telemetry">
 <meta name="twitter:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
 <meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
 <link rel="canonical" href="https://www.ryanwilk.com/03-telemetry.html">
@@ -462,7 +461,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <circle cx="200" cy="200" r="4"/>
       </g>
     </svg>
-    <p class="eyebrow"><b>SIGNAL ACQUIRED</b> &nbsp;//&nbsp; PRINCIPAL SOFTWARE ENGINEER · AI-NATIVE DEVELOPER WORKFLOWS · CUSTOMER-FACING ENGINEERING</p>
+    <p class="eyebrow"><b>SIGNAL ACQUIRED</b> &nbsp;//&nbsp; {{profile.positioning | upper}}</p>
     <h1>Ryan<br>Wilk<span class="dim">_</span></h1>
     <p class="hero-sub">
       <strong>Principal Software Engineer at Comcast</strong> — AI Technical Lead on the X1
@@ -475,7 +474,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div id="bootlog" aria-label="Session boot log">
       <span class="bl">&gt; session.init ..................... <span class="ok">ok</span></span>
       <span class="bl">&gt; observers.attach [scroll, velocity, viewport] <span class="ok">ok</span></span>
-      <span class="bl">&gt; operator.stats [devices: 30,000,000] [open_vulns: <span class="hi">−80%</span>] [yrs: 10+] <span class="ok">ok</span></span>
+      <span class="bl">&gt; operator.stats [devices: {{career.x1-telemetry.metrics.0.value}}] [open_vulns: <span class="hi">−80%</span>] [yrs: {{profile.yearsExperience}}] <span class="ok">ok</span></span>
       <span class="bl">&gt; subject.id = <span class="hi">"visitor"</span></span>
       <span class="bl">&gt; telemetry live — all readouts real. begin sweep.</span>
     </div>
@@ -518,9 +517,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <div id="ev-inner">
             <header>
               <span id="ev-id">EVT-01</span>
-              <h3 id="ev-name">Norfolk Southern · Loco Works</h3>
+              <h3 id="ev-name">{{career.norfolk.company}} · Loco Works</h3>
             </header>
-            <p id="ev-role">Mechanical Supervisor, Altoona Locomotive Works</p>
+            <p id="ev-role">{{career.norfolk.role}}, Altoona Locomotive Works</p>
             <p id="ev-body"></p>
             <ul class="pstats" id="ev-stats"></ul>
           </div>
@@ -547,9 +546,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <header class="panel-top">
           <span class="led" aria-hidden="true"></span>
           <span class="sys">SYS-01</span>
-          <span class="pstat"><a href="https://myinkwellbooks.com" rel="noopener">FLAGSHIP · LIVE ↗</a></span>
+          <span class="pstat"><a href="{{projects.myinkwell.url}}" rel="noopener">FLAGSHIP · LIVE ↗</a></span>
         </header>
-        <h3>myInkwell</h3>
+        <h3>{{projects.myinkwell.name}}</h3>
         <p class="pdesc">Solo-built production platform: design your characters, get
           <strong>AI-illustrated stories</strong>, order them as <strong>real hardcover
           books</strong>. I own every layer — prompt iteration, cost/latency tradeoffs,
@@ -558,43 +557,43 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <ul class="pstats">
           <li><b>MULTI</b><span>AI providers, swappable</span></li>
           <li><b data-count="1">0</b><span>engineer, every layer</span></li>
-          <li><b>2026</b><span>commissioned</span></li>
+          <li><b>{{projects.myinkwell.year}}</b><span>commissioned</span></li>
         </ul>
         <ul class="tags">
-          <li class="t-fe">Angular</li>
+          <li class="t-fe">{{projects.myinkwell.stack.0}}</li>
           <li class="t-be">Python / FastAPI</li>
-          <li class="t-be">MongoDB</li>
-          <li class="t-inf">AWS</li>
+          <li class="t-be">{{projects.myinkwell.stack.3}}</li>
+          <li class="t-inf">{{projects.myinkwell.stack.2}}</li>
           <li class="t-ai">Multi-provider AI</li>
-          <li class="t-be">Stripe</li>
-          <li class="t-inf">Cloudflare</li>
-          <li class="t-inf">Axiom</li>
-          <li class="t-inf">PostHog</li>
+          <li class="t-be">{{projects.myinkwell.stack.5}}</li>
+          <li class="t-inf">{{projects.myinkwell.stack.6}}</li>
+          <li class="t-inf">{{projects.myinkwell.stack.7}}</li>
+          <li class="t-inf">{{projects.myinkwell.stack.8}}</li>
         </ul>
-        <a class="plink" href="https://myinkwellbooks.com" rel="noopener">myinkwellbooks.com ↗</a>
+        <a class="plink" href="{{projects.myinkwell.url}}" rel="noopener">myinkwellbooks.com ↗</a>
       </article>
 
       <article class="panel rv">
         <header class="panel-top">
           <span class="led" aria-hidden="true"></span>
           <span class="sys">SYS-02</span>
-          <span class="pstat">2 STORES · 2025</span>
+          <span class="pstat">2 STORES · {{projects.spendwatch.year}}</span>
         </header>
-        <h3>SpendWatch</h3>
+        <h3>{{projects.spendwatch.name}}</h3>
         <p class="pdesc">Multi-tenant household finance, live on the App Store and Google Play —
           one budget, <strong>every phone in the house sees the same numbers</strong> — with AI
           spending coaching, performance charting, cloud functions, and push notifications.
           Publishing to both stores is automated through GitHub Actions: tag, build, ship.</p>
         <ul class="pstats">
           <li><b data-count="2">0</b><span>app stores, live</span></li>
-          <li><b>Gemini</b><span>coaching engine</span></li>
+          <li><b>{{projects.spendwatch.stack.2}}</b><span>coaching engine</span></li>
         </ul>
         <ul class="tags">
           <li class="t-fe">Flutter / Dart</li>
           <li class="t-inf">AWS · Cognito · S3 · DynamoDB</li>
           <li class="t-inf">CloudFront</li>
-          <li class="t-ai">Gemini</li>
-          <li class="t-be">Elasticsearch</li>
+          <li class="t-ai">{{projects.spendwatch.stack.2}}</li>
+          <li class="t-be">{{projects.spendwatch.stack.3}}</li>
           <li class="t-inf">GitHub Actions</li>
         </ul>
       </article>
@@ -603,22 +602,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <header class="panel-top">
           <span class="led" aria-hidden="true"></span>
           <span class="sys">SYS-03</span>
-          <span class="pstat"><a href="https://github.com/rjw1428/taskr" rel="noopener">SOURCE ↗</a></span>
+          <span class="pstat"><a href="{{projects.taskr.url}}" rel="noopener">SOURCE ↗</a></span>
         </header>
-        <h3>taskr</h3>
+        <h3>{{projects.taskr.name}}</h3>
         <p class="pdesc">Cross-platform goal tracker with <strong>an AI coach built in</strong> —
           check-ins and plan generation driven by your health data, your goals, and how
           you&rsquo;re actually performing. One Flutter codebase, four kinds of screen.</p>
         <ul class="pstats">
           <li><b data-count="4">0</b><span>platforms, 1 codebase</span></li>
-          <li><b>Gemini</b><span>coaching engine</span></li>
+          <li><b>{{projects.taskr.stack.1}}</b><span>coaching engine</span></li>
         </ul>
         <ul class="tags">
           <li class="t-fe">Flutter / Dart</li>
-          <li class="t-be">Firebase</li>
-          <li class="t-ai">Gemini</li>
+          <li class="t-be">{{projects.taskr.stack.2}}</li>
+          <li class="t-ai">{{projects.taskr.stack.1}}</li>
         </ul>
-        <a class="plink" href="https://github.com/rjw1428/taskr" rel="noopener">github.com/rjw1428/taskr ↗</a>
+        <a class="plink" href="{{projects.taskr.url}}" rel="noopener">github.com/rjw1428/taskr ↗</a>
       </article>
 
       <article class="panel rv">
@@ -627,7 +626,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <span class="sys">SYS-04</span>
           <span class="pstat">SERVING</span>
         </header>
-        <h3>MCP Tool Server</h3>
+        <h3>{{projects.mcp-server.name}}</h3>
         <p class="pdesc">A locally hosted MCP server feeding custom tools to my AI agents —
           <strong>instrumentation for the instruments.</strong> On a telemetry page, this is the
           panel that matters: the plumbing that lets an agent read the world. Example tool: a
@@ -638,19 +637,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </ul>
         <ul class="tags">
           <li class="t-be">Python / FastAPI</li>
-          <li class="t-ai">FastMCP</li>
+          <li class="t-ai">{{projects.mcp-server.stack.2}}</li>
           <li class="t-inf">Self-hosted</li>
         </ul>
-        <a class="plink" href="https://github.com/rjw1428/weather-api" rel="noopener">github.com/rjw1428/weather-api ↗</a>
+        <a class="plink" href="{{projects.mcp-server.url}}" rel="noopener">github.com/rjw1428/weather-api ↗</a>
       </article>
 
       <article class="panel rv">
         <header class="panel-top">
           <span class="led" aria-hidden="true"></span>
           <span class="sys">SYS-05</span>
-          <span class="pstat"><a href="https://rehuman.co.uk" rel="noopener">LIVE ↗</a></span>
+          <span class="pstat"><a href="{{projects.rehuman.url}}" rel="noopener">LIVE ↗</a></span>
         </header>
-        <h3>Rehuman</h3>
+        <h3>{{projects.rehuman.name}}</h3>
         <p class="pdesc">Forward-deployed engagement with Accenture&rsquo;s first
           entrepreneur-in-residence startup — healthcare AI. I architected the core product:
           a pipeline ingesting <strong>wearable healthcare data into their AI engine</strong>,
@@ -658,40 +657,40 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <ul class="pstats">
           <li><b>1st</b><span>EIR startup at accenture</span></li>
           <li><b>B2B+B2C</b><span>portals shipped</span></li>
-          <li><b>2023</b><span>commissioned</span></li>
+          <li><b>{{projects.rehuman.year}}</b><span>commissioned</span></li>
         </ul>
         <ul class="tags">
-          <li class="t-fe">React</li>
-          <li class="t-be">RabbitMQ</li>
-          <li class="t-inf">Docker</li>
-          <li class="t-inf">Kubernetes</li>
-          <li class="t-inf">Azure</li>
+          <li class="t-fe">{{projects.rehuman.stack.0}}</li>
+          <li class="t-be">{{projects.rehuman.stack.1}}</li>
+          <li class="t-inf">{{projects.rehuman.stack.2}}</li>
+          <li class="t-inf">{{projects.rehuman.stack.3}}</li>
+          <li class="t-inf">{{projects.rehuman.stack.4}}</li>
         </ul>
-        <a class="plink" href="https://rehuman.co.uk" rel="noopener">rehuman.co.uk ↗</a>
+        <a class="plink" href="{{projects.rehuman.url}}" rel="noopener">rehuman.co.uk ↗</a>
       </article>
 
       <article class="panel rv">
         <header class="panel-top">
           <span class="led" aria-hidden="true"></span>
           <span class="sys">SYS-06</span>
-          <span class="pstat"><a href="https://test.workflowmanagerpro.com/login?demo=true" rel="noopener">DEMO ↗</a></span>
+          <span class="pstat"><a href="{{projects.workflow-manager.url}}" rel="noopener">DEMO ↗</a></span>
         </header>
-        <h3>Workflow Manager</h3>
+        <h3>{{projects.workflow-manager.name}}</h3>
         <p class="pdesc"><strong>JIRA for contractors:</strong> bidding and estimation tracking —
           data entry, dashboards, reports, charting, exports, file attachments. Websockets keep
           every open dashboard current, so the office and the job site read the same numbers.</p>
         <ul class="pstats">
           <li><b>WS</b><span>live dashboards</span></li>
-          <li><b>2020</b><span>commissioned</span></li>
+          <li><b>{{projects.workflow-manager.year}}</b><span>commissioned</span></li>
         </ul>
         <ul class="tags">
-          <li class="t-fe">Angular 12</li>
-          <li class="t-fe">NgRx</li>
+          <li class="t-fe">{{projects.workflow-manager.stack.0}}</li>
+          <li class="t-fe">{{projects.workflow-manager.stack.1}}</li>
           <li class="t-be">Node / Express</li>
           <li class="t-be">Websockets</li>
-          <li class="t-be">MySQL</li>
+          <li class="t-be">{{projects.workflow-manager.stack.5}}</li>
         </ul>
-        <a class="plink" href="https://test.workflowmanagerpro.com/login?demo=true" rel="noopener">test.workflowmanagerpro.com ↗</a>
+        <a class="plink" href="{{projects.workflow-manager.url}}" rel="noopener">test.workflowmanagerpro.com ↗</a>
       </article>
 
     </div>
@@ -702,14 +701,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <li>
           <span class="arc-led" aria-hidden="true"></span>
           <span class="arc-id">ARC-01</span>
-          <span class="arc-name">SSR Digital Displays</span>
+          <span class="arc-name">{{projects.ssr-project.name}}</span>
           <span class="arc-note">real-time menu boards · 5 venues, 2 cities · founder / dev / support</span>
           <span class="arc-stat">DECOMM</span>
         </li>
         <li>
           <span class="arc-led live" aria-hidden="true"></span>
           <span class="arc-id">ARC-02</span>
-          <span class="arc-name">Alpine Knives</span>
+          <span class="arc-name">{{projects.alpine.name}}</span>
           <span class="arc-note">e-commerce, Stripe + SendGrid — money moves through this one</span>
           <span class="arc-stat">STANDBY</span>
         </li>
@@ -730,7 +729,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <li>
           <span class="arc-led live" aria-hidden="true"></span>
           <span class="arc-id">ARC-05</span>
-          <span class="arc-name">The Burwell Project</span>
+          <span class="arc-name">{{projects.burwell.name}}</span>
           <span class="arc-note">collaborative workspace rental control — scheduling, billing, reservations · Angular / Firebase / Stripe</span>
           <span class="arc-stat">STANDBY</span>
         </li>
@@ -762,12 +761,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="chan-body">
         <p>Where I live day to day — I&rsquo;ve led UI teams from telemetry dashboards to smart-TV apps to robot-fleet portals, so state management and render performance are the job, not a nice-to-have. NgRx re-architectures and D3 instrument panels are home turf.</p>
         <ul class="tags">
-          <li class="t-fe">React</li>
-          <li class="t-fe">Angular</li>
-          <li class="t-fe">NgRx</li>
-          <li class="t-fe">RxJS</li>
+          <li class="t-fe">{{skills.2.items.1}}</li>
+          <li class="t-fe">{{skills.2.items.0}}</li>
+          <li class="t-fe">{{skills.2.items.3}}</li>
+          <li class="t-fe">{{skills.2.items.2}}</li>
           <li class="t-fe">TypeScript</li>
-          <li class="t-fe">D3.js</li>
+          <li class="t-fe">{{skills.2.items.4}}</li>
           <li class="t-fe">Flutter / Dart</li>
           <li class="t-fe">Ionic</li>
           <li class="t-fe">Tailwind</li>
@@ -790,11 +789,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <ul class="tags">
           <li class="t-be">Node / Express</li>
           <li class="t-be">Python / FastAPI</li>
-          <li class="t-be">Java</li>
-          <li class="t-be">SQL</li>
-          <li class="t-be">GraphQL</li>
+          <li class="t-be">{{skills.1.items.2}}</li>
+          <li class="t-be">{{skills.1.items.3}}</li>
+          <li class="t-be">{{skills.3.items.2}}</li>
           <li class="t-be">Firebase / Firestore</li>
-          <li class="t-be">MongoDB</li>
+          <li class="t-be">{{skills.5.items.2}}</li>
           <li class="t-be">Stripe</li>
           <li class="t-be">SendGrid</li>
         </ul>
@@ -813,15 +812,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="chan-body">
         <p>From my own rack to two clouds: containers, orchestration, reverse proxies, TLS — plus the pipelines that ship it all, and the rollout patterns (blue/green, canary) that keep shipping boring.</p>
         <ul class="tags">
-          <li class="t-inf">AWS</li>
-          <li class="t-inf">Azure</li>
-          <li class="t-inf">Kubernetes</li>
-          <li class="t-inf">Docker</li>
+          <li class="t-inf">{{skills.4.items.0}}</li>
+          <li class="t-inf">{{skills.4.items.1}}</li>
+          <li class="t-inf">{{skills.4.items.3}}</li>
+          <li class="t-inf">{{skills.4.items.2}}</li>
           <li class="t-inf">nginx</li>
           <li class="t-inf">Nx</li>
-          <li class="t-inf">MySQL</li>
-          <li class="t-inf">Elasticsearch</li>
-          <li class="t-inf">Neo4j</li>
+          <li class="t-inf">{{skills.5.items.0}}</li>
+          <li class="t-inf">{{skills.5.items.3}}</li>
+          <li class="t-inf">{{skills.5.items.4}}</li>
           <li class="t-inf">GitHub Actions</li>
           <li class="t-inf">Concourse</li>
           <li class="t-inf">Blue/green + canary</li>
@@ -843,10 +842,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <ul class="tags">
           <li class="t-ai">Agentic PR review / fix loops</li>
           <li class="t-ai">AI-assisted migrations</li>
-          <li class="t-ai">Spec → implementation systems</li>
+          <li class="t-ai">{{skills.0.items.2}}</li>
           <li class="t-ai">AI test generation</li>
-          <li class="t-ai">Prompt iteration</li>
-          <li class="t-ai">Human-in-the-loop rollout design</li>
+          <li class="t-ai">{{skills.0.items.4}}</li>
+          <li class="t-ai">{{skills.0.items.5}}</li>
           <li class="t-ai">Applied ML (XGBoost)</li>
           <li class="t-ai">Multi-provider integration</li>
           <li class="t-ai">MCP / FastMCP</li>
@@ -870,24 +869,24 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <li>
           <span class="arc-led live" aria-hidden="true"></span>
           <span class="arc-id">CAL-03</span>
-          <span class="arc-name">Johns Hopkins University</span>
-          <span class="arc-note">graduate coursework, computer science</span>
-          <b>4.0 GPA</b>
-          <span class="arc-stat">2022</span>
+          <span class="arc-name">{{education.jhu.institution}}</span>
+          <span class="arc-note">{{education.jhu.credential | lower}}</span>
+          <b>{{education.jhu.detail}}</b>
+          <span class="arc-stat">{{education.jhu.year}}</span>
         </li>
         <li>
           <span class="arc-led" aria-hidden="true"></span>
           <span class="arc-id">CAL-02</span>
           <span class="arc-name">TU Darmstadt · Germany</span>
           <span class="arc-note">additional B.S.</span>
-          <span class="arc-stat">2016</span>
+          <span class="arc-stat">{{education.tud.year}}</span>
         </li>
         <li>
           <span class="arc-led" aria-hidden="true"></span>
           <span class="arc-id">CAL-01</span>
-          <span class="arc-name">Virginia Tech</span>
+          <span class="arc-name">{{education.vt.institution}}</span>
           <span class="arc-note">B.S. mechanical engineering</span>
-          <span class="arc-stat">2012</span>
+          <span class="arc-stat">{{education.vt.year}}</span>
         </li>
       </ul>
     </div>
@@ -907,13 +906,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       argue about RxJS operators — the channel is open.</p>
     <div class="term rv" role="group" aria-label="Contact channels">
       <p><span class="pr">$</span>contact --via email<br>
-         <span class="out">&gt;</span><a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a></p>
+         <span class="out">&gt;</span><a href="mailto:{{profile.contact.email}}">{{profile.contact.email}}</a></p>
       <p><span class="pr">$</span>contact --via github<br>
-         <span class="out">&gt;</span><a class="gh" href="https://github.com/rjw1428" rel="noopener">github.com/rjw1428</a></p>
+         <span class="out">&gt;</span><a class="gh" href="{{profile.contact.github}}" rel="noopener">github.com/rjw1428</a></p>
       <p><span class="pr">$</span>contact --via linkedin<br>
-         <span class="out">&gt;</span><a class="li" href="https://linkedin.com/in/rjw1428" rel="noopener">linkedin.com/in/rjw1428</a></p>
+         <span class="out">&gt;</span><a class="li" href="{{profile.contact.linkedin}}" rel="noopener">linkedin.com/in/rjw1428</a></p>
       <p><span class="pr">$</span>contact --via web<br>
-         <span class="out">&gt;</span><a class="web" href="https://www.ryanwilk.com" rel="noopener">ryanwilk.com</a></p>
+         <span class="out">&gt;</span><a class="web" href="{{profile.contact.site}}" rel="noopener">ryanwilk.com</a></p>
     </div>
   </div>
 </section>
@@ -923,7 +922,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <footer>
   <div class="wrap">
     <span>POC 3 / TELEMETRY — experimental direction, one of several</span>
-    <span>single HTML file · every readout is a real measurement · © Ryan Wilk</span>
+    <span>single HTML file · every readout is a real measurement · © {{profile.name}}</span>
   </div>
 </footer>
 
@@ -1039,35 +1038,35 @@ function drawEkg(e, vel){
 
 /* ---------------- career timeline ---------------- */
 var EVENTS = [
-  { x: 70,  amp: 36, id: 'EVT-01', name: 'Norfolk Southern · Loco Works',
-    role: 'Mechanical Supervisor, Altoona Locomotive Works · Jan 2013 – Jul 2015',
+  { x: 70,  amp: 36, id: 'EVT-01', name: '{{career.norfolk.company}} · Loco Works',
+    role: '{{career.norfolk.role}}, Altoona Locomotive Works · Jan 2013 – Jul 2015',
     body: 'Locomotive overhauls — and a wall of paper tracking all of it. I taught myself software on the job and replaced the clipboards: a multi-tier data system for the production line, plus Python automation pulling QC measurements straight off the CNC machines. First time I watched software change a shop floor.',
     stats: [ { v: '−8h', k: 'weekly manual entry' }, { v: 'CNC→QC', k: 'python automation' } ] },
   { x: 195, amp: 46, id: 'EVT-02', name: 'NAVSEA SWRMC · U.S. Navy',
-    role: 'Engineering Technician V, San Diego · Aug 2015 – May 2018',
+    role: '{{career.navsea.role}}, San Diego · Aug 2015 – May 2018',
     body: 'Fleet maintenance engineering — and the paperwork problem followed me to the pier. I built a MERN-stack data collection system that cut processing time and automated stakeholder reporting. The Navy gave it a U.S. Navy Innovation Award.',
     stats: [ { v: 'AWARD', k: 'u.s. navy innovation' }, { v: 'MERN', k: 'stack, self-directed' } ] },
-  { x: 320, amp: 56, id: 'EVT-03', name: 'SSR Digital Displays',
-    role: 'Founder · San Diego era, ~2016',
+  { x: 320, amp: 56, id: 'EVT-03', name: '{{career.ssr.company}}',
+    role: '{{career.ssr.role}} · San Diego era, ~2016',
     body: 'A real-time digital menu-board system a bar owner could update from any web-connected device. Installed in five venues across San Diego and Philadelphia. Sales, installs, and the 2 a.m. support calls: all me.',
-    stats: [ { v: '5', k: 'venues live' }, { v: '1', k: 'founder / dev / support' } ] },
-  { x: 445, amp: 66, id: 'EVT-04', name: 'Accenture',
+    stats: [ { v: '{{career.ssr.metrics.0.value}}', k: 'venues live' }, { v: '1', k: 'founder / dev / support' } ] },
+  { x: 445, amp: 66, id: 'EVT-04', name: '{{career.accenture.company}}',
     role: 'Senior Analyst, Life Science Cloud clients · May 2018 – Apr 2019',
     body: 'Enterprise scale: big systems, long release trains, rooms full of stakeholders. I ran discovery on why document uploads kept hurting, then shipped the fixes and automation myself. I learned to move the needle inside constraints I didn’t choose.',
     stats: [ { v: '−84%', k: 'client-reported issues' }, { v: '$45k', k: 'saved per year' } ] },
   { x: 570, amp: 76, id: 'EVT-05', name: 'Comcast · X1 Telemetry',
     role: 'Front-end team lead (via TekSystems) · Apr 2019 – May 2021',
     body: 'Led three devs re-architecting the real-time telemetry front end around NgRx, built the JS data-collection library running on 30 million devices, D3 visualizations including a live per-market U.S. map, and Python blue/green data-drift monitoring. This job is why this page looks the way it does — the whole aesthetic is a tribute to it.',
-    stats: [ { v: '30M', k: 'devices reporting' }, { v: '87%', k: 'tech debt resolved' }, { v: '+200%', k: 'feature delivery speed' } ] },
-  { x: 695, amp: 86, id: 'EVT-06', name: 'Fort Robotics',
+    stats: [ { v: '30M', k: 'devices reporting' }, { v: '{{career.x1-telemetry.metrics.1.value}}', k: 'tech debt resolved' }, { v: '{{career.x1-telemetry.metrics.2.value}}', k: 'feature delivery speed' } ] },
+  { x: 695, amp: 86, id: 'EVT-06', name: '{{career.fort-robotics.company}}',
     role: 'Senior engineer / front-end team lead, Series B · Apr 2021 – May 2022',
     body: 'Led a team of five building the company’s first client-facing product: an Angular web + Ionic mobile portal for managing robotic safety controllers — the product that let a hardware company pivot to platform-first software. I built the core component library: infinite-scroll and lazy-load directives, form wizards, async validators. Strict TypeScript, RxJS everywhere.',
     stats: [ { v: '5', k: 'engineers led' }, { v: '1st', k: 'client-facing product' } ] },
-  { x: 820, amp: 96, id: 'EVT-07', name: 'Comcast · Xumo TV',
+  { x: 820, amp: 96, id: 'EVT-07', name: '{{career.xumo.company}} · Xumo TV',
     role: 'Principal Engineer, Technical Lead · May 2022 – 2025',
     body: 'Technical lead for the resident smart-TV app — the layer bridging client-facing UI, third-party apps, physical TV hardware, and external APIs. Built TV Toolkit, a one-click debugging and device-interface suite for devs and QA. AI Academy capstone shipped an XGBoost model into a customer-facing troubleshooting chat app.',
-    stats: [ { v: '−10%', k: 'onboarding + dev cycles' }, { v: '+30%', k: 'suggested-action acceptance' } ] },
-  { x: 945, amp: 108, id: 'EVT-08', name: 'Comcast · X1 Platform',
+    stats: [ { v: '−10%', k: 'onboarding + dev cycles' }, { v: '{{career.xumo.metrics.1.value}}', k: 'suggested-action acceptance' } ] },
+  { x: 945, amp: 108, id: 'EVT-08', name: '{{career.x1.company}} · X1 Platform',
     role: 'Principal Engineer — AI Technical Lead · May 2025 – present — ● LIVE',
     body: 'I lead a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows adopted company-wide — an agentic vulnerability-fix pipeline with human-in-the-loop PRs, a spec-driven AI-assisted Java 8→25 migration of a mission-critical app, an AI system that repairs broken tests and finds E2E coverage gaps, and an org-wide LLM onboarding tool for non-technical stakeholders. Current position of the cursor — the signal is live, and you’re watching it get drawn.',
     stats: [ { v: '−80%', k: 'open vulnerabilities' }, { v: '8→25', k: 'java, spec-driven' }, { v: 'ORG-WIDE', k: 'adoption' } ] }

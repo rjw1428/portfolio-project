@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<!-- GENERATED from experiences/04-voyage.html + content.json — do not edit; run `npm run build` -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ryan Wilk — Voyage</title>
+<title>{{profile.name}} — Voyage</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ryan Wilk — Voyage">
+<meta property="og:title" content="{{profile.name}} — Voyage">
 <meta property="og:description" content="Ten years underway. A career as a gravity-assist trajectory through eight stops, told in deep space.">
-<meta property="og:url" content="https://www.ryanwilk.com/04-voyage.html">
-<meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
-<meta property="og:site_name" content="Ryan Wilk">
+<meta property="og:url" content="{{profile.contact.site}}/04-voyage.html">
+<meta property="og:image" content="{{profile.contact.site}}/og-image.png">
+<meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ryan Wilk — Voyage">
+<meta name="twitter:title" content="{{profile.name}} — Voyage">
 <meta name="twitter:description" content="Ten years underway. A career as a gravity-assist trajectory through eight stops, told in deep space.">
-<meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
-<link rel="canonical" href="https://www.ryanwilk.com/04-voyage.html">
+<meta name="twitter:image" content="{{profile.contact.site}}/og-image.png">
+<link rel="canonical" href="{{profile.contact.site}}/04-voyage.html">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
-<meta name="description" content="Ryan Wilk, Principal Engineer. A career plotted as a deep-space voyage: eight gravity assists, six worlds surveyed and shipped.">
+<meta name="description" content="{{profile.name}}, Principal Engineer. A career plotted as a deep-space voyage: eight gravity assists, six worlds surveyed and shipped.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Albert+Sans:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
@@ -1050,7 +1049,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       <div class="assist-cards">
         <article class="assist-card" data-stop="0">
           <span class="eyebrow">Assist 01 · Δv +4.2 km/s</span>
-          <h3>Norfolk Southern</h3>
+          <h3>{{career.norfolk.company}}</h3>
           <p class="role">Mechanical supervisor · Altoona, PA · 2013–2015</p>
           <p class="blurb">Locomotive works — engines, wheelsets, traction motors.
             The line ran on paper, so I taught myself to code: a production-line
@@ -1069,7 +1068,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
         </article>
         <article class="assist-card" data-stop="2">
           <span class="eyebrow">Assist 03 · Δv +5.4 km/s</span>
-          <h3>SSR Digital Displays</h3>
+          <h3>{{career.ssr.company}}</h3>
           <p class="role">Founder · San Diego · 2016</p>
           <p class="blurb">A digital menu-board startup — real-time boards behind three
             San Diego bars and two in Philadelphia, updated from any web-connected
@@ -1078,7 +1077,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
         </article>
         <article class="assist-card" data-stop="3">
           <span class="eyebrow">Assist 04 · Δv +5.5 km/s</span>
-          <h3>Accenture</h3>
+          <h3>{{career.accenture.company}}</h3>
           <p class="role">Senior analyst · Life Science Cloud · 2018–2019</p>
           <p class="blurb">Embedded with Life Science Cloud clients — enterprise
             scale, heavy orbits. Ran discovery on their document-upload pain,
@@ -1098,7 +1097,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
         </article>
         <article class="assist-card" data-stop="5">
           <span class="eyebrow">Assist 06 · Δv +6.8 km/s</span>
-          <h3>Fort Robotics</h3>
+          <h3>{{career.fort-robotics.company}}</h3>
           <p class="role">Senior engineer · front-end team lead · 2021–2022</p>
           <p class="blurb">Led a crew of five building the company's first
             client-facing product — an Angular web and Ionic mobile portal
@@ -1172,7 +1171,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       </div>
       <div class="survey reveal">
         <span class="eyebrow">Flyby 01 · body INK-1</span>
-        <h3>myInkwell</h3>
+        <h3>{{projects.myinkwell.name}}</h3>
         <p class="class-line">Class — AI · flagship · 2026</p>
         <p class="blurb">A production platform, solo-built. Readers design
           characters, AI illustrates their stories, and the stories arrive as
@@ -1181,7 +1180,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
           Axiom, and PostHog in the hold. The newest world, and the
           brightest.</p>
         <p class="moons-line"><b>Moons</b> Angular 21 · Tailwind 4 · FastAPI · MongoDB · AWS · Multi-provider AI</p>
-        <a class="visit" href="https://myinkwellbooks.com" rel="noopener">myinkwellbooks.com</a>
+        <a class="visit" href="{{projects.myinkwell.url}}" rel="noopener">myinkwellbooks.com</a>
       </div>
     </div>
   </section>
@@ -1205,7 +1204,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       </div>
       <div class="survey reveal">
         <span class="eyebrow">Flyby 02 · body SPW-2</span>
-        <h3>SpendWatch</h3>
+        <h3>{{projects.spendwatch.name}}</h3>
         <p class="class-line">Class — household finance · multi-tenant · 2025</p>
         <p class="blurb">A multi-tenant household ledger — one budget, every hand
           on deck — live on both app stores. AI coaching reads the spending,
@@ -1232,14 +1231,14 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       </div>
       <div class="survey reveal">
         <span class="eyebrow">Flyby 03 · body TSK-3</span>
-        <h3>taskr</h3>
+        <h3>{{projects.taskr.name}}</h3>
         <p class="class-line">Class — cross-platform · AI coach</p>
         <p class="blurb">A goal tracker that flies every deck — iOS, Android,
           desktop, web — from one Flutter codebase. Built-in AI coaching reads
           health data, goals, and performance, then checks in and writes the
           plan. Gemini-powered, Firebase-backed.</p>
         <p class="moons-line"><b>Moons</b> Flutter · Gemini · Firebase</p>
-        <a class="visit" href="https://github.com/rjw1428/taskr" rel="noopener">github.com/rjw1428/taskr</a>
+        <a class="visit" href="{{projects.taskr.url}}" rel="noopener">github.com/rjw1428/taskr</a>
       </div>
     </div>
   </section>
@@ -1268,7 +1267,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
           handing custom tools to my AI agents; first instrument aboard, a
           resilient weather cache. Small, cold, always on.</p>
         <p class="moons-line"><b>Moons</b> Python · FastAPI · FastMCP</p>
-        <a class="visit" href="https://github.com/rjw1428/weather-api" rel="noopener">github.com/rjw1428/weather-api</a>
+        <a class="visit" href="{{projects.mcp-server.url}}" rel="noopener">github.com/rjw1428/weather-api</a>
       </div>
     </div>
   </section>
@@ -1295,7 +1294,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       </div>
       <div class="survey reveal">
         <span class="eyebrow">Flyby 05 · body RHM-5</span>
-        <h3>Rehuman</h3>
+        <h3>{{projects.rehuman.name}}</h3>
         <p class="class-line">Class — healthcare AI · forward-deployed · 2023</p>
         <p class="blurb">Forward-deployed with Accenture's first
           entrepreneur-in-residence — a healthcare AI startup. Architected the
@@ -1303,7 +1302,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
           engine, ETL beneath, B2B and B2C portals above. A world with a
           pulse.</p>
         <p class="moons-line"><b>Moons</b> React · RabbitMQ · Docker · Kubernetes · Azure</p>
-        <a class="visit" href="https://rehuman.co.uk" rel="noopener">rehuman.co.uk</a>
+        <a class="visit" href="{{projects.rehuman.url}}" rel="noopener">rehuman.co.uk</a>
       </div>
     </div>
   </section>
@@ -1329,13 +1328,13 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       </div>
       <div class="survey reveal">
         <span class="eyebrow">Flyby 06 · body WFM-6</span>
-        <h3>Workflow Manager</h3>
+        <h3>{{projects.workflow-manager.name}}</h3>
         <p class="class-line">Class — SaaS · contractor ops · 2020</p>
         <p class="blurb">JIRA for contractors. Bidding and estimation tracked
           from first walkthrough to final invoice — dashboards, reports,
           charting, exports. Built for crews who measure twice.</p>
         <p class="moons-line"><b>Moons</b> Angular 12 · NgRx · Node/Express · MySQL</p>
-        <a class="visit" href="https://test.workflowmanagerpro.com/login?demo=true" rel="noopener">workflowmanagerpro.com · demo</a>
+        <a class="visit" href="{{projects.workflow-manager.url}}" rel="noopener">workflowmanagerpro.com · demo</a>
       </div>
     </div>
   </section>
@@ -1350,17 +1349,17 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
           <span class="a-link"></span>
         </li>
         <li>
-          <span class="a-name">Alpine Knives</span>
+          <span class="a-name">{{projects.alpine.name}}</span>
           <span class="a-desc">Storefront for hand-finished knives — catalog to checkout to email.</span>
           <span class="a-link"></span>
         </li>
         <li>
-          <span class="a-name">Brody's Burgers</span>
+          <span class="a-name">{{projects.brodys.name}}</span>
           <span class="a-desc">A restaurant site the owner edits from his phone. No developer in the loop.</span>
           <span class="a-link"></span>
         </li>
         <li>
-          <span class="a-name">The Burwell Project</span>
+          <span class="a-name">{{projects.burwell.name}}</span>
           <span class="a-desc">Shared-workspace rentals — scheduling, billing, reservations. Angular, Firebase, Stripe.</span>
           <span class="a-link"></span>
         </li>
@@ -1473,7 +1472,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
       <p class="eyebrow">Academy records</p>
       <ul class="cred-list">
         <li><b>Johns Hopkins</b> — graduate coursework, CS · 4.0 · 2022</li>
-        <li><b>Virginia Tech</b> — B.S., mechanical engineering · 2012</li>
+        <li><b>{{education.vt.institution}}</b> — B.S., mechanical engineering · 2012</li>
         <li><b>TU Darmstadt</b> — B.S., Germany · 2016</li>
       </ul>
     </div>
@@ -1492,15 +1491,15 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
     <p class="invite reveal">The next assist is unplotted. If you're building something
       worth gaining speed for, send a signal.</p>
     <nav class="tx-links reveal" aria-label="Contact links">
-      <a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a>
-      <a href="https://github.com/rjw1428" rel="noopener">github.com/rjw1428</a>
-      <a href="https://linkedin.com/in/rjw1428" rel="noopener">linkedin.com/in/rjw1428</a>
-      <a href="https://www.ryanwilk.com" rel="noopener">ryanwilk.com</a>
+      <a href="mailto:{{profile.contact.email}}">{{profile.contact.email}}</a>
+      <a href="{{profile.contact.github}}" rel="noopener">github.com/rjw1428</a>
+      <a href="{{profile.contact.linkedin}}" rel="noopener">linkedin.com/in/rjw1428</a>
+      <a href="{{profile.contact.site}}" rel="noopener">ryanwilk.com</a>
     </nav>
   </section>
 
   <footer>
-    <p>POC 4 / VOYAGE — plotted &amp; built by Ryan Wilk</p>
+    <p>POC 4 / VOYAGE — plotted &amp; built by {{profile.name}}</p>
     <p>no images aboard · every world drawn in CSS &amp; SVG</p>
   </footer>
 
@@ -1575,7 +1574,7 @@ body.reduced .planet,body.reduced .orbit,body.reduced .moon{animation:none;}
 
   var totalLen = flightPath.getTotalLength();
   var STOPS = [0.05, 0.18, 0.31, 0.44, 0.57, 0.70, 0.83, 0.95];
-  var NAMES = ['NORFOLK SOUTHERN', 'NAVSEA', 'SSR DISPLAYS', 'ACCENTURE', 'X1 TELEMETRY', 'FORT ROBOTICS', 'XUMO TV', 'X1 PLATFORM'];
+  var NAMES = ['{{career.norfolk.company | upper}}', 'NAVSEA', 'SSR DISPLAYS', '{{career.accenture.company | upper}}', 'X1 TELEMETRY', '{{career.fort-robotics.company | upper}}', 'XUMO TV', 'X1 PLATFORM'];
   var YEARS = ['2013', '2015', '2016', '2018', '2019', '2021', '2022', 'NOW'];
   var RADII = [7, 9, 6, 10, 8, 8, 9, 11];
   var VF = [0, 0.05, 0.18, 0.31, 0.44, 0.57, 0.70, 0.83, 0.95, 1];

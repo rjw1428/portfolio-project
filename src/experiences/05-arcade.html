@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<!-- GENERATED from experiences/05-arcade.html + content.json — do not edit; run `npm run build` -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ryan Wilk — Principal Software Engineer</title>
+<title>{{profile.name}} — Principal Software Engineer</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="Ryan Wilk — Arcade">
+<meta property="og:title" content="{{profile.name}} — Arcade">
 <meta property="og:description" content="A career as a playable 16-bit level. Principal engineer: AI-native workflows, full-stack, achievements unlocked.">
 <meta property="og:url" content="https://www.ryanwilk.com/05-arcade.html">
 <meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
-<meta property="og:site_name" content="Ryan Wilk">
+<meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ryan Wilk — Arcade">
+<meta name="twitter:title" content="{{profile.name}} — Arcade">
 <meta name="twitter:description" content="A career as a playable 16-bit level. Principal engineer: AI-native workflows, full-stack, achievements unlocked.">
 <meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
 <link rel="canonical" href="https://www.ryanwilk.com/05-arcade.html">
@@ -731,7 +730,7 @@ a:hover{ color:#fff; }
               <rect x="116" y="28" width="4" height="4" fill="#f2a65a"/>
             </svg>
           </div>
-          <p class="sign"><span class="s-code">WORLD 1-1</span>RAIL YARD · NORFOLK SOUTHERN</p>
+          <p class="sign"><span class="s-code">WORLD 1-1</span>RAIL YARD · {{career.norfolk.company | upper}}</p>
         </div>
 
         <!-- Zone 1 : NAVSEA, U.S. Navy, San Diego -->
@@ -793,7 +792,7 @@ a:hover{ color:#fff; }
               <rect x="64" y="56" width="8" height="6" fill="#ffd35c"/>
             </svg>
           </div>
-          <p class="sign"><span class="s-code">WORLD 2-1</span>SSR DIGITAL DISPLAYS</p>
+          <p class="sign"><span class="s-code">WORLD 2-1</span>{{career.ssr.company | upper}}</p>
         </div>
 
         <!-- Zone 3 : Accenture -->
@@ -819,7 +818,7 @@ a:hover{ color:#fff; }
               <rect x="100" y="64" width="4" height="4" fill="#f2a65a"/><rect x="108" y="64" width="4" height="4" fill="#f2a65a"/>
             </svg>
           </div>
-          <p class="sign"><span class="s-code">WORLD 2-2</span>ACCENTURE</p>
+          <p class="sign"><span class="s-code">WORLD 2-2</span>{{career.accenture.company | upper}}</p>
         </div>
 
         <!-- Zone 4 : Comcast telemetry -->
@@ -893,7 +892,7 @@ a:hover{ color:#fff; }
               <rect x="58" y="70" width="6" height="6" fill="#43315f"/>
             </svg>
           </div>
-          <p class="sign"><span class="s-code">WORLD 3-2</span>FORT ROBOTICS</p>
+          <p class="sign"><span class="s-code">WORLD 3-2</span>{{career.fort-robotics.company | upper}}</p>
         </div>
 
         <!-- Zone 6 : Comcast Xumo TV -->
@@ -995,27 +994,27 @@ a:hover{ color:#fff; }
       <h2 class="stage-title">THE CAREER LEVEL</h2>
     </div>
     <ol id="zone-data">
-      <li data-code="1-1" data-name="RAIL YARD · NORFOLK SOUTHERN" data-ach="SELF-TAUGHT CODER" data-xp="500" data-ach2="+8 HRS/WEEK SAVED" data-xp2="250">
-        <p class="z-code">WORLD 1-1 · RAIL YARD, NORFOLK SOUTHERN — ALTOONA, PA</p>
-        <h3>Mechanical Supervisor (2013–2015)</h3>
+      <li data-code="1-1" data-name="RAIL YARD · {{career.norfolk.company | upper}}" data-ach="SELF-TAUGHT CODER" data-xp="500" data-ach2="+8 HRS/WEEK SAVED" data-xp2="250">
+        <p class="z-code">WORLD 1-1 · RAIL YARD, {{career.norfolk.company | upper}} — {{career.norfolk.location | upper}}</p>
+        <h3>{{career.norfolk.role}} (2013–2015)</h3>
         <p>I started on a shop floor at Norfolk Southern, supervising locomotive production lines — and taught myself to program to fix them. I built a multi-tier data system for the production line and Python automation for CNC quality control that eliminated 8 hours a week of manual data entry. That's where engineering turned into software for me.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: SELF-TAUGHT CODER <b>+500 XP</b></p>
         <p class="z-ach">🏆 ACHIEVEMENT: +8 HRS/WEEK SAVED <b>+250 XP</b></p>
       </li>
       <li data-code="1-2" data-name="NAVSEA · U.S. NAVY" data-ach="NAVY INNOVATION AWARD" data-xp="1500">
         <p class="z-code">WORLD 1-2 · NAVSEA SWRMC, U.S. NAVY — SAN DIEGO</p>
-        <h3>Engineering Technician V (2015–2018)</h3>
+        <h3>{{career.navsea.role}} (2015–2018)</h3>
         <p>At NAVSEA's Southwest Regional Maintenance Center I built a MERN-stack data collection system that cut processing time and automated reporting to stakeholders — and it won a U.S. Navy Innovation Award. My first full-stack product, shipped where the stakes were real.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: NAVY INNOVATION AWARD <b>+1500 XP</b></p>
       </li>
-      <li data-code="2-1" data-name="SSR DIGITAL DISPLAYS" data-ach="FOUNDED A STARTUP" data-xp="2000">
-        <p class="z-code">WORLD 2-1 · SSR DIGITAL DISPLAYS</p>
-        <h3>Founder (est. ~2016)</h3>
+      <li data-code="2-1" data-name="{{career.ssr.company | upper}}" data-ach="FOUNDED A STARTUP" data-xp="2000">
+        <p class="z-code">WORLD 2-1 · {{career.ssr.company | upper}}</p>
+        <h3>{{career.ssr.role}} (est. ~2016)</h3>
         <p>I founded SSR Digital Displays: real-time digital menu boards a bar owner can update from any web-connected device. Installed in 3 San Diego bars and 2 Philadelphia bars. Sales, install, code, and support — all of it was me.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: FOUNDED A STARTUP <b>+2000 XP</b></p>
       </li>
-      <li data-code="2-2" data-name="ACCENTURE" data-ach="-84% CLIENT ISSUES" data-xp="1000">
-        <p class="z-code">WORLD 2-2 · ACCENTURE</p>
+      <li data-code="2-2" data-name="{{career.accenture.company | upper}}" data-ach="-84% CLIENT ISSUES" data-xp="1000">
+        <p class="z-code">WORLD 2-2 · {{career.accenture.company | upper}}</p>
         <h3>Senior Analyst (2018–2019)</h3>
         <p>Embedded with Accenture's Life Science Cloud clients, I ran discovery on their document-upload pain points, then shipped the fixes and automation myself — cutting client-reported issues 84% and saving roughly $45k a year. Customer-facing engineering, enterprise stakes.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: -84% CLIENT ISSUES <b>+1000 XP</b></p>
@@ -1027,8 +1026,8 @@ a:hover{ color:#fff; }
         <p class="z-ach">🏆 ACHIEVEMENT: TEAM LEAD UNLOCKED <b>+1500 XP</b></p>
         <p class="z-ach">🏆 ACHIEVEMENT: 30,000,000 DEVICES <b>+3000 XP</b></p>
       </li>
-      <li data-code="3-2" data-name="FORT ROBOTICS" data-ach="0→1 PRODUCT SHIPPED" data-xp="2000">
-        <p class="z-code">WORLD 3-2 · FORT ROBOTICS</p>
+      <li data-code="3-2" data-name="{{career.fort-robotics.company | upper}}" data-ach="0→1 PRODUCT SHIPPED" data-xp="2000">
+        <p class="z-code">WORLD 3-2 · {{career.fort-robotics.company | upper}}</p>
         <h3>Senior Engineer / Front End Team Lead</h3>
         <p>From April 2021 to May 2022 I led a team of five at Fort Robotics building the company's first client-facing product: an Angular web + Ionic mobile device-management portal for their robotic safety-controller platform — the launch that enabled the pivot from hardware shop to platform-first software company. I built the core component library: infinite-scroll and lazy-load directives, form wizards, and async validators, all in strict TypeScript and RxJS.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: 0→1 PRODUCT SHIPPED <b>+2000 XP</b></p>
@@ -1042,7 +1041,7 @@ a:hover{ color:#fff; }
       </li>
       <li data-code="4-2" data-name="COMCAST X1 · CURRENT SAVE" data-ach="-80% VULNERABILITIES" data-xp="4000" data-ach2="CHECKPOINT REACHED" data-xp2="2500">
         <p class="z-code">WORLD 4-2 · COMCAST X1 — CURRENT SAVE POINT</p>
-        <h3>Principal Engineer — AI Technical Lead, X1 Platform (2025–present)</h3>
+        <h3>{{career.x1.role}} (2025–present)</h3>
         <p>Since May 2025 I've led a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows shipped and adopted company-wide. An agentic vulnerability-fix pipeline with human-in-the-loop PRs cut open security vulnerabilities 80%. A spec-driven, AI-assisted migration is moving a mission-critical app from Java 8 to 25. An AI system repairs broken tests, finds E2E coverage gaps, and generates new tests. An org-wide LLM onboarding tool brings non-technical stakeholders along. The checkpoint flag is planted here — for now.</p>
         <p class="z-ach">🏆 ACHIEVEMENT: -80% VULNERABILITIES <b>+4000 XP</b></p>
         <p class="z-ach">🏆 ACHIEVEMENT: CHECKPOINT REACHED <b>+2500 XP</b></p>
@@ -1072,7 +1071,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="4" y="6" width="15" height="20" fill="#f4ead8"/><rect x="21" y="6" width="15" height="20" fill="#f4ead8"/><rect x="19" y="6" width="2" height="22" fill="#241a45"/><rect x="4" y="26" width="32" height="2" fill="#241a45"/><rect x="7" y="10" width="9" height="2" fill="#d95763"/><rect x="7" y="15" width="9" height="2" fill="#8f86b5"/><rect x="7" y="19" width="7" height="2" fill="#8f86b5"/><rect x="24" y="10" width="9" height="8" fill="#6fe3a5"/><rect x="24" y="21" width="9" height="2" fill="#8f86b5"/><rect x="33" y="2" width="3" height="3" fill="#f2a65a"/><rect x="36" y="0" width="2" height="2" fill="#f2a65a"/></svg>
                 </div>
-                <p class="cart-name px">MYINKWELL</p>
+                <p class="cart-name px">{{projects.myinkwell.name | upper}}</p>
                 <p class="cart-tag">Solo-built production platform: design your characters, generate AI-illustrated stories, and order them as real hardcover books — a physical collector's item.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1082,12 +1081,12 @@ a:hover{ color:#fff; }
               <ul class="item-list">
                 <li>ANGULAR + PY FASTAPI</li>
                 <li>AWS + MONGODB</li>
-                <li>MULTI-PROVIDER AI</li>
+                <li>{{projects.myinkwell.stack.4 | upper}}</li>
                 <li>STRIPE + CLOUDFLARE</li>
                 <li>AXIOM · POSTHOG</li>
               </ul>
               <p>Prompt iteration, cost/latency tradeoffs, blue/green rollouts, E2E, observability. Shipped 2026.</p>
-              <a class="cart-link" href="https://myinkwellbooks.com" target="_blank" rel="noopener">myinkwellbooks.com ↗</a>
+              <a class="cart-link" href="{{projects.myinkwell.url}}" target="_blank" rel="noopener">myinkwellbooks.com ↗</a>
               <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">SHIPS IN HARDCOVER</span></p>
             </div>
           </div>
@@ -1104,7 +1103,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="6" y="4" width="14" height="24" fill="#241a45"/><rect x="8" y="7" width="10" height="16" fill="#0e0921"/><rect x="10" y="9" width="6" height="2" fill="#6fe3a5"/><rect x="10" y="13" width="6" height="2" fill="#8f86b5"/><rect x="10" y="17" width="4" height="2" fill="#8f86b5"/><rect x="12" y="25" width="2" height="1" fill="#8f86b5"/><rect x="24" y="8" width="12" height="12" fill="#ffd35c"/><rect x="26" y="10" width="8" height="8" fill="#d9a63e"/><rect x="29" y="11" width="2" height="6" fill="#ffd35c"/><rect x="27" y="12" width="6" height="1" fill="#ffd35c"/><rect x="27" y="15" width="6" height="1" fill="#ffd35c"/><rect x="24" y="22" width="12" height="4" fill="#6fe3a5"/></svg>
                 </div>
-                <p class="cart-name px">SPENDWATCH</p>
+                <p class="cart-name px">{{projects.spendwatch.name | upper}}</p>
                 <p class="cart-tag">Multi-tenant household finance with AI coaching — one budget, every phone in the house. Live on the App Store and Google Play.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1116,7 +1115,7 @@ a:hover{ color:#fff; }
                 <li>AWS: COGNITO · S3</li>
                 <li>DYNAMODB · CLOUDFRONT</li>
                 <li>GOOGLE GEMINI</li>
-                <li>ELASTICSEARCH</li>
+                <li>{{projects.spendwatch.stack.3 | upper}}</li>
               </ul>
               <p>AI coaching, performance charting, push notifications; publishing automated via GitHub Actions. 2025.</p>
               <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">LIVE ON 2 APP STORES</span></p>
@@ -1135,7 +1134,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="4" y="4" width="20" height="24" fill="#f4ead8"/><rect x="7" y="9" width="5" height="5" fill="#241a45"/><rect x="8" y="10" width="3" height="3" fill="#6b8f3d"/><rect x="14" y="10" width="8" height="3" fill="#8f86b5"/><rect x="7" y="17" width="5" height="5" fill="#241a45"/><rect x="14" y="18" width="8" height="3" fill="#8f86b5"/><rect x="27" y="8" width="10" height="18" fill="#241a45"/><rect x="29" y="10" width="6" height="12" fill="#0e0921"/><rect x="31" y="24" width="2" height="1" fill="#8f86b5"/><rect x="30" y="12" width="4" height="4" fill="#6fe3a5"/></svg>
                 </div>
-                <p class="cart-name px">TASKR</p>
+                <p class="cart-name px">{{projects.taskr.name | upper}}</p>
                 <p class="cart-tag">Cross-platform goal tracking with built-in AI coaching — check-ins and plans generated from your health data, goals, and performance.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1146,10 +1145,10 @@ a:hover{ color:#fff; }
                 <li>FLUTTER / DART</li>
                 <li>iOS · ANDROID · DESKTOP · WEB</li>
                 <li>GOOGLE GEMINI</li>
-                <li>FIREBASE</li>
+                <li>{{projects.taskr.stack.2 | upper}}</li>
               </ul>
-              <a class="cart-link" href="https://github.com/rjw1428/taskr" target="_blank" rel="noopener">github.com/rjw1428/taskr ↗</a>
-              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">4 PLATFORMS, 1 CODEBASE</span></p>
+              <a class="cart-link" href="{{projects.taskr.url}}" target="_blank" rel="noopener">github.com/rjw1428/taskr ↗</a>
+              <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">{{projects.taskr.stat | upper}}</span></p>
             </div>
           </div>
         </div>
@@ -1165,7 +1164,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="4" y="8" width="18" height="16" fill="#241a45"/><rect x="7" y="11" width="4" height="4" fill="#6fe3a5"/><rect x="7" y="18" width="4" height="4" fill="#d95763"/><rect x="13" y="12" width="7" height="2" fill="#43315f"/><rect x="13" y="19" width="7" height="2" fill="#43315f"/><rect x="22" y="14" width="8" height="4" fill="#ffd35c"/><rect x="30" y="12" width="4" height="8" fill="#241a45"/><rect x="34" y="13" width="3" height="2" fill="#241a45"/><rect x="34" y="17" width="3" height="2" fill="#241a45"/></svg>
                 </div>
-                <p class="cart-name px">MCP TOOL SERVER</p>
+                <p class="cart-name px">{{projects.mcp-server.name | upper}}</p>
                 <p class="cart-tag">Locally hosted MCP server that hands my AI agents custom tools — like a resilient weather cache.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1173,11 +1172,11 @@ a:hover{ color:#fff; }
             <div class="cart-face cart-back">
               <h4>ITEM LIST</h4>
               <ul class="item-list">
-                <li>PYTHON</li>
+                <li>{{projects.mcp-server.stack.0 | upper}}</li>
                 <li>FASTAPI + FASTMCP</li>
                 <li>SELF-HOSTED</li>
               </ul>
-              <a class="cart-link" href="https://github.com/rjw1428/weather-api" target="_blank" rel="noopener">github.com/rjw1428/weather-api ↗</a>
+              <a class="cart-link" href="{{projects.mcp-server.url}}" target="_blank" rel="noopener">github.com/rjw1428/weather-api ↗</a>
               <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">100% LOCAL TOOLS</span></p>
             </div>
           </div>
@@ -1194,7 +1193,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="6" y="6" width="6" height="6" fill="#d95763"/><rect x="16" y="6" width="6" height="6" fill="#d95763"/><rect x="4" y="10" width="20" height="6" fill="#d95763"/><rect x="6" y="16" width="16" height="4" fill="#b23a47"/><rect x="10" y="20" width="8" height="4" fill="#b23a47"/><rect x="13" y="24" width="2" height="2" fill="#b23a47"/><rect x="26" y="8" width="10" height="16" fill="#241a45"/><rect x="28" y="10" width="6" height="12" fill="#0e0921"/><rect x="28" y="15" width="2" height="2" fill="#6fe3a5"/><rect x="30" y="12" width="2" height="5" fill="#6fe3a5"/><rect x="32" y="15" width="2" height="2" fill="#6fe3a5"/></svg>
                 </div>
-                <p class="cart-name px">REHUMAN</p>
+                <p class="cart-name px">{{projects.rehuman.name | upper}}</p>
                 <p class="cart-tag">Forward-deployed with a healthcare AI startup — Accenture's first entrepreneur-in-residence — as architect of the core product.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1202,13 +1201,13 @@ a:hover{ color:#fff; }
             <div class="cart-face cart-back">
               <h4>ITEM LIST</h4>
               <ul class="item-list">
-                <li>REACT</li>
-                <li>RABBITMQ</li>
+                <li>{{projects.rehuman.stack.0 | upper}}</li>
+                <li>{{projects.rehuman.stack.1 | upper}}</li>
                 <li>DOCKER + KUBERNETES</li>
-                <li>AZURE</li>
+                <li>{{projects.rehuman.stack.4 | upper}}</li>
               </ul>
               <p>Pipeline feeding wearable health data into their AI engine — ETL plus B2B/B2C portals. 2023.</p>
-              <a class="cart-link" href="https://rehuman.co.uk" target="_blank" rel="noopener">rehuman.co.uk ↗</a>
+              <a class="cart-link" href="{{projects.rehuman.url}}" target="_blank" rel="noopener">rehuman.co.uk ↗</a>
               <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">WEARABLES → AI ENGINE</span></p>
             </div>
           </div>
@@ -1225,7 +1224,7 @@ a:hover{ color:#fff; }
                 <div class="cart-icon" aria-hidden="true">
                   <svg viewBox="0 0 40 32"><rect x="4" y="4" width="18" height="24" fill="#f4ead8"/><rect x="9" y="2" width="8" height="4" fill="#8f86b5"/><rect x="7" y="10" width="4" height="4" fill="#241a45"/><rect x="13" y="11" width="7" height="2" fill="#8f86b5"/><rect x="7" y="17" width="4" height="4" fill="#241a45"/><rect x="13" y="18" width="7" height="2" fill="#8f86b5"/><rect x="26" y="18" width="3" height="8" fill="#6fe3a5"/><rect x="30" y="12" width="3" height="14" fill="#f2a65a"/><rect x="34" y="8" width="3" height="18" fill="#d95763"/><rect x="25" y="26" width="13" height="2" fill="#241a45"/></svg>
                 </div>
-                <p class="cart-name px">WORKFLOW MANAGER</p>
+                <p class="cart-name px">{{projects.workflow-manager.name | upper}}</p>
                 <p class="cart-tag">JIRA for contractors — bidding and estimation tracking with dashboards, reports, and charting.</p>
               </div>
               <p class="cart-flipnote">FLIP ▶</p>
@@ -1235,11 +1234,11 @@ a:hover{ color:#fff; }
               <ul class="item-list">
                 <li>ANGULAR 12 + NGRX</li>
                 <li>NODE / EXPRESS</li>
-                <li>WEBSOCKETS</li>
-                <li>MYSQL</li>
+                <li>{{projects.workflow-manager.stack.4 | upper}}</li>
+                <li>{{projects.workflow-manager.stack.5 | upper}}</li>
               </ul>
               <p>Report exports, file attachments, live updates over websockets. 2020 — demo still up.</p>
-              <a class="cart-link" href="https://test.workflowmanagerpro.com/login?demo=true" target="_blank" rel="noopener">PLAY THE DEMO ↗</a>
+              <a class="cart-link" href="{{projects.workflow-manager.url}}" target="_blank" rel="noopener">PLAY THE DEMO ↗</a>
               <p class="hi-score"><span class="hs-l">HIGH SCORE</span><span class="hs-v">PLAYABLE DEMO</span></p>
             </div>
           </div>
@@ -1254,15 +1253,15 @@ a:hover{ color:#fff; }
     </div>
     <ul class="retro-shelf rise">
       <li class="retro-cart">
-        <p class="retro-name px">SSR DIGITAL DISPLAYS</p>
+        <p class="retro-name px">{{projects.ssr-project.name | upper}}</p>
         <p class="retro-tag">Real-time bar menu boards — my startup, 5 venues live. Angular + Firebase, solo-built end to end.</p>
       </li>
       <li class="retro-cart">
-        <p class="retro-name px">ALPINE KNIVES</p>
+        <p class="retro-name px">{{projects.alpine.name | upper}}</p>
         <p class="retro-tag">E-commerce for a custom knife maker — Stripe checkout, order emails.</p>
       </li>
       <li class="retro-cart">
-        <p class="retro-name px">BRODY'S BURGERS</p>
+        <p class="retro-name px">{{projects.brodys.name | upper}}</p>
         <p class="retro-tag">Restaurant site the owner edits from his phone — no developer call.</p>
       </li>
       <li class="retro-cart">
@@ -1270,7 +1269,7 @@ a:hover{ color:#fff; }
         <p class="retro-tag">The page you're reading, self-hosted: Node/Express, Docker Compose, nginx, Let's Encrypt — my metal, my TLS.</p>
       </li>
       <li class="retro-cart">
-        <p class="retro-name px">THE BURWELL PROJECT</p>
+        <p class="retro-name px">{{projects.burwell.name | upper}}</p>
         <p class="retro-tag">Co-op workspace rental sim — scheduling, billing, reservations in one campaign. Angular + Firebase + Stripe.</p>
       </li>
     </ul>
@@ -1288,35 +1287,35 @@ a:hover{ color:#fff; }
 
     <div class="stat-grid">
       <div class="branch rise" style="--b-color:#d95763;">
-        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>FRONTEND</h3>
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>{{skills.2.group | upper}}</h3>
         <div class="stat"><div class="stat-row"><span class="s-name">ANGULAR + NGRX</span><span class="s-lv">LV 9</span></div>
           <div class="bar"><i class="fill" style="--w:90%; --d:.0s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">TYPESCRIPT</span><span class="s-lv">LV 9</span></div>
           <div class="bar"><i class="fill" style="--w:90%; --d:.12s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">REACT</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.2.items.1 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">RXJS</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.2.items.2 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">D3.JS</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.2.items.4 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.48s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">FLUTTER / DART</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.6s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">GRAPHQL</span><span class="s-lv">LV 7</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.3.items.2 | upper}}</span><span class="s-lv">LV 7</span></div>
           <div class="bar"><i class="fill" style="--w:70%; --d:.72s"></i><i class="cells"></i></div></div>
         <p class="branch-foot">Daily drivers: Angular + NgRx at telemetry scale, D3 for the data-heavy screens; Flutter for taskr and SpendWatch; React on Rehuman and side quests.</p>
       </div>
 
       <div class="branch rise" style="--b-color:#f2a65a;">
-        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>BACKEND</h3>
+        <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>{{skills.3.group | upper}}</h3>
         <div class="stat"><div class="stat-row"><span class="s-name">NODE.JS / EXPRESS</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.0s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">PYTHON / FASTAPI</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.12s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">JAVA</span><span class="s-lv">LV 7</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.1.items.2 | upper}}</span><span class="s-lv">LV 7</span></div>
           <div class="bar"><i class="fill" style="--w:70%; --d:.24s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">SQL</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.1.items.3 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">MONGODB</span><span class="s-lv">LV 7</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.5.items.2 | upper}}</span><span class="s-lv">LV 7</span></div>
           <div class="bar"><i class="fill" style="--w:70%; --d:.48s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">FIREBASE / FIRESTORE</span><span class="s-lv">LV 9</span></div>
           <div class="bar"><i class="fill" style="--w:90%; --d:.6s"></i><i class="cells"></i></div></div>
@@ -1329,11 +1328,11 @@ a:hover{ color:#fff; }
           <div class="bar"><i class="fill" style="--w:90%; --d:.0s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">AI-ASSISTED MIGRATIONS</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.12s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">SPEC → IMPLEMENTATION SYSTEMS</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.0.items.2 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">AI TEST GENERATION</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.36s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">PROMPT ITERATION</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.0.items.4 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.48s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">HUMAN-IN-THE-LOOP ROLLOUTS</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.6s"></i><i class="cells"></i></div></div>
@@ -1346,9 +1345,9 @@ a:hover{ color:#fff; }
 
       <div class="branch rise" style="--b-color:#6fe3a5;">
         <h3 class="branch-head"><span class="b-badge" aria-hidden="true"></span>INFRA</h3>
-        <div class="stat"><div class="stat-row"><span class="s-name">AWS</span><span class="s-lv">LV 8</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.4.items.0 | upper}}</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.0s"></i><i class="cells"></i></div></div>
-        <div class="stat"><div class="stat-row"><span class="s-name">AZURE</span><span class="s-lv">LV 7</span></div>
+        <div class="stat"><div class="stat-row"><span class="s-name">{{skills.4.items.1 | upper}}</span><span class="s-lv">LV 7</span></div>
           <div class="bar"><i class="fill" style="--w:70%; --d:.12s"></i><i class="cells"></i></div></div>
         <div class="stat"><div class="stat-row"><span class="s-name">DOCKER + KUBERNETES</span><span class="s-lv">LV 8</span></div>
           <div class="bar"><i class="fill" style="--w:80%; --d:.24s"></i><i class="cells"></i></div></div>
@@ -1375,19 +1374,19 @@ a:hover{ color:#fff; }
     </div>
     <ul class="badge-row">
       <li class="badge-card rise">
-        <p class="b-unlock">★ UNLOCKED 2022</p>
+        <p class="b-unlock">★ UNLOCKED {{education.jhu.year}}</p>
         <h3>GRADUATE COURSEWORK · CS</h3>
-        <p>Johns Hopkins University — <span class="b-gpa">4.0 GPA</span></p>
+        <p>{{education.jhu.institution}} — <span class="b-gpa">{{education.jhu.detail}}</span></p>
       </li>
       <li class="badge-card rise">
-        <p class="b-unlock">★ UNLOCKED 2016</p>
+        <p class="b-unlock">★ UNLOCKED {{education.tud.year}}</p>
         <h3>ADDITIONAL B.S.</h3>
         <p>TU Darmstadt — Darmstadt, Germany</p>
       </li>
       <li class="badge-card rise">
-        <p class="b-unlock">★ UNLOCKED 2012</p>
-        <h3>B.S. MECHANICAL ENGINEERING</h3>
-        <p>Virginia Tech</p>
+        <p class="b-unlock">★ UNLOCKED {{education.vt.year}}</p>
+        <h3>{{education.vt.credential | upper}}</h3>
+        <p>{{education.vt.institution}}</p>
       </li>
     </ul>
   </div>
@@ -1402,10 +1401,10 @@ a:hover{ color:#fff; }
     <p class="continue-copy">Your run doesn't have to end here. I'm a Principal Software Engineer with 10+ years shipping production software — from shop floors to Navy ships to bars to smart TVs — now leading AI-native developer workflows on Comcast's X1 platform. Always up for talking shop.</p>
     <p class="coin-slot" aria-hidden="true">▶ INSERT COIN · SELECT AN OPTION ◀</p>
     <ul class="menu">
-      <li><a href="mailto:software@ryanwilk.com"><span class="arrow" aria-hidden="true">▶</span> EMAIL <span class="m-val">software@ryanwilk.com</span></a></li>
-      <li><a href="https://github.com/rjw1428" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> GITHUB <span class="m-val">github.com/rjw1428</span></a></li>
-      <li><a href="https://linkedin.com/in/rjw1428" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> LINKEDIN <span class="m-val">linkedin.com/in/rjw1428</span></a></li>
-      <li><a href="https://www.ryanwilk.com" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> WEBSITE <span class="m-val">ryanwilk.com</span></a></li>
+      <li><a href="mailto:{{profile.contact.email}}"><span class="arrow" aria-hidden="true">▶</span> EMAIL <span class="m-val">{{profile.contact.email}}</span></a></li>
+      <li><a href="{{profile.contact.github}}" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> GITHUB <span class="m-val">github.com/rjw1428</span></a></li>
+      <li><a href="{{profile.contact.linkedin}}" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> LINKEDIN <span class="m-val">linkedin.com/in/rjw1428</span></a></li>
+      <li><a href="{{profile.contact.site}}" target="_blank" rel="noopener"><span class="arrow" aria-hidden="true">▶</span> WEBSITE <span class="m-val">ryanwilk.com</span></a></li>
     </ul>
   </div>
 </section>
@@ -1413,7 +1412,7 @@ a:hover{ color:#fff; }
 
 <footer class="game-footer">
   <span>POC 5 / ARCADE</span>
-  <span>RYAN WILK · PRINCIPAL SOFTWARE ENGINEER</span>
+  <span>{{profile.name | upper}} · PRINCIPAL SOFTWARE ENGINEER</span>
   <span>NO QUARTERS WERE HARMED</span>
 </footer>
 
