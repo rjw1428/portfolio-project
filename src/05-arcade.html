@@ -255,6 +255,25 @@ a:hover{ color:#fff; }
 @keyframes runA{ 0%,100%{opacity:1} 50%{opacity:0} }
 @keyframes runB{ 0%,49.9%{opacity:0} 50%,99.9%{opacity:1} 100%{opacity:0} }
 
+/* career power-up: ? brick, mushroom, level-up label */
+.qblock{ position:absolute; bottom:282px; z-index:4; }
+@keyframes qbump{ 0%{transform:translateY(0)} 45%{transform:translateY(-13px)} 100%{transform:translateY(0)} }
+.qblock.bump{ animation:qbump .26s steps(2) 1; }
+.mush{ position:absolute; bottom:286px; z-index:4; opacity:0;
+  transition:bottom .45s steps(6), opacity .22s; pointer-events:none; }
+.mush.emerge{ opacity:1; bottom:340px; }
+.mush.collect{ opacity:0; transform:scale(1.5);
+  transition:opacity .3s steps(3), transform .3s steps(3); }
+.powerup-text{ position:absolute; bottom:350px; z-index:6;
+  font-family:var(--px); font-size:11px; line-height:1.6; text-align:center;
+  color:var(--gold); text-shadow:2px 2px 0 #000; white-space:nowrap;
+  opacity:0; transform:translateY(6px); pointer-events:none;
+  transition:opacity .3s, transform .9s steps(9); }
+.powerup-text.show{ opacity:1; transform:translateY(-46px); }
+.powerup-text .pu-sub{ display:block; font-size:8.5px; color:#fff; margin-top:5px; }
+.char.powerup{ animation:pwr .8s steps(3) 1; }
+@keyframes pwr{ 0%,100%{ filter:none } 50%{ filter:brightness(1.9) drop-shadow(0 0 6px var(--gold)) } }
+
 /* caption panel */
 .caption{
   position:absolute; left:18px; top:calc(var(--hud-h) + 44px); z-index:6;
@@ -805,21 +824,46 @@ a:hover{ color:#fff; }
         <!-- Zone 4 : Comcast telemetry -->
         <div class="zone" style="--zx:5250px;">
           <div class="landmark">
-            <svg width="220" height="140" viewBox="0 0 110 70">
-              <rect x="18" y="6" width="4" height="64" fill="#241a45"/>
-              <rect x="10" y="16" width="20" height="3" fill="#241a45"/>
-              <rect x="12" y="28" width="16" height="3" fill="#241a45"/>
-              <rect x="16" y="0" width="8" height="6" fill="#d95763"/>
-              <rect x="28" y="6" width="4" height="4" fill="#ffd35c"/>
-              <rect x="34" y="2" width="4" height="4" fill="#ffd35c"/>
-              <rect x="44" y="26" width="52" height="44" fill="#2a1e52"/>
-              <rect x="48" y="30" width="44" height="24" fill="#0e0921"/>
-              <rect x="52" y="46" width="5" height="6" fill="#6fe3a5"/>
-              <rect x="60" y="40" width="5" height="12" fill="#6fe3a5"/>
-              <rect x="68" y="44" width="5" height="8" fill="#f2a65a"/>
-              <rect x="76" y="36" width="5" height="16" fill="#6fe3a5"/>
-              <rect x="84" y="42" width="5" height="10" fill="#d95763"/>
-              <rect x="64" y="58" width="12" height="12" fill="#241a45"/>
+            <svg width="160" height="240" viewBox="0 0 80 120">
+              <!-- plaza base -->
+              <rect x="8" y="110" width="64" height="10" fill="#241a45"/>
+              <rect x="6" y="108" width="68" height="2" fill="#3b2b63"/>
+              <!-- tower structure -->
+              <rect x="20" y="24" width="40" height="86" fill="#2a1e52"/>
+              <!-- glass curtain wall -->
+              <rect x="23" y="26" width="34" height="82" fill="#0e0921"/>
+              <rect x="25" y="28" width="6" height="78" fill="#24406e"/>
+              <rect x="33" y="28" width="6" height="78" fill="#1c2f52"/>
+              <rect x="41" y="28" width="6" height="78" fill="#24406e"/>
+              <rect x="49" y="28" width="6" height="78" fill="#1c2f52"/>
+              <!-- floor mullions -->
+              <rect x="23" y="40" width="34" height="2" fill="#2a1e52"/>
+              <rect x="23" y="54" width="34" height="2" fill="#2a1e52"/>
+              <rect x="23" y="68" width="34" height="2" fill="#2a1e52"/>
+              <rect x="23" y="82" width="34" height="2" fill="#2a1e52"/>
+              <rect x="23" y="96" width="34" height="2" fill="#2a1e52"/>
+              <!-- lit windows -->
+              <rect x="25" y="30" width="6" height="8" fill="#ffd35c"/>
+              <rect x="41" y="44" width="6" height="8" fill="#6fe3a5"/>
+              <rect x="49" y="70" width="6" height="8" fill="#f2a65a"/>
+              <rect x="33" y="84" width="6" height="8" fill="#ffd35c"/>
+              <rect x="25" y="98" width="6" height="6" fill="#6fe3a5"/>
+              <!-- lobby -->
+              <rect x="34" y="100" width="12" height="10" fill="#0e0921"/>
+              <rect x="34" y="102" width="12" height="2" fill="#ffd35c"/>
+              <!-- stepped glass crown -->
+              <rect x="20" y="20" width="8" height="4" fill="#2a1e52"/>
+              <rect x="28" y="16" width="8" height="8" fill="#2a1e52"/>
+              <rect x="36" y="12" width="8" height="12" fill="#2a1e52"/>
+              <rect x="44" y="10" width="8" height="14" fill="#2a1e52"/>
+              <rect x="52" y="15" width="8" height="9" fill="#2a1e52"/>
+              <rect x="29" y="17" width="6" height="6" fill="#1c2f52"/>
+              <rect x="37" y="13" width="6" height="10" fill="#24406e"/>
+              <rect x="45" y="11" width="6" height="12" fill="#24406e"/>
+              <rect x="53" y="16" width="6" height="7" fill="#1c2f52"/>
+              <!-- antenna spire + beacon -->
+              <rect x="47" y="2" width="2" height="8" fill="#8f97a8"/>
+              <rect x="46" y="0" width="4" height="2" fill="#d95763"/>
             </svg>
           </div>
           <p class="sign"><span class="s-code">WORLD 3-1</span>COMCAST X1 TELEMETRY</p>
@@ -874,26 +918,53 @@ a:hover{ color:#fff; }
         <!-- Zone 7 : Comcast X1 checkpoint -->
         <div class="zone" style="--zx:8700px;">
           <div class="landmark">
-            <svg width="200" height="180" viewBox="0 0 100 90">
-              <rect x="14" y="6" width="4" height="84" fill="#241a45"/>
-              <rect x="12" y="2" width="8" height="6" fill="#ffd35c"/>
+            <svg width="220" height="198" viewBox="0 0 100 90">
+              <!-- checkpoint flag (compact) -->
+              <rect x="10" y="18" width="3" height="72" fill="#241a45"/>
+              <rect x="8" y="13" width="7" height="5" fill="#ffd35c"/>
               <g class="flag-a">
-                <rect x="18" y="10" width="30" height="6" fill="#6fe3a5"/>
-                <rect x="18" y="16" width="26" height="6" fill="#6fe3a5"/>
-                <rect x="18" y="22" width="30" height="6" fill="#59c98e"/>
+                <rect x="13" y="24" width="20" height="5" fill="#6fe3a5"/>
+                <rect x="13" y="29" width="17" height="5" fill="#6fe3a5"/>
+                <rect x="13" y="34" width="20" height="4" fill="#59c98e"/>
               </g>
               <g class="flag-b" opacity="0">
-                <rect x="18" y="10" width="26" height="6" fill="#6fe3a5"/>
-                <rect x="18" y="16" width="30" height="6" fill="#59c98e"/>
-                <rect x="18" y="22" width="24" height="6" fill="#6fe3a5"/>
+                <rect x="13" y="24" width="17" height="5" fill="#6fe3a5"/>
+                <rect x="13" y="29" width="20" height="5" fill="#59c98e"/>
+                <rect x="13" y="34" width="15" height="4" fill="#6fe3a5"/>
               </g>
-              <rect x="52" y="40" width="34" height="50" fill="#2a1e52"/>
-              <rect x="56" y="46" width="7" height="7" fill="#f2a65a"/><rect x="72" y="46" width="7" height="7" fill="#f2a65a"/>
-              <rect x="56" y="60" width="7" height="7" fill="#f2a65a"/><rect x="72" y="60" width="7" height="7" fill="#43315f"/>
-              <rect x="56" y="74" width="7" height="7" fill="#43315f"/><rect x="72" y="74" width="7" height="7" fill="#f2a65a"/>
-              <rect x="66" y="28" width="4" height="12" fill="#241a45"/>
-              <rect x="60" y="28" width="16" height="3" fill="#241a45"/>
-              <rect class="beacon" x="65" y="20" width="6" height="6" fill="#d95763"/>
+              <!-- Comcast Technology Center (checkpoint tower, enlarged) -->
+              <rect x="40" y="30" width="46" height="60" fill="#2a1e52"/>
+              <rect x="43" y="32" width="40" height="56" fill="#0e0921"/>
+              <rect x="45" y="34" width="6" height="54" fill="#24406e"/>
+              <rect x="53" y="34" width="6" height="54" fill="#1c2f52"/>
+              <rect x="61" y="34" width="6" height="54" fill="#24406e"/>
+              <rect x="69" y="34" width="6" height="54" fill="#1c2f52"/>
+              <rect x="77" y="34" width="6" height="54" fill="#24406e"/>
+              <rect x="43" y="44" width="40" height="2" fill="#2a1e52"/>
+              <rect x="43" y="56" width="40" height="2" fill="#2a1e52"/>
+              <rect x="43" y="68" width="40" height="2" fill="#2a1e52"/>
+              <rect x="43" y="80" width="40" height="2" fill="#2a1e52"/>
+              <rect x="45" y="36" width="6" height="7" fill="#f2a65a"/>
+              <rect x="61" y="48" width="6" height="7" fill="#6fe3a5"/>
+              <rect x="77" y="36" width="6" height="7" fill="#ffd35c"/>
+              <rect x="53" y="60" width="6" height="7" fill="#f2a65a"/>
+              <rect x="69" y="72" width="6" height="7" fill="#ffd35c"/>
+              <rect x="57" y="82" width="12" height="6" fill="#0e0921"/>
+              <rect x="57" y="82" width="12" height="2" fill="#ffd35c"/>
+              <!-- stepped glass crown -->
+              <rect x="40" y="24" width="9" height="6" fill="#2a1e52"/>
+              <rect x="49" y="18" width="9" height="12" fill="#2a1e52"/>
+              <rect x="58" y="12" width="9" height="18" fill="#2a1e52"/>
+              <rect x="67" y="16" width="9" height="14" fill="#2a1e52"/>
+              <rect x="76" y="22" width="10" height="8" fill="#2a1e52"/>
+              <rect x="41" y="25" width="7" height="4" fill="#1c2f52"/>
+              <rect x="50" y="19" width="7" height="10" fill="#1c2f52"/>
+              <rect x="59" y="13" width="7" height="16" fill="#24406e"/>
+              <rect x="68" y="17" width="7" height="12" fill="#24406e"/>
+              <rect x="77" y="23" width="8" height="6" fill="#1c2f52"/>
+              <!-- antenna spire + beacon -->
+              <rect x="61" y="5" width="2" height="7" fill="#241a45"/>
+              <rect class="beacon" x="59" y="0" width="6" height="5" fill="#d95763"/>
             </svg>
           </div>
           <p class="sign"><span class="s-code">WORLD 4-2</span>COMCAST X1 · CURRENT SAVE</p>
@@ -1357,7 +1428,8 @@ var clamp = function(v,a,b){ return v < a ? a : v > b ? b : v; };
    ================================================== */
 var PAL = {
   R:'#d95763', S:'#f2c09b', E:'#241a45', W:'#f4ead8',
-  P:'#3d2f6b', K:'#241a45', G:'#ffd35c', D:'#b98f2e', H:'#d95763'
+  P:'#3d2f6b', K:'#241a45', G:'#ffd35c', D:'#b98f2e', H:'#d95763',
+  B:'#8a5a1e'
 };
 
 function paint(el, rows, size){
@@ -1451,6 +1523,40 @@ var CLOUD = [
   "WWWWWWWWWWWWWWW.",
   ".WWWW..WWWWW...."
 ];
+var QBLOCK = [
+  "BBBBBBBB",
+  "BGEEEEGB",
+  "BGEGGEGB",
+  "BGGGEEGB",
+  "BGGEEGGB",
+  "BGGEGGGB",
+  "BGGGGGGB",
+  "BGGEGGGB",
+  "BBBBBBBB"
+];
+var UBLOCK = [
+  "BBBBBBBB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BDDDDDDB",
+  "BBBBBBBB"
+];
+var MUSH = [
+  "..RRRRRR..",
+  ".RRRRRRRR.",
+  "RRWWRRWWRR",
+  "RWWWRRWWWR",
+  "RRRRRRRRRR",
+  "RRRRRRRRRR",
+  "..SSSSSS..",
+  ".SEESSEES.",
+  ".SSSSSSSS.",
+  "..SSSSSS.."
+];
 
 paint(document.getElementById('fr-idle'), CHAR_IDLE, 5);
 paint(document.getElementById('fr-a'),    CHAR_RUN_A, 5);
@@ -1466,6 +1572,7 @@ document.querySelectorAll('[data-cloud]').forEach(function(el){
    ================================================== */
 var ZX = [650, 1800, 2950, 4100, 5250, 6400, 7550, 8700];  /* world x per zone (px) */
 var WORLD_W = 9650;
+var BLOCK_X = 2500;  /* career power-up brick, between NAVSEA (1-2) and SSR (2-1) */
 var zones = [];
 document.querySelectorAll('#zone-data > li').forEach(function(li, i){
   zones.push({
@@ -1487,6 +1594,7 @@ document.getElementById('world').style.setProperty('--world-w', WORLD_W+'px');
 /* coins scattered along the ground */
 var world = document.getElementById('world');
 var coins = [];
+var qblock = null, mush = null, puText = null;
 if(!RM){
   var coinXs = [];
   ZX.forEach(function(zx, i){
@@ -1503,6 +1611,25 @@ if(!RM){
     world.appendChild(c);
     coins.push({ x: cx, el: c, got: false });
   });
+
+  /* career power-up: ? brick + mushroom (mechanical eng -> software eng) */
+  qblock = document.createElement('div');
+  qblock.className = 'qblock';
+  qblock.style.left = BLOCK_X + 'px';
+  paint(qblock, QBLOCK, 4);
+  world.appendChild(qblock);
+
+  mush = document.createElement('div');
+  mush.className = 'mush';
+  mush.style.left = (BLOCK_X - 12) + 'px';
+  paint(mush, MUSH, 4);
+  world.appendChild(mush);
+
+  puText = document.createElement('div');
+  puText.className = 'powerup-text';
+  puText.style.left = (BLOCK_X - 66) + 'px';
+  puText.innerHTML = 'LEVEL UP!<span class="pu-sub">MECH ENGINEER ▶ SOFTWARE ENGINEER</span>';
+  world.appendChild(puText);
 }
 
 /* ==================================================
@@ -1567,6 +1694,26 @@ var trackTop = 0, trackLen = 1;
 var lastY = -1, lastMove = 0, activeZone = -1, maxDepth = 0;
 var docLen = 1;
 
+/* career power-up jump state */
+var JUMP_DUR = 680, JUMP_H = 74;  /* exact gap: cap meets block underside, no overlap */
+var jumpActive = false, jumpT0 = 0, blockStarted = false, blockHit = false;
+var jumpLock = false, lockY = 0;
+
+function hitBlock(){
+  if(qblock){
+    qblock.classList.add('bump');
+    setTimeout(function(){ if(qblock) paint(qblock, UBLOCK, 4); }, 120);
+  }
+  if(mush){
+    mush.classList.add('emerge');
+    setTimeout(function(){ if(mush) mush.classList.add('collect'); }, 560);
+  }
+  if(puText) puText.classList.add('show');
+  charEl.classList.add('powerup');
+  bonus += 150;
+  toast('CAREER POWER-UP · SOFTWARE ENGINEER', 150);
+}
+
 function measure(){
   vw = innerWidth; vh = innerHeight;
   var r = track ? track.getBoundingClientRect() : null;
@@ -1607,6 +1754,11 @@ function heartsFromZones(){
 
 function frame(now){
   var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+  /* during the power-up hop, hold horizontal scroll so the leap is purely vertical */
+  if(jumpLock){
+    if(Math.abs(y - lockY) > 0.5) window.scrollTo({ top: lockY, left: 0, behavior: 'instant' });
+    y = lockY;
+  }
   var moved = y !== lastY;
   if(moved){
     if(y < lastY) charEl.classList.add('back'); else charEl.classList.remove('back');
@@ -1633,10 +1785,30 @@ function frame(now){
     var wx = p * (WORLD_W - vw);
     var cx = charX();
 
+    /* career power-up jump: pin the world and leap the brick (NAVSEA -> SSR) */
+    var jumpY = 0;
+    if(!blockStarted && (wx + cx) >= BLOCK_X - 28){
+      blockStarted = true; jumpActive = true; jumpLock = true; jumpT0 = now;
+      /* lock scroll so the hop is straight up, just under the block — launch
+         point sits 8px earlier along the run (snaps back on overscroll) */
+      lockY = trackTop + clamp((BLOCK_X - 8 - cx) / (WORLD_W - vw), 0, 1) * trackLen;
+      y = lockY;
+      p = clamp((y - trackTop) / trackLen, 0, 1);
+      wx = p * (WORLD_W - vw);
+    }
+    if(jumpActive){
+      var jt = (now - jumpT0) / JUMP_DUR;
+      if(jt >= 1){ jumpActive = false; jumpLock = false; }
+      else {
+        jumpY = -JUMP_H * 4 * jt * (1 - jt);   /* parabola, apex at jt=0.5 */
+        if(!blockHit && jt >= 0.46){ blockHit = true; hitBlock(); }
+      }
+    }
+
     worldEl.style.transform = 'translate3d(' + (-wx) + 'px,0,0)';
     mtnEl.style.transform   = 'translate3d(' + (-wx * 0.25) + 'px,0,0)';
     cloudEl.style.transform = 'translate3d(' + (-wx * 0.1) + 'px,0,0)';
-    charEl.style.transform  = 'translate3d(' + cx + 'px,0,0)' +
+    charEl.style.transform  = 'translate3d(' + cx + 'px,' + jumpY.toFixed(1) + 'px,0)' +
       (charEl.classList.contains('back') ? ' scaleX(-1)' : '');
     levelBar.style.transform = 'scaleX(' + p + ')';
 

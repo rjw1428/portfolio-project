@@ -3,7 +3,7 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3201;
-const siteDir = path.join(__dirname, '../poc');
+const siteDir = path.join(__dirname, '../src');
 
 // Logger middleware
 app.use((req, res, next) => {

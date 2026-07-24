@@ -1,0 +1,341 @@
+{
+  "_meta": {
+    "note": "Canonical, theme-neutral facts shared across all experiences. Facts live here; voice and presentation live in the experience templates. Edit this file to change a fact everywhere.",
+    "version": 1
+  },
+
+  "profile": {
+    "name": "Ryan Wilk",
+    "positioning": "Principal Software Engineer · AI-Native Developer Workflows · Customer-Facing Engineering",
+    "yearsExperience": "10+",
+    "summary": "Principal engineer with 10+ years shipping production software, currently embedded with engineering teams across Comcast's X1 organization: find the real bottleneck, ship a fast first version, harden it into workflows adopted company-wide. Builds end-to-end — frontend, backend, infra — and works directly with customers to find technical solutions.",
+    "contact": {
+      "email": "software@ryanwilk.com",
+      "github": "https://github.com/rjw1428",
+      "linkedin": "https://linkedin.com/in/rjw1428",
+      "site": "https://www.ryanwilk.com"
+    }
+  },
+
+  "career": [
+    {
+      "key": "norfolk",
+      "company": "Norfolk Southern",
+      "role": "Mechanical Supervisor",
+      "location": "Altoona, PA",
+      "start": "2013-01",
+      "end": "2015-07",
+      "current": false,
+      "summary": "Supervisor at a locomotive refurbishing facility who taught himself software to remove the tedious parts of people's jobs.",
+      "metrics": [
+        { "label": "manual entry eliminated", "value": "8 hrs/week" },
+        { "label": "annual savings", "value": "~$12,500" }
+      ],
+      "highlights": [
+        "Built a multi-tier production-line data system to track product and inventory.",
+        "Automated CNC quality-control reporting in Python, eliminating 8 hours/week of manual entry."
+      ]
+    },
+    {
+      "key": "navsea",
+      "company": "NAVSEA SWRMC (U.S. Navy)",
+      "role": "Engineering Technician V",
+      "location": "San Diego, CA",
+      "start": "2015-08",
+      "end": "2018-05",
+      "current": false,
+      "summary": "Navy engineering role where a self-built data system earned a U.S. Navy innovation award.",
+      "metrics": [
+        { "label": "recognition", "value": "U.S. Navy Innovation Award" }
+      ],
+      "highlights": [
+        "Received a U.S. Navy innovation award for a MERN-stack data collection system.",
+        "Cut information-processing time and automated stakeholder reporting."
+      ]
+    },
+    {
+      "key": "ssr",
+      "company": "SSR Digital Displays",
+      "role": "Founder",
+      "location": "San Diego, CA",
+      "start": "2016-01",
+      "end": "2018-01",
+      "current": false,
+      "concurrent": true,
+      "summary": "Founded a real-time digital menu-board startup, built nights and weekends, installed in bars across two cities.",
+      "metrics": [
+        { "label": "venues live", "value": "5" }
+      ],
+      "highlights": [
+        "Built a full-stack, real-time digital menu system updatable from any web-connected device.",
+        "Installed in 3 San Diego bars and 2 Philadelphia bars."
+      ]
+    },
+    {
+      "key": "accenture",
+      "company": "Accenture",
+      "role": "Senior Analyst — Application Developer",
+      "location": "Philadelphia, PA",
+      "start": "2018-05",
+      "end": "2019-04",
+      "current": false,
+      "summary": "Customer-facing delivery embedded with Accenture Life Science Cloud clients — discovery, then shipped fixes and automation.",
+      "metrics": [
+        { "label": "client-reported issues", "value": "-84%" },
+        { "label": "annual labor savings", "value": "~$45,000" }
+      ],
+      "highlights": [
+        "Led discovery on client document-upload pain points, then shipped fixes and automation.",
+        "Cut client-reported issues 84% and saved ~$45,000/year in labor costs.",
+        "Automated maintenance processes for a large-scale document-management system."
+      ]
+    },
+    {
+      "key": "x1-telemetry",
+      "company": "Comcast (contracted via TekSystems)",
+      "role": "Front-End Developer — Team Lead, X1 Telemetry",
+      "location": "Philadelphia, PA",
+      "start": "2019-04",
+      "end": "2021-05",
+      "current": false,
+      "summary": "Led a small team re-architecting the real-time telemetry front-end; built data-collection tooling that ran at massive scale.",
+      "metrics": [
+        { "label": "devices reached", "value": "30,000,000" },
+        { "label": "outstanding tech debt resolved", "value": "87%" },
+        { "label": "new-feature delivery speed", "value": "+200%" }
+      ],
+      "highlights": [
+        "Led 3 developers re-architecting the telemetry front-end around NgRx state management.",
+        "Created a JS data-collection library adopted by other teams, scaled to run on 30 million devices.",
+        "Built highly animated D3.js visualizations, including a live U.S. map of per-market performance.",
+        "Automated blue/green environment data-drift monitoring with Python."
+      ]
+    },
+    {
+      "key": "fort-robotics",
+      "company": "Fort Robotics",
+      "role": "Senior Engineer — Front-End Team Lead",
+      "location": "Philadelphia, PA",
+      "start": "2021-04",
+      "end": "2022-05",
+      "current": false,
+      "summary": "Led a team of 5 building the company's first client-facing software product, enabling its pivot from hardware to platform-first software.",
+      "metrics": [
+        { "label": "team led", "value": "5 engineers" },
+        { "label": "product", "value": "0→1 launch" }
+      ],
+      "highlights": [
+        "Built the first client-facing product: an Angular web + Ionic mobile device-management portal for the robotic safety-controller platform.",
+        "Owned customer outcomes on a 0→1 product: scoped ambiguous needs, owned quality and delivery, and grew the junior team.",
+        "Built the core component library — infinite-scroll/lazy-loading directives, form wizards, async validators — with strict type safety and RxJS."
+      ]
+    },
+    {
+      "key": "xumo",
+      "company": "Comcast",
+      "role": "Principal Engineer — Technical Lead, Xumo TV Platform",
+      "location": "Philadelphia, PA",
+      "start": "2022-05",
+      "end": "2025-05",
+      "current": false,
+      "summary": "Technical lead for the resident smart-TV application; promoted to Principal; graduated Comcast's AI Academy.",
+      "metrics": [
+        { "label": "onboarding & dev cycles", "value": "-10%" },
+        { "label": "AI Academy capstone lift", "value": "+30%" }
+      ],
+      "highlights": [
+        "Technical lead for the resident smart-TV app bridging client UI, third-party apps, physical TV hardware, and external APIs.",
+        "Created the TV Toolkit, a one-click debugging and device-interface suite that cut onboarding and dev cycles 10%.",
+        "Comcast AI Academy graduate; capstone shipped model that raised acceptance of suggested next actions 30% in a customer-facing troubleshooting chat app."
+      ]
+    },
+    {
+      "key": "x1",
+      "company": "Comcast",
+      "role": "Principal Engineer — AI Technical Lead, X1 Platform",
+      "location": "Philadelphia, PA",
+      "start": "2025-05",
+      "end": null,
+      "current": true,
+      "summary": "Leads a squad embedded across the X1 organization, designing and shipping AI workflows adopted company-wide.",
+      "metrics": [
+        { "label": "open security vulnerabilities", "value": "-80%" },
+        { "label": "AI-assisted migration", "value": "Java 8 → Java 25" }
+      ],
+      "highlights": [
+        "Designed an automated vulnerability-fix pipeline that opens human-in-the-loop PRs — cut open security vulnerabilities 80%.",
+        "Led a large-scale, spec-driven, AI-assisted migration of a mission-critical Java application from Java 8 to Java 25.",
+        "Building an AI system that repairs broken tests, detects E2E coverage gaps, and generates new tests.",
+        "Lead the architecture for an LLM onboarding tool that lets non-technical stakeholders explore the codebase, design specs, and mock features."
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "key": "myinkwell",
+      "name": "myInkwell",
+      "tier": "featured",
+      "year": "2026",
+      "url": "https://myinkwellbooks.com",
+      "stat": "solo-built production platform",
+      "summary": "Users design characters, generate illustrated stories with AI, and order them as hardcover books. Solo-built across every layer the role touches: multi-provider AI integration with prompt iteration and cost/latency tradeoffs, blue/green rollouts, E2E testing, production observability.",
+      "stack": ["Angular", "Python FastAPI", "AWS", "MongoDB", "multi-provider AI", "Stripe", "Cloudflare", "Axiom", "PostHog"]
+    },
+    {
+      "key": "spendwatch",
+      "name": "SpendWatch",
+      "tier": "featured",
+      "year": "2025",
+      "url": null,
+      "stat": "live on the App Store & Google Play",
+      "summary": "Multi-tenant household-finance app with AI coaching (Gemini), performance charting, cloud functions, push notifications, and fully automated publishing through GitHub Actions.",
+      "stack": ["Flutter", "AWS (Cognito, S3, DynamoDB, CloudFront)", "Gemini", "Elasticsearch"]
+    },
+    {
+      "key": "rehuman",
+      "name": "Rehuman",
+      "tier": "featured",
+      "year": "2023",
+      "url": "https://rehuman.co.uk",
+      "stat": "forward-deployed startup architecture",
+      "summary": "Embedded with Accenture's first entrepreneur-in-residence startup to architect the core product — a pipeline ingesting wearable healthcare data into their AI engine, ETL, and web portals for B2B and B2C stakeholders.",
+      "stack": ["React", "RabbitMQ", "Docker", "Kubernetes", "Azure"]
+    },
+    {
+      "key": "workflow-manager",
+      "name": "Workflow Manager",
+      "tier": "featured",
+      "year": "2020",
+      "url": "https://test.workflowmanagerpro.com/login?demo=true",
+      "stat": "“JIRA for contractors”",
+      "summary": "Full-stack bidding & estimation tracker for a construction management company: data entry, dashboards, reports, charting, exports, and per-project file attachments.",
+      "stack": ["Angular 12", "NgRx", "Node", "Express", "websockets", "MySQL"]
+    },
+    {
+      "key": "taskr",
+      "name": "taskr",
+      "tier": "featured",
+      "year": "2026",
+      "url": "https://github.com/rjw1428/taskr",
+      "stat": "4 platforms, 1 codebase",
+      "summary": "Cross-platform goal-tracking app with built-in AI coaching — check-ins and plan generation from health data, goals, and performance.",
+      "stack": ["Flutter", "Gemini", "Firebase"]
+    },
+    {
+      "key": "mcp-server",
+      "name": "MCP Tool Server",
+      "tier": "featured",
+      "year": "2026",
+      "url": "https://github.com/rjw1428/weather-api",
+      "stat": "self-hosted AI tooling",
+      "summary": "A locally hosted MCP server delivering custom tools to his AI agents; one example tool is a resilient weather cache.",
+      "stack": ["Python", "FastAPI", "FastMCP"]
+    },
+    {
+      "key": "ssr-project",
+      "name": "SSR Digital Displays",
+      "tier": "legacy",
+      "year": "2017",
+      "url": null,
+      "stat": "5 venues live",
+      "summary": "Real-time digital menu system updatable from any web-connected device.",
+      "stack": ["Angular", "Firebase"]
+    },
+    {
+      "key": "alpine",
+      "name": "Alpine Knives",
+      "tier": "legacy",
+      "year": "2019",
+      "url": null,
+      "stat": "e-commerce platform",
+      "summary": "An e-commerce platform for a mid-size company.",
+      "stack": ["Angular 8", "Firebase", "Stripe", "SendGrid"]
+    },
+    {
+      "key": "brodys",
+      "name": "Brody's Burgers",
+      "tier": "legacy",
+      "year": "2019",
+      "url": null,
+      "stat": "owner-editable from a phone",
+      "summary": "A restaurant site whose owner edits all content from their phone.",
+      "stack": ["Angular", "Firebase"]
+    },
+    {
+      "key": "self-hosted",
+      "name": "This site's infrastructure",
+      "tier": "legacy",
+      "year": "2025",
+      "url": null,
+      "stat": "the portfolio hosts itself",
+      "summary": "Migrated from Firebase hosting to self-hosted: Node/Express behind nginx, Docker Compose, Let's Encrypt.",
+      "stack": ["Node", "Express", "Docker", "nginx", "Let's Encrypt"]
+    },
+    {
+      "key": "burwell",
+      "name": "The Burwell Project",
+      "tier": "legacy",
+      "year": "2021",
+      "url": null,
+      "stat": "shared family ledger for a co-working space",
+      "summary": "A collaborative workspace rental management system: scheduling, billing, and reservations on a shared ledger.",
+      "stack": ["Angular", "Firebase", "Stripe"]
+    }
+  ],
+
+  "skills": [
+    {
+      "group": "AI-Native Workflows",
+      "items": ["Agentic PR review & fix loops", "Large-scale AI-assisted migrations", "Spec → implementation systems", "AI test repair & E2E generation", "Prompt iteration", "Human-in-the-loop rollout design", "Debugging model failure modes"]
+    },
+    {
+      "group": "Languages",
+      "items": ["TypeScript / JavaScript", "Python", "Java", "SQL"]
+    },
+    {
+      "group": "Frontend",
+      "items": ["Angular", "React", "RxJS", "NgRx", "D3.js"]
+    },
+    {
+      "group": "Backend",
+      "items": ["Node.js", "Python FastAPI", "GraphQL", "REST"]
+    },
+    {
+      "group": "Cloud & Infra",
+      "items": ["AWS", "Azure", "Docker", "Kubernetes", "Nx monorepos"]
+    },
+    {
+      "group": "Data",
+      "items": ["MySQL", "SQL Server", "MongoDB", "Elasticsearch", "Neo4j", "Firebase"]
+    },
+    {
+      "group": "Production Reliability",
+      "items": ["Observability", "Blue/green deployments", "Canary rollouts", "Monitoring & alerting", "CI/CD (GitHub Actions, Concourse)", "E2E testing (Cypress, Jest)"]
+    }
+  ],
+
+  "education": [
+    {
+      "key": "jhu",
+      "institution": "Johns Hopkins University",
+      "credential": "Graduate coursework, Computer Science",
+      "detail": "4.0 GPA",
+      "year": "2022"
+    },
+    {
+      "key": "vt",
+      "institution": "Virginia Tech",
+      "credential": "B.S. Mechanical Engineering",
+      "detail": null,
+      "year": "2012"
+    },
+    {
+      "key": "tud",
+      "institution": "Technische Universität Darmstadt, Germany",
+      "credential": "B.S. (additional)",
+      "detail": null,
+      "year": "2016"
+    }
+  ]
+}
