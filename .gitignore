@@ -30,3 +30,4 @@ server/node_modules
 /data
 /.firebase
 .DS_Store
+.env

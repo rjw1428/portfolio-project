@@ -58,6 +58,7 @@ Ordered groups: `{ group: string, items: string[] }`.
 ## Rules
 1. **Key stability** — every `career`, `project`, and `education` entry has a `key` that does not change when array order changes; token references resolve to keys, not positions.
 2. **Facts only** — no theme-specific sentences, metaphors, or presentation values (glyphs, colors, positions) live here. Neutral `summary`/`highlights` are permitted as canonical, reusable, theme-neutral prose.
+   - **Rendering policy (per design D6):** featured/current entities get full per-theme voicing in the template (neutral prose is reference only; inject atomic facts as tokens). Low-stakes entities (legacy projects, minor bullets) MAY emit the neutral `summary`/`highlights` verbatim via a token — an acceptable fallback so we don't author five voicings for small items.
 3. **Single definition** — a fact used by more than one experience exists exactly once in this file.
 4. **`tier` is authoritative** — featured/legacy classification comes from the data, not from page markup.
 5. **Legacy URLs are null** — by prior decision; do not re-add.

@@ -1,5 +1,42 @@
-const express = require('express');
 const path = require('path');
+
+try { process.loadEnvFile(path.join(__dirname, '.env')); } catch (_) {}
+
+const express = require('express');
+const crypto = require('crypto');
+const { PostHog, setupExpressErrorHandler } = require('posthog-node');
+
+const POSTHOG_API_KEY = process.env.POSTHOG_API_KEY;
+const POSTHOG_HOST = process.env.POSTHOG_HOST;
+
+if (!POSTHOG_API_KEY && process.env.NODE_ENV !== 'production') {
+  console.error(
+    'POSTHOG_API_KEY variable required by PostHog is missing or un-configured, ' +
+      'this causes events to be silently missed. ' +
+      'This error stops appearing once POSTHOG_API_KEY is configured'
+  );
+}
+
+const posthog = POSTHOG_API_KEY
+  ? new PostHog(POSTHOG_API_KEY, {
+      host: POSTHOG_HOST || 'https://us.i.posthog.com',
+      enableExceptionAutocapture: true,
+    })
+  : null;
+
+const EXPERIENCE_PAGES = {
+  '/01-departures.html': 'departures',
+  '/02-blueprint.html': 'blueprint',
+  '/03-telemetry.html': 'telemetry',
+  '/04-voyage.html': 'voyage',
+  '/05-arcade.html': 'arcade',
+};
+
+function getDistinctId(req) {
+  const clientId = req.headers['x-posthog-distinct-id'];
+  if (clientId) return clientId;
+  return 'anon_' + crypto.createHash('sha256').update(req.ip || 'unknown').digest('hex').slice(0, 12);
+}
 
 const app = express();
 const port = process.env.PORT || 3201;
@@ -8,6 +45,29 @@ const siteDir = path.join(__dirname, '../src');
 // Logger middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url} - IP: ${req.ip}, User-Agent: ${req.get('User-Agent')}`);
+
+  if (posthog) {
+    const distinctId = getDistinctId(req);
+    const referrer = req.get('Referer') || null;
+    const userAgent = req.get('User-Agent') || null;
+    res.on('finish', () => {
+      const experience = EXPERIENCE_PAGES[req.path];
+      if (experience) {
+        posthog.capture({
+          distinctId,
+          event: 'experience_served',
+          properties: { experience, referrer, user_agent: userAgent },
+        });
+      } else if (req.path === '/gallery.html') {
+        posthog.capture({
+          distinctId,
+          event: 'gallery_viewed',
+          properties: { referrer, user_agent: userAgent },
+        });
+      }
+    });
+  }
+
   next();
 });
 
@@ -36,9 +96,32 @@ app.use(
 
 // Anything unmatched is a real 404 — this is not a SPA.
 app.use((req, res) => {
+  if (posthog) {
+    posthog.capture({
+      distinctId: getDistinctId(req),
+      event: 'page_not_found',
+      properties: {
+        path: req.path,
+        method: req.method,
+        referrer: req.get('Referer') || null,
+        user_agent: req.get('User-Agent') || null,
+      },
+    });
+  }
   res.status(404).sendFile(path.join(siteDir, '404.html'));
 });
+
+if (posthog) {
+  setupExpressErrorHandler(posthog, app);
+}
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server is listening on port ${port}`);
 });
+
+async function shutdown() {
+  if (posthog) await posthog.shutdown();
+  process.exit(0);
+}
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);

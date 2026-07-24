@@ -41,6 +41,12 @@ Alternatives considered: add a multi-stage Docker build that generates at image-
 **D5 — Build tool: a single zero-dependency Node script**
 `build/build.mjs` (Node ≥ 18, no npm dependencies) reads `content.json` + `src/experiences/*.html`, substitutes tokens, writes `src/*.html`, and errors loudly on an unknown or unfilled token. A `package.json` at repo root exposes `npm run build`. Rationale: minimal surface, nothing to audit or keep updated, matches the "no framework" ethos of the pages themselves.
 
+**D6 — Neutral prose is a permitted verbatim fallback** *(chosen by user)*
+`content.json` carries three fact tiers per entity: (1) atomic structured facts — dates, `stack[]`, `metrics` values, urls; (2) neutral `summary`/`highlights` prose; (3) nothing else (theme voice never lives here). Templates decide, per entity, how much to voice:
+- **Featured and current content** gets full per-theme voicing — the neutral prose is reference only, and the visible sentence is authored in the template with atomic facts injected as tokens (the D3 mechanism).
+- **Low-stakes content** (legacy projects, minor bullets) MAY render the neutral `summary`/`highlights` verbatim via a token, so we do not author five voicings for "Alpine Knives — an e-commerce platform."
+This keeps authoring effort where it matters while still single-sourcing the low-stakes prose. The neutral prose remains theme-neutral (D2 unchanged); "verbatim fallback" means a template chooses to emit it as-is, not that the JSON gains any theme-specific content.
+
 ## Risks / Trade-offs
 
 - **Unfilled or misspelled token silently ships blank** → build fails hard on any token with no matching key, and on any `{{…}}` left in output; a smoke check greps generated files for stray `{{`.
