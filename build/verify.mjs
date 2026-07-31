@@ -1,4 +1,4 @@
-// Verifies committed src/*.html match a fresh rebuild from templates + content.json.
+// Verifies committed public/*.html match a fresh rebuild from templates + content.json.
 // Exits non-zero on any stale or hand-edited generated page.
 import { verifyAll, listTemplates } from './lib.mjs';
 

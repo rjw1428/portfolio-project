@@ -40,7 +40,7 @@ function getDistinctId(req) {
 
 const app = express();
 const port = process.env.PORT || 3201;
-const siteDir = path.join(__dirname, '../src');
+const siteDir = path.join(__dirname, '../public');
 
 // Logger middleware
 app.use((req, res, next) => {

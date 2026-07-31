@@ -1,5 +1,5 @@
-// Verify ONE template in memory without touching shared src/*.html output.
-// Renders src/experiences/<name> and checks it equals src/<name> except the banner.
+// Verify ONE template in memory without touching shared public/*.html output.
+// Renders src/experiences/<name> and checks it equals public/<name> except the banner.
 // Usage: node build/verify-one.mjs 03-telemetry.html
 import { renderTemplate, readContent } from './lib.mjs';
 import { readFileSync } from 'node:fs';
@@ -18,7 +18,7 @@ try {
   process.exit(1);
 }
 
-const orig = readFileSync(`src/${name}`, 'utf8');
+const orig = readFileSync(`public/${name}`, 'utf8');
 const outNoBanner = out.replace(/\n<!-- GENERATED from experiences\/[^\n]*-->/, '');
 
 if (outNoBanner === orig) {

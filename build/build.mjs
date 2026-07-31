@@ -1,4 +1,4 @@
-// Builds the experience pages: src/experiences/*.html -> src/*.html
+// Builds the experience pages: src/experiences/*.html -> public/*.html
 import { buildAll, listTemplates } from './lib.mjs';
 
 try {

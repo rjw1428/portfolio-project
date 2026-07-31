@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Five themed portfolio experiences sharing one content model. Facts live in src/content.json; the build injects them into src/experiences/*.html to produce the served src/*.html pages.",
+  "description": "Six themed portfolio experiences sharing one content model. Facts live in src/content.json; the build injects them into src/experiences/*.html to produce the served public/*.html pages.",
   "scripts": {
     "build": "node build/build.mjs",
     "verify": "node build/verify.mjs",

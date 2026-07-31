@@ -1,7 +1,7 @@
 // Zero-dependency build library for the shared-content model.
 // Facts live in src/content.json; templates in src/experiences/*.html reference
 // them with {{dotted.key}} tokens. This module resolves + escapes tokens and
-// emits self-contained pages into src/. See openspec/changes/shared-content-json.
+// emits self-contained pages into public/. See openspec/changes/shared-content-json.
 
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
@@ -11,7 +11,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const PATHS = {
   content: join(ROOT, 'src', 'content.json'),
   experiences: join(ROOT, 'src', 'experiences'),
-  out: join(ROOT, 'src'),
+  out: join(ROOT, 'public'),
 };
 
 // ---------- escapers (one per injection context) ----------

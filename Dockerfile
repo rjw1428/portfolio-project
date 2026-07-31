@@ -3,7 +3,7 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY src ./src
+COPY public ./public
 COPY server ./server
 
 WORKDIR /app/server
