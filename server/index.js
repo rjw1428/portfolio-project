@@ -30,15 +30,33 @@ const EXPERIENCE_PAGES = {
   '/03-telemetry.html': 'telemetry',
   '/04-voyage.html': 'voyage',
   '/05-arcade.html': 'arcade',
+  '/06-gridiron.html': 'gridiron',
 };
 
-function getDistinctId(req) {
+// Docker Desktop NATs every inbound connection to the same gateway address, so
+// req.ip can't distinguish visitors. Identity comes from a first-party cookie:
+// a random anonymous id issued on first visit. Bots that ignore cookies get a
+// fresh id per request instead of merging with anyone.
+const DID_COOKIE = 'rw_did';
+const BOT_UA = /bot|crawler|spider|crawling|scan|monitor|curl|wget|python|go-http|headless/i;
+
+function getDistinctId(req, res) {
+  if (req.distinctId) return req.distinctId;
   const clientId = req.headers['x-posthog-distinct-id'];
-  if (clientId) return clientId;
-  return 'anon_' + crypto.createHash('sha256').update(req.ip || 'unknown').digest('hex').slice(0, 12);
+  const cookieId = (req.headers.cookie || '').match(/(?:^|;\s*)rw_did=(anon_[\w-]+)/)?.[1];
+  let id = clientId || cookieId;
+  if (!id) {
+    id = 'anon_' + crypto.randomUUID();
+    res.append('Set-Cookie', `${DID_COOKIE}=${id}; Max-Age=31536000; Path=/; SameSite=Lax; Secure`);
+  }
+  req.distinctId = id;
+  return id;
 }
 
 const app = express();
+// Behind nginx-proxy-manager; without this req.ip is the docker NAT address —
+// identical for every client — so all PostHog visitors collapse into one person.
+app.set('trust proxy', true);
 const port = process.env.PORT || 3201;
 const siteDir = path.join(__dirname, '../public');
 
@@ -47,22 +65,23 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url} - IP: ${req.ip}, User-Agent: ${req.get('User-Agent')}`);
 
   if (posthog) {
-    const distinctId = getDistinctId(req);
+    const distinctId = getDistinctId(req, res);
     const referrer = req.get('Referer') || null;
     const userAgent = req.get('User-Agent') || null;
+    const bot = BOT_UA.test(userAgent || '');
     res.on('finish', () => {
       const experience = EXPERIENCE_PAGES[req.path];
       if (experience) {
         posthog.capture({
           distinctId,
           event: 'experience_served',
-          properties: { experience, referrer, user_agent: userAgent },
+          properties: { experience, referrer, user_agent: userAgent, bot },
         });
       } else if (req.path === '/gallery.html') {
         posthog.capture({
           distinctId,
           event: 'gallery_viewed',
-          properties: { referrer, user_agent: userAgent },
+          properties: { referrer, user_agent: userAgent, bot },
         });
       }
     });
@@ -98,13 +117,14 @@ app.use(
 app.use((req, res) => {
   if (posthog) {
     posthog.capture({
-      distinctId: getDistinctId(req),
+      distinctId: getDistinctId(req, res),
       event: 'page_not_found',
       properties: {
         path: req.path,
         method: req.method,
         referrer: req.get('Referer') || null,
         user_agent: req.get('User-Agent') || null,
+        bot: BOT_UA.test(req.get('User-Agent') || ''),
       },
     });
   }
