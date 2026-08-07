@@ -205,18 +205,23 @@ section{position:relative}
 #tl-wrap{height:520vh}
 .tl-sticky{
   position:sticky;top:var(--hud);
-  min-height:calc(100vh - var(--hud));
+  height:calc(100vh - var(--hud));
   display:flex;flex-direction:column;justify-content:center;
-  padding-block:clamp(20px,4vh,44px);
+  padding-block:clamp(16px,3vh,44px);
 }
-.tl-stage{position:relative}
-#tl-svg{width:100%;height:auto;display:block}
-.tl-marks{position:relative;height:38px;font-family:var(--mono)}
+.tl-stage{position:relative;flex:0 0 auto}
+#tl-svg{width:100%;height:clamp(96px,20vh,240px);display:block}
+.tl-marks{position:relative;height:38px;font-family:var(--mono);flex:0 0 auto}
 .tl-mark{
   position:absolute;top:0;transform:translateX(-50%);
   text-align:center;font-size:10px;letter-spacing:.14em;color:var(--faint);
   transition:color .3s ease;
+  background:none;border:0;padding:2px 4px;font-family:inherit;
+  cursor:pointer;white-space:nowrap;
 }
+.tl-mark:hover{color:var(--txt)}
+.tl-mark:hover i{color:var(--fe)}
+.tl-mark:focus-visible{outline:1px solid var(--fe);outline-offset:2px}
 .tl-mark i{
   font-style:normal;display:block;font-size:11px;margin-bottom:2px;
 }
@@ -232,8 +237,15 @@ section{position:relative}
   border:1px solid var(--line);
   background:linear-gradient(180deg,var(--panel),var(--panel2));
   padding:clamp(18px,3vw,28px) clamp(18px,3.4vw,32px);
-  min-height:300px;position:relative;
+  min-height:0;position:relative;
+  flex:0 1 auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  scrollbar-width:thin;scrollbar-color:rgba(146,176,220,.35) transparent;
 }
+#ev-card::-webkit-scrollbar{width:6px}
+#ev-card::-webkit-scrollbar-thumb{background:rgba(146,176,220,.35);border-radius:3px}
+/* the floor lives on the inner block so the card itself can still shrink
+   to the sticky viewport on short screens and scroll instead of clipping */
+#ev-inner{min-height:min(260px,32vh)}
 #ev-card::before,#ev-card::after{
   content:'';position:absolute;width:14px;height:14px;
   border:1px solid rgba(146,176,220,.4);
@@ -253,11 +265,12 @@ section{position:relative}
 @keyframes evtick{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #tl-static{display:none}
 #tl-static .pstats{margin-top:14px}
-@media (max-width:640px){#ev-card{min-height:470px}}
+@media (max-width:640px){#ev-inner{min-height:min(430px,46vh)}}
 
 /* reduced-motion / short-viewport timeline fallback */
 .rm #tl-wrap{height:auto}
-.rm .tl-sticky{position:static;min-height:0;padding-block:clamp(40px,8vh,80px)}
+.rm .tl-sticky{position:static;height:auto;min-height:0;padding-block:clamp(40px,8vh,80px)}
+.rm #tl-svg{height:auto}
 .rm #ev-card,.rm #tl-dot,.rm #tl-hair{display:none}
 .rm #tl-static{display:block}
 #tl-static .st-ev{
@@ -268,9 +281,25 @@ section{position:relative}
 #tl-static .st-ev .sid{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--fe)}
 #tl-static .st-ev .srole{font-family:var(--mono);font-size:12px;color:var(--dim);margin:6px 0 8px}
 #tl-static .st-ev p{color:var(--dim)}
+/* short viewports: give the event card the room it needs to stay whole */
+@media (min-height:521px) and (max-height:860px){
+  #history .sec-head{margin-bottom:clamp(10px,2vh,20px)}
+  #history .sec-head h2{font-size:clamp(1.2rem,2.4vw,1.6rem)}
+  #history .sec-sub{font-size:.85rem;margin-top:6px}
+}
+@media (min-height:521px) and (max-height:700px){
+  #history .sec-sub{display:none}
+  .tl-marks{height:24px}
+  .tl-mark b{display:none}
+  #ev-card{padding:14px 18px}
+  #ev-role{margin-bottom:6px}
+  #ev-stats{margin-top:10px}
+}
 @media (max-height:520px){
   #tl-wrap{height:auto}
-  .tl-sticky{position:static;min-height:0}
+  .tl-sticky{position:static;height:auto;min-height:0}
+  #tl-svg{height:auto}
+  #ev-card{min-height:0;overflow:visible}
 }
 
 /* ============ systems (projects) ============ */
@@ -496,22 +525,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <p class="sec-sub">Eight events on a single line. Scroll to scrub the cursor through time — each spike is a place where the signal changed. The last one is still transmitting.</p>
         </div>
         <div class="tl-stage">
-          <svg id="tl-svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Career timeline trace from Norfolk Southern locomotive works to Principal Engineer — AI Technical Lead on the Comcast X1 platform">
+          <svg id="tl-svg" viewBox="0 0 1000 240" preserveAspectRatio="none" role="img" aria-label="Career timeline trace from Norfolk Southern locomotive works to Principal Engineer — AI Technical Lead on the Comcast X1 platform">
             <line x1="0" y1="150" x2="1000" y2="150" stroke="rgba(146,176,220,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
             <path id="tl-ghost" fill="none" stroke="rgba(146,176,220,.14)" stroke-width="1" vector-effect="non-scaling-stroke"/>
             <path id="tl-path" fill="none" stroke="#54D8F2" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="filter:drop-shadow(0 0 4px rgba(84,216,242,.55))"/>
             <line id="tl-hair" x1="0" y1="14" x2="0" y2="226" stroke="rgba(84,216,242,.35)" stroke-width="1" vector-effect="non-scaling-stroke"/>
-            <circle id="tl-dot" cx="0" cy="150" r="5" fill="#54D8F2" style="filter:drop-shadow(0 0 6px rgba(84,216,242,.9))"/>
+            <line id="tl-dot" x1="0" y1="150" x2="0.01" y2="150" stroke="#54D8F2" stroke-width="9" stroke-linecap="round" vector-effect="non-scaling-stroke" style="filter:drop-shadow(0 0 6px rgba(84,216,242,.9))"/>
           </svg>
-          <div class="tl-marks" aria-hidden="true">
-            <span class="tl-mark" style="left:7%"><i>2013</i><b>LOCO WORKS</b></span>
-            <span class="tl-mark" style="left:19.5%"><i>2015</i><b>NAVSEA · SD</b></span>
-            <span class="tl-mark" style="left:32%"><i>2016</i><b>SSR DISPLAYS</b></span>
-            <span class="tl-mark" style="left:44.5%"><i>2018</i><b>ACCENTURE</b></span>
-            <span class="tl-mark" style="left:57%"><i>2019</i><b>X1 TELEMETRY</b></span>
-            <span class="tl-mark" style="left:69.5%"><i>2021</i><b>FORT ROBOTICS</b></span>
-            <span class="tl-mark" style="left:82%"><i>2022</i><b>XUMO TV</b></span>
-            <span class="tl-mark live" style="left:94.5%"><i>2025</i><b>X1 · LIVE</b></span>
+          <div class="tl-marks" role="group" aria-label="Jump to a career event">
+            <button type="button" class="tl-mark" style="left:7%" aria-label="Jump to 2013 — Norfolk Southern Locomotive Works"><i>2013</i><b>LOCO WORKS</b></button>
+            <button type="button" class="tl-mark" style="left:19.5%" aria-label="Jump to 2015 — NAVSEA SWRMC, San Diego"><i>2015</i><b>NAVSEA · SD</b></button>
+            <button type="button" class="tl-mark" style="left:32%" aria-label="Jump to 2016 — SSR Displays"><i>2016</i><b>SSR DISPLAYS</b></button>
+            <button type="button" class="tl-mark" style="left:44.5%" aria-label="Jump to 2018 — Accenture"><i>2018</i><b>ACCENTURE</b></button>
+            <button type="button" class="tl-mark" style="left:57%" aria-label="Jump to 2019 — Comcast X1 telemetry"><i>2019</i><b>X1 TELEMETRY</b></button>
+            <button type="button" class="tl-mark" style="left:69.5%" aria-label="Jump to 2021 — Fort Robotics"><i>2021</i><b>FORT ROBOTICS</b></button>
+            <button type="button" class="tl-mark" style="left:82%" aria-label="Jump to 2022 — Xumo TV"><i>2022</i><b>XUMO TV</b></button>
+            <button type="button" class="tl-mark live" style="left:94.5%" aria-label="Jump to 2025 — Comcast X1, current role"><i>2025</i><b>X1 · LIVE</b></button>
           </div>
         </div>
         <article id="ev-card" aria-live="polite">
@@ -1145,8 +1174,10 @@ function updateTl(){
   var L = pp * tlLen;
   tlPath.style.strokeDashoffset = tlLen - L;
   var pt = tlPath.getPointAtLength(L);
-  tlDot.setAttribute('cx', pt.x);
-  tlDot.setAttribute('cy', pt.y);
+  tlDot.setAttribute('x1', pt.x);
+  tlDot.setAttribute('x2', pt.x + 0.01);
+  tlDot.setAttribute('y1', pt.y);
+  tlDot.setAttribute('y2', pt.y);
   tlHair.setAttribute('x1', pt.x);
   tlHair.setAttribute('x2', pt.x);
   var i = 0;
@@ -1155,6 +1186,42 @@ function updateTl(){
   }
   setEvent(i);
 }
+
+/* ---------------- timeline marks: click to jump ---------------- */
+/* path x is monotonic, so a bisection finds the length at a given x */
+function lengthAtX(x){
+  var lo = 0, hi = tlLen;
+  for (var k = 0; k < 26; k++){
+    var mid = (lo + hi) / 2;
+    if (tlPath.getPointAtLength(mid).x < x) lo = mid; else hi = mid;
+  }
+  return hi;
+}
+
+function scrollToEvent(i){
+  i = clamp(i, 0, EVENTS.length - 1);
+  var behavior = RM ? 'auto' : 'smooth';
+  if (RM){
+    var card = document.getElementById('st-ev-' + i);
+    if (card) card.scrollIntoView({ behavior: behavior, block: 'center' });
+    return;
+  }
+  var wr = tlWrap.getBoundingClientRect();
+  var vh = window.innerHeight;
+  var total = wr.height - vh;
+  if (total <= 40){
+    tlWrap.scrollIntoView({ behavior: behavior, block: 'center' });
+    return;
+  }
+  /* land a little past the spike so this event is the selected one */
+  var pp = lengthAtX(EVENTS[i].x + 6) / tlLen;
+  var p = clamp(pp * 0.92 + 0.03, 0, 1);
+  window.scrollTo({ top: window.scrollY + wr.top + p * total, behavior: behavior });
+}
+
+marks.forEach(function(m, i){
+  m.addEventListener('click', function(){ scrollToEvent(i); });
+});
 
 /* ---------------- counters (scroll-scrubbed) ---------------- */
 var counters = $$('[data-count]');
@@ -1314,9 +1381,10 @@ if (RM){
   /* static rendering: everything readable, no animation loop */
   marks.forEach(function(m){ m.classList.add('on'); });
   var st = $('#tl-static');
-  EVENTS.forEach(function(e){
+  EVENTS.forEach(function(e, i){
     var art = document.createElement('article');
     art.className = 'st-ev';
+    art.id = 'st-ev-' + i;
     art.innerHTML = '<span class="sid">' + e.id + '</span><h3></h3><p class="srole"></p><p></p><ul class="pstats"></ul>';
     art.querySelector('h3').textContent = e.name;
     art.querySelector('.srole').textContent = e.role;
