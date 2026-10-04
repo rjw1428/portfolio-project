@@ -1014,6 +1014,18 @@ footer{
 .foot-row a:hover{ color:var(--amber); }
 
 /* ============================================================
+   MOBILE LEGIBILITY — prose ≥15px, readable rows ≥13px, board labels ≥11.5px
+   ============================================================ */
+@media (max-width:520px){
+  .dep-detail, .dep-manifest, .arch-desc, .cert p{ font-size:15px; }
+  .stock-row{ font-size:13px; letter-spacing:.06em; }
+  .stock-row .name{ white-space:normal; min-width:0; }
+  .plate, .cue, .eyebrow, .board-head, .cert-yr, .gate-link{ font-size:12px; }
+  .board-head .sub, .hero-foot, .concourse, .gate-status, .chip, .arch-no,
+  .arch-note, .stock-cat, .stock-row .st, .btn .k, .foot-row{ font-size:11.5px; letter-spacing:.12em; }
+}
+
+/* ============================================================
    REDUCED MOTION
    ============================================================ */
 @media (prefers-reduced-motion: reduce){

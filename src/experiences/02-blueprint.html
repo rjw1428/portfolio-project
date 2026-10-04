@@ -695,6 +695,17 @@ footer.sheet { padding-bottom: 3rem; }
 }
 
 /* ============================================================
+   MOBILE LEGIBILITY — readable copy ≥13px, drafting labels ≥11px
+   ============================================================ */
+@media (max-width: 520px) {
+  .step .note, .tblock dd, .sup table, .bom li, .revs table, .dwg .visit { font-size: .8125rem; }
+  .dwg .visit { max-width: 100%; overflow-wrap: anywhere; letter-spacing: .04em; }
+  .dim, .hero-fig figcaption, .arch-caption .stage-no, .dwg-head, .tblock dt,
+  .sup th, .sup td:last-child, .bom li span, .revs th, .titleblock dt,
+  .donotscale { font-size: .72rem; letter-spacing: .12em; }
+}
+
+/* ============================================================
    REDUCED MOTION — everything arrives pre-built
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

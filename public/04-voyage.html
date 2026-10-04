@@ -935,6 +935,19 @@ footer{
 }
 
 /* ============================================================
+   MOBILE LEGIBILITY — readable copy ≥13px, telemetry labels ≥11px
+   ============================================================ */
+@media (max-width:520px){
+  .assist-card h3{font-size:1rem;letter-spacing:.18em;}
+  .assist-card .role,.survey .class-line,.survey .moons-line,.cred-list{font-size:.8125rem;letter-spacing:.08em;}
+  .archive-list .a-desc{font-size:.9375rem;}
+  .survey .visit,.archive-list a.a-link,.archive-list .a-name,.moon span{font-size:.8125rem;}
+  .poc-marker,.eyebrow,.hero-vessel,.hero-role,.scroll-cue span,.assist-card .dv,
+  .vel-readout small,.vel-readout .unit,.archive-head,.constellation .const-name,
+  .constellation .const-sub,.const-label,footer{font-size:.72rem;letter-spacing:.14em;}
+}
+
+/* ============================================================
    REDUCED MOTION — the voyage as a finished chart
    ============================================================ */
 @media (prefers-reduced-motion:reduce){

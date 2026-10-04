@@ -1260,6 +1260,22 @@ footer a{color:var(--body-c);}
   .lower-third .lt-tag{padding:.5rem .85rem;}
   .play .l3{flex-wrap:wrap;}
   .jumbo-hud{display:none;}
+
+  /* legibility floor: readable copy ≥13px, broadcast labels ≥11.5px with
+     tighter tracking so they still fit */
+  .play .role,.play .gains li,.play .result,.pb-nick,.pb-foot,
+  .film .f-stack,.pos-card li,.ez-email{font-size:.8125rem;letter-spacing:.04em;}
+  .play .result .whistle{letter-spacing:.06em;}
+  .eyebrow,.hero-eyebrow,.lower-third .lt-role,.hero-sum,.kick-cue,.tick-track,
+  .play .l3,.td-stat,.pb-num,.pb-year,.pb-diagram .dtag,.filmroom-head .fr-sub,
+  .film .f-year,.film .f-stat,.pos-card .pos-name,.pos-card .pos-note,
+  .scout .s-year,.scout .s-note,footer{font-size:.72rem;letter-spacing:.1em;}
+  .minifield .mf-label{font-size:.6875rem;letter-spacing:.12em;}
+}
+/* short phones (SE-class): anchor the PAT CTA to the bottom so the email line isn't clipped */
+@media (max-width:520px) and (max-height:720px){
+  .pat-cta{top:auto;bottom:1rem;}
+  .ez-email{margin-top:.9rem;}
 }
 
 /* ============================================================
