@@ -6,9 +6,9 @@
 
   "profile": {
     "name": "Ryan Wilk",
-    "positioning": "Principal Software Engineer · AI-Native Developer Workflows · Customer-Facing Engineering",
+    "positioning": "Staff AI Agent Engineer · AI-Native Developer Workflows · Customer-Facing Engineering",
     "yearsExperience": "10+",
-    "summary": "Principal engineer with 10+ years shipping production software, currently embedded with engineering teams across Comcast's X1 organization: find the real bottleneck, ship a fast first version, harden it into workflows adopted company-wide. Builds end-to-end — frontend, backend, infra — and works directly with customers to find technical solutions.",
+    "summary": "Staff AI agent engineer with 10+ years shipping production software, now with ServiceNow's Moveworks team helping customers strategically use AI to solve real business challenges. Previously led a squad embedded across Comcast's X1 organization: find the real bottleneck, ship a fast first version, harden it into workflows adopted company-wide. Builds end-to-end — frontend, backend, infra — and works directly with customers to find technical solutions.",
     "contact": {
       "email": "software@ryanwilk.com",
       "github": "https://github.com/rjw1428",
@@ -155,18 +155,33 @@
       "role": "Principal Engineer — AI Technical Lead, X1 Platform",
       "location": "Philadelphia, PA",
       "start": "2025-05",
-      "end": null,
-      "current": true,
-      "summary": "Leads a squad embedded across the X1 organization, designing and shipping AI workflows adopted company-wide.",
+      "end": "2026-11",
+      "current": false,
+      "summary": "Led a squad embedded across the X1 organization, designing and shipping AI workflows adopted company-wide.",
       "metrics": [
         { "label": "open security vulnerabilities", "value": "-80%" },
         { "label": "AI-assisted migration", "value": "Java 8 → Java 25" }
       ],
       "highlights": [
         "Designed an automated vulnerability-fix pipeline that opens human-in-the-loop PRs — cut open security vulnerabilities 80%.",
-        "Led a large-scale, spec-driven, AI-assisted migration of a mission-critical Java application from Java 8 to Java 25.",
-        "Building an AI system that repairs broken tests, detects E2E coverage gaps, and generates new tests.",
-        "Lead the architecture for an LLM onboarding tool that lets non-technical stakeholders explore the codebase, design specs, and mock features."
+        "Led and completed a large-scale, spec-driven, AI-assisted migration of a mission-critical Java application from Java 8 to Java 25.",
+        "Architected and shipped an LLM onboarding tool that lets non-technical stakeholders explore the codebase, design specs, and mock features.",
+        "Architected and implemented HTTPS and token-based authentication to secure the XRE endpoints.",
+        "Designed and led an AI system that repairs broken tests, detects E2E coverage gaps, and generates new tests."
+      ]
+    },
+    {
+      "key": "servicenow",
+      "company": "ServiceNow",
+      "role": "Staff AI Agent Engineer",
+      "location": "Remote",
+      "start": "2026-11",
+      "end": null,
+      "current": true,
+      "summary": "Just started with the Moveworks team, helping customers strategically use AI to solve real business challenges.",
+      "metrics": [],
+      "highlights": [
+        "Joined the Moveworks team to help customers strategically use AI to solve real business challenges."
       ]
     }
   ],

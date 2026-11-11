@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ryan Wilk — Principal Software Engineer. AI-native developer workflows, customer-facing engineering. From locomotive shop floors to Navy ships to smart TVs to leading AI adoption across Comcast's X1 platform.">
+<meta name="description" content="Ryan Wilk — Staff AI Agent Engineer. AI-native developer workflows, customer-facing engineering. From locomotive shop floors to Navy ships to smart TVs to AI agents at ServiceNow.">
 <title>{{profile.name}} — Departures</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="Ryan Wilk — Departures">
-<meta property="og:description" content="A career told as a split-flap departures board. Principal engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
+<meta property="og:description" content="A career told as a split-flap departures board. Staff AI agent engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
 <meta property="og:url" content="https://www.ryanwilk.com/01-departures.html">
 <meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
 <meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ryan Wilk — Departures">
-<meta name="twitter:description" content="A career told as a split-flap departures board. Principal engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
+<meta name="twitter:description" content="A career told as a split-flap departures board. Staff AI agent engineer: AI-native workflows, full-stack, 10+ years shipping production software.">
 <meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
 <link rel="canonical" href="https://www.ryanwilk.com/01-departures.html">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
@@ -517,7 +517,7 @@ section{ padding:clamp(64px,11vh,120px) 0; }
   color:#9599a1;
 }
 .dep-detail strong{ color:var(--white); font-weight:600; }
-/* boarding row: marquee manifest of current services */
+/* manifest list under a board row (the X1 stop) */
 .dep-manifest{
   grid-column:2 / -1;
   list-style:none;
@@ -1076,21 +1076,22 @@ footer{
         <span class="sub">ALL SERVICES</span>
       </div>
       <h1 class="flap-line fl-xl fl-amber fl-center" data-flap="RYAN WILK" aria-label="Ryan Wilk"></h1>
-      <p class="flap-line fl-lg fl-center" data-flap="PRINCIPAL ENGINEER" aria-label="Principal software engineer"></p>
+      <p class="flap-line fl-lg fl-center" data-flap="STAFF AI AGENT" aria-label="Staff AI Agent Engineer"></p>
+      <p class="flap-line fl-lg fl-center" data-flap="ENGINEER" aria-hidden="true"></p>
       <p class="flap-line fl-lg fl-center" data-flap="AI-NATIVE WORKFLOWS" aria-label="AI-native developer workflows, customer-facing engineering"></p>
       <div class="hero-foot">
         <span>ORIGIN: LOCOMOTIVE WORKS &middot; 2013</span>
-        <span>CURRENT: COMCAST X1 &middot; AI TECHNICAL LEAD</span>
+        <span>CURRENT: {{career.servicenow.company | upper}} &middot; AI AGENTS</span>
       </div>
     </div>
 
     <p class="intro rv">I started out fixing locomotives and ended up building software.
     Ten-plus years of shipping production code later, the habit never changed:
     <strong>open it up, learn every moving part, put it back together better than you
-    found it.</strong> Today I'm a Principal Engineer and AI Technical Lead on Comcast's
-    X1 platform, doing the customer-facing kind of engineering &mdash; embed with the
-    teams feeling the pain, find the bottleneck, then ship AI-native workflows the whole
-    company ends up boarding. Before that &mdash; smart TVs, robot safety controllers,
+    found it.</strong> Today I'm a {{career.servicenow.role}} at {{career.servicenow.company}}, just boarded
+    with the Moveworks team &mdash; the customer-facing kind of engineering, helping
+    customers strategically use AI to solve real business challenges. Before that &mdash;
+    leading AI adoption across Comcast's X1 platform, smart TVs, robot safety controllers,
     Navy ships, my own startup, and a lot of bars with very good screens.</p>
 
     <div class="cue-row rv">
@@ -1192,23 +1193,36 @@ footer{
         acceptance of suggested next actions 30% in a customer-facing troubleshooting chat app.</p>
       </div>
 
-      <div class="dep-grid dep-row" data-flaprow data-boarding>
-        <div class="flap-line fl-bd fl-amber g-dep" data-flap=" NOW" aria-label="Departing now"></div>
+      <div class="dep-grid dep-row" data-flaprow>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap="2025" aria-label="Departed 2025"></div>
         <div class="flap-line fl-bd g-dest" data-flap="COMCAST &middot; X1        " aria-label="Comcast, X1 platform"></div>
-        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="BOARDING" aria-label="Status: boarding"></div></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="DEPARTED" aria-label="Status: departed"></div></div>
         <p class="dep-detail"><strong>Principal Engineer &mdash; AI Technical Lead, X1 Platform.</strong>
-        I lead a squad embedded with teams across the X1 org: run discovery to find where
-        development drags, then ship AI workflows the whole company adopts. On the board so far:</p>
+        May 2025 to November 2026. I led a squad embedded with teams across the X1 org: ran
+        discovery to find where development dragged, then shipped AI workflows the whole
+        company adopted. On the manifest when I stepped off:</p>
         <ul class="dep-manifest">
           <li>An agentic vulnerability-fix pipeline opening human-in-the-loop PRs &mdash;
           <strong>open security vulnerabilities down 80%</strong></li>
-          <li>A spec-driven, AI-assisted migration of a mission-critical Java app &mdash;
+          <li>A spec-driven, AI-assisted migration of a mission-critical Java app, completed &mdash;
           <strong>Java 8 to Java 25</strong></li>
-          <li>An AI system that repairs broken tests, finds E2E coverage gaps, and generates
-          new tests</li>
-          <li>An org-wide LLM onboarding tool &mdash; non-technical stakeholders explore the
-          codebase and mock up features</li>
+          <li>An org-wide LLM onboarding tool, shipped &mdash; non-technical stakeholders explore
+          the codebase, design specs, and mock up features</li>
+          <li>The XRE endpoints secured end to end &mdash; architected and implemented
+          <strong>HTTPS and token-based authentication</strong></li>
+          <li>Designed and led an AI system that repairs broken tests, finds E2E coverage gaps,
+          and generates new tests</li>
         </ul>
+      </div>
+
+      <div class="dep-grid dep-row" data-flaprow data-boarding>
+        <div class="flap-line fl-bd fl-amber g-dep" data-flap=" NOW" aria-label="Departing now, November 2026"></div>
+        <div class="flap-line fl-bd g-dest" data-flap="SERVICENOW          " aria-label="ServiceNow, Moveworks team"></div>
+        <div class="g-status"><span class="dot" aria-hidden="true"></span><div class="flap-line fl-bd fl-amber" data-flap="BOARDING" aria-label="Status: boarding"></div></div>
+        <p class="dep-detail"><strong>{{career.servicenow.role}}, {{career.servicenow.company}}
+        &middot; {{career.servicenow.location}}.</strong> Doors just closed on this one, November 2026.
+        {{career.servicenow.summary}} The manifest is still blank &mdash; it gets filled in
+        as the work ships.</p>
       </div>
     </div>
   </div>
@@ -1465,9 +1479,8 @@ footer{
       <p class="eyebrow rv">PLATFORM 4 &middot; FINAL BOARDING</p>
       <h2 class="flap-line fl-lg fl-amber" data-flap="LAST CALL" data-auto aria-label="Last call"></h2>
     </div>
-    <p class="contact-copy rv">The next stop isn't posted yet. If you're building something
-    and could use a principal engineer who has run a shop floor, a startup, front-end
-    teams, and an AI squad &mdash; any address below reaches me.</p>
+    <p class="contact-copy rv">The next stop is on the board &mdash; ServiceNow &mdash; for
+    support, reach out at any address below.</p>
     <div class="contact-btns rv">
       <a class="btn" href="mailto:{{profile.contact.email}}">
         <span class="k">EMAIL</span>
@@ -1494,7 +1507,7 @@ footer{
 <footer>
   <div class="wrap foot-row">
     <span>POC 1 / DEPARTURES</span>
-    <span>RYAN WILK &middot; PRINCIPAL ENGINEER &middot; AI TECHNICAL LEAD</span>
+    <span>RYAN WILK &middot; {{career.servicenow.role | upper}} &middot; {{career.servicenow.company | upper}}</span>
     <span>NO FRAMEWORK &middot; NO IMAGES &middot; ONE FILE</span>
   </div>
 </footer>

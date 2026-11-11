@@ -37,7 +37,7 @@ Two facts drive everything below:
    coordinates, a scroll-driven platformer with per-zone pixel positions). **There is no
    generic "loop over the career list."** Presentation is unique per page and hand-built.
 
-2. **`content.json` guarantees the facts match across all five; it does not render anything.**
+2. **`content.json` guarantees the facts match across all six; it does not render anything.**
    Changing a fact in `content.json` keeps the five pages from *disagreeing*, but the visible
    sentence a reader sees is authored inside each experience. So most content changes touch
    **both** `content.json` **and** each experience that shows that content.
@@ -264,7 +264,7 @@ This is the highest-touch change because every experience places career stops by
      truth" career block.
 3. Update counts and copy that state a number of stops (e.g. voyage's "eight gravity assists"
    in the `<meta>`/hero, arcade level counts).
-4. Build (templated pages) + verify. Preview **all five** — a new stop is exactly the kind of
+4. Build (templated pages) + verify. Preview **all six** — a new stop is exactly the kind of
    change that breaks one theme's spacing.
 
 ### D. Add a project

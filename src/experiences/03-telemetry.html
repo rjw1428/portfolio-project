@@ -6,17 +6,17 @@
 <title>{{profile.name}} — Telemetry</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{profile.name}} — Telemetry">
-<meta property="og:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
+<meta property="og:description" content="A portfolio that instruments its own reader. Staff AI agent engineer: AI-native workflows, 30M-device telemetry, full-stack.">
 <meta property="og:url" content="https://www.ryanwilk.com/03-telemetry.html">
 <meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
 <meta property="og:site_name" content="{{profile.name}}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{profile.name}} — Telemetry">
-<meta name="twitter:description" content="A portfolio that instruments its own reader. Principal engineer: AI-native workflows, 30M-device telemetry, full-stack.">
+<meta name="twitter:description" content="A portfolio that instruments its own reader. Staff AI agent engineer: AI-native workflows, 30M-device telemetry, full-stack.">
 <meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
 <link rel="canonical" href="https://www.ryanwilk.com/03-telemetry.html">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
-<meta name="description" content="Ryan Wilk, Principal Software Engineer — AI-native developer workflows, customer-facing engineering. Portfolio POC 3: the page as a live instrument.">
+<meta name="description" content="Ryan Wilk, Staff AI Agent Engineer — AI-native developer workflows, customer-facing engineering. Portfolio POC 3: the page as a live instrument.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
@@ -201,7 +201,7 @@ section{position:relative}
 
 /* ============ timeline ============ */
 #history .wrap{padding-block:0}
-#tl-wrap{height:440vh}   /* ~40vh of scroll per event: a job per half-screen */
+#tl-wrap{height:480vh}   /* ~40vh of scroll per event (nine of them): a job per half-screen */
 .tl-sticky{
   position:sticky;top:var(--hud);
   /* sized to its content, never taller than the frame: the readout ends
@@ -232,6 +232,8 @@ section{position:relative}
 .tl-mark.live.on b{color:var(--ok)}
 .tl-mark.cur{color:var(--txt)}
 .tl-mark b{font-weight:500;display:block}
+/* nine marks: below this width the name labels would touch, so the years carry it */
+@media (max-width:959px){ .tl-mark b{display:none} }
 @media (max-width:719px){
   /* the trace and the heading give up height first — the readout has to
      stay whole, because a card that scrolls inside a scroll-driven section
@@ -243,7 +245,7 @@ section{position:relative}
   .tl-mark b{display:none}
   .tl-marks{height:38px}
   .tl-mark{
-    padding:10px 4px 0;min-height:38px;
+    padding:10px 2px 0;min-height:38px;letter-spacing:.04em;
     -webkit-tap-highlight-color:transparent;
   }
   .tl-mark i{font-size:11.5px}
@@ -355,7 +357,7 @@ section{position:relative}
   .tl-sticky{padding-block:8px}
   #ev-card{margin-top:8px}
   .tl-marks{height:30px}
-  .tl-mark{padding:6px 4px 0;min-height:30px}
+  .tl-mark{padding:6px 2px 0;min-height:30px}
 }
 
 /* ============ systems (projects) ============ */
@@ -589,10 +591,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <p class="eyebrow"><b>SIGNAL ACQUIRED</b> &nbsp;//&nbsp; {{profile.positioning | upper}}</p>
     <h1>Ryan<br>Wilk<span class="dim">_</span></h1>
     <p class="hero-sub">
-      <strong>Principal Software Engineer at Comcast</strong> — AI Technical Lead on the X1
-      platform, 10+ years shipping production software. I build AI-native developer workflows
+      <strong>{{career.servicenow.role}} at {{career.servicenow.company}}</strong> — just started with the
+      Moveworks team, 10+ years shipping production software. I build AI-native developer workflows
       and the customer-facing systems they serve. Before this: locomotives, Navy ships, a
-      menu-board startup, Fortune&nbsp;500 consulting, robot safety controllers, smart TVs.
+      menu-board startup, Fortune&nbsp;500 consulting, robot safety controllers, smart TVs,
+      and AI workflows adopted across Comcast&rsquo;s X1 org.
       <strong>This page is an instrument,</strong> and right now it&rsquo;s measuring you.
       Check the strip at the top.
     </p>
@@ -617,10 +620,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div class="sec-head">
           <span class="sec-tag" style="--c:var(--fe)">01 · SIGNAL HISTORY</span>
           <h2 data-type>One career, one trace</h2>
-          <p class="sec-sub">Eight events on a single line. Keep scrolling to scrub the cursor through time — each spike is a place where the signal changed. The last one is still transmitting.</p>
+          <p class="sec-sub">Nine events on a single line. Keep scrolling to scrub the cursor through time — each spike is a place where the signal changed. The last one is still transmitting.</p>
         </div>
         <div class="tl-stage">
-          <svg id="tl-svg" viewBox="0 0 1000 240" preserveAspectRatio="none" role="img" aria-label="Career timeline trace from Norfolk Southern locomotive works to Principal Engineer — AI Technical Lead on the Comcast X1 platform">
+          <svg id="tl-svg" viewBox="0 0 1000 240" preserveAspectRatio="none" role="img" aria-label="Career timeline trace from Norfolk Southern locomotive works to Staff AI Agent Engineer at ServiceNow">
             <line x1="0" y1="150" x2="1000" y2="150" stroke="rgba(146,176,220,.12)" stroke-width="1" vector-effect="non-scaling-stroke"/>
             <path id="tl-ghost" fill="none" stroke="rgba(146,176,220,.14)" stroke-width="1" vector-effect="non-scaling-stroke"/>
             <path id="tl-path" fill="none" stroke="#54D8F2" stroke-width="1.8" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="filter:drop-shadow(0 0 4px rgba(84,216,242,.55))"/>
@@ -628,14 +631,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <line id="tl-dot" x1="0" y1="150" x2="0.01" y2="150" stroke="#54D8F2" stroke-width="9" stroke-linecap="round" vector-effect="non-scaling-stroke" style="filter:drop-shadow(0 0 6px rgba(84,216,242,.9))"/>
           </svg>
           <div class="tl-marks" role="group" aria-label="Jump to a career event">
-            <button type="button" class="tl-mark" style="left:7%" aria-label="Jump to 2013 — Norfolk Southern Locomotive Works"><i>2013</i><b>LOCO WORKS</b></button>
-            <button type="button" class="tl-mark" style="left:19.5%" aria-label="Jump to 2015 — NAVSEA SWRMC, San Diego"><i>2015</i><b>NAVSEA · SD</b></button>
-            <button type="button" class="tl-mark" style="left:32%" aria-label="Jump to 2016 — SSR Displays"><i>2016</i><b>SSR DISPLAYS</b></button>
-            <button type="button" class="tl-mark" style="left:44.5%" aria-label="Jump to 2018 — Accenture"><i>2018</i><b>ACCENTURE</b></button>
-            <button type="button" class="tl-mark" style="left:57%" aria-label="Jump to 2019 — Comcast X1 telemetry"><i>2019</i><b>X1 TELEMETRY</b></button>
-            <button type="button" class="tl-mark" style="left:69.5%" aria-label="Jump to 2021 — Fort Robotics"><i>2021</i><b>FORT ROBOTICS</b></button>
-            <button type="button" class="tl-mark" style="left:82%" aria-label="Jump to 2022 — Xumo TV"><i>2022</i><b>XUMO TV</b></button>
-            <button type="button" class="tl-mark live" style="left:94.5%" aria-label="Jump to 2025 — Comcast X1, current role"><i>2025</i><b>X1 · LIVE</b></button>
+            <button type="button" class="tl-mark" style="left:6.2%" aria-label="Jump to 2013 — Norfolk Southern Locomotive Works"><i>2013</i><b>LOCO WORKS</b></button>
+            <button type="button" class="tl-mark" style="left:17.2%" aria-label="Jump to 2015 — NAVSEA SWRMC, San Diego"><i>2015</i><b>NAVSEA · SD</b></button>
+            <button type="button" class="tl-mark" style="left:28.2%" aria-label="Jump to 2016 — SSR Displays"><i>2016</i><b>SSR</b></button>
+            <button type="button" class="tl-mark" style="left:39.2%" aria-label="Jump to 2018 — Accenture"><i>2018</i><b>ACCENTURE</b></button>
+            <button type="button" class="tl-mark" style="left:50.2%" aria-label="Jump to 2019 — Comcast X1 telemetry"><i>2019</i><b>X1 TELEM</b></button>
+            <button type="button" class="tl-mark" style="left:61.2%" aria-label="Jump to 2021 — Fort Robotics"><i>2021</i><b>FORT</b></button>
+            <button type="button" class="tl-mark" style="left:72.2%" aria-label="Jump to 2022 — Xumo TV"><i>2022</i><b>XUMO TV</b></button>
+            <button type="button" class="tl-mark" style="left:83.2%" aria-label="Jump to 2025 — Comcast X1 platform"><i>2025</i><b>X1 · AI</b></button>
+            <button type="button" class="tl-mark live" style="left:94.2%" aria-label="Jump to 2026 — ServiceNow, current role"><i>2026</i><b>SERVICENOW</b></button>
           </div>
         </div>
         <article id="ev-card" aria-live="polite">
@@ -643,7 +647,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <span class="led" aria-hidden="true"></span>
             <span id="ev-id">EVT-01</span>
             <h3 id="ev-name">{{career.norfolk.company}} · Loco Works</h3>
-            <span id="ev-count">01 / 08</span>
+            <span id="ev-count">01 / 09</span>
           </header>
           <div id="ev-inner">
             <p id="ev-role">{{career.norfolk.role}}, Altoona Locomotive Works</p>
@@ -966,7 +970,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </svg>
       </div>
       <div class="chan-body">
-        <p>The channel the whole board watches now. At Comcast I lead AI-native developer workflows adopted company-wide — vulnerability-fix agents, AI-assisted migrations, generated tests. At home, the same discipline ships myInkwell and taskr. I integrate models the way I integrate any unreliable upstream: carefully, with fallbacks and a human in the loop.</p>
+        <p>The channel the whole board watches now. At Comcast I led AI-native developer workflows adopted company-wide — vulnerability-fix agents, AI-assisted migrations, generated tests. At home, the same discipline ships myInkwell and taskr. I integrate models the way I integrate any unreliable upstream: carefully, with fallbacks and a human in the loop.</p>
         <ul class="tags">
           <li class="t-ai">Agentic PR review / fix loops</li>
           <li class="t-ai">AI-assisted migrations</li>
@@ -1174,38 +1178,42 @@ function drawEkg(e, vel){
 
 /* ---------------- career timeline ---------------- */
 var EVENTS = [
-  { x: 70,  amp: 36, id: 'EVT-01', name: '{{career.norfolk.company}} · Loco Works',
+  { x: 62,  amp: 34, id: 'EVT-01', name: '{{career.norfolk.company}} · Loco Works',
     role: '{{career.norfolk.role}}, Altoona Locomotive Works · Jan 2013 – Jul 2015',
     body: 'Locomotive overhauls — and a wall of paper tracking all of it. I taught myself software on the job and replaced the clipboards: a multi-tier data system for the production line, plus Python automation pulling QC measurements straight off the CNC machines. First time I watched software change a shop floor.',
     stats: [ { v: '−8h', k: 'weekly manual entry' }, { v: 'CNC→QC', k: 'python automation' } ] },
-  { x: 195, amp: 46, id: 'EVT-02', name: 'NAVSEA SWRMC · U.S. Navy',
+  { x: 172, amp: 43, id: 'EVT-02', name: 'NAVSEA SWRMC · U.S. Navy',
     role: '{{career.navsea.role}}, San Diego · Aug 2015 – May 2018',
     body: 'Fleet maintenance engineering — and the paperwork problem followed me to the pier. I built a MERN-stack data collection system that cut processing time and automated stakeholder reporting. The Navy gave it a U.S. Navy Innovation Award.',
     stats: [ { v: 'AWARD', k: 'u.s. navy innovation' }, { v: 'MERN', k: 'stack, self-directed' } ] },
-  { x: 320, amp: 56, id: 'EVT-03', name: '{{career.ssr.company}}',
+  { x: 282, amp: 52, id: 'EVT-03', name: '{{career.ssr.company}}',
     role: '{{career.ssr.role}} · San Diego era, ~2016',
     body: 'A real-time digital menu-board system a bar owner could update from any web-connected device. Installed in five venues across San Diego and Philadelphia. Sales, installs, and the 2 a.m. support calls: all me.',
     stats: [ { v: '{{career.ssr.metrics.0.value}}', k: 'venues live' }, { v: '1', k: 'founder / dev / support' } ] },
-  { x: 445, amp: 66, id: 'EVT-04', name: '{{career.accenture.company}}',
+  { x: 392, amp: 61, id: 'EVT-04', name: '{{career.accenture.company}}',
     role: 'Senior Analyst, Life Science Cloud clients · May 2018 – Apr 2019',
     body: 'Enterprise scale: big systems, long release trains, rooms full of stakeholders. I ran discovery on why document uploads kept hurting, then shipped the fixes and automation myself. I learned to move the needle inside constraints I didn’t choose.',
     stats: [ { v: '−84%', k: 'client-reported issues' }, { v: '$45k', k: 'saved per year' } ] },
-  { x: 570, amp: 76, id: 'EVT-05', name: 'Comcast · X1 Telemetry',
+  { x: 502, amp: 70, id: 'EVT-05', name: 'Comcast · X1 Telemetry',
     role: 'Front-end team lead (via TekSystems) · Apr 2019 – May 2021',
     body: 'Led three devs re-architecting the real-time telemetry front end around NgRx, built the JS data-collection library running on 30 million devices, D3 visualizations including a live per-market U.S. map, and Python blue/green data-drift monitoring. This job is why this page looks the way it does — the whole aesthetic is a tribute to it.',
     stats: [ { v: '30M', k: 'devices reporting' }, { v: '{{career.x1-telemetry.metrics.1.value}}', k: 'tech debt resolved' }, { v: '{{career.x1-telemetry.metrics.2.value}}', k: 'feature delivery speed' } ] },
-  { x: 695, amp: 86, id: 'EVT-06', name: '{{career.fort-robotics.company}}',
+  { x: 612, amp: 79, id: 'EVT-06', name: '{{career.fort-robotics.company}}',
     role: 'Senior engineer / front-end team lead, Series B · Apr 2021 – May 2022',
     body: 'Led a team of five building the company’s first client-facing product: an Angular web + Ionic mobile portal for managing robotic safety controllers — the product that let a hardware company pivot to platform-first software. I built the core component library: infinite-scroll and lazy-load directives, form wizards, async validators. Strict TypeScript, RxJS everywhere.',
     stats: [ { v: '5', k: 'engineers led' }, { v: '1st', k: 'client-facing product' } ] },
-  { x: 820, amp: 96, id: 'EVT-07', name: '{{career.xumo.company}} · Xumo TV',
+  { x: 722, amp: 88, id: 'EVT-07', name: '{{career.xumo.company}} · Xumo TV',
     role: 'Principal Engineer, Technical Lead · May 2022 – 2025',
     body: 'Technical lead for the resident smart-TV app — the layer bridging client-facing UI, third-party apps, physical TV hardware, and external APIs. Built TV Toolkit, a one-click debugging and device-interface suite for devs and QA. AI Academy capstone shipped an XGBoost model into a customer-facing troubleshooting chat app.',
     stats: [ { v: '−10%', k: 'onboarding + dev cycles' }, { v: '{{career.xumo.metrics.1.value}}', k: 'suggested-action acceptance' } ] },
-  { x: 945, amp: 108, id: 'EVT-08', name: '{{career.x1.company}} · X1 Platform',
-    role: 'Principal Engineer — AI Technical Lead · May 2025 – present — ● LIVE',
-    body: 'I lead a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows adopted company-wide — an agentic vulnerability-fix pipeline with human-in-the-loop PRs, a spec-driven AI-assisted Java 8→25 migration of a mission-critical app, an AI system that repairs broken tests and finds E2E coverage gaps, and an org-wide LLM onboarding tool for non-technical stakeholders. Current position of the cursor — the signal is live, and you’re watching it get drawn.',
-    stats: [ { v: '−80%', k: 'open vulnerabilities' }, { v: '8→25', k: 'java, spec-driven' }, { v: 'ORG-WIDE', k: 'adoption' } ] }
+  { x: 832, amp: 97, id: 'EVT-08', name: '{{career.x1.company}} · X1 Platform',
+    role: 'Principal Engineer — AI Technical Lead · May 2025 – Nov 2026',
+    body: 'Led a squad embedded across the X1 org: discovery to find developer bottlenecks, then AI workflows adopted company-wide. Shipped an agentic vulnerability-fix pipeline with human-in-the-loop PRs, completed a spec-driven AI-assisted Java 8→25 migration of a mission-critical app, shipped an LLM onboarding tool for non-technical stakeholders, and secured the XRE endpoints with HTTPS and token-based auth. Also designed and led an AI system that repairs broken tests and finds E2E coverage gaps.',
+    stats: [ { v: '−80%', k: 'open vulnerabilities' }, { v: '8→25', k: 'java, migrated' }, { v: 'ORG-WIDE', k: 'adoption' } ] },
+  { x: 942, amp: 108, id: 'EVT-09', name: '{{career.servicenow.company}} · Moveworks',
+    role: '{{career.servicenow.role}} · {{career.servicenow.location}} · Nov 2026 – present — ● LIVE',
+    body: 'Just started with the Moveworks team, helping customers strategically use AI to solve real business challenges. No readings to report yet — this channel only just came online. Current position of the cursor: the signal is live, and you’re watching it get drawn.',
+    stats: [ { v: 'NOV 2026', k: 'signal acquired' }, { v: '{{career.servicenow.location | upper}}', k: 'station' } ] }
 ];
 
 var tlWrap = $('#tl-wrap'), tlPath = $('#tl-path'), tlGhost = $('#tl-ghost'),
