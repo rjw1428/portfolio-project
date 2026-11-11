@@ -317,6 +317,14 @@
 
   "education": [
     {
+      "key": "google",
+      "institution": "Google",
+      "credential": "Google AI Professional Certificate",
+      "detail": "8 courses",
+      "year": "2026",
+      "url": "https://coursera.org/verify/professional-cert/1HESSD6S2E7O"
+    },
+    {
       "key": "jhu",
       "institution": "Johns Hopkins University",
       "credential": "Graduate coursework, Computer Science",

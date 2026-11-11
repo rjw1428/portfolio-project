@@ -53,7 +53,7 @@ Canonical, theme-neutral facts consumed by every experience. **Facts live here; 
 Ordered groups: `{ group: string, items: string[] }`.
 
 ## `education[]` — ordered, newest → oldest
-`{ key, institution, credential, detail: string|null, year }`.
+`{ key, institution, credential, detail: string|null, year, url?: string }` — `url` is an optional verification link (certificates).
 
 ## Rules
 1. **Key stability** — every `career`, `project`, and `education` entry has a `key` that does not change when array order changes; token references resolve to keys, not positions.
