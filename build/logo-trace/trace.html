@@ -27,7 +27,8 @@ const SHAPES = [
   { key:'google',     src:'sources/google.svg' },
   { key:'jhu',        src:'sources/jhu.svg' },
   { key:'vt',         src:'sources/vt.svg' },
-  { key:'tud',        src:'sources/tud.svg', drop:c=>c[0]+c[1]+c[2]>700 },
+  // minArea may be a function of the loop's centre: the wordmark keeps its tiny umlaut dots, the emblem stays free of speckle
+  { key:'tud',        src:'sources/tud.svg', drop:c=>c[0]+c[1]+c[2]>700, minArea:(x,y)=>x>430?6:90 },
   // favicon: white "m" + gold "y" on a navy tile. Snap every pixel to one of the three
   // flat colours first (anti-aliased white/navy edges otherwise read as gold), drop the tile,
   // and trim to the lettering so it fills the box like the other logos.
@@ -185,7 +186,9 @@ async function run(){
       for(const raw of traceMask(m,W,H)){
         const sm=smooth(smooth(raw,2),2); const closed=Array.from(sm); closed.push(sm[0],sm[1]);
         const simp=rdp(closed,s.eps||1.1); simp.length-=2;
-        if(simp.length<8 || Math.abs(area(simp))<(s.minArea||90)) continue;
+        let need=s.minArea||90, minPts=8;
+        if(typeof need==='function'){ let cx=0,cy=0; for(let i=0;i<simp.length;i+=2){ cx+=simp[i]; cy+=simp[i+1]; } need=need(cx*2/simp.length,cy*2/simp.length); if(need<90) minPts=6; }
+        if(simp.length<minPts || Math.abs(area(simp))<need) continue;
         loops.push([ci].concat(simp));
       }
     });
