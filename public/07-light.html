@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<!-- GENERATED from experiences/07-light.html + content.json — do not edit; run `npm run build` -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryan Wilk — Light</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ryan Wilk — Light">
+<meta property="og:description" content="Thirteen years, nine stops. Strands of light weave themselves into the logo of every company and school along the way.">
+<meta property="og:url" content="https://www.ryanwilk.com/07-light.html">
+<meta property="og:image" content="https://www.ryanwilk.com/og-image.png">
+<meta property="og:site_name" content="Ryan Wilk">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ryan Wilk — Light">
+<meta name="twitter:description" content="Thirteen years, nine stops. Strands of light weave themselves into the logo of every company and school along the way.">
+<meta name="twitter:image" content="https://www.ryanwilk.com/og-image.png">
+<link rel="canonical" href="https://www.ryanwilk.com/07-light.html">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%23131417'/%3E%3Crect%20x='3'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Crect%20x='17'%20y='6'%20width='12'%20height='20'%20rx='2'%20fill='%2322242a'/%3E%3Ctext%20x='9'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3ER%3C/text%3E%3Ctext%20x='23'%20y='21'%20font-family='Menlo,Consolas,monospace'%20font-size='13'%20font-weight='700'%20fill='%23ffb340'%20text-anchor='middle'%3EW%3C/text%3E%3Cline%20x1='3'%20y1='16'%20x2='15'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3Cline%20x1='17'%20y1='16'%20x2='29'%20y2='16'%20stroke='%23131417'%20stroke-width='1.2'/%3E%3C/svg%3E">
+<meta name="description" content="Ryan Wilk, Staff AI Agent Engineer. A career drawn in light: nine stops, four schools, six shipped projects — each one woven from flowing filaments.">
+<!-- fonts load without blocking first paint: the page renders in the fallback stack and swaps when they arrive -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@500;700;800&amp;family=Libre+Franklin:wght@400;500;600&amp;display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Besley:wght@500;700;800&amp;family=Libre+Franklin:wght@400;500;600&amp;display=swap"></noscript>
+<style>
+
+/* ============================================================
+   LIGHT — experience 07
+   near-black space · strands of light weave each logo
+   one fixed canvas, one section per stop, accent follows the brand
+   ============================================================ */
+
+@property --acc{syntax:'<color>';inherits:true;initial-value:#b08cff;}
+
+:root{
+  --void:#04030a;
+  --ink:#f5f1e9;
+  --body-c:#c6c1d0;
+  --faint:#948ea3;
+  --hair:rgba(245,241,233,.17);
+  /* Besley: a Clarendon — the face of railroad timetables and depot signs. Libre Franklin: its working partner. */
+  --display:'Besley','Clarendon','Rockwell',Georgia,serif;
+  --text:'Libre Franklin','Franklin Gothic Medium','Helvetica Neue',Arial,sans-serif;
+  --gut:clamp(22px,6vw,92px);
+  --u:min(1vw,1.6vh); /* display type follows the shorter side, so short laptops scale instead of clipping */
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-x:clip;scroll-snap-type:y proximity;scroll-behavior:smooth;background:var(--void);}
+html{scrollbar-width:none;}
+html::-webkit-scrollbar{display:none;}
+html.step{scroll-snap-type:none;} /* JS steps one section per gesture on mouse/trackpad */
+body{
+  --acc:#b08cff;
+  transition:--acc 1s ease;
+  background:var(--void);color:var(--ink);
+  font-family:var(--text);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip; /* NOT hidden — hidden makes body a scroll container */
+}
+a{color:inherit;}
+ul{list-style:none;}
+
+/* ---------- fixed stage ---------- */
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;background:var(--void);z-index:1;transition:opacity .3s linear;}
+main{position:relative;z-index:2;}
+
+/* a soft dark plate behind the copy column, so text holds up over moving light */
+main::before{content:'';position:fixed;z-index:-1;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 58% 62% at 0% 100%,rgba(4,3,10,.82),rgba(4,3,10,.6) 55%,rgba(4,3,10,0) 100%),
+    linear-gradient(90deg,rgba(4,3,10,.84),rgba(4,3,10,.7) 32%,rgba(4,3,10,0) 56%);}
+
+/* ---------- the line map ----------
+   The whole page is one route, drawn like the strip map above a carriage door:
+   the name is the origin, every section is a stop, the lit part is how far you've come. */
+#bar{position:fixed;z-index:5;top:0;left:0;right:0;height:100px;display:flex;align-items:flex-start;
+  padding:0 clamp(18px,2.6vw,36px);pointer-events:none;
+  background:linear-gradient(rgba(4,3,10,.9),rgba(4,3,10,.62) 58%,rgba(4,3,10,0));}
+#bar>*{pointer-events:auto;}
+#bar .mark{flex:none;margin-top:31px;padding-right:16px;font-family:var(--display);font-weight:800;font-size:19px;line-height:22px;
+  letter-spacing:-.01em;white-space:nowrap;text-decoration:none;color:var(--ink);}
+#now{display:none;}
+#line{flex:1;min-width:0;position:relative;height:100px;display:flex;gap:clamp(8px,1.4vw,24px);
+  font-size:12px;line-height:16px;font-variant-numeric:tabular-nums lining-nums;}
+#line::before,#run{content:'';position:absolute;left:0;top:41px;height:2px;}
+#line::before{right:0;background:rgba(245,241,233,.24);}
+#run{width:0;top:40px;height:4px;border-radius:2px;background:var(--acc);
+  box-shadow:0 0 14px color-mix(in srgb,var(--acc) 70%,transparent);transition:width .9s cubic-bezier(.3,.7,.2,1);}
+#line .grp{flex:var(--n) 1 0;min-width:max-content;position:relative;}
+#line .grp>a{display:inline-block;padding:11px 10px 3px 0;font-weight:500;letter-spacing:.01em;text-decoration:none;color:var(--faint);transition:color .3s;}
+#line .grp>a:hover,#line .grp.on>a{color:var(--ink);}
+#line ol{display:flex;list-style:none;}
+#line li{flex:1 1 0;min-width:0;}
+#line li a{display:block;position:relative;height:66px;text-decoration:none;color:var(--faint);}
+#line li a::before{content:'';position:absolute;left:50%;top:12px;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;
+  background:var(--void);border:2px solid rgba(245,241,233,.6);transition:transform .3s,background .3s,border-color .3s,box-shadow .3s;}
+#line li:first-child a::before{width:12px;height:12px;margin:-6px 0 0 -6px;} /* the first stop of each leg is an interchange */
+#line li a.was::before{border-color:var(--acc);}
+#line li a:hover::before{border-color:var(--ink);transform:scale(1.25);}
+#line li a[aria-current]::before{background:var(--acc);border-color:var(--ink);transform:scale(1.2);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 30%,transparent),0 0 18px var(--acc);}
+#line time{position:absolute;left:50%;top:25px;transform:translateX(-50%);font-size:11px;transition:color .3s;}
+#line a[aria-current] time,#line a:hover time{color:var(--ink);}
+#line li b{position:absolute;left:50%;top:24px;transform:translateX(-50%);white-space:nowrap;padding:3px 8px;border-radius:3px;
+  font-weight:600;color:var(--ink);background:rgba(4,3,10,.82);opacity:0;pointer-events:none;transition:opacity .25s;z-index:1;}
+#line li b{top:43px;} /* one label position for every stop, clear of the year row */
+#line li a:hover b,#line li a:focus-visible b,#line li a[aria-current] b{opacity:1;}
+#line li a:hover b,#line li a:focus-visible b{z-index:2;}
+#line:hover li a[aria-current]:not(:hover) b{opacity:0;}
+#line .grp:nth-last-child(-n+2) li b{left:auto;right:0;transform:none;}
+
+/* ---------- sections ---------- */
+/* every stop hangs from the same top line and grows downward, so titles don't jump between sections */
+.s{min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;align-items:flex-start;
+  padding:clamp(112px,17vh,200px) var(--gut) 48px;}
+.copy{width:min(40vw,max(600px,calc(var(--u)*40)));text-shadow:0 1px 14px rgba(4,3,10,.9);} /* measure grows with the type on big screens */
+.sum,.hl,.stack,.kit,.arch,.fine{max-width:640px;}
+.js .copy{opacity:0;transition:opacity .35s ease;}
+.js .s.on .copy{opacity:1;transition:opacity .9s ease .18s;}
+
+/* stop marker: a stub of track and a station dot, then where on the line this is */
+.kick{display:flex;align-items:center;flex-wrap:wrap;gap:0 10px;font-size:14px;line-height:1.4;color:var(--body-c);}
+.kick::before{content:'';flex:none;width:36px;height:12px;margin-right:2px;
+  background:radial-gradient(circle at 30px 6px,var(--acc) 0 4.5px,transparent 5.5px),linear-gradient(var(--acc),var(--acc)) 0 5px/26px 2px no-repeat;}
+.kick b{font-weight:600;color:var(--ink);}
+.kick i{font-style:normal;font-weight:600;color:var(--acc);padding-left:10px;border-left:1px solid var(--hair);}
+h1,h2{font-family:var(--display);font-weight:800;color:var(--ink);text-wrap:balance;}
+h1{margin-top:20px;font-size:clamp(40px,calc(var(--u)*5.5),96px);line-height:.98;letter-spacing:-.025em;}
+h2{margin-top:14px;font-size:clamp(36px,calc(var(--u)*4.5),80px);line-height:1;letter-spacing:-.022em;}
+h2.long{font-size:clamp(28px,calc(var(--u)*3.1),56px);line-height:1.06;letter-spacing:-.015em;}
+.role{margin-top:16px;font-size:19px;line-height:1.35;font-weight:600;color:var(--ink);text-wrap:balance;}
+.when{margin-top:7px;display:flex;flex-wrap:wrap;gap:2px 0;overflow:hidden;font-size:14.5px;line-height:1.5;color:var(--body-c);}
+.when>*{margin-left:-15px;padding:0 29px 0 14px;border-left:1px solid var(--hair);} /* a divider that lands at a line start is clipped away */
+.when time{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums lining-nums;}
+.sum{margin-top:22px;color:var(--body-c);font-size:17px;line-height:1.6;text-wrap:pretty;}
+.pos{margin-top:22px;font-size:15.5px;line-height:1.5;font-weight:600;color:var(--ink);text-wrap:balance;}
+.hero .sum{margin-top:10px;font-size:16px;line-height:1.62;}
+.go{display:inline-flex;align-items:center;gap:12px;padding:8px 0;font-weight:600;font-size:16px;color:var(--ink);text-decoration:none;}
+.go::before{content:'';width:44px;height:2px;background:var(--acc);transition:width .3s;}
+.go:hover::before,.go:focus-visible::before{width:64px;}
+.go span{color:var(--acc);}
+.keys{margin-left:18px;font-size:13.5px;color:var(--faint);}
+
+/* the numbers are the loudest thing at a stop: Clarendon figures in the line's colour */
+.stats{display:flex;flex-wrap:wrap;align-items:baseline;gap:16px 36px;margin-top:24px;}
+.stats li{display:flex;flex-direction:column;}
+.stats b{font-family:var(--display);font-weight:800;font-size:clamp(30px,calc(var(--u)*3.1),54px);line-height:1;letter-spacing:-.02em;
+  color:var(--acc);white-space:nowrap;
+  text-shadow:0 1px 14px rgba(4,3,10,.9),0 0 34px color-mix(in srgb,var(--acc) 40%,transparent);}
+.stats .big b{font-size:clamp(46px,calc(var(--u)*5.4),96px);letter-spacing:-.03em;}
+.stats .txt b{font-weight:700;font-size:clamp(23px,calc(var(--u)*2.15),38px);line-height:1.1;letter-spacing:-.012em;white-space:normal;}
+.stats b{margin-bottom:-.085em;} .stats .txt b{margin-bottom:-.135em;} /* cancel each size's own descent so labels share a baseline */
+.stats span{margin-top:11px;font-size:13.5px;line-height:1.35;color:var(--body-c);}
+.stats+.sum{margin-top:20px;}
+.hl{margin-top:16px;padding-top:15px;border-top:1px solid var(--hair);display:grid;gap:8px;}
+.hl li{position:relative;padding-left:20px;font-size:15px;line-height:1.5;color:var(--body-c);text-wrap:pretty;}
+.hl li::before{content:'';position:absolute;left:0;top:.68em;width:9px;height:2px;background:var(--acc);}
+.claim{margin-top:14px;font-family:var(--display);font-weight:700;font-size:clamp(21px,calc(var(--u)*2),34px);line-height:1.14;letter-spacing:-.012em;
+  color:var(--acc);text-wrap:balance;text-shadow:0 1px 14px rgba(4,3,10,.9),0 0 30px color-mix(in srgb,var(--acc) 35%,transparent);}
+.claim+.sum{margin-top:16px;}
+.stack{margin-top:18px;padding-top:14px;border-top:1px solid var(--hair);font-size:14.5px;line-height:1.7;color:var(--ink);}
+.stack::before{content:'Built with';margin-right:12px;color:var(--faint);}
+.stack li{display:inline-block;white-space:nowrap;}
+.stack li:not(:last-child)::after{content:'/';margin:0 .55em;color:var(--faint);}
+[hidden]{display:none!important;}
+.sum.lead{font-size:clamp(18px,calc(var(--u)*1.5),23px);line-height:1.45;color:var(--ink);}
+.cta{margin-top:20px;display:flex;flex-wrap:wrap;gap:6px 30px;}
+.btn{display:inline-block;padding:8px 0;font-weight:600;font-size:16px;color:var(--ink);
+  text-decoration:underline;text-decoration-color:var(--acc);text-decoration-thickness:2px;text-underline-offset:7px;transition:color .2s;}
+.btn:hover,.btn:focus-visible{color:var(--acc);}
+.btn span{display:inline-block;color:var(--acc);margin-left:4px;}
+
+.arch{margin-top:18px;display:grid;}
+.arch li{padding:11px 0;border-top:1px solid var(--hair);}
+.arch h3{display:flex;align-items:baseline;justify-content:space-between;gap:16px;font-family:var(--display);font-weight:700;font-size:18px;line-height:1.3;color:var(--ink);}
+.arch time{font-family:var(--text);font-weight:500;font-size:13.5px;color:var(--acc);font-variant-numeric:tabular-nums lining-nums;}
+.arch p{margin-top:2px;font-size:14.5px;line-height:1.48;color:var(--body-c);}
+.arch .st{font-size:13px;color:var(--faint);}
+.kit{margin-top:22px;display:grid;}
+.kit div{display:grid;grid-template-columns:10.5em 1fr;gap:18px;padding:10px 0;border-top:1px solid var(--hair);}
+.kit dt{font-weight:600;font-size:14.5px;line-height:1.5;color:var(--ink);}
+.kit dd{font-size:14.5px;line-height:1.5;color:var(--body-c);}
+.mail{margin-top:26px;}
+.mail a{font-family:var(--display);font-weight:700;font-size:clamp(22px,calc(var(--u)*2.3),38px);letter-spacing:-.015em;color:var(--acc);
+  text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:9px;text-decoration-color:color-mix(in srgb,var(--acc) 45%,transparent);}
+.mail a:hover,.mail a:focus-visible{text-decoration-color:var(--acc);}
+.fine{margin-top:30px;padding-top:14px;border-top:1px solid var(--hair);font-size:13.5px;line-height:1.6;color:var(--faint);text-wrap:balance;}
+
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:3px;}
+section.s:focus{outline:none;}
+.skip{position:fixed;z-index:9;left:12px;top:10px;padding:10px 16px;border-radius:4px;background:var(--ink);color:var(--void);
+  font-weight:600;font-size:15px;text-decoration:none;transform:translateY(-200%);}
+.skip:focus{transform:none;}
+
+/* narrow desktops / tablets: years only on the stop you're at or pointing to */
+@media (max-width:1100px){
+  #line time{opacity:0;transition:opacity .25s;}
+  #line a[aria-current] time,#line a:hover time,#line a:focus-visible time{opacity:1;}
+}
+
+/* ---------- short laptops ---------- */
+@media (min-width:821px) and (max-height:800px){
+  .s{padding-top:102px;padding-bottom:22px;}
+  h2{margin-top:10px;}
+  .role{margin-top:12px;font-size:17.5px;}
+  .stats{margin-top:16px;gap:12px 32px;} .stats span{margin-top:11px;}
+  .sum,.stats+.sum{margin-top:14px;font-size:16px;line-height:1.5;}
+  .hero .sum{font-size:15.5px;line-height:1.55;}
+  .hl{margin-top:12px;padding-top:11px;gap:5px;} .hl li{font-size:14.5px;line-height:1.42;}
+  .arch{margin-top:12px;} .arch li{padding:5px 0;} .arch p{line-height:1.38;}
+  .kit{margin-top:14px;} .kit div{padding:7px 0;} .kit dt,.kit dd{line-height:1.42;}
+}
+
+/* ---------- phones: logo on top, copy beneath ---------- */
+@media (max-width:820px){
+  body{font-size:17px;}
+  main::before{background:linear-gradient(rgba(4,3,10,0) 30svh,rgba(4,3,10,.74) 45svh);}
+  .s{align-items:flex-start;padding:43svh 22px 72px;}
+  .copy{width:100%;text-shadow:0 0 14px var(--void),0 0 4px var(--void);}
+  /* line map folds to: name + where you are, over a bare strip of stops */
+  #bar{height:auto;flex-wrap:wrap;align-items:baseline;padding:12px 18px 26px;
+    background:linear-gradient(var(--void) 45%,rgba(4,3,10,.6) 78%,transparent);}
+  #bar .mark{margin-top:0;font-size:18px;}
+  #now{display:block;flex:1 1 0;min-width:0;margin-left:16px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    font-size:13.5px;line-height:22px;font-weight:600;color:var(--ink);}
+  #now i{font-style:normal;font-weight:400;color:var(--body-c);margin-right:9px;}
+  /* the strip is a 44px-tall scrubber: tap a stop, or drag along it and let go */
+  #line{flex:0 0 100%;height:44px;gap:6px;margin:-4px 0 -6px;touch-action:none;}
+  #line::before{top:21px;} #run{top:20px;}
+  #line .grp{min-width:0;}
+  #line .grp>a,#line time{display:none;}
+  #line li a{height:44px;}
+  #line li a::before{top:22px;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-width:1.5px;}
+  #line li:first-child a::before{width:9px;height:9px;margin:-4.5px 0 0 -4.5px;}
+  #line li a.aim::before{border-color:var(--ink);transform:scale(1.5);}
+  .when{display:block;overflow:visible;} .when>*{display:block;margin-left:0;padding:0;border-left:0;}
+  #line li b{clip-path:inset(50%);width:1px;height:1px;overflow:hidden;padding:0;top:0;}
+  h1{font-size:clamp(38px,11.6vw,58px);}
+  h2{font-size:clamp(34px,10vw,52px);}
+  h2.long{font-size:clamp(27px,7.6vw,40px);}
+  .kick{font-size:14.5px;}
+  .role{font-size:18px;}
+  .when{font-size:15px;}
+  .sum,.hero .sum{font-size:17px;}
+  .pos{font-size:16px;}
+  .keys{display:none;}
+  .stats{gap:18px 30px;}
+  .stats b{font-size:clamp(34px,10vw,48px);}
+  .stats .big b{font-size:clamp(46px,13.4vw,66px);}
+  .stats .txt b{font-size:clamp(25px,7vw,34px);}
+  .stats span{font-size:14.5px;}
+  .claim{font-size:clamp(23px,6.6vw,32px);}
+  .hl li,.arch p,.kit dd,.kit dt{font-size:16px;}
+  .stack{font-size:15.5px;} .stack li{display:inline;white-space:normal;}
+  html{scroll-snap-type:none;} /* copy is taller than the screen here; proximity snap pulled short swipes back to a section's bottom edge */
+  .arch .st,.fine{font-size:14px;}
+  .btn,.go{font-size:17px;padding:11px 0;}
+  .kit div{grid-template-columns:1fr;gap:2px;padding:12px 0;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  body{transition:none;}
+  .js .copy,.js .s.on .copy{transition:opacity .2s;}
+  #run,#line li a::before,.go::before{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<a class="skip" href="#main">Skip to content</a>
+<header id="bar">
+  <a class="mark" href="#top" data-stop aria-label="Ryan Wilk — back to top">Ryan Wilk</a>
+  <p id="now" aria-hidden="true"></p>
+  <nav id="line" aria-label="Line map — every stop on this page">
+    <span id="run" aria-hidden="true"></span>
+    <div class="grp" style="--n:9">
+      <a href="#servicenow">Career</a>
+      <ol>
+        <li><a data-stop href="#servicenow"><time>2026</time> <b>ServiceNow</b></a></li>
+        <li><a data-stop href="#x1"><time>2025</time> <b>Xfinity X1</b></a></li>
+        <li><a data-stop href="#xumo"><time>2022</time> <b>Xumo TV</b></a></li>
+        <li><a data-stop href="#fort"><time>2021</time> <b>Fort Robotics</b></a></li>
+        <li><a data-stop href="#comcast"><time>2019</time> <b>Comcast</b></a></li>
+        <li><a data-stop href="#accenture"><time>2018</time> <b>Accenture</b></a></li>
+        <li><a data-stop href="#ssr"><time>2016</time> <b>SSR Digital Displays</b></a></li>
+        <li><a data-stop href="#navy"><time>2015</time> <b>U.S. Navy</b></a></li>
+        <li><a data-stop href="#norfolk"><time>2013</time> <b>Norfolk Southern</b></a></li>
+      </ol>
+    </div>
+    <div class="grp" style="--n:4">
+      <a href="#edu-google">Education</a>
+      <ol>
+        <li><a data-stop href="#edu-google"><b>Google</b></a></li>
+        <li><a data-stop href="#edu-jhu"><b>Johns Hopkins</b></a></li>
+        <li><a data-stop href="#edu-vt"><b>Virginia Tech</b></a></li>
+        <li><a data-stop href="#edu-tud"><b>TU Darmstadt</b></a></li>
+      </ol>
+    </div>
+    <div class="grp" style="--n:7">
+      <a href="#p-myinkwell">Projects</a>
+      <ol>
+        <li><a data-stop href="#p-myinkwell"><b>myInkwell</b></a></li>
+        <li><a data-stop href="#p-spendwatch"><b>SpendWatch</b></a></li>
+        <li><a data-stop href="#p-rehuman"><b>Rehuman</b></a></li>
+        <li><a data-stop href="#p-workflow-manager"><b>Workflow Manager</b></a></li>
+        <li><a data-stop href="#p-taskr"><b>taskr</b></a></li>
+        <li><a data-stop href="#p-mcp-server"><b>MCP Tool Server</b></a></li>
+        <li><a data-stop href="#archive"><b>Earlier builds</b></a></li>
+      </ol>
+    </div>
+    <div class="grp" style="--n:1">
+      <a href="#skills">Skills</a>
+      <ol>
+        <li><a data-stop href="#skills"><b>Toolkit</b></a></li>
+      </ol>
+    </div>
+    <div class="grp" style="--n:1">
+      <a href="#contact">Contact</a>
+      <ol>
+        <li><a data-stop href="#contact"><b>Get in touch</b></a></li>
+      </ol>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+<section class="s hero on" id="top" data-g="intro" data-label="Intro" data-logo="rw" data-pal="#b08cff,#5ad1ff,#ff7ad9,#f3ecff">
+  <div class="copy">
+    <p class="kick"><b>Thirteen years, nine stops</b></p>
+    <h1>From locomotives to AI&nbsp;agents.</h1>
+    <p class="pos">Staff AI Agent Engineer · AI-Native Developer Workflows · Customer-Facing Engineering</p>
+    <p class="sum">Staff AI agent engineer with 10+ years shipping production software, now with ServiceNow's Moveworks team helping customers strategically use AI to solve real business challenges. Previously led a squad embedded across Comcast's X1 organization: find the real bottleneck, ship a fast first version, harden it into workflows adopted company-wide. Builds end-to-end — frontend, backend, infra — and works directly with customers to find technical solutions.</p>
+    <p class="cta"><a class="go" href="#servicenow">Start at the latest stop <span aria-hidden="true">↓</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="servicenow" data-g="career" data-label="ServiceNow" data-logo="servicenow" data-pal="#62d84e,#b6ffd0,#81b5a1" data-cols="#eafff4,#62d84e">
+  <div class="copy">
+    <p class="kick"><b>Stop 9 of 9</b> Career <i>Now</i></p>
+    <h2>ServiceNow</h2>
+    <p class="role">Staff AI Agent Engineer</p>
+    <p class="when"><time>Nov 2026 – Present</time><span>ServiceNow · Remote</span></p>
+    <p class="sum lead">Just started with the Moveworks team, helping customers strategically use AI to solve real business challenges.</p>
+    <!-- the single highlight restates the summary almost word for word; kept in the DOM, not shown twice -->
+    <ul class="hl" hidden>
+      <li>Joined the Moveworks team to help customers strategically use AI to solve real business challenges.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="x1" data-g="career" data-label="Xfinity X1" data-logo="xfinity" data-pal="#9b6bff,#d0b8ff,#5ad1ff" data-cols="#a67cff">
+  <div class="copy">
+    <p class="kick"><b>Stop 8 of 9</b> Career</p>
+    <h2>Xfinity X1</h2>
+    <p class="role">Principal Engineer — AI Technical Lead, X1 Platform</p>
+    <p class="when"><time>May 2025 – Nov 2026</time><span>Comcast · Philadelphia, PA</span></p>
+    <ul class="stats">
+      <li class="big"><b>-80%</b><span>open security vulnerabilities</span></li>
+      <li class="txt"><b>Java 8 → Java 25</b><span>AI-assisted migration</span></li>
+    </ul>
+    <p class="sum">Led a squad embedded across the X1 organization, designing and shipping AI workflows adopted company-wide.</p>
+    <ul class="hl">
+      <li>Designed an automated vulnerability-fix pipeline that opens human-in-the-loop PRs — cut open security vulnerabilities 80%.</li>
+      <li>Led and completed a large-scale, spec-driven, AI-assisted migration of a mission-critical Java application from Java 8 to Java 25.</li>
+      <li>Architected and shipped an LLM onboarding tool that lets non-technical stakeholders explore the codebase, design specs, and mock features.</li>
+      <li>Architected and implemented HTTPS and token-based authentication to secure the XRE endpoints.</li>
+      <li>Designed and led an AI system that repairs broken tests, detects E2E coverage gaps, and generates new tests.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="xumo" data-g="career" data-label="Xumo TV" data-logo="xumo" data-pal="#00b8e4,#8fe9ff,#e8fbff" data-cols="#e8fbff,#00b8e4">
+  <div class="copy">
+    <p class="kick"><b>Stop 7 of 9</b> Career</p>
+    <h2>Xumo TV</h2>
+    <p class="role">Principal Engineer — Technical Lead, Xumo TV Platform</p>
+    <p class="when"><time>May 2022 – May 2025</time><span>Comcast · Philadelphia, PA</span></p>
+    <ul class="stats">
+      <li class="big"><b>-10%</b><span>onboarding &amp; dev cycles</span></li>
+      <li class="big"><b>+30%</b><span>AI Academy capstone lift</span></li>
+    </ul>
+    <p class="sum">Technical lead for the resident smart-TV application; promoted to Principal; graduated Comcast's AI Academy.</p>
+    <ul class="hl">
+      <li>Technical lead for the resident smart-TV app bridging client UI, third-party apps, physical TV hardware, and external APIs.</li>
+      <li>Created the TV Toolkit, a one-click debugging and device-interface suite that cut onboarding and dev cycles 10%.</li>
+      <li>Comcast AI Academy graduate; capstone shipped model that raised acceptance of suggested next actions 30% in a customer-facing troubleshooting chat app.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="fort" data-g="career" data-label="Fort Robotics" data-logo="fort" data-pal="#ff9d3c,#ffd27a,#fff1d6" data-cols="#fff1d6">
+  <div class="copy">
+    <p class="kick"><b>Stop 6 of 9</b> Career</p>
+    <h2>Fort Robotics</h2>
+    <p class="role">Senior Engineer — Front-End Team Lead</p>
+    <p class="when"><time>Apr 2021 – May 2022</time><span>Fort Robotics · Philadelphia, PA</span></p>
+    <ul class="stats">
+      <li class="txt"><b>5 engineers</b><span>team led</span></li>
+      <li class="txt"><b>0→1 launch</b><span>product</span></li>
+    </ul>
+    <p class="sum">Led a team of 5 building the company's first client-facing software product, enabling its pivot from hardware to platform-first software.</p>
+    <ul class="hl">
+      <li>Built the first client-facing product: an Angular web + Ionic mobile device-management portal for the robotic safety-controller platform.</li>
+      <li>Owned customer outcomes on a 0→1 product: scoped ambiguous needs, owned quality and delivery, and grew the junior team.</li>
+      <li>Built the core component library — infinite-scroll/lazy-loading directives, form wizards, async validators — with strict type safety and RxJS.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="comcast" data-g="career" data-label="Comcast" data-logo="comcast" data-pal="#0089cf,#fdb913,#c9234a,#0db14b,#7d78d6,#f36f21" data-cols="#f1f1f6,#ffffff,#1ea4ee,#ff7f32,#e23a63,#fdb913,#8b85e6,#1fcf62">
+  <div class="copy">
+    <p class="kick"><b>Stop 5 of 9</b> Career</p>
+    <h2>Comcast</h2>
+    <p class="role">Front-End Developer — Team Lead, X1 Telemetry</p>
+    <p class="when"><time>Apr 2019 – May 2021</time><span>Comcast (contracted via TekSystems) · Philadelphia, PA</span></p>
+    <ul class="stats">
+      <li class="big wide"><b>30,000,000</b><span>devices reached</span></li>
+      <li><b>87%</b><span>outstanding tech debt resolved</span></li>
+      <li><b>+200%</b><span>new-feature delivery speed</span></li>
+    </ul>
+    <p class="sum">Led a small team re-architecting the real-time telemetry front-end; built data-collection tooling that ran at massive scale.</p>
+    <ul class="hl">
+      <li>Led 3 developers re-architecting the telemetry front-end around NgRx state management.</li>
+      <li>Created a JS data-collection library adopted by other teams, scaled to run on 30 million devices.</li>
+      <li>Built highly animated D3.js visualizations, including a live U.S. map of per-market performance.</li>
+      <li>Automated blue/green environment data-drift monitoring with Python.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="accenture" data-g="career" data-label="Accenture" data-logo="accenture" data-pal="#b84dff,#e0b3ff,#f3e8ff" data-cols="#f3e8ff,#b84dff">
+  <div class="copy">
+    <p class="kick"><b>Stop 4 of 9</b> Career</p>
+    <h2>Accenture</h2>
+    <p class="role">Senior Analyst — Application Developer</p>
+    <p class="when"><time>May 2018 – Apr 2019</time><span>Accenture · Philadelphia, PA</span></p>
+    <ul class="stats">
+      <li class="big"><b>-84%</b><span>client-reported issues</span></li>
+      <li><b>~$45,000</b><span>annual labor savings</span></li>
+    </ul>
+    <p class="sum">Customer-facing delivery embedded with Accenture Life Science Cloud clients — discovery, then shipped fixes and automation.</p>
+    <ul class="hl">
+      <li>Led discovery on client document-upload pain points, then shipped fixes and automation.</li>
+      <li>Cut client-reported issues 84% and saved ~$45,000/year in labor costs.</li>
+      <li>Automated maintenance processes for a large-scale document-management system.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="ssr" data-g="career" data-label="SSR" data-logo="ssr" data-pal="#5af0ff,#eafcff,#7aa8ff">
+  <div class="copy">
+    <p class="kick"><b>Stop 3 of 9</b> Career <i>Founder</i></p>
+    <h2>SSR Digital Displays</h2>
+    <p class="role">Founder</p>
+    <p class="when"><time>2016 – 2018</time><span>SSR Digital Displays · San Diego, CA</span></p>
+    <ul class="stats">
+      <li class="big row"><b>5</b><span>venues live</span></li>
+    </ul>
+    <p class="sum">Founded a real-time digital menu-board startup, built nights and weekends, installed in bars across two cities.</p>
+    <ul class="hl">
+      <li>Built a full-stack, real-time digital menu system updatable from any web-connected device.</li>
+      <li>Installed in 3 San Diego bars and 2 Philadelphia bars.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="navy" data-g="career" data-label="U.S. Navy" data-logo="navy" data-pal="#8fb4ff,#f2c14e,#e6eeff" data-cols="#f2c14e,#8fb4ff">
+  <div class="copy">
+    <p class="kick"><b>Stop 2 of 9</b> Career</p>
+    <h2>U.S. Navy</h2>
+    <p class="role">Engineering Technician V</p>
+    <p class="when"><time>Aug 2015 – May 2018</time><span>NAVSEA SWRMC (U.S. Navy) · San Diego, CA</span></p>
+    <ul class="stats">
+      <li class="txt"><b>U.S. Navy Innovation Award</b><span>recognition</span></li>
+    </ul>
+    <p class="sum">Navy engineering role where a self-built data system earned a U.S. Navy innovation award.</p>
+    <ul class="hl">
+      <li>Received a U.S. Navy innovation award for a MERN-stack data collection system.</li>
+      <li>Cut information-processing time and automated stakeholder reporting.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="norfolk" data-g="career" data-label="Norfolk Southern" data-logo="ns" data-scale="1.3" data-path="2" data-river="#8fa6cc,#7389b4,#b4c4e0" data-pal="#f4f4f8,#c3cede,#ffcf5a" data-cols="#fff0d8">
+  <div class="copy">
+    <p class="kick"><b>Stop 1 of 9</b> Career <i>Where it starts</i></p>
+    <h2>Norfolk Southern</h2>
+    <p class="role">Mechanical Supervisor</p>
+    <p class="when"><time>Jan 2013 – Jul 2015</time><span>Norfolk Southern · Altoona, PA</span></p>
+    <ul class="stats">
+      <li><b>8 hrs/week</b><span>manual entry eliminated</span></li>
+      <li><b>~$12,500</b><span>annual savings</span></li>
+    </ul>
+    <p class="sum">Supervisor at a locomotive refurbishing facility who taught himself software to remove the tedious parts of people's jobs.</p>
+    <ul class="hl">
+      <li>Built a multi-tier production-line data system to track product and inventory.</li>
+      <li>Automated CNC quality-control reporting in Python, eliminating 8 hours/week of manual entry.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="edu-google" data-g="education" data-label="Google" data-logo="google" data-pal="#4285f4,#ea4335,#fbbc05,#34a853" data-cols="#ff5a4d,#3ccf68,#5b9bff,#ffc929">
+  <div class="copy">
+    <p class="kick"><b>Education</b> <i>2026</i></p>
+    <h2>Google</h2>
+    <p class="role">Google AI Professional Certificate</p>
+    <ul class="stats">
+      <li><b>8 courses</b><span>professional certificate</span></li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://coursera.org/verify/professional-cert/1HESSD6S2E7O" target="_blank" rel="noopener">Verify certificate <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="edu-jhu" data-g="education" data-label="Johns Hopkins University" data-logo="jhu" data-pal="#5b9bff,#a9cbff,#eaf2ff" data-cols="#6aa6ff">
+  <div class="copy">
+    <p class="kick"><b>Education</b> <i>2022</i></p>
+    <h2 class="long">Johns Hopkins University</h2>
+    <p class="role">Graduate coursework, Computer Science</p>
+    <ul class="stats">
+      <li><b>4.0 GPA</b><span>graduate coursework</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="edu-vt" data-g="education" data-label="Virginia Tech" data-logo="vt" data-pal="#ff7a3c,#d2557c,#fff1e8" data-cols="#d2557c,#ff7a3c,#fff6f0">
+  <div class="copy">
+    <p class="kick"><b>Education</b> <i>2012</i></p>
+    <h2>Virginia Tech</h2>
+    <p class="claim">B.S. Mechanical Engineering</p>
+  </div>
+</section>
+
+<section class="s" id="edu-tud" data-g="education" data-label="TU Darmstadt" data-logo="tud" data-pal="#5ec8e5,#e6edf5,#b9a6ff" data-cols="#ffffff,#e6edf5">
+  <div class="copy">
+    <p class="kick"><b>Education</b> <i>2016</i></p>
+    <h2 class="long">Technische Universität Darmstadt, Germany</h2>
+    <p class="role">B.S. (additional)</p>
+  </div>
+</section>
+
+<section class="s" id="p-myinkwell" data-g="projects" data-label="myInkwell" data-logo="myinkwell" data-badge="#1c2840" data-pal="#d4a843,#fff6e0,#ffe6a8" data-cols="#1c2840,#ffffff,#d4a843,#8ea6e8">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2026</i></p>
+    <h2>myInkwell</h2>
+    <p class="claim">solo-built production platform</p>
+    <p class="sum">Users design characters, generate illustrated stories with AI, and order them as hardcover books. Solo-built across every layer the role touches: multi-provider AI integration with prompt iteration and cost/latency tradeoffs, blue/green rollouts, E2E testing, production observability.</p>
+    <ul class="stack">
+      <li>Angular</li>
+      <li>Python FastAPI</li>
+      <li>AWS</li>
+      <li>MongoDB</li>
+      <li>multi-provider AI</li>
+      <li>Stripe</li>
+      <li>Cloudflare</li>
+      <li>Axiom</li>
+      <li>PostHog</li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://myinkwellbooks.com" target="_blank" rel="noopener">Visit myInkwell <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="p-spendwatch" data-g="projects" data-label="SpendWatch" data-logo="chart" data-pal="#4ade80,#a8f7c4,#5ad1ff">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2025</i></p>
+    <h2>SpendWatch</h2>
+    <p class="claim">live on the App Store &amp; Google Play</p>
+    <p class="sum">Multi-tenant household-finance app with AI coaching (Gemini), performance charting, cloud functions, push notifications, and fully automated publishing through GitHub Actions.</p>
+    <ul class="stack">
+      <li>Flutter</li>
+      <li>AWS (Cognito, S3, DynamoDB, CloudFront)</li>
+      <li>Gemini</li>
+      <li>Elasticsearch</li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="p-rehuman" data-g="projects" data-label="Rehuman" data-logo="heart" data-pal="#ff6b8a,#ffb3c1,#b08cff">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2023</i></p>
+    <h2>Rehuman</h2>
+    <p class="claim">forward-deployed startup architecture</p>
+    <p class="sum">Embedded with Accenture's first entrepreneur-in-residence startup to architect the core product — a pipeline ingesting wearable healthcare data into their AI engine, ETL, and web portals for B2B and B2C stakeholders.</p>
+    <ul class="stack">
+      <li>React</li>
+      <li>RabbitMQ</li>
+      <li>Docker</li>
+      <li>Kubernetes</li>
+      <li>Azure</li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://rehuman.co.uk" target="_blank" rel="noopener">Visit Rehuman <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="p-workflow-manager" data-g="projects" data-label="Workflow Manager" data-logo="kanban" data-pal="#5aa9ff,#8be9fd,#eaf6ff">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2020</i></p>
+    <h2>Workflow Manager</h2>
+    <p class="claim">“JIRA for contractors”</p>
+    <p class="sum">Full-stack bidding &amp; estimation tracker for a construction management company: data entry, dashboards, reports, charting, exports, and per-project file attachments.</p>
+    <ul class="stack">
+      <li>Angular 12</li>
+      <li>NgRx</li>
+      <li>Node</li>
+      <li>Express</li>
+      <li>websockets</li>
+      <li>MySQL</li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://test.workflowmanagerpro.com/login?demo=true" target="_blank" rel="noopener">Open the live demo <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="p-taskr" data-g="projects" data-label="taskr" data-logo="target" data-pal="#ffd166,#ff9f6b,#fff3d6">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2026</i></p>
+    <h2>taskr</h2>
+    <p class="claim">4 platforms, 1 codebase</p>
+    <p class="sum">Cross-platform goal-tracking app with built-in AI coaching — check-ins and plan generation from health data, goals, and performance.</p>
+    <ul class="stack">
+      <li>Flutter</li>
+      <li>Gemini</li>
+      <li>Firebase</li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://github.com/rjw1428/taskr" target="_blank" rel="noopener">View the repo <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="p-mcp-server" data-g="projects" data-label="MCP Tool Server" data-logo="hub" data-pal="#7ee7c7,#5ad1ff,#b08cff">
+  <div class="copy">
+    <p class="kick"><b>Project</b> <i>2026</i></p>
+    <h2>MCP Tool Server</h2>
+    <p class="claim">self-hosted AI tooling</p>
+    <p class="sum">A locally hosted MCP server delivering custom tools to his AI agents; one example tool is a resilient weather cache.</p>
+    <ul class="stack">
+      <li>Python</li>
+      <li>FastAPI</li>
+      <li>FastMCP</li>
+    </ul>
+    <p class="cta"><a class="btn" href="https://github.com/rjw1428/weather-api" target="_blank" rel="noopener">View the repo <span aria-hidden="true">↗</span></a></p>
+  </div>
+</section>
+
+<section class="s" id="archive" data-g="projects" data-label="Earlier builds" data-logo="layers" data-pal="#b9c4da,#e6ebf5,#8d9ab8">
+  <div class="copy">
+    <p class="kick"><b>Projects</b> <i>Archive</i></p>
+    <h2>Earlier builds</h2>
+    <p class="sum">The work that came before — shipped, used, and retired or still quietly running.</p>
+    <ul class="arch">
+      <li><h3>The Burwell Project <time>2021</time></h3><p>A collaborative workspace rental management system: scheduling, billing, and reservations on a shared ledger.</p><p class="st">shared family ledger for a co-working space · Angular, Firebase, Stripe</p></li>
+      <li><h3>This site's infrastructure <time>2025</time></h3><p>Migrated from Firebase hosting to self-hosted: Node/Express behind nginx, Docker Compose, Let's Encrypt.</p><p class="st">the portfolio hosts itself · Node, Express, Docker, nginx, Let's Encrypt</p></li>
+      <li><h3>Alpine Knives <time>2019</time></h3><p>An e-commerce platform for a mid-size company.</p><p class="st">e-commerce platform · Angular 8, Firebase, Stripe, SendGrid</p></li>
+      <li><h3>Brody's Burgers <time>2019</time></h3><p>A restaurant site whose owner edits all content from their phone.</p><p class="st">owner-editable from a phone · Angular, Firebase</p></li>
+      <li><h3>SSR Digital Displays <time>2017</time></h3><p>Real-time digital menu system updatable from any web-connected device.</p><p class="st">5 venues live · Angular, Firebase</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="skills" data-g="skills" data-label="Toolkit" data-logo="code" data-pal="#b08cff,#5ad1ff,#ff7ad9">
+  <div class="copy">
+    <p class="kick"><b>Skills</b></p>
+    <h2>Toolkit</h2>
+    <dl class="kit">
+      <div><dt>AI-Native Workflows</dt><dd>Agentic PR review &amp; fix loops, Large-scale AI-assisted migrations, Spec → implementation systems, AI test repair &amp; E2E generation, Prompt iteration, Human-in-the-loop rollout design, Debugging model failure modes</dd></div>
+      <div><dt>Languages</dt><dd>TypeScript / JavaScript, Python, Java, SQL</dd></div>
+      <div><dt>Frontend</dt><dd>Angular, React, RxJS, NgRx, D3.js</dd></div>
+      <div><dt>Backend</dt><dd>Node.js, Python FastAPI, GraphQL, REST</dd></div>
+      <div><dt>Cloud &amp; Infra</dt><dd>AWS, Azure, Docker, Kubernetes, Nx monorepos</dd></div>
+      <div><dt>Data</dt><dd>MySQL, SQL Server, MongoDB, Elasticsearch, Neo4j, Firebase</dd></div>
+      <div><dt>Production Reliability</dt><dd>Observability, Blue/green deployments, Canary rollouts, Monitoring &amp; alerting, CI/CD (GitHub Actions, Concourse), E2E testing (Cypress, Jest)</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="s" id="contact" data-g="contact" data-label="Contact" data-logo="at" data-pal="#ff7ad9,#b08cff,#5ad1ff">
+  <div class="copy">
+    <p class="kick"><b>Contact</b> <i>End of the line</i></p>
+    <h2>Let’s build something.</h2>
+    <p class="sum">Open to conversations about AI agents, developer workflows, and customer-facing engineering.</p>
+    <p class="mail"><a href="mailto:software@ryanwilk.com">software@ryanwilk.com</a></p>
+    <p class="cta">
+      <a class="btn" href="https://linkedin.com/in/rjw1428" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+      <a class="btn" href="https://github.com/rjw1428" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+    </p>
+    <p class="fine">Ryan Wilk · Staff AI Agent Engineer · AI-Native Developer Workflows · Customer-Facing Engineering</p>
+  </div>
+</section>
+</main>
+
+<script>
+var LOGOS={"servicenow":{"w":1000,"h":146,"c":["#293e40","#81b5a1"],"l":[[0,459,44,475,44,488,47,503,55,509,62,508,66,494,78,483,71,475,68,468,68,459,70,449,78,444,88,444,100,446,107,451,114,459,119,468,121,479,120,487,116,495,109,512,122,512,126,505,133,487,143,476,145,464,145,446,141,438,137,428,128,422,118,418,110,416,100,416,88,422,69,428,61,438,52,449,47],[0,33,44,52,44,66,48,74,54,63,71,49,66,42,66,35,67,31,71,31,76,33,79,58,88,69,94,76,102,79,112,78,125,70,136,56,144,43,146,22,144,7,138,1,133,12,114,25,121,36,123,45,122,52,117,51,112,48,108,15,95,9,89,4,80,4,67,10,56,19,49],[0,556,44,573,44,590,50,601,60,609,74,612,87,611,101,547,101,543,103,548,115,553,120,561,124,577,124,584,121,593,115,599,117,608,129,601,136,591,141,573,145,560,145,548,142,535,135,529,129,520,113,517,91,522,70,533,55,544,48],[0,122,44,139,44,156,50,168,61,176,77,178,95,175,100,109,102,110,109,114,115,126,123,135,124,146,122,160,114,173,125,174,128,168,135,148,144,127,145,107,139,93,127,85,112,83,101,83,88,88,70,93,62,103,52,112,47],[0,674,44,686,45,700,51,710,60,716,69,721,93,721,143,717,144,697,144,694,143,694,92,693,82,691,77,686,72,681,69,672,68,659,71,649,80,647,142,644,144,624,143,622,139,622,47,625,46,646,46,648,47,649,53,660,47],[1,780,44,797,44,814,49,824,55,832,63,841,77,845,87,846,100,845,116,835,136,825,145,817,146,804,138,789,135,779,136,762,145,754,146,744,138,737,126,732,112,731,99,733,84,737,74,744,64,753,55,763,49],[0,841,47,866,47,887,100,909,46,928,46,931,48,952,100,973,48,977,46,997,46,999,48,960,143,944,144,941,142,919,90,899,142,896,144,883,144,880,143,877,141],[0,242,45,250,45,252,47,252,69,250,71,237,70,229,72,217,81,216,143,212,144,191,143,189,139,189,47,192,46,214,46,216,47,217,53,228,47],[1,781,73,768,79,762,87,759,98,760,111,766,121,776,128,787,130,798,129,807,124,814,115,817,105,816,92,810,81,802,75,794,73],[0,386,0,394,0,400,2,404,5,407,11,407,23,403,29,398,32,390,33,383,32,377,27,374,22,374,12,376,7,381,2],[0,261,47,286,47,314,104,341,47,367,47,364,56,322,143,308,144,304,142,261,50],[0,129,65,119,69,113,75,112,81,151,81,149,74,144,69,136,65],[0,561,65,549,71,545,78,545,81,584,81,583,76,578,70,571,66],[0,379,47,401,46,405,48,405,139,403,144,381,144,378,142]]},"xfinity":{"w":1000,"h":338,"c":["#c8001d"],"l":[[0,285,0,300,0,313,4,307,32,305,35,291,34,283,35,276,38,269,43,263,52,260,61,259,84,262,86,304,87,305,116,302,118,263,118,259,119,259,261,256,263,226,263,224,259,224,120,221,118,187,118,184,117,204,87,224,85,224,59,227,44,233,30,241,20,258,8,273,2],[0,500,82,519,84,538,91,554,104,566,123,570,134,573,158,572,261,568,263,547,262,541,258,538,253,537,164,534,145,530,135,522,126,514,121,501,117,488,117,474,120,463,125,454,133,447,141,446,261,442,263,412,263,411,259,411,87,415,86,446,86,448,102,459,93,470,88,483,84],[0,749,16,752,19,752,85,755,86,786,87,800,116,798,118,756,118,752,119,752,209,758,222,767,229,785,233,800,232,807,260,804,264,786,266,761,264,747,259,733,248,721,230,716,211,716,119,713,118,681,118,678,116,679,87,713,86,716,85,717,31],[0,8,87,38,86,52,91,91,142,123,99,133,89,145,86,175,87,115,166,114,172,234,337,204,338,195,336,188,332,91,200,52,250,44,258,35,262,25,263,2,262,2,259,68,171],[0,817,87,841,86,852,89,858,94,905,191,957,95,964,89,973,86,999,87,875,320,865,333,859,336,849,338,828,338,826,336,884,229],[0,333,87,365,86,369,88,369,258,368,261,366,263,335,263,332,260],[0,615,87,646,86,650,88,650,259,648,263,617,263,614,261]]},"xumo":{"w":1000,"h":232,"c":["#003846","#00b8e4"],"l":[[0,520,6,545,9,563,17,576,26,594,45,608,31,627,16,642,10,658,7,678,7,693,10,708,16,725,28,734,37,744,52,750,67,753,83,752,225,743,226,736,224,730,220,728,215,728,86,724,67,715,53,701,40,688,34,673,31,652,32,635,39,621,51,610,68,606,92,606,216,601,224,594,226,586,223,582,216,582,93,581,79,575,62,565,49,557,42,547,36,536,32,527,31,505,32,494,36,483,43,467,61,463,70,460,82,460,217,458,221,452,225,436,225,435,91,439,65,450,43,460,32,471,22,495,10],[0,241,7,252,6,258,7,263,12,265,19,265,149,268,163,276,177,289,190,302,197,319,201,341,200,356,194,374,178,382,165,386,148,386,17,389,10,394,7,407,6,411,7,411,147,410,157,404,176,398,187,390,197,373,212,356,220,337,225,325,226,307,224,291,219,278,212,262,198,252,185,244,168,240,148],[0,873,6,893,6,915,10,935,18,956,32,969,45,982,64,990,84,994,108,994,125,988,153,977,176,966,190,949,205,932,215,913,222,895,225,873,225,852,221,832,213,815,202,799,187,786,168,778,148,774,127,774,105,778,83,787,62,798,46,813,31,831,19,853,10],[0,881,30,864,32,851,36,836,44,825,53,815,64,804,83,799,102,798,118,800,136,805,150,814,166,827,180,839,189,856,197,876,201,890,201,909,198,919,194,932,187,949,172,959,158,965,144,969,124,969,108,966,90,959,74,950,61,938,49,926,41,913,35,897,31],[0,8,7,33,6,38,7,116,99,195,7,200,6,224,7,223,11,134,115,223,221,224,225,195,225,116,133,38,225,33,226,8,225,10,220,98,116,12,14]]},"fort":{"w":1000,"h":317,"c":["#ffffff"],"l":[[0,1,1,382,0,393,1,422,8,454,23,469,34,484,48,501,71,502,3,504,0,997,0,999,1,1000,4,1000,74,997,77,915,77,911,78,911,308,909,312,831,312,827,310,826,79,822,77,767,77,764,79,767,104,765,126,759,147,752,162,742,176,732,186,718,196,698,204,697,207,779,307,780,312,681,311,603,216,597,212,589,212,587,215,587,308,586,312,503,311,501,241,478,270,464,282,441,296,412,307,369,312,347,310,320,303,299,294,283,284,265,268,255,258,241,238,228,210,89,210,86,211,85,213,84,311,3,312,1,311,0,308],[0,368,81,352,84,342,88,324,102,317,111,311,124,306,140,305,156,310,185,315,197,323,208,332,217,345,225,358,229,378,230,391,228,405,222,412,217,425,204,436,181,439,163,439,150,433,124,425,108,416,98,402,88,393,84],[0,588,74,587,78,587,137,588,141,652,141,667,136,677,127,682,115,682,99,676,86,669,80,650,74],[0,86,77,85,81,85,129,86,131,89,132,220,132,229,100,238,79,235,77]]},"comcast":{"w":1000,"h":354,"c":["#000000","#ffffff","#0089cf","#f36f21","#c9234a","#fdb913","#645faa","#0db14b"],"l":[[0,66,206,81,206,100,210,118,220,126,227,128,231,127,238,120,240,101,227,89,222,80,221,59,222,48,226,37,233,26,244,19,256,15,272,16,295,25,313,38,328,51,335,68,339,82,339,97,335,117,321,127,329,127,331,124,335,110,345,93,352,80,354,66,354,49,350,32,342,26,337,17,328,8,315,3,302,0,287,0,273,2,260,7,247,17,232,26,223,41,213],[0,567,206,583,206,603,211,624,224,629,232,626,239,620,240,603,227,593,223,581,221,560,222,547,227,534,236,527,244,519,258,516,273,516,289,518,299,523,310,532,322,545,332,560,338,580,339,601,334,618,321,628,328,628,331,626,334,611,345,597,351,581,354,567,354,552,351,542,347,527,337,518,328,509,315,503,300,501,288,501,273,503,260,509,245,518,232,527,223,542,213],[0,834,206,847,206,864,210,875,215,878,221,876,226,871,229,849,221,829,222,819,228,814,237,814,248,819,257,870,285,879,294,885,307,885,324,878,338,865,349,848,354,831,353,818,349,807,343,796,333,806,324,817,332,830,338,849,339,856,337,864,332,870,322,871,316,870,309,864,300,815,273,804,262,800,253,799,238,805,222,818,211],[0,217,206,230,206,245,208,258,213,273,223,282,232,291,245,297,260,299,272,299,288,297,300,291,315,282,328,273,337,258,347,233,354,218,354,203,351,191,346,179,338,172,332,160,316,155,304,152,290,151,279,153,262,158,248,166,235,173,227,189,215,203,209],[0,348,206,354,207,358,212,400,315,443,211,448,206,455,208,458,219,481,352,471,353,468,351,447,239,442,247,407,336,404,340,400,341,395,339,392,333,353,238,333,348,328,353,322,352,319,345,333,268,343,214,345,209],[0,216,221,194,229,179,242,172,253,168,263,166,275,166,286,172,307,180,319,187,326,207,337,218,339,234,339,255,332,267,323,274,315,280,303,284,292,285,281,284,270,277,252,264,234,253,227,240,222],[0,710,206,715,207,720,212,775,348,775,353,765,353,762,351,741,301,737,299,685,300,663,351,657,354,652,350,651,344,696,233,706,210],[0,908,208,993,207,997,208,999,212,999,216,996,221,962,221,958,223,958,349,957,353,947,353,945,350,945,222,942,221,908,220,903,214],[6,525,7,539,8,550,16,556,26,556,38,519,124,506,49,507,43,516,35,505,34,504,30,510,16,517,10],[4,467,7,479,9,488,14,494,22,496,30,495,47,482,124,444,38,444,27,449,17,459,9],[5,394,103,406,103,416,107,483,155,401,156,386,152,380,147,376,140,374,124,380,112,385,107],[7,594,103,605,103,613,106,624,118,626,124,626,136,622,145,616,151,605,155,517,155,583,108],[2,576,43,584,43,592,46,603,55,607,69,603,84,595,92,520,142,558,54,567,46],[3,415,43,422,43,431,45,442,54,481,143,404,91,397,83,394,70,396,58,405,47],[0,713,232,693,276,691,281,692,284,733,283]]},"accenture":{"w":1000,"h":264,"c":["#000000","#a100ff"],"l":[[0,166,143,187,144,204,150,217,163,221,172,224,184,221,187,194,187,187,173,176,168,163,171,155,180,151,196,151,210,154,226,161,236,170,239,184,237,191,231,195,220,197,218,220,218,224,219,221,236,213,249,201,258,180,264,167,264,153,261,139,254,126,239,121,227,119,215,119,192,126,169,135,158,145,150,154,146],[0,286,143,307,144,324,150,337,163,341,172,344,184,341,187,314,187,307,173,296,168,283,171,275,180,271,195,271,211,275,228,281,236,290,239,304,237,311,231,315,220,317,218,341,218,344,219,342,233,333,249,320,259,300,264,287,264,273,261,263,257,255,250,244,234,239,215,239,191,242,179,247,167,255,158,266,149],[0,41,144,62,144,76,147,89,154,97,164,101,182,101,258,100,262,71,262,69,250,53,262,43,264,31,264,21,262,13,258,8,254,3,246,0,236,0,223,4,211,10,203,21,196,35,192,65,191,68,190,68,180,66,173,62,169,55,167,41,169,36,174,33,182,8,182,4,181,7,168,15,156,26,149],[0,406,143,427,144,444,150,451,156,457,162,462,171,465,181,466,191,466,209,465,212,395,212,391,213,392,222,396,232,401,237,408,240,416,241,425,239,431,235,438,226,465,227,464,236,457,247,447,256,430,263,406,264,391,261,383,257,375,251,366,240,359,219,359,191,366,169,374,159,381,152,394,146],[0,939,143,961,144,971,147,980,152,986,157,993,167,999,186,999,208,998,212,929,212,925,213,926,223,930,232,936,238,942,240,950,241,959,239,965,234,971,226,999,227,995,240,986,251,978,257,963,263,939,264,925,261,916,257,907,250,901,243,893,224,892,192,895,179,899,169,907,158,914,152,927,146],[0,545,144,560,144,571,147,580,155,586,166,588,179,588,261,584,262,559,262,556,261,555,181,552,175,549,172,544,170,536,170,526,173,521,178,519,183,518,192,518,261,514,262,487,262,486,258,486,147,490,146,517,146,519,161,531,149],[0,644,112,647,113,648,115,649,145,668,146,670,149,669,169,650,170,648,172,648,231,653,236,669,237,670,239,669,260,653,264,632,260,626,257,619,249,615,234,615,172,613,170,603,170,602,167,602,147,615,145,616,125],[0,690,147,718,146,722,147,722,227,724,233,728,237,736,239,744,239,751,235,756,230,758,224,758,147,762,146,790,147,790,261,760,262,758,246,746,259,730,264,720,264,709,261,697,252,692,243,689,229],[0,874,145,880,145,882,147,882,176,866,178,856,182,850,188,847,196,847,261,843,262,815,262,814,258,814,147,818,146,846,146,848,165,860,150],[0,46,213,39,215,34,219,32,230,36,239,48,242,59,239,66,233,68,227,68,216,65,213],[1,583,1,679,39,681,43,680,63,644,80,583,103,582,78,583,73,638,52,583,30],[0,410,166,398,173,394,180,393,189,433,189,433,180,428,171,419,166],[0,943,166,931,172,926,182,925,189,966,189,966,179,961,171,952,166]]},"ssr":{"w":1000,"h":996,"c":["#ffffff","#000000","#c8c8c8","#979797","#363636"],"l":[[4,485,17,444,20,416,24,378,32,340,44,293,64,253,84,218,107,192,127,147,169,111,212,86,249,64,290,48,328,32,375,24,411,17,472,16,508,20,561,24,589,32,625,52,683,72,725,95,765,127,808,163,845,189,870,213,889,242,909,277,929,319,948,355,961,401,973,447,980,501,983,554,980,604,972,648,960,690,945,731,925,771,901,812,870,846,838,874,808,913,754,937,711,948,684,964,641,976,595,984,532,985,497,983,458,976,405,964,359,948,315,933,281,905,233,874,192,840,155,809,127,767,96,732,75,682,52,637,36,585,24,556,20,514,17],[1,469,15,407,23,373,31,336,43,282,67,246,87,191,126,158,155,127,190,95,232,71,273,51,313,35,356,23,402,15,460,15,538,23,597,31,630,47,675,67,719,90,761,118,800,155,842,178,862,210,890,246,914,290,937,336,957,377,970,433,981,460,982,477,985,525,985,541,982,568,981,624,970,674,954,719,933,767,906,811,874,850,838,877,806,906,769,933,721,957,668,970,630,978,597,985,550,985,450,982,440,978,402,966,356,949,312,929,271,905,230,874,189,842,154,810,126,774,98,734,75,685,51,642,36,595,23,569,19,545,18,529,15],[4,468,15,529,15,545,18,569,19,595,23,642,36,685,51,734,75,774,98,810,126,842,154,874,189,905,230,929,271,949,312,966,356,978,402,982,440,985,450,985,550,978,597,970,630,957,668,933,721,906,769,877,806,850,838,811,874,767,906,719,933,674,954,624,970,568,981,541,982,525,985,477,985,460,982,433,981,377,970,336,957,290,937,246,914,210,890,178,862,155,842,118,800,90,761,67,719,47,675,31,630,23,597,15,538,15,460,23,402,35,356,51,313,71,273,95,232,127,190,158,155,191,126,246,87,282,67,336,43,373,31,407,23],[1,490,3,537,4,597,12,646,24,693,41,740,64,774,84,816,115,852,147,888,187,916,225,937,260,956,298,976,349,988,395,996,446,998,486,1000,492,996,554,992,583,984,622,968,672,952,710,925,761,901,796,870,834,839,865,810,890,761,924,724,944,680,964,645,976,597,988,545,996,456,996,404,988,345,972,303,956,255,933,211,905,170,872,135,838,106,804,76,761,52,717,32,669,17,620,8,578,3,527,3,473,8,422,17,379,32,329,47,293,68,252,99,205,131,167,173,125,200,103,253,68,294,47,341,29,385,16,427,8,464,4],[1,699,301,885,300,905,302,915,306,926,314,932,321,939,338,940,349,939,368,928,423,924,437,916,453,906,465,887,476,873,481,849,482,842,484,839,489,833,512,833,522,837,525,903,527,904,536,890,595,802,596,781,592,768,584,761,575,757,562,757,545,768,497,767,486,762,483,734,483,728,487,705,595,700,596,641,596,636,594,642,558,645,553,646,539,674,414,853,413,859,411,863,402,867,377,866,373,863,371,695,371,683,369,689,333,693,325,693,314],[4,699,300,693,314,693,325,689,333,683,369,695,371,863,371,866,373,867,377,863,402,859,411,853,413,674,414,646,539,645,553,642,558,636,594,641,596,700,596,705,595,728,487,734,483,762,483,767,486,768,497,757,545,757,562,761,575,768,584,781,592,802,596,890,595,904,536,903,527,837,525,833,522,833,512,839,489,842,484,849,482,873,481,887,476,906,465,916,453,924,437,928,423,939,368,940,349,939,338,932,321,926,314,915,306,905,302,885,300],[4,698,298,884,297,904,300,916,305,928,313,936,323,942,342,942,365,933,415,929,431,921,450,909,466,894,477,877,483,843,487,836,518,837,521,847,523,901,523,905,525,906,540,895,593,892,598,886,599,798,598,779,593,768,587,760,578,755,562,756,538,766,491,765,487,759,486,735,486,731,489,706,597,700,599,650,599,634,595,669,419,672,412,677,411,853,411,857,409,861,398,864,377,863,374,860,373,694,373,682,371,681,364,689,324,693,306],[4,209,622,222,622,227,624,232,632,233,638,231,640,228,639,230,634,226,626,217,624,204,627,205,628,220,628,226,633,227,637,222,631,217,629,210,629,202,634,195,644,189,662,188,669,189,675,193,679,199,680,208,677,213,672,216,666,217,662,208,658,207,655,209,653,226,653,228,655,228,659,223,671,216,679,207,685,192,687,182,682,179,676,179,669,191,636,200,626],[1,80,414,280,413,298,416,309,421,318,430,323,439,324,454,323,469,307,543,302,555,295,569,286,578,273,587,262,592,238,596,97,596,75,592,65,587,57,579,54,573,52,567,51,555,53,530,55,527,236,526,242,520,248,489,246,485,242,483,134,483,106,481,94,476,82,468,76,457,74,440,77,416],[4,79,412,277,411,301,415,311,420,318,428,324,435,327,448,327,459,312,536,304,558,297,572,289,581,276,589,267,593,244,598,106,599,83,597,64,589,53,577,48,561,49,541,52,526,55,524,235,523,241,519,245,496,245,488,242,486,123,486,100,482,91,478,85,473,79,468,72,452,72,434,76,415],[4,377,412,575,411,599,415,609,420,616,426,623,438,625,447,625,461,609,540,604,556,597,569,589,578,575,589,556,596,542,598,404,599,381,597,362,589,352,579,349,572,347,564,347,547,349,530,354,524,534,523,538,519,543,492,542,487,538,486,419,486,399,482,389,478,376,467,371,454,370,439,373,416],[4,80,413,77,416,74,439,76,457,82,468,94,476,106,481,134,483,242,483,246,485,248,489,242,520,236,526,55,527,53,530,51,555,52,567,54,573,57,579,65,587,75,592,97,596,238,596,262,592,273,587,286,578,295,569,302,555,307,543,323,469,324,454,323,439,318,430,309,421,298,416,280,413],[1,378,414,578,413,596,416,607,421,615,429,619,435,622,455,619,479,607,534,604,548,595,567,583,579,571,587,560,592,537,596,395,596,373,592,363,587,354,579,349,567,349,542,355,527,534,526,538,523,542,516,546,493,545,487,541,483,432,483,404,481,392,476,382,469,373,455,373,427],[4,378,413,373,427,373,455,382,469,392,476,404,481,432,483,541,483,545,487,546,493,542,516,538,523,534,526,355,527,349,542,349,567,354,579,363,587,373,592,395,596,537,596,560,592,571,587,583,579,595,567,604,548,607,534,619,479,622,455,619,435,615,429,607,421,596,416,578,413],[4,875,622,891,622,900,627,899,630,896,632,886,629,874,630,867,635,864,641,867,648,884,653,889,656,891,663,889,671,884,678,875,685,859,687,848,684,843,679,845,676,849,675,858,680,866,680,877,676,882,670,882,665,881,661,861,655,856,650,855,646,858,635,863,630],[4,584,623,600,622,608,627,608,631,605,632,594,629,583,630,576,634,573,641,575,648,593,653,598,657,600,664,597,672,590,681,576,687,564,687,555,684,551,679,554,675,566,680,575,680,585,676,590,670,591,665,589,661,570,655,566,652,564,646,566,637,570,630],[1,635,626,657,625,664,626,667,630,667,642,662,650,657,654,653,655,661,648,665,640,664,634,657,627,641,627,636,628,632,634,628,648,628,653,633,657,649,658,626,660,620,669,618,678,615,682,614,679,621,663,626,643,631,632],[4,481,625,477,633,472,644,467,665,461,680,461,683,488,682,469,681,466,677,466,670,479,635,483,628,500,627,505,629,509,632,511,636,511,642,503,666,504,666,509,657,513,643,512,629,508,627,503,625],[4,635,625,630,632,617,674,614,679,615,682,618,678,620,669,626,660,649,658,633,657,628,653,628,648,632,634,636,628,641,627,657,627,664,632,665,640,658,652,662,649,667,642,667,630,664,626,658,625],[1,481,626,503,625,508,627,512,629,513,643,509,657,504,666,503,666,511,642,511,636,509,632,505,629,500,627,483,628,479,635,466,670,466,677,469,681,488,682,461,683,461,680,467,665,477,633],[1,105,626,126,625,133,627,138,633,136,646,128,667,128,659,135,644,134,635,130,629,126,627,112,627,107,629,103,635,90,676,93,681,113,682,86,683,85,681,88,669,91,664,100,634],[4,105,625,100,634,91,664,88,669,85,681,86,683,113,682,93,681,90,676,103,635,107,629,112,627,126,627,130,629,134,635,135,644,128,659,128,667,136,646,138,633,133,627,127,625],[4,469,297,586,297,621,302,631,306,639,313,644,320,648,329,649,343,645,370,642,372,638,373,398,373,386,371,384,369,385,363,393,343,400,331,412,318,424,309,441,302],[1,355,625,359,627,360,637,361,681,358,682,356,672,351,668,331,668,325,672,322,675,322,671,330,661,334,665,341,666,352,666,356,663,357,636,354,633,350,633],[4,356,625,350,633,354,633,357,636,356,663,352,666,341,666,334,665,330,661,322,671,322,675,325,672,331,668,351,668,356,672,358,682,361,681,360,637,359,627],[1,467,300,587,300,614,302,626,306,635,312,643,323,646,340,643,367,640,370,635,371,399,371,386,370,386,367,390,356,397,339,409,324,420,314,446,302],[1,768,626,771,628,773,640,774,679,772,682,768,673,764,669,746,668,738,671,737,669,742,661,747,664,754,666,764,666,768,663,769,640,764,630,766,627],[4,468,300,446,302,420,314,409,324,397,339,390,356,386,367,386,370,399,371,635,371,640,370,643,367,646,340,643,323,635,312,626,306,614,302,587,300],[4,769,626,766,627,764,630,769,640,768,663,762,666,747,664,745,663,745,656,737,669,738,671,746,668,764,669,768,673,772,682,774,679,773,640,772,628],[1,168,300,288,300,316,302,328,307,342,317,347,328,347,354,343,369,338,371,101,371,89,370,89,363,97,344,105,331,117,319,129,311,148,303],[4,169,297,287,297,323,302,338,310,348,323,351,341,346,369,343,372,340,373,100,373,88,371,86,369,87,361,96,341,115,317,126,309,143,302],[4,169,300,148,303,129,311,117,319,105,331,97,344,89,363,89,370,101,371,338,371,343,369,347,354,347,328,342,317,328,307,316,302,288,300],[4,807,623,809,623,812,626,815,645,819,648,824,645,841,624,845,622,847,624,846,629,819,659,811,683,808,685,805,684,803,682,811,659,805,627],[1,860,638,861,638,862,644,865,649,872,653,883,654,887,659,888,668,884,674,883,672,886,666,882,660,876,656,866,654,859,650,858,645],[4,634,623,656,622,663,623,669,630,670,636,669,642,664,652,655,659,649,661,632,661,627,663,620,683,614,685,612,682,614,675,630,628],[1,571,634,572,635,569,642,573,648,581,653,591,654,595,659,596,664,595,670,594,663,591,659,584,656,574,654,567,650,566,642],[4,283,623,320,622,322,623,324,625,322,629,310,629,305,632,288,682,283,685,281,683,280,680,296,633,293,629,281,628,281,625],[4,356,623,360,623,363,630,363,684,360,686,357,684,355,675,353,672,337,671,327,673,320,684,314,685,313,681,317,674,345,634],[4,860,638,858,644,859,650,866,654,876,656,882,660,886,666,883,672,884,674,888,668,887,659,883,654,872,653,865,649,862,644],[4,568,639,566,644,568,650,574,654,584,656,591,659,594,663,594,670,595,670,597,663,595,658,591,654,581,653,573,649],[1,196,634,197,636,194,641,185,665,185,673,191,681,207,681,196,684,185,682,182,672,183,662,188,649,192,640],[4,105,623,127,622,136,625,141,635,139,648,130,671,121,681,115,684,106,686,86,686,83,683,84,676,100,628],[4,695,623,698,623,699,628,684,676,688,679,710,679,712,681,712,684,708,686,676,686,674,683,673,680,689,634],[4,768,623,773,623,775,632,775,684,772,686,769,684,765,673,749,671,740,673,731,684,726,685,725,680,760,630],[4,113,629,108,631,104,639,93,673,94,677,96,679,108,679,119,674,125,665,130,651,132,639,131,633,124,629],[4,480,623,503,622,512,626,517,636,514,649,506,670,497,681,482,686,461,686,459,683,459,677,475,629],[4,488,629,483,631,481,636,469,674,472,678,483,679,493,675,499,668,505,651,508,640,506,634,499,629],[4,642,629,637,632,631,649,631,651,634,654,645,654,652,652,659,647,661,643,662,636,659,631,653,629],[1,808,626,813,636,814,650,816,652,822,651,814,663,808,682,808,673,812,663,812,649,808,637],[4,809,626,808,637,812,649,812,663,808,673,808,682,814,662,825,647,818,651,815,650,813,636],[4,197,634,192,640,188,649,183,662,182,672,185,682,196,684,207,681,191,681,185,673,185,665],[1,283,626,317,625,321,626,306,627,302,632,287,676,283,682,282,679,298,633,295,628],[1,402,627,403,628,402,635,391,664,388,678,392,681,417,682,385,683,384,681,385,673],[1,694,627,696,627,695,635,680,677,685,681,709,682,678,683,677,681,677,674,680,669],[4,402,623,405,623,407,628,391,676,395,679,417,679,420,683,416,686,383,686,381,681],[4,283,625,284,627,296,628,298,634,282,679,283,682,287,676,302,632,306,627,321,626],[4,402,627,385,673,384,681,385,683,417,682,392,681,388,678,391,664,402,635],[4,694,626,677,674,677,681,678,683,709,682,685,681,680,677,695,635,696,627],[4,765,638,760,641,750,656,748,661,750,663,763,664,766,662,768,655,767,640],[4,168,623,172,623,173,628,155,682,152,685,149,686,147,684,147,678],[4,262,623,266,625,265,634,248,682,243,685,241,682,242,675,258,627],[4,544,623,548,623,548,630,530,683,527,685,525,685,522,680,539,631],[4,354,638,349,641,337,657,336,661,338,663,351,664,354,662,356,653],[4,212,654,212,656,218,660,218,670,219,670,224,663,224,656,221,654],[1,211,655,221,654,224,656,224,663,219,670,218,670,218,660],[1,262,626,263,629,248,677,244,682,243,678,259,632],[4,263,626,255,645,243,678,244,682,248,677,263,629],[4,544,626,527,671,525,682,528,680,536,657,544,633],[1,168,626,169,633,156,669,152,681,149,682],[1,544,626,545,630,540,645,528,680,525,682],[4,169,626,149,682,152,681,156,669,169,633]]},"ns":{"w":1000,"h":106,"c":["#000000"],"l":[[0,479,0,505,0,532,3,547,9,555,18,557,29,554,36,551,38,507,36,506,35,506,31,505,28,498,26,484,26,477,31,477,34,479,36,514,41,532,46,543,54,546,66,544,80,537,91,524,100,515,103,492,106,453,105,427,99,418,93,413,86,406,102,365,102,363,100,341,54,327,94,323,102,238,101,246,76,249,73,266,77,290,89,293,95,296,96,302,96,310,92,315,81,315,78,294,52,285,34,269,17,274,2,359,3,383,48,400,2,440,2,438,14,455,5],[0,620,57,637,57,648,62,650,68,647,72,635,72,634,67,630,66,621,66,618,69,620,73,637,74,643,77,646,83,644,91,638,98,627,102,612,103,599,100,594,94,594,89,596,87,609,87,611,93,615,94,625,93,628,90,627,86,607,84,603,81,601,78,601,70,605,64,611,60],[0,714,60,723,59,725,60,718,86,720,92,725,93,733,91,737,86,746,60,758,60,751,85,744,95,735,100,727,102,716,102,708,97,705,87],[0,862,60,896,60,893,67,873,68,870,70,870,75,888,76,885,84,867,85,865,89,866,92,885,93,885,98,882,101,852,102,849,101],[0,837,1,854,1,862,6,865,13,863,26,858,35,847,43,835,46,822,45,817,43,813,38,812,31,813,23,818,13,824,7],[0,733,3,764,2,771,5,772,9,771,15,764,23,765,30,762,44,750,44,750,31,743,28,737,29,731,44,721,44,722,34],[0,682,57,694,58,700,61,703,65,704,75,699,89,693,96,681,102,670,103,656,100,652,96,650,89,654,73,660,66,666,61],[0,808,60,817,59,820,60,817,74,831,75,835,73,841,60,852,60,838,101,828,101,831,87,828,85,813,85,806,101,795,101],[0,904,60,934,59,941,62,943,67,941,72,934,80,936,87,933,101,920,101,920,88,913,85,908,87,901,101,891,101,893,88],[0,694,1,710,1,719,6,722,16,719,29,710,40,702,44,691,46,676,44,672,41,669,37,669,27,671,19,680,7],[0,32,3,258,3,250,8,235,4,225,4,232,9,232,11,196,10,189,12,194,15,192,16,31,16,27,14],[0,624,3,642,3,651,24,658,3,662,2,670,3,671,6,658,44,641,44,631,19,623,44,619,45,611,44],[0,783,3,815,2,817,4,814,11,795,11,791,13,791,19,809,20,808,27,788,29,782,44,771,45,769,41],[0,427,48,420,62,420,67,462,69,464,71,466,77,478,80,492,79,497,75,496,71,493,68,445,63,433,57],[0,914,3,925,3,922,19,944,3,959,3,938,21,948,44,933,44,921,23,913,44,901,44],[0,841,10,834,13,829,21,827,32,831,37,837,37,843,35,849,26,851,18,850,13,847,11],[0,952,60,970,60,979,82,987,60,999,60,986,101,973,102,969,101,960,76,951,101,939,101],[0,697,10,690,14,685,22,683,32,687,37,694,37,699,35,706,25,706,13,703,10],[0,762,60,804,60,801,67,787,70,777,99,775,102,764,101,773,70,772,68,760,67],[0,678,67,671,71,667,78,665,88,669,93,674,94,681,92,688,81,688,70,685,67],[0,876,3,885,2,888,4,879,34,899,35,900,39,896,44,867,45,863,44],[0,25,24,168,23,171,24,168,26,183,30,146,37,24,37,21,35],[0,12,67,139,66,145,68,112,81,11,81,8,80,7,78],[0,744,11,742,14,742,19,752,19,756,16,754,11],[0,914,68,912,71,912,76,922,76,926,73,924,68],[0,5,89,115,88,121,90,90,102,4,102,1,100],[0,18,46,166,45,128,59,15,59,14,57]]},"google":{"w":1000,"h":1000,"c":["#ea4335","#34a853","#4285f4","#fbbc05"],"l":[[1,241,589,244,590,255,618,270,646,300,686,322,708,347,728,371,743,392,753,419,764,457,773,485,776,518,776,559,771,588,764,623,750,655,733,796,841,802,848,783,866,748,891,726,904,688,922,639,940,597,950,555,956,526,958,477,958,416,951,360,937,301,913,268,896,240,878,217,861,190,838,162,810,136,779,108,738,92,707,93,704],[0,474,42,524,42,559,45,606,53,647,65,687,81,725,100,762,124,805,159,805,162,804,164,677,291,673,291,650,271,621,253,594,241,563,231,524,225,496,224,467,226,424,235,394,246,370,258,349,271,317,297,296,319,274,348,255,382,243,412,92,295,97,281,125,236,162,190,205,149,252,114,298,88,357,64,416,49],[2,501,418,928,417,932,418,939,473,940,533,933,601,920,658,901,709,874,762,842,807,819,833,805,846,802,846,799,845,656,732,680,713,696,697,717,670,736,632,744,608,745,595,501,593],[3,91,296,99,300,202,380,239,409,243,414,233,451,229,485,229,515,231,535,242,587,91,704,84,692,70,660,56,616,46,566,42,525,42,473,45,441,51,405,69,344]]},"jhu":{"w":1000,"h":173,"c":["#002d72"],"l":[[0,552,9,581,10,581,12,574,13,572,18,572,44,574,46,578,47,618,46,621,41,620,17,618,13,611,12,611,10,641,9,640,11,634,14,631,18,631,81,633,87,641,91,641,93,611,92,611,90,618,88,620,85,621,60,618,53,577,52,574,53,572,55,572,85,575,88,583,91,583,93,552,93,552,91,559,87,561,83,561,22,559,14,551,11],[0,314,23,339,23,338,24,333,26,331,32,331,52,336,54,370,53,372,50,372,29,370,26,364,23,368,22,389,23,389,25,383,26,381,32,381,81,383,88,390,91,390,93,365,93,366,91,371,88,372,85,372,61,370,59,367,58,333,59,331,62,331,85,333,89,340,93,315,92,320,88,322,85,322,33,320,27,314,25],[0,772,23,797,23,796,24,791,27,789,29,789,51,791,54,818,29,818,26,815,23,837,23,836,24,823,30,803,49,801,53,822,79,832,89,840,92,816,93,819,89,819,87,798,63,791,59,789,62,789,86,791,89,797,92,773,93,773,91,778,88,780,84,780,33,778,27,772,24],[0,495,20,511,23,513,35,510,35,507,28,503,25,492,24,485,29,484,34,484,40,489,47,510,61,514,69,514,78,512,86,507,91,501,94,491,95,481,94,475,91,472,78,474,76,480,86,488,91,498,91,505,84,506,75,504,69,481,52,476,42,476,34,479,28,487,22],[0,977,20,993,23,996,35,993,35,987,26,976,24,968,28,966,33,966,39,972,47,993,62,997,70,997,77,995,84,991,90,984,94,973,95,964,94,958,90,955,78,957,76,964,87,971,91,982,90,988,83,989,77,987,70,964,53,960,46,958,40,960,32,964,26,969,22],[0,719,23,746,22,754,23,763,28,768,36,768,48,764,55,755,61,743,62,744,60,751,58,756,53,758,48,758,37,755,30,750,27,742,25,737,27,736,86,738,89,745,91,745,93,718,93,725,88,727,79,727,34,725,28,718,25],[0,395,23,412,23,423,38,457,75,459,72,458,30,456,26,449,23,472,23,471,24,466,27,464,31,463,94,460,93,411,37,410,77,411,86,413,89,420,93,397,93,397,91,403,88,405,84,405,33,403,28,396,24],[0,878,23,895,23,911,44,940,75,942,72,941,31,938,27,932,23,935,22,955,23,954,24,948,27,946,35,945,94,894,37,893,83,895,89,903,93,880,92,886,88,888,84,888,34,886,28,879,24],[0,693,127,700,128,704,130,703,134,698,130,692,129,690,131,689,135,691,140,703,149,704,156,701,163,692,165,685,163,683,158,684,156,687,162,693,164,699,160,699,152,688,144,685,140,686,131],[0,563,129,583,128,586,130,586,135,582,130,571,131,572,143,577,145,583,141,583,150,579,147,572,147,571,158,573,162,580,163,585,162,590,158,587,164,562,164,565,161,566,157,566,133],[0,206,9,236,9,237,10,230,14,228,17,228,79,225,100,221,108,215,114,209,117,199,119,195,116,196,111,200,110,209,112,214,109,217,90,217,21,215,14,206,11],[0,311,128,323,128,319,133,319,153,323,161,331,163,337,160,341,153,341,133,337,128,348,128,344,132,344,151,339,162,327,166,321,164,317,161,314,150,314,132],[0,114,54,127,55,127,94,125,95,115,89,113,89,112,119,100,113,98,113,98,159,94,164,85,168,84,104,87,103,96,109,98,109,99,79,112,86],[0,674,20,690,21,697,24,705,29,712,39,716,53,715,69,707,83,696,91,680,95,665,93,654,87,644,75,641,62,642,46,650,32,661,24],[0,379,128,388,129,410,155,411,134,407,129,417,129,414,133,413,164,409,162,387,136,386,160,391,164,380,164,383,162,384,156,384,137,383,132],[0,623,129,640,128,646,132,648,140,642,148,649,160,655,165,647,164,637,150,633,148,631,150,631,159,634,164,622,164,625,161,626,157,626,134],[0,270,20,286,21,300,28,308,39,312,53,311,69,304,82,293,91,276,95,261,93,250,87,241,76,237,62,238,47,246,32,257,24],[0,268,24,256,30,250,39,248,50,249,69,254,80,259,86,269,91,282,91,292,86,298,78,301,68,301,51,297,39,291,30,280,24],[0,672,24,660,30,654,39,652,49,653,69,657,78,663,86,673,91,686,91,696,86,703,76,705,65,704,47,699,35,691,27,683,24],[0,43,65,33,68,25,75,20,85,20,94,22,103,29,112,37,116,47,118,57,116,66,109,72,98,72,88,68,76,62,70,51,65],[0,786,127,792,128,818,127,817,134,812,130,805,130,803,132,803,158,804,162,808,164,794,164,799,160,799,132,797,130,791,130,785,134],[0,848,128,860,128,858,133,865,145,873,132,871,128,881,128,875,133,867,148,867,160,871,164,858,164,862,161,862,150,853,132],[0,57,2,101,2,138,6,156,10,159,17,157,51,100,45,62,45,5,52,3,48,2,31,2,15,4,11,23,6],[0,47,9,42,11,35,15,24,39,24,43,59,39,102,39,134,43,137,42,127,16,119,11,102,9,80,13,61,9],[0,845,23,871,23,864,27,862,35,862,83,864,89,871,91,871,93,845,93,851,88,853,83,853,30,851,27,845,25],[0,74,51,76,52,77,55,77,165,75,168,51,151,37,136,27,122,14,95,5,62,7,59,27,55],[0,451,128,463,128,460,132,459,135,459,159,463,165,451,164,454,161,455,156,455,133],[0,495,128,506,128,504,133,514,155,524,132,522,128,532,128,526,134,513,165,499,133],[0,738,128,751,128,748,131,747,134,747,159,750,165,738,164,741,161,742,158,742,133],[0,122,15,126,19,132,37,132,39,84,35,90,32,106,30,125,31,126,28],[0,39,15,36,31,55,30,71,32,77,35,29,39,29,37,33,23],[0,128,98,140,105,141,107,127,132,114,146,114,122,125,129,127,128],[0,632,130,631,133,631,145,639,146,643,141,642,134,638,131],[0,143,58,153,59,156,62,151,84,143,104],[0,85,52,98,53,97,76,85,67]]},"vt":{"w":1000,"h":476,"c":["#6a2c3e","#cf4520","#ffffff"],"l":[[2,44,27,48,40,254,423,412,133,417,132,611,133,447,438,446,444,449,445,566,444,733,132,738,131,901,130,957,29,953,27,348,27,345,29,253,193,164,28,159,27],[1,25,16,25,18,29,28,254,446,419,144,592,144,587,157,429,448,427,455,430,456,573,455,740,143,744,142,908,141,975,18,972,16,341,16,253,170,170,17],[0,43,28,163,28,253,193,344,31,348,27,953,27,956,29,901,130,738,131,733,132,567,443,449,444,446,443,446,440,609,140,611,133,413,133,254,423],[2,25,17,170,17,253,170,341,16,972,16,975,18,908,141,744,142,740,143,573,455,430,456,427,455,429,448,587,157,592,144,419,144,254,446,29,28],[1,6,6,176,6,253,147,332,7,335,5,994,6,915,152,751,153,747,154,583,463,579,467,411,467,408,466,574,156,426,156,254,470]]},"tud":{"w":1000,"h":414,"c":["#ffffff","#231f20"],"l":[[1,230,63,260,64,281,68,291,72,270,109,268,111,260,110,256,113,275,117,291,101,296,100,308,135,308,146,339,235,336,240,328,243,326,246,328,254,325,260,326,268,320,273,324,283,323,291,310,299,287,302,284,305,282,322,306,331,310,335,284,346,252,351,225,350,200,345,182,338,166,327,158,315,156,305,159,295,171,281,159,265,156,269,159,278,158,282,141,302,136,304,122,287,110,265,102,244,98,218,99,188,106,159,116,138,132,115,152,95,176,79,200,69],[1,302,186,287,189,280,192,267,205,262,219,253,229,246,234,234,239,234,241,242,246,245,253,245,261,242,267,242,278,239,284,245,289,271,298,296,299,311,296,321,289,322,282,316,273,323,267,323,263,315,262,300,266,298,262,300,260,303,262,321,259,324,255,324,243,318,242,311,245,307,243,306,237,309,232,311,232,309,238,311,242,319,239,332,239,335,237,336,233,320,190,316,187],[1,688,97,699,98,704,101,702,103,696,101,688,101,684,104,682,108,682,113,685,116,700,125,705,132,705,139,702,145,692,149,682,149,677,145,679,143,684,145,693,145,697,142,699,139,699,133,697,129,681,121,677,115,678,103,682,99],[1,685,181,694,181,701,185,699,188,693,185,686,185,680,192,682,200,697,208,702,214,702,220,701,227,697,231,691,233,680,233,674,229,676,227,684,230,690,229,694,226,697,222,694,213,680,206,675,199,674,193,675,188,680,183],[1,650,265,660,265,667,269,665,271,660,269,651,269,645,275,646,283,664,293,668,300,668,307,665,312,661,315,654,317,647,317,640,313,641,311,649,313,656,313,660,310,662,306,660,297,645,289,640,283,641,271,645,267],[1,502,97,517,98,521,100,521,103,520,104,507,101,496,104,490,110,487,116,487,130,492,139,499,144,509,145,520,143,521,146,514,149,500,149,492,146,485,139,481,130,481,118,484,109,492,102],[1,196,192,181,200,173,211,174,224,177,228,182,231,188,232,194,230,202,221,200,210,193,205,187,208,194,215,195,220,193,223,184,226,181,224,179,219,181,211,188,203,196,199,209,196,204,193],[1,739,97,753,98,758,101,758,103,756,104,744,101,731,105,724,115,723,127,727,137,734,143,743,145,757,143,758,146,751,149,738,149,731,147,723,141,718,131,717,121,720,110,727,102],[1,229,104,200,111,177,123,158,141,143,165,135,190,134,217,139,242,153,268,156,260,146,241,141,215,142,191,150,167,165,143,177,131,194,120,219,112,232,111,250,112,258,108,247,105],[1,173,286,165,291,160,298,159,305,160,313,164,321,170,327,184,335,190,336,202,329,211,320,219,304,221,290,215,286,213,301,209,311,199,323,187,330,175,324,166,312,166,300,175,290],[1,235,114,231,117,233,125,228,122,225,124,226,129,230,132,225,155,226,158,236,149,236,143,232,139,236,137,238,132,242,131,244,129,243,124,237,121,241,119,241,116],[1,403,183,406,182,408,184,408,221,412,227,420,229,430,228,434,222,435,184,437,182,441,183,441,220,439,226,434,231,426,233,415,233,409,231,404,226,402,216],[1,576,266,580,265,582,267,594,308,606,268,609,265,613,266,626,308,626,315,623,316,621,315,610,275,598,314,596,316,592,315,578,275,567,315,565,316,562,315],[1,444,99,466,98,470,99,468,103,449,103,448,107,449,119,466,120,468,122,466,125,449,126,448,143,451,144,468,144,470,146,469,149,447,149,443,148],[1,832,99,854,98,858,99,856,103,838,103,837,107,838,119,854,120,856,122,854,125,838,126,837,143,840,144,856,144,858,146,857,149,835,149,831,148],[1,589,183,611,182,615,183,613,187,595,187,594,191,595,203,611,204,613,206,611,209,595,210,594,227,597,228,613,228,615,230,614,233,592,233,588,232],[1,186,187,178,191,172,197,166,206,164,215,164,225,167,231,174,237,183,240,188,239,190,235,181,234,175,230,171,224,170,215,172,208,176,201,192,191],[1,226,114,218,117,217,131,211,128,208,131,210,137,217,137,219,138,218,147,211,151,214,156,217,158,222,156,227,137,222,126,223,122,229,115],[1,537,99,541,99,541,118,545,120,568,119,569,100,570,98,573,99,573,148,569,148,569,127,565,125,542,126,541,147,540,149,537,148],[1,775,99,780,99,780,118,784,120,806,119,807,100,809,98,812,99,812,148,807,148,807,127,803,125,781,126,780,147,778,149,775,148],[1,514,266,524,265,534,266,541,271,543,278,542,285,539,289,533,293,548,313,548,316,544,316,529,296,522,294,518,296,518,315,514,315],[1,596,97,600,99,627,139,628,100,630,98,633,99,634,144,632,148,629,149,626,148,599,107,598,146,597,149,594,148,593,101],[1,211,117,202,121,199,127,199,133,201,139,205,143,215,146,216,145,215,142,208,138,205,133,205,128,208,124,215,125,214,118],[1,260,124,257,127,256,133,253,128,247,130,246,134,248,140,232,159,240,161,243,161,248,152,248,145,253,145,266,127,265,125],[1,460,181,465,183,492,224,493,185,494,182,497,183,498,228,497,232,493,233,491,231,464,191,463,230,461,233,458,231,457,185],[1,630,183,648,182,657,187,659,192,659,200,655,205,649,209,665,229,665,232,660,232,646,213,638,211,634,213,634,232,630,232],[1,243,66,241,69,233,100,236,102,240,100,250,74,251,77,244,100,245,102,248,103,252,97,264,69,263,67,255,66],[1,211,69,193,75,196,104,198,108,202,108,203,105,202,81,203,78,205,80,206,105,209,106,212,104,214,73,213,70],[1,303,131,295,136,272,160,216,238,193,263,174,277,175,282,181,281,193,272,216,249,271,171,281,159,304,138,305,134],[1,151,216,145,220,146,233,153,251,160,262,163,262,175,251,170,249,163,252,158,252,156,235,155,233,149,232,152,221],[1,227,66,219,68,217,70,215,96,216,103,222,101,227,74,229,76,225,100,228,102,231,99,239,68,237,66],[1,268,69,265,72,253,102,255,104,258,103,274,76,274,78,262,103,262,106,267,107,270,106,288,75,285,72],[1,294,104,278,117,265,132,207,220,190,241,164,265,165,268,168,268,182,258,206,232,262,146,277,127,295,110],[1,475,266,478,265,480,267,498,312,497,316,493,316,487,302,483,300,466,301,459,316,456,317,454,315,472,268],[1,738,266,741,265,743,267,761,312,760,316,756,316,750,302,746,300,729,301,722,316,719,317,717,315,728,284],[1,287,122,263,149,208,234,186,258,169,271,170,275,173,275,182,269,206,246,267,162,294,134,288,130],[1,164,151,163,155,165,159,171,163,179,166,224,167,236,169,239,165,237,163,219,160,182,160,171,156],[1,204,266,201,269,206,288,204,301,196,313,181,323,186,326,196,322,203,315,210,302,211,282,207,268],[1,198,272,194,275,197,286,195,299,185,311,172,316,176,320,181,320,192,314,200,303,203,287,201,276],[1,188,77,174,83,171,87,182,116,186,113,180,90,181,87,189,111,192,112,194,109,191,81],[1,167,88,155,96,151,101,167,127,170,124,161,99,164,101,173,122,176,122,178,118,170,91],[1,397,99,427,98,431,99,430,103,416,104,416,145,415,149,412,148,411,146,411,104,397,103],[1,109,164,103,179,104,185,132,190,133,187,131,185,111,177,115,176,132,182,134,180,135,177],[1,736,183,766,182,770,183,768,187,755,188,755,229,753,233,751,232,749,230,749,188,736,187],[1,793,183,797,182,800,184,818,229,816,233,812,232,807,217,803,216,785,217,778,232,773,231],[1,825,183,855,182,859,183,858,187,844,188,844,229,843,233,840,232,839,230,839,188,825,187],[1,263,189,258,194,258,206,255,214,247,223,235,229,231,234,239,234,248,230,259,219,264,205],[1,102,213,101,222,104,235,133,229,133,225,131,223,113,225,108,224,130,220,132,217,130,213],[1,133,233,105,239,105,245,111,259,116,258,137,247,138,244,135,243,113,248,115,245,135,239],[1,139,251,113,263,122,280,127,279,145,264,145,260,142,259,125,269,122,269,141,256,141,253],[1,679,266,708,265,712,267,712,270,698,271,698,312,697,316,693,316,692,313,692,271,679,270],[1,825,266,854,265,858,267,858,270,844,271,844,312,843,316,839,316,838,313,838,271,825,270],[1,409,270,408,274,408,311,418,312,429,309,436,303,439,297,439,286,437,280,428,272,420,270],[1,781,270,780,274,780,311,790,312,801,309,807,304,811,297,811,287,809,279,799,272,791,270],[1,191,278,187,280,188,291,186,299,179,305,168,308,169,312,183,309,192,300,195,288,194,281],[1,132,122,126,127,120,139,144,156,146,151,129,134,132,134,147,149,150,148,151,143],[1,119,142,112,152,110,160,136,173,138,168,118,154,120,154,139,165,141,163,141,159],[1,160,156,152,169,147,183,154,180,154,173,157,168,168,182,173,183,174,181,165,171],[1,537,182,555,224,571,183,573,182,576,183,559,230,556,233,551,231,534,187,534,183],[1,103,188,101,194,102,209,130,210,130,204,109,202,107,200,130,202,132,199,131,194],[1,228,238,223,245,223,248,234,251,237,260,240,263,242,258,241,250,237,245,229,242],[1,223,260,218,262,214,266,212,276,214,281,219,286,230,287,238,281,240,271,234,262],[1,148,267,125,283,128,291,137,300,155,280,155,276,152,275,134,291,134,288,150,272],[1,403,266,426,266,436,270,440,274,444,282,445,293,442,304,436,311,422,316,403,315],[1,775,266,798,266,806,269,812,274,816,282,817,292,814,303,808,311,794,316,775,315],[1,236,287,223,291,221,306,211,325,273,344,278,344,279,340,278,324,282,303,260,298],[1,148,104,139,111,134,119,155,141,157,136,144,119,144,115,160,134,164,130],[1,166,164,170,172,180,175,230,177,234,173,229,170,215,169,197,170,181,169],[1,178,183,166,192,158,203,153,229,158,229,161,225,163,207,171,194,181,186],[1,297,113,291,117,290,128,297,131,301,129,302,126,296,121,298,115],[1,244,114,244,120,247,125,254,125,261,121,269,123,271,121,264,117],[1,302,144,298,147,295,161,286,171,286,177,294,173,300,164,303,154],[1,282,164,278,169,274,185,268,195,268,200,276,194,281,185,283,175],[1,177,177,177,180,190,185,224,186,227,185,229,181,227,179,219,178],[1,517,183,521,182,522,185,522,229,521,231,519,233,517,231,516,229],[1,636,186,634,190,635,205,645,206,651,204,654,197,652,189,645,186],[1,295,198,307,199,305,202,304,209,301,212,287,213,273,210,280,203],[1,163,229,159,230,159,233,164,240,176,248,180,247,182,243,170,238],[1,225,267,231,268,233,272,232,278,227,281,222,280,219,275,220,269],[1,519,270,518,274,519,289,529,290,535,288,538,281,536,273,530,270],[1,197,123,189,126,184,131,186,136,194,140,198,139,196,132],[1,180,134,173,139,173,141,190,149,207,148,201,144,189,141],[1,179,146,177,147,177,153,180,157,210,157,208,151,192,152],[1,307,149,301,168,293,177,285,182,284,187,300,184,318,184],[1,719,183,722,183,723,186,723,230,721,233,719,232,718,229],[1,655,99,659,98,660,101,660,146,657,149,654,146],[1,200,201,197,203,205,216,209,212,209,209,205,202],[1,282,327,281,331,284,333,298,337,305,335,302,332],[1,207,328,203,331,204,333,251,348,266,346,233,334],[1,199,334,192,339,202,343,224,347,243,348,220,339],[1,255,199,239,223,245,221,251,215,255,208],[1,477,272,467,293,468,296,482,296,484,295],[1,199,188,218,196,223,190,221,188],[1,796,189,788,206,788,212,804,211],[1,740,272,732,289,731,296,747,295]]},"myinkwell":{"w":1000,"h":516,"c":["#1c2840","#ffffff","#d4a843"],"l":[[1,250,0,289,1,316,10,340,29,350,44,354,59,357,61,366,57,387,29,403,17,424,9,454,1,487,0,506,1,530,10,556,29,567,47,576,81,577,320,579,336,587,356,601,363,620,367,623,374,623,379,611,381,450,381,440,377,439,371,441,367,456,363,467,354,471,334,474,304,474,110,470,64,467,53,459,43,451,36,437,33,414,34,397,43,387,51,380,61,370,76,361,104,361,330,370,354,381,363,400,367,403,374,400,380,234,381,224,377,226,369,241,363,251,353,257,317,257,89,254,63,250,50,237,36,224,33,200,36,184,43,174,53,156,81,151,100,150,117,151,334,156,353,166,363,183,367,183,377,173,381,11,381,1,379,0,373,3,367,23,363,36,354,44,339,46,316,46,87,44,63,36,41,26,33,3,24,0,20,1,14,10,10,46,13,144,4,150,11,150,47,153,51,156,54,171,36,194,17,211,9],[2,630,11,670,14,770,14,809,10,817,13,820,20,816,24,791,29,779,36,776,46,777,57,860,260,864,264,870,267,874,263,916,146,926,113,927,94,927,71,923,53,907,34,879,23,876,20,879,13,884,10,937,13,991,10,996,11,1000,14,997,26,977,40,969,50,953,84,853,363,850,379,836,411,824,449,809,480,800,490,783,504,764,513,724,516,696,513,679,506,666,496,653,476,651,447,663,427,680,416,713,410,739,416,749,424,757,434,761,454,760,470,756,480,744,493,741,500,746,501,767,497,783,487,799,467,816,424,817,410,674,83,653,41,646,34,624,24,623,17]]},"rw":{"w":1000,"h":560,"c":["#ffffff"],"l":[[0,48,72,276,71,302,73,321,77,342,86,363,100,378,115,394,141,401,163,403,178,403,204,400,225,391,250,379,268,359,286,337,298,357,307,373,321,384,338,390,352,397,386,403,465,408,485,415,499,322,499,315,477,307,397,299,368,294,357,281,343,266,336,247,333,142,334,141,499,137,500,48,499],[0,431,72,520,71,524,73,592,362,667,73,672,71,754,72,757,75,829,366,900,73,904,71,991,72,991,80,877,499,788,500,784,498,711,210,639,499,635,500,547,500,543,499],[0,142,145,141,149,141,261,142,265,258,265,270,263,285,257,292,252,301,242,305,233,308,221,309,194,303,171,299,165,289,155,273,148,253,145]]},"navy":{"w":1000,"h":900,"c":["#f2c14e","#8fb4ff"],"l":[[0,490,28,508,28,524,31,542,39,551,45,570,66,577,81,581,95,582,115,581,126,577,140,570,154,551,175,524,190,524,238,643,239,650,241,655,245,659,251,661,258,661,265,658,272,650,279,644,281,527,281,523,282,523,565,546,565,574,561,601,555,621,548,658,530,677,516,690,504,708,482,721,460,733,431,741,399,738,400,704,435,694,440,683,439,675,434,670,424,671,412,676,405,761,322,773,320,780,322,785,326,847,419,850,428,849,437,844,445,834,450,824,449,815,444,788,404,775,450,760,485,744,511,733,525,707,551,676,573,635,592,595,604,537,612,481,613,427,608,382,598,346,584,319,570,293,551,273,532,256,511,240,485,228,459,221,439,212,404,185,443,178,448,170,450,160,448,152,440,150,432,152,420,215,326,227,320,240,322,324,405,329,412,330,424,325,434,317,439,306,440,296,435,262,400,259,399,266,428,279,460,292,482,310,504,323,516,342,530,379,548,399,555,426,561,454,565,477,565,477,282,473,281,356,281,350,279,343,273,339,265,339,259,340,252,345,245,350,241,357,239,473,239,477,238,476,190,453,178,432,157,421,134,418,117,418,104,423,80,430,66,437,57,448,46,458,39,471,33],[1,566,713,578,713,594,715,613,723,619,728,625,736,630,750,629,760,601,760,592,744,585,740,572,738,558,741,551,748,550,757,555,764,570,770,612,781,624,790,633,803,635,812,635,825,632,836,627,844,619,852,608,858,588,863,564,863,552,861,537,855,529,849,521,840,516,830,514,819,514,814,516,812,544,812,546,814,548,824,553,831,561,836,571,838,583,838,592,836,602,828,604,821,603,816,596,808,539,790,528,782,520,768,519,749,523,737,528,731,536,723,544,719],[1,668,717,770,716,774,718,775,740,773,744,700,745,700,772,767,773,768,776,768,795,767,798,765,799,700,799,699,802,699,829,700,832,702,833,775,833,776,837,775,859,668,859],[0,496,68,482,72,469,81,461,94,458,114,462,129,470,140,476,145,489,151,499,149,511,151,518,148,529,140,538,129,542,113,541,100,535,86,524,75,511,69],[1,81,717,107,716,112,717,169,809,170,718,174,716,200,717,200,859,172,860,167,859,110,767,109,859,105,860,80,859,79,721],[1,282,717,310,716,314,718,364,851,366,860,334,859,323,830,319,828,271,828,258,859,227,859,278,722],[1,851,717,879,716,883,718,934,853,935,860,903,859,893,830,888,828,840,828,827,859,800,860,797,859],[1,369,717,397,716,401,718,432,815,465,718,469,716,494,716,497,717,450,859,418,860,414,858],[1,297,755,279,801,280,804,313,803],[1,866,755,849,799,849,804,882,803]]},"chart":{"w":1000,"h":820,"c":["#ffffff"],"l":[[0,736,17,866,19,876,22,882,29,883,39,866,129,889,131,901,136,914,149,920,165,920,691,914,711,907,719,895,727,879,730,791,730,781,729,769,724,761,717,754,706,750,691,750,166,756,149,763,141,774,134,789,130,830,129,841,73,525,267,515,267,332,228,87,346,80,347,74,346,65,338,63,331,64,324,73,314,326,193,335,193,501,229,519,231,806,54,806,53,803,52,739,51,732,49,725,42,723,31,728,22],[0,566,280,660,280,669,281,681,286,689,293,697,305,700,315,700,691,696,706,689,717,681,724,669,729,659,730,571,730,561,729,549,724,542,718,536,711,531,699,530,690,530,318,533,305,542,292,553,284],[0,346,410,440,410,449,411,459,415,467,421,474,429,478,437,480,449,480,691,474,711,467,719,453,728,439,730,351,730,342,729,331,725,323,719,316,711,312,702,310,690,310,447,313,435,322,422,333,414],[0,126,540,223,540,241,546,254,559,258,567,260,578,260,691,254,711,241,724,232,728,220,730,129,730,117,728,109,724,96,711,90,691,90,576,93,565,102,552,113,544],[0,56,753,950,753,957,754,961,758,966,763,967,770,966,777,963,781,958,785,950,787,60,787,50,784,45,779,43,772,43,766,46,760,51,755],[0,792,170,790,175,790,687,792,689,795,690,877,690,879,688,880,685,880,173,877,170,857,170,849,176,842,177,835,176,826,170],[0,572,320,570,325,570,688,575,690,658,690,660,685,660,322,655,320],[0,352,450,350,455,350,688,355,690,438,690,440,685,440,452,435,450],[0,132,580,130,585,131,689,219,689,219,581]]},"heart":{"w":1000,"h":860,"c":["#ffffff"],"l":[[0,251,56,282,56,312,59,348,67,387,82,414,95,451,120,465,132,500,169,535,132,557,114,588,94,632,74,667,63,688,59,718,56,759,57,797,63,827,73,846,81,879,101,897,116,915,135,932,158,943,178,952,200,960,228,965,263,965,301,960,337,951,369,932,415,913,451,890,486,852,535,818,573,776,615,740,648,683,696,641,729,574,778,508,822,497,823,489,821,398,758,306,687,225,616,182,573,154,542,105,479,71,422,49,369,37,319,35,300,35,263,38,239,44,212,56,181,66,161,84,136,102,117,121,101,139,89,164,77,190,67,225,59],[0,257,102,230,105,203,111,176,122,162,129,129,155,113,174,104,188,95,206,89,223,81,268,81,297,83,315,89,343,98,369,110,397,127,428,156,471,205,530,254,580,305,626,371,680,448,737,501,771,552,737,612,693,702,620,746,580,781,545,816,506,844,471,868,436,889,399,906,358,914,331,919,296,919,267,915,239,905,207,893,183,880,165,860,145,838,129,809,115,782,107,754,103,723,102,699,104,666,111,639,121,606,137,582,153,564,168,541,192,515,228,505,233,496,233,483,226,459,192,435,167,411,148,385,132,351,117,318,107,291,103],[0,416,273,428,275,433,279,436,284,521,513,584,373,590,366,596,363,603,363,609,365,656,403,852,403,859,405,865,411,867,418,866,426,859,435,851,437,649,437,641,435,610,409,607,409,536,567,532,573,527,576,520,577,514,576,508,571,503,565,417,333,415,334,365,429,362,433,355,437,149,437,140,434,134,426,133,418,135,411,141,405,148,403,339,402,405,281,409,277]]},"kanban":{"w":1000,"h":780,"c":["#ffffff"],"l":[[0,91,29,905,29,928,34,947,46,961,62,966,72,971,95,971,685,966,708,954,727,942,738,928,746,905,751,95,751,74,747,53,734,42,722,34,708,29,685,29,94,34,73,39,62,47,52,66,37,77,32],[0,133,137,264,137,274,140,282,145,290,155,293,168,293,253,291,263,286,271,274,280,261,283,138,283,128,281,119,276,110,265,107,254,107,166,109,157,114,149,123,141],[0,733,137,864,137,874,140,882,145,890,155,893,168,893,243,891,253,886,261,874,270,861,273,738,273,728,271,719,266,710,255,707,244,707,166,709,157,714,149,723,141],[0,733,307,864,307,875,311,886,319,891,327,893,337,893,452,890,465,882,475,873,481,862,483,739,483,726,480,714,471,709,463,707,453,707,336,709,327,714,319,723,311],[0,133,317,264,317,277,321,287,330,291,338,293,348,293,502,290,515,281,526,273,531,262,533,139,533,126,530,113,520,109,512,107,502,107,346,109,337,114,329,123,321],[0,433,427,564,427,574,430,582,435,590,445,593,458,593,533,591,543,586,551,574,560,561,563,438,563,428,561,419,556,410,545,407,534,407,456,409,447,414,439,423,431],[0,733,517,864,517,874,520,882,525,890,535,893,548,893,623,891,633,886,641,874,650,861,653,738,653,728,651,719,646,710,635,707,624,707,546,709,537,714,529,723,521],[0,433,137,565,137,577,141,589,153,593,168,593,353,591,362,587,370,575,380,561,383,438,383,428,381,420,377,411,367,407,352,407,166,409,157,414,149,423,141],[0,665,71,664,75,664,708,668,709,901,709,910,707,917,704,924,697,927,690,929,681,929,100,927,89,917,76,911,73,902,71],[0,96,71,86,74,77,82,73,89,71,100,71,681,73,691,83,704,98,709,335,709,336,705,336,72,332,71],[0,139,163,134,166,133,172,133,248,136,256,142,257,258,257,266,254,267,248,267,172,264,164,258,163],[0,439,163,434,166,433,172,433,348,434,354,442,357,558,357,564,356,567,348,567,172,566,166,558,163],[0,739,163,734,166,733,172,733,239,736,246,742,247,858,247,866,244,867,238,867,172,864,164,858,163],[0,739,333,734,336,733,342,733,448,735,455,742,457,858,457,865,455,867,448,867,342,865,335,858,333],[0,139,343,134,346,133,352,133,498,134,504,142,507,258,507,264,506,267,498,267,352,266,346,258,343],[0,439,453,434,456,433,462,433,529,436,536,442,537,558,537,566,534,567,528,567,462,564,454,558,453],[0,739,543,734,546,733,552,733,619,736,626,742,627,858,627,866,624,867,618,867,552,864,544,858,543],[0,365,71,364,75,364,708,368,709,635,709,636,705,636,72,632,71]]},"target":{"w":1000,"h":940,"c":["#ffffff"],"l":[[0,456,121,421,124,390,129,350,140,313,155,277,173,248,192,217,217,189,245,165,274,142,309,125,343,112,375,101,411,95,443,91,485,91,514,94,549,100,584,111,623,125,657,142,691,165,726,188,754,215,781,248,808,279,828,313,845,345,858,385,870,413,875,453,879,486,879,520,876,555,870,595,858,627,845,661,828,696,805,725,781,751,755,775,726,795,696,815,658,825,633,835,604,845,557,849,515,849,486,846,451,840,416,829,378,819,351,804,320,787,291,764,260,751,248,687,313,710,343,725,369,737,397,746,423,753,456,756,486,756,514,752,550,741,593,725,631,697,675,665,710,627,740,601,755,577,766,536,779,484,786,455,786,426,783,396,777,372,769,326,748,303,733,275,710,259,694,237,667,214,628,201,598,192,570,187,544,184,515,184,486,187,456,200,405,214,372,222,356,239,330,258,307,277,288,300,269,337,246,372,231,419,218,455,214,484,214,508,216,540,222,576,234,603,246,630,262,657,283,722,219,710,206,676,181,645,163,606,146,574,135,527,125,482,121],[0,457,256,414,262,391,269,368,278,350,287,328,301,308,317,286,339,273,355,258,378,239,421,228,466,226,510,232,556,238,577,247,600,261,627,273,645,287,662,307,682,343,709,383,728,425,740,448,743,476,744,502,742,525,738,571,722,597,709,615,697,632,683,652,663,667,645,683,620,701,579,708,556,712,533,714,490,708,444,694,402,674,365,659,345,655,344,591,408,604,430,615,456,620,481,621,509,615,544,605,569,594,587,574,610,551,628,527,640,507,647,481,651,456,651,433,647,415,641,389,628,367,611,352,595,336,570,325,544,319,509,320,481,326,453,336,430,352,405,375,382,399,366,426,355,452,350,478,349,514,355,537,364,562,379,626,315,625,311,612,301,590,287,549,269,526,262,503,258,481,256],[0,766,45,775,45,947,64,960,68,965,78,964,87,925,204,920,212,914,215,908,215,803,197,799,199,783,216,823,269,844,306,855,328,868,362,877,390,884,421,890,467,890,533,881,594,871,630,860,660,840,702,826,726,802,760,774,792,749,816,714,844,683,864,643,884,597,902,560,912,523,918,487,921,452,921,396,915,360,907,320,894,277,875,239,853,209,831,180,806,148,772,124,741,96,694,80,660,68,627,56,580,49,518,50,467,56,420,65,383,80,340,95,307,117,269,148,228,179,195,219,161,247,142,277,125,329,103,367,91,417,82,453,79,504,80,544,85,594,97,643,116,681,135,714,156,754,187,772,168,755,62,755,56,758,50],[0,462,391,443,394,418,404,400,416,386,430,375,446,366,467,361,492,361,506,365,531,375,554,386,570,400,584,414,594,431,602,454,608,476,609,497,606,524,595,540,584,554,570,565,554,575,531,579,507,579,494,574,467,565,446,559,440,483,516,477,519,469,520,462,519,456,515,452,509,450,502,450,495,454,487,530,411,529,408,514,400,497,394,477,391],[0,901,90,895,104,830,168,829,171,896,183,900,182,929,95,924,92],[0,789,78,800,141,855,86,851,84]]},"hub":{"w":1000,"h":900,"c":["#ffffff"],"l":[[0,490,16,507,16,520,18,533,23,548,33,557,42,566,55,572,70,574,83,574,96,572,110,568,121,561,133,543,151,530,158,515,163,516,263,664,350,787,290,787,255,795,233,803,222,813,212,825,204,840,198,854,196,875,197,890,202,903,209,917,222,925,233,932,250,934,265,933,286,925,307,917,318,908,327,890,338,866,344,845,343,823,335,801,317,671,381,669,386,670,522,802,592,825,574,840,568,851,566,876,567,889,571,900,577,909,584,921,597,928,610,933,624,934,635,933,656,928,670,921,683,903,701,883,711,866,714,855,714,829,708,813,698,804,689,792,670,786,646,788,619,668,555,660,553,515,637,515,746,543,759,561,777,568,789,572,800,574,813,574,826,572,840,566,855,557,868,549,876,529,889,504,894,486,893,474,890,463,885,452,877,443,868,434,855,428,840,426,826,426,813,428,800,432,789,439,777,457,759,485,746,484,637,341,553,338,553,332,555,212,619,214,647,212,660,206,675,197,688,188,697,177,705,166,710,147,714,135,714,117,711,103,705,91,696,75,677,68,660,66,645,67,624,75,603,83,592,92,583,109,572,132,566,156,567,175,574,198,592,325,526,330,522,331,518,330,383,199,317,177,335,154,343,144,344,126,343,103,335,92,327,79,313,72,300,67,286,66,275,67,254,72,240,79,227,97,209,109,202,120,198,132,196,147,196,171,202,189,214,198,223,208,239,214,263,212,287,213,290,336,350,485,263,485,163,470,158,457,151,439,133,432,121,428,110,426,85,431,61,444,41,452,33,465,24,477,19],[0,426,396,434,396,440,400,444,406,444,414,441,419,411,450,441,481,444,486,444,493,442,498,436,503,430,504,420,500,379,459,376,450,380,440,420,400],[0,566,396,574,396,580,400,621,441,624,450,620,460,579,501,570,504,564,503,558,498,556,493,556,486,559,481,589,450,557,415,556,410,557,404,561,399],[0,497,52,482,56,471,65,464,76,462,91,466,107,473,117,484,125,500,128,516,125,528,116,535,105,538,89,535,76,526,62,515,55],[0,137,232,122,236,111,245,104,256,102,271,106,287,113,297,124,305,140,308,156,305,168,296,175,285,178,269,175,256,166,242,155,235],[0,857,232,842,236,831,245,824,256,822,271,826,287,833,297,844,305,860,308,876,305,888,296,895,285,898,269,895,256,886,242,875,235],[0,137,602,122,606,111,615,104,626,102,641,106,657,113,667,124,675,140,678,156,675,168,666,175,655,178,639,175,626,166,612,155,605],[0,857,602,842,606,831,615,824,626,822,641,826,657,833,667,844,675,860,678,876,675,888,666,895,655,898,639,895,626,886,612,875,605],[0,497,782,482,786,471,795,464,806,462,821,466,837,473,847,484,855,500,858,516,855,528,846,535,835,538,819,535,806,526,792,515,785],[0,499,306,376,378,375,519,376,522,380,526,500,594,624,522,625,381,624,378,620,374,504,307]]},"layers":{"w":1000,"h":860,"c":["#ffffff"],"l":[[0,75,418,82,418,91,420,500,586,910,420,922,418,932,421,940,430,942,441,939,452,935,457,927,461,511,630,499,632,459,618,70,460,65,456,60,450,58,437,64,425],[0,75,598,82,598,91,600,500,766,910,600,922,598,932,601,940,610,942,621,939,632,935,637,927,641,511,810,499,812,459,798,70,640,65,636,60,630,58,617,64,604],[0,496,58,511,60,927,229,936,234,940,241,942,249,940,259,935,267,919,275,541,428,501,442,489,440,73,271,64,266,58,253,60,240,68,231],[0,500,104,142,249,141,250,142,251,167,262,500,396,859,250,833,238]]},"code":{"w":1000,"h":700,"c":["#ffffff"],"l":[[0,684,88,694,88,707,91,727,106,956,316,968,331,972,349,972,356,967,370,956,384,719,601,708,608,694,612,685,612,671,608,661,601,653,591,648,572,649,559,653,549,664,536,866,350,664,164,655,154,651,146,648,133,648,123,653,110,658,102,666,95,674,91],[0,304,88,314,88,327,91,339,99,346,107,352,127,351,141,347,151,336,164,134,350,336,536,345,546,349,554,352,568,352,576,347,591,340,600,331,607,312,612,303,612,293,609,273,594,44,384,33,370,28,352,32,332,44,316,273,106,289,93],[0,574,28,592,29,603,34,612,42,618,52,622,65,620,85,460,643,457,651,450,660,439,668,424,672,408,671,392,662,382,649,378,633,380,615,539,59,543,49,552,38,562,32]]},"at":{"w":1000,"h":1000,"c":["#ffffff"],"l":[[0,496,102,531,102,556,104,593,110,616,116,668,136,696,151,724,170,742,185,762,205,782,230,798,256,808,276,819,307,824,330,827,355,828,381,824,429,816,464,806,489,790,520,769,550,746,575,714,601,691,615,658,629,635,636,611,638,588,634,570,624,556,608,549,587,527,613,504,627,487,634,467,638,437,638,416,634,395,626,372,612,353,595,335,572,327,558,317,533,312,512,310,491,311,461,317,423,324,399,335,373,345,353,362,328,377,311,401,290,430,272,458,261,484,256,513,255,524,256,549,262,567,269,582,278,592,287,599,295,611,316,627,270,699,270,637,526,636,543,638,552,643,559,651,561,673,557,687,551,701,541,715,527,726,512,743,478,753,444,757,411,756,366,753,344,746,319,731,285,717,263,696,239,672,219,651,206,617,191,584,181,552,176,525,174,477,176,436,184,408,194,375,211,350,229,325,253,308,274,294,296,285,315,276,336,266,370,261,399,259,424,259,457,262,488,268,518,275,539,283,559,296,584,311,606,329,627,363,656,395,675,416,684,442,693,469,699,492,702,543,703,594,696,619,689,643,680,676,663,699,647,719,629,792,630,769,663,741,692,710,717,693,728,657,746,621,760,583,769,541,774,518,775,473,772,436,766,410,759,384,750,342,730,313,712,285,690,261,667,242,645,221,615,206,588,193,557,183,527,176,492,173,464,172,435,174,402,179,368,187,337,201,302,214,275,233,245,258,214,287,186,311,167,339,149,371,133,397,122,432,111,465,105],[0,502,341,484,345,469,352,442,373,426,393,418,407,411,424,405,443,402,463,402,481,405,501,411,516,420,530,430,540,445,548,456,552,475,553,496,550,515,542,534,528,551,510,563,492,574,467,581,442,583,418,582,403,578,386,568,368,553,353,539,345,523,341]]}};
+</script>
+<script>
+/* ============================================================
+   LIGHT engine
+   A fixed pool of strands (K control points each), drawn in WebGL2 as
+   feathered additive ribbons into an HDR target, then bloomed and tone
+   mapped together with the nebula / stars / dust. Two thirds of the
+   strands wind the section's logo (LOGOS: closed outline loops) at
+   varying depths into the ink; the rest are one river of light that
+   enters low on the left, wraps the mark and leaves on the right.
+   On section change strands slide off downstream and in from upstream.
+   A 2D-canvas path remains as the fallback without WebGL2.
+   ============================================================ */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  root.classList.add('js');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var secs = [].slice.call(document.querySelectorAll('section.s'));
+  var fx = document.getElementById('fx'), gl = null, ctx = null, glOK = false;
+  var W = 0, H = 0, DPR = 1, mobile = window.innerWidth <= 820;
+
+  var S = mobile ? 780 : 1500;         // strands (two in three wind logos, the rest are river)
+  var K = 40, K2 = K * 2;              // control points per strand (the GPU splines between them)
+  var SUB = 3;                         // ribbon sub-segments per control segment
+  var N = S * K, SA = S;               // SA = strands actually simulated/drawn (degrade ladder)
+  function f32(n) { return new Float32Array(n); }
+  // per point: rendered position / alpha / width multiplier, undisturbed position, idle sway
+  var px = f32(N), py = f32(N), pa = f32(N), pw = f32(N), bx = f32(N), by = f32(N);
+  var amp = f32(N);
+  // per strand, two tracks of 2K points: "out" = where it is now + a way off downstream,
+  // "in" = a way in from upstream + where it has to end up. Strands slide along them.
+  var oX = f32(S * K2), oY = f32(S * K2), oA = f32(S * K2), oW = f32(S * K2);
+  var iX = f32(S * K2), iY = f32(S * K2), iA = f32(S * K2), iW = f32(S * K2);
+  var sT0 = new Float64Array(S), sMode = new Uint8Array(S), sDO = f32(S), sDI = f32(S);
+  var c0 = f32(S * 5), c1 = f32(S * 5), cc = f32(S * 5);        // r,g,b,alpha,width: from / to / now
+  var sPh = f32(S), sPu = f32(S), sSp = f32(S), sGn = f32(S), sBs = f32(S);   // pulse personality
+  var sLat = f32(S), sJit = f32(S), sSty = f32(S), sSheet = new Uint8Array(S);
+  // job slots (targets before they are dealt out to strands)
+  var TX = f32(N), TY = f32(N), TA = f32(N), TW = f32(N), jKey = f32(S), jCol = f32(S * 5), jAmp = f32(S);
+  function isTracer(s) { return s % 3 !== 2; }
+  function riverKind(s) { var q = ((s / 3) | 0) % 10; return q < 4 ? 0 : q < 8 ? 1 : 2; }   // through / in-feeder / out-feeder
+  (function () {
+    for (var s = 0; s < S; s++) {
+      var tr = isTracer(s);
+      sPh[s] = Math.random(); sLat[s] = Math.random() * 2 - 1; sJit[s] = gauss() * 4; sSty[s] = Math.random();
+      var r = Math.random(); sSheet[s] = r < 0.5 ? 0 : r < 0.8 ? 1 : 2;
+      sPu[s] = tr ? 1 + Math.random() * 1.5 : 1.5 + Math.random() * 3;
+      sSp[s] = tr ? 0.16 + Math.random() * 0.3 : 0.3 + Math.random() * 0.5;   // light visibly travels at rest
+      sGn[s] = tr ? 0.95 : 2.3; sBs[s] = tr ? 0.56 : 0.2;
+    }
+    pw.fill(1);
+  })();
+
+  function gauss() { return (Math.random() + Math.random() + Math.random() - 1.5) / 1.5; }
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function sstep(a, b, v) { v = clamp((v - a) / (b - a), 0, 1); return v * v * (3 - 2 * v); }
+  function bez(a, b, c, d, u) { var w = 1 - u; return w * w * w * a + 3 * w * w * u * b + 3 * w * u * u * c + u * u * u * d; }
+  function cr(a, b, c, d, t) { return 0.5 * (2 * b + (c - a) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (3 * b - a - 3 * c + d) * t * t * t); }
+  function hash(a, b) { var v = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return v - Math.floor(v); }
+  var rgb = [0, 0, 0];
+  function hex(c) {                     // '#rrggbb' -> linear rgb in `rgb`
+    c = (c || '#ffffff').trim();
+    if (c.length === 4) c = '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3];
+    var n = parseInt(c.slice(1), 16) || 0;
+    rgb[0] = Math.pow(((n >> 16) & 255) / 255, 2.2); rgb[1] = Math.pow(((n >> 8) & 255) / 255, 2.2); rgb[2] = Math.pow((n & 255) / 255, 2.2);
+    return rgb;
+  }
+
+  /* ---------- logo outlines ----------
+     Loops come from LOGOS. For the wound fill we also need to know how deep the ink is
+     behind every outline point, so each logo is rasterised once and rays are marched in. */
+  var prepped = {};
+  function prep(key, badge) {
+    if (badge) {                        // the mark sits inside a disc: shrink it, centre it, add a wound rim
+      if (prepped[key + '|b']) return prepped[key + '|b'];
+      var B = prep(key), D = Math.sqrt(B.w * B.w + B.h * B.h) / 0.86, ox = (D - B.w) / 2, oy = (D - B.h) / 2, bl = [], rn = 120, rr = D / 2 - 2, rd = D * 0.02, t;
+      B.loops.forEach(function (l) {
+        var xs = f32(l.n + 1), ys = f32(l.n + 1);
+        for (t = 0; t <= l.n; t++) { xs[t] = l.xs[t] + ox; ys[t] = l.ys[t] + oy; }
+        bl.push({ ci: l.ci, xs: xs, ys: ys, cum: l.cum, len: l.len, n: l.n, nx: l.nx, ny: l.ny, dm: l.dm, outer: false });
+      });
+      var rx = f32(rn + 1), ry = f32(rn + 1), rc = f32(rn + 1), rnx = f32(rn + 1), rny = f32(rn + 1), rdm = f32(rn + 1);
+      for (t = 0; t <= rn; t++) {
+        var an = t / rn * 6.28318; rnx[t] = -Math.cos(an); rny[t] = -Math.sin(an); rx[t] = D / 2 - rnx[t] * rr; ry[t] = D / 2 - rny[t] * rr;
+        rc[t] = t * 6.28318 * rr / rn; rdm[t] = rd;
+      }
+      bl.push({ ci: LOGOS[key].c.length, xs: rx, ys: ry, cum: rc, len: rc[rn], n: rn, nx: rnx, ny: rny, dm: rdm, outer: true });
+      return (prepped[key + '|b'] = { w: D, h: D, loops: bl, total: B.total + rc[rn], dAvg: (B.dAvg * B.total + rd * rc[rn]) / (B.total + rc[rn]) });
+    }
+    if (prepped[key]) return prepped[key];
+    var L = LOGOS[key], loops = [], total = 0, dAll = 0, a, i, n;
+    var m = 640 / Math.max(L.w, L.h), mw = Math.ceil(L.w * m) + 6, mh = Math.ceil(L.h * m) + 6;
+    var cv = document.createElement('canvas'); cv.width = mw; cv.height = mh;
+    var c = cv.getContext('2d', { willReadFrequently: true }); c.fillStyle = '#fff';
+    for (var reg = 0; reg < L.c.length; reg++) {
+      c.beginPath();
+      for (a = 0; a < L.l.length; a++) {
+        var q = L.l[a]; if (q[0] !== reg) continue;
+        c.moveTo(q[1] * m + 3, q[2] * m + 3);
+        for (i = 3; i < q.length; i += 2) c.lineTo(q[i] * m + 3, q[i + 1] * m + 3);
+        c.closePath();
+      }
+      c.fill('evenodd');
+    }
+    var D = c.getImageData(0, 0, mw, mh).data;
+    function ink(x, y) { x |= 0; y |= 0; return x >= 0 && y >= 0 && x < mw && y < mh && D[(y * mw + x) * 4 + 3] > 110; }
+    for (a = 0; a < L.l.length; a++) {
+      var l = L.l[a]; n = (l.length - 1) / 2;
+      var xs = f32(n + 1), ys = f32(n + 1), cum = f32(n + 1), nx = f32(n + 1), ny = f32(n + 1), dm = f32(n + 1);
+      for (i = 0; i <= n; i++) { xs[i] = l[1 + (i % n) * 2]; ys[i] = l[2 + (i % n) * 2]; }
+      for (i = 1; i <= n; i++) cum[i] = cum[i - 1] + Math.sqrt((xs[i] - xs[i - 1]) * (xs[i] - xs[i - 1]) + (ys[i] - ys[i - 1]) * (ys[i] - ys[i - 1]));
+      var vote = 0;
+      for (i = 0; i < n; i++) {         // vertex normals (ink side), averaged from the two segments
+        var p = (i + n - 1) % n, e1x = xs[i] - xs[p], e1y = ys[i] - ys[p], e2x = xs[i + 1] - xs[i], e2y = ys[i + 1] - ys[i];
+        var l1 = Math.sqrt(e1x * e1x + e1y * e1y) || 1, l2 = Math.sqrt(e2x * e2x + e2y * e2y) || 1;
+        var ax = -e1y / l1 - e2y / l2, ay = e1x / l1 + e2x / l2, al = Math.sqrt(ax * ax + ay * ay) || 1;
+        nx[i] = ax / al; ny[i] = ay / al;
+        var mx = xs[i] * m + 3, my = ys[i] * m + 3;
+        vote += (ink(mx + nx[i] * 1.7, my + ny[i] * 1.7) ? 1 : 0) - (ink(mx - nx[i] * 1.7, my - ny[i] * 1.7) ? 1 : 0);
+      }
+      var sg = vote < 0 ? -1 : 1;
+      for (i = 0; i < n; i++) {
+        nx[i] *= sg; ny[i] *= sg;
+        var x0 = xs[i] * m + 3, y0 = ys[i] * m + 3, st = 0;
+        while (st < 90 && ink(x0 + nx[i] * (st + 2) * 0.5, y0 + ny[i] * (st + 2) * 0.5)) st++;
+        dm[i] = st * 0.25 / m;            // half the ink thickness, in logo units
+      }
+      var d2 = f32(n + 1);
+      for (i = 0; i < n; i++) { var pp = (i + n - 1) % n, nn = (i + 1) % n; d2[i] = (Math.min(dm[pp], dm[i], dm[nn]) + dm[i]) * 0.5; }
+      d2[n] = d2[0]; nx[n] = nx[0]; ny[n] = ny[0];
+      var area = 0, dsum = 0;
+      for (i = 0; i < n; i++) { area += xs[i] * ys[i + 1] - xs[i + 1] * ys[i]; dsum += (d2[i] + d2[i + 1]) * 0.5 * (cum[i + 1] - cum[i]); }
+      // outer = ink lies inside the loop (not a counter / hole)
+      loops.push({ ci: l[0], xs: xs, ys: ys, cum: cum, len: cum[n], n: n, nx: nx, ny: ny, dm: d2, outer: (area > 0) === (sg > 0) });
+      total += cum[n]; dAll += dsum;
+    }
+    return (prepped[key] = { w: L.w, h: L.h, loops: loops, total: total, dAvg: dAll / (total || 1) });
+  }
+  var o = { x: 0, y: 0, nx: 0, ny: 0, tx: 1, ty: 0, d: 0, z: 1 };
+  // point, ink-side normal, tangent and ink half-depth at arclength s along a loop
+  function at(loop, s) {
+    s = ((s % loop.len) + loop.len) % loop.len;
+    var lo = 0, hi = loop.n;
+    while (hi - lo > 1) { var m = (lo + hi) >> 1; if (loop.cum[m] <= s) lo = m; else hi = m; }
+    var dx = loop.xs[lo + 1] - loop.xs[lo], dy = loop.ys[lo + 1] - loop.ys[lo];
+    var d = Math.sqrt(dx * dx + dy * dy) || 1, f = (s - loop.cum[lo]) / d, g = 1 - f;
+    o.x = loop.xs[lo] + dx * f; o.y = loop.ys[lo] + dy * f; o.tx = dx / d; o.ty = dy / d;
+    var ax = loop.nx[lo] * g + loop.nx[lo + 1] * f, ay = loop.ny[lo] * g + loop.ny[lo + 1] * f, al = Math.sqrt(ax * ax + ay * ay) || 1;
+    o.nx = ax / al; o.ny = ay / al; o.d = loop.dm[lo] * g + loop.dm[lo + 1] * f;
+  }
+
+  function stage() {
+    return mobile
+      ? { cx: W * 0.5, cy: H * 0.215, w: W * 0.82, h: H * 0.22 }
+      : { cx: W * 0.72, cy: H * 0.47, w: Math.min(W * 0.42, 700), h: H * 0.5 };
+  }
+  // how much light the copy can take behind it at (x,y): 1 = free, lower = keep it dim
+  function dimAt(x, y) {
+    if (mobile) return 1 - 0.94 * sstep(H * 0.375, H * 0.44, y);
+    var lo = H < 800 ? 0.06 : 0;        // short screens: the copy runs to the bottom, keep the tail under it dark
+    return 1 - 0.93 * sstep(W * 0.62, W * 0.49, x) * sstep(H * (0.96 + lo), H * (0.86 + lo), y);
+  }
+
+  /* ---------- the river's centre line (Catmull-Rom through a few waypoints) ---------- */
+  var TM = 140, cX = f32(TM + 1), cY = f32(TM + 1), cL = f32(TM + 1), cTot = 1, wpU = [];
+  function buildTrunk(w) {
+    var n = w.length / 2, segs = n - 1, i;
+    for (i = 0; i <= TM; i++) {
+      var f = i / TM * segs, a = Math.min(segs - 1, f | 0), t = f - a, i0 = Math.max(0, a - 1), i3 = Math.min(n - 1, a + 2);
+      cX[i] = cr(w[i0 * 2], w[a * 2], w[a * 2 + 2], w[i3 * 2], t);
+      cY[i] = cr(w[i0 * 2 + 1], w[a * 2 + 1], w[a * 2 + 3], w[i3 * 2 + 1], t);
+      cL[i] = i ? cL[i - 1] + Math.sqrt((cX[i] - cX[i - 1]) * (cX[i] - cX[i - 1]) + (cY[i] - cY[i - 1]) * (cY[i] - cY[i - 1])) : 0;
+    }
+    cTot = cL[TM];
+    for (i = 0; i < n; i++) wpU[i] = cL[Math.round(i / segs * TM)] / cTot;
+  }
+  function trunkAt(u, off) {
+    var s = clamp(u, 0, 1) * cTot, lo = 0, hi = TM;
+    while (hi - lo > 1) { var m = (lo + hi) >> 1; if (cL[m] <= s) lo = m; else hi = m; }
+    var a = Math.max(0, lo - 1), b = Math.min(TM, lo + 2);
+    var tx = cX[b] - cX[a], ty = cY[b] - cY[a], tl = Math.sqrt(tx * tx + ty * ty) || 1, f = (s - cL[lo]) / ((cL[lo + 1] - cL[lo]) || 1);
+    tx /= tl; ty /= tl;
+    o.x = cX[lo] + (cX[lo + 1] - cX[lo]) * f - ty * off; o.y = cY[lo] + (cY[lo + 1] - cY[lo]) * f + tx * off; o.tx = tx; o.ty = ty;
+  }
+  // the river is a few twisting sheets: every strand keeps its place across the sheet
+  var shPh = [0, 0, 0], shTw = [1.1, 1.9, 2.7], shMid = 0.6, shW = 1;
+  function sheet(s, u) {
+    var j = sSheet[s], far = Math.min(1, Math.abs(u - shMid) / 0.42);
+    var wd = ((mobile ? 9 : 26) + (mobile ? 20 : 58) * Math.pow(far, 1.25)) * shW;
+    return sLat[s] * wd * (j === 2 ? 1.5 : 1) * Math.cos(6.2832 * shTw[j] * u + shPh[j]) + sJit[s];
+  }
+  // scratch polyline -> K points, resampled by weighted length
+  var qX = f32(512), qY = f32(512), qD = f32(512), qC = f32(512), qn = 0;
+  function qPush(x, y, d) { if (qn < 512) { qX[qn] = x; qY[qn] = y; qD[qn] = d; qn++; } }
+  function qEmit(s) {
+    var i, k, b = s * K2 + K;
+    qC[0] = 0;
+    for (i = 1; i < qn; i++) qC[i] = qC[i - 1] + Math.sqrt((qX[i] - qX[i - 1]) * (qX[i] - qX[i - 1]) + (qY[i] - qY[i - 1]) * (qY[i] - qY[i - 1])) * 0.5 * (qD[i] + qD[i - 1]) + 1e-4;
+    for (k = 0, i = 0; k < K; k++) {
+      var t = qC[qn - 1] * k / (K - 1);
+      while (i < qn - 2 && qC[i + 1] < t) i++;
+      var f = clamp((t - qC[i]) / (qC[i + 1] - qC[i]), 0, 1);
+      iX[b + k] = qX[i] + (qX[i + 1] - qX[i]) * f; iY[b + k] = qY[i] + (qY[i + 1] - qY[i]) * f;
+    }
+  }
+  var fin = null, fout = null;         // set by the layout: a point+tangent on the way in / the way out
+
+  /* ---------- layouts: where every strand should end up ---------- */
+  var nebT = f32(9), nebC = f32(9), stgT = [0.72, 0.47], stgC = [0.72, 0.47], heroT = 0, heroC = 0;
+  // data-badge="#colour": a filled disc behind the mark (an opaque fill in the composite, not additive light)
+  var disc = [0, 0, 1, 0, 0, 0], discT = 0, discC = 0;
+  function setNeb(pal, cx, cy, hero) {
+    for (var i = 0; i < 3; i++) { var c = hex(pal[Math.min(i, pal.length - 1)]); nebT[i * 3] = c[0]; nebT[i * 3 + 1] = c[1]; nebT[i * 3 + 2] = c[2]; }
+    stgT[0] = cx / W; stgT[1] = cy / H; heroT = hero; discT = 0;
+  }
+  function riverStyle(s, pal, mul) {
+    var r = sSty[s], c = hex(pal[(hash(s, 3) * pal.length) | 0]), wh = hash(s, 5) < 0.16 ? 0.6 : 0.06, q = s * 5, h = hash(s, 7);
+    c1[q] = c[0] + (1 - c[0]) * wh; c1[q + 1] = c[1] + (1 - c[1]) * wh; c1[q + 2] = c[2] + (1 - c[2]) * wh;
+    if (r < 0.66) { c1[q + 3] = 0.1 + 0.16 * h; c1[q + 4] = 0.7 + 0.6 * hash(s, 9); }        // hairlines
+    else if (r < 0.9) { c1[q + 3] = 0.028 + 0.035 * h; c1[q + 4] = 1.8 + 1.9 * hash(s, 9); } // soft
+    else { c1[q + 3] = 0.006 + 0.008 * h; c1[q + 4] = 7 + 13 * hash(s, 9); }                 // out of focus
+    c1[q + 3] *= mul * (mobile ? 0.62 : 0.78);
+  }
+  // Feeders meet the mark at two anchors per side, chosen where the outline runs tangent to the
+  // approach — so the river arrives and leaves as ribbons that wrap the mark, never as a fan.
+  var ancL = [null, null, null, null], ancS = f32(4), ancD = f32(4), cS = f32(240), cV = f32(240), cXx = f32(240), cYy = f32(240), cLp = [];
+  function anchors(P, sc, ox, oy, cx, cy, lw, lh, x, y, side, base, seed, vp) {
+    var t, a, n = 240, outerLen = 0, b1 = -1, b2 = -1;
+    for (a = 0; a < P.loops.length; a++) if (P.loops[a].outer) outerLen += P.loops[a].len;
+    for (t = 0; t < n; t++) {
+      var pick = hash(t, seed) * (outerLen || P.total), lp = P.loops[0];
+      for (a = 0; a < P.loops.length; a++) { if (outerLen && !P.loops[a].outer) continue; pick -= P.loops[a].len; if (pick <= 0) { lp = P.loops[a]; break; } }
+      var s = hash(t, seed + 7) * lp.len; at(lp, s);
+      var X = ox + o.x * sc, Y = oy + o.y * sc, vx = (X - x) * side * -1, vy = (Y - y) * side * -1, vl = Math.sqrt(vx * vx + vy * vy) || 1;
+      var al = (o.tx * vx + o.ty * vy) / vl;       // + : riding forward along the loop follows the flow
+      cLp[t] = lp; cS[t] = s; cXx[t] = X; cYy[t] = Y;
+      cV[t] = (al < 0 ? -1 : 1) * (Math.abs(al) + side * (X - cx) / (lw * 0.5) * 0.7 + (Y - cy) / (lh * 0.5) * vp + 3);
+      if (b1 < 0 || Math.abs(cV[t]) > Math.abs(cV[b1])) b1 = t;
+    }
+    var far = 0.3 * Math.max(lw, lh);
+    for (t = 0; t < n; t++) if (Math.abs(cXx[t] - cXx[b1]) + Math.abs(cYy[t] - cYy[b1]) > far && (b2 < 0 || Math.abs(cV[t]) > Math.abs(cV[b2]))) b2 = t;
+    if (b2 < 0) b2 = b1;
+    ancL[base] = cLp[b1]; ancS[base] = cS[b1]; ancD[base] = cV[b1] < 0 ? -1 : 1;
+    ancL[base + 1] = cLp[b2]; ancS[base + 1] = cS[b2]; ancD[base + 1] = cV[b2] < 0 ? -1 : 1;
+  }
+
+  function layoutLogo(idx, sec, nT) {
+    var bd = sec.dataset.badge, P = prep(sec.dataset.logo, !!bd), pal = sec.dataset.pal.split(','), cols = sec.dataset.cols ? sec.dataset.cols.split(',') : null;
+    var b = stage(), sc = Math.min(b.w / P.w, b.h / P.h), zoom = +sec.dataset.scale || 1;
+    if (zoom > 1) {                      // data-scale: enlarge a slight mark as far as the copy column and the right margin allow
+      zoom = Math.min(zoom, (mobile ? W * 0.9 : W * 0.465) / (P.w * sc), (mobile ? b.h * 1.2 : H * 0.6) / (P.h * sc));
+      if (zoom > 1) { sc *= zoom; if (!mobile) b.cx = Math.min(b.cx, W * 0.95 - P.w * sc / 2); }
+    }
+    var lw = P.w * sc, lh = P.h * sc, ox = b.cx - lw / 2, oy = b.cy - lh / 2;
+    var Lf = ox, Rt = ox + lw, Tp = oy, Bt = oy + lh, r1 = hash(idx, 1) * 2 - 1, r2 = hash(idx, 2) * 2 - 1, r3 = hash(idx, 3) * 2 - 1;
+    var i, j, k, s, a, q, u, c, d, d1, d2;
+    var thin = lh / lw < 0.36 || P.dAvg * sc < 3.4;         // wordmarks: keep the river and its tendrils off the letters
+    var rpal = sec.dataset.river ? sec.dataset.river.split(',') : pal, rmul = sec.dataset.river ? 0.6 : 1;
+
+    /* One river, five courses (data-path, else by position in the page) so no two neighbouring stops
+       share a silhouette: 0 under the mark · 1 up the left and over the top · 2 low and wide, out at
+       the bottom corner · 3 under, then hooked up the right side and out high · 4 in from below.    */
+    var v = mobile ? 0 : sec.dataset.path ? +sec.dataset.path : [0, 1, 3, 2, 4][idx % 5], low = H < 800 ? 0.035 : 0;
+    if (mobile) buildTrunk([-0.35 * W, 0.43 * H, -0.1 * W, 0.415 * H, 0.05 * W, 0.396 * H,
+      Lf + 0.06 * W, Math.min(0.386 * H, Bt + 0.05 * H), b.cx, Math.min(0.372 * H, Bt + 0.03 * H),
+      Rt - 0.05 * W, Math.min(0.38 * H, Bt + 0.045 * H), 1.3 * W, 0.41 * H]);
+    else {
+      var head = v === 4 ? [0.27 * W, 1.22 * H, 0.37 * W, 1.09 * H, 0.455 * W, 0.985 * H]
+        : [-0.12 * W, (1.04 + 0.02 * r1 + low) * H, 0.16 * W, (0.99 + low) * H, 0.43 * W, (0.955 + 0.012 * r2 + low * 0.6) * H];
+      var pl = Math.max(0.535 * W, Lf - 0.03 * W), gap = thin ? 0.02 * H : 0;
+      buildTrunk(head.concat(
+        v === 1 ? [Math.max(0.535 * W, Lf - 0.08 * W), thin ? Tp - 0.012 * H : Tp + lh * 0.1, b.cx, Math.max(0.125 * H, Tp - 0.09 * H - gap),
+          Rt + 0.055 * W, thin ? Tp : Tp + lh * 0.22, 1.13 * W, (0.82 + 0.07 * r3) * H]
+        : v === 2 ? [pl, Math.min(0.94 * H, Bt + 0.21 * H), b.cx, Math.min(0.91 * H, Bt + 0.145 * H), Rt + 0.03 * W, Math.min(0.93 * H, Bt + 0.17 * H), 1.13 * W, 0.99 * H]
+        : v === 3 ? [pl, Math.min(0.9 * H, Bt + 0.15 * H), b.cx + lw * 0.1, Bt + 0.065 * H + gap, Math.min(1.02 * W, Rt + 0.055 * W), b.cy + lh * 0.1, 1.14 * W, Math.max(0.1 * H, Tp - 0.16 * H)]
+        : [pl, Math.min(0.9 * H, Bt + 0.15 * H), b.cx - lw * 0.05, Bt + 0.062 * H + gap, Rt + 0.03 * W, Bt + 0.07 * H + gap, 1.13 * W, ((v === 4 ? 0.62 : 0.78) + 0.09 * r3) * H]));
+    }
+    shMid = wpU[4]; shW = mobile ? 1 : (0.7 + 0.75 * hash(idx, 5)) * (v === 1 ? 0.7 : 1);
+    for (j = 0; j < 3; j++) { shPh[j] = hash(idx, 11 + j) * 6.2832; shTw[j] = [1.1, 1.9, 2.7][j] * (0.85 + 0.3 * hash(idx, 21 + j)); }
+    var spread = mobile ? 16 : 46, u3 = wpU[3], u5 = wpU[5];
+    fin = function (r) { trunkAt(u3 - 0.012 - r * 0.2, (Math.random() - 0.5) * spread); };
+    fout = function (r) { trunkAt(u5 + 0.05 + r * (0.93 - u5), (Math.random() - 0.5) * spread); };
+
+    // tracers: wind the ink. Each strand follows a stretch of outline at some depth into the ink,
+    // drifting deeper or shallower as it goes; a third of them sit exactly on the edge to keep it crisp.
+    var ringPx = P.total * sc, La = clamp(ringPx * 18 / nT, mobile ? 46 : 70, mobile ? 200 : 300);
+    var cap = mobile ? 13 : 22, passes = nT * La / ringPx;
+    // brightness follows how tightly the windings pack: thin strokes pile up, broad shapes spread out
+    var aS = clamp(Math.pow(3.1 / (passes / (Math.min(P.dAvg * sc, cap) + 1.5)), 0.7), 0.4, 1.25);
+    j = 0;
+    for (var pass = 0, acc = 0; pass < 4 && j < nT; pass++, acc = j) for (a = 0; a < P.loops.length; a++) {
+      var lp = P.loops[a]; acc += lp.len / P.total * nT;
+      var n = Math.max(1, Math.round(acc) - j);
+      for (q = 0; q < n && j < nT; q++, j++) {
+        var edge = Math.random() < 0.3, glowS = !edge && Math.random() < 0.07;
+        var f0 = edge ? 0 : 0.1 + 0.9 * Math.pow(Math.random(), 0.85), f1 = edge ? 0 : clamp(f0 + (Math.random() - 0.5) * 0.6, 0.05, 1);
+        var s0 = (q + Math.random()) / n * lp.len, dir = Math.random() < 0.5 ? -1 : 1, jit = edge ? 0.6 + (Math.random() - 0.5) * 0.8 : 0;
+        var len = La * (0.8 + 0.4 * Math.random()) / sc, mx = 0, jb = j * K;
+        for (k = 0; k < K; k++) {
+          u = k / (K - 1); at(lp, s0 + dir * len * u);
+          var ins = (f0 + (f1 - f0) * u) * Math.min(o.d * sc * 0.96, cap) + jit;
+          TX[jb + k] = ox + o.x * sc + o.nx * ins; TY[jb + k] = oy + o.y * sc + o.ny * ins;
+          TA[jb + k] = Math.min(1, k / 5, (K - 1 - k) / 5); TW[jb + k] = 1;
+          if (k === (K >> 1)) mx = o.x;
+        }
+        jKey[j] = TX[jb];
+        c = hex((cols && cols[lp.ci]) || pal[Math.min(pal.length - 1, (mx / P.w * pal.length) | 0)]);
+        var wh = edge ? 0.22 : Math.random() < 0.12 ? 0.5 : 0.04; q5(j, c, wh);
+        if (edge) { jCol[j * 5 + 3] = 0.3 * aS; jCol[j * 5 + 4] = 0.85 + 0.25 * Math.random(); }
+        else if (glowS) { jCol[j * 5 + 3] = 0.014 * aS; jCol[j * 5 + 4] = 4 + 3 * Math.random(); }
+        else { jCol[j * 5 + 3] = (0.1 - 0.045 * f0) * aS; jCol[j * 5 + 4] = 0.9 + 0.9 * Math.random(); }
+        jAmp[j] = 0.85;
+      }
+    }
+
+    // river strands keep their identity; only their path changes
+    // (wordmarks: only at the lower outer edge, with short rides, so letters are never smeared)
+    var over = v === 1, rideK = thin ? 0.16 : 1, offK = (thin ? 0.3 : 1) * (mobile ? 0.5 : 1), fa = thin ? 0.6 : 1;
+    trunkAt(u3 - 0.09, 0); anchors(P, sc, ox, oy, b.cx, b.cy, lw, lh, o.x, o.y, -1, 0, idx * 13 + 1, over ? (thin ? -0.9 : -0.3) : thin ? 0.9 : 0.4);
+    trunkAt(u5 + 0.15, 0); anchors(P, sc, ox, oy, b.cx, b.cy, lw, lh, o.x, o.y, 1, 2, idx * 13 + 5, over ? (thin ? -0.9 : -0.3) : thin ? 0.9 : -0.15);
+    for (s = 0; s < SA; s++) {
+      if (isTracer(s)) continue;
+      var kind = riverKind(s), b2 = s * K2 + K, rr = hash(s, idx + 31), tap = 0, kr = 0, an, AL, As, Ad, ro, rl, rn, sx, sy, stx, sty, ax, ay, atx, aty;
+      if (kind === 0) {
+        for (k = 0; k < K; k++) { u = k / (K - 1); trunkAt(u, sheet(s, u)); iX[b2 + k] = o.x; iY[b2 + k] = o.y; }
+      } else if (kind === 1) {             // rises off the river and wraps onto the mark
+        qn = 0; var uS = u3 - 0.05 - rr * 0.09;
+        for (i = 0; i <= 14; i++) { u = uS * i / 14; trunkAt(u, sheet(s, u)); qPush(o.x, o.y, 1); }
+        sx = o.x; sy = o.y; stx = o.tx; sty = o.ty;
+        an = hash(s, 47) < 0.62 ? 0 : 1; AL = ancL[an]; Ad = ancD[an]; As = ancS[an] + (hash(s, 49) - 0.5) * 26 / sc;
+        ro = hash(s, 41) < 0.78 || thin ? -(1.5 + 20 * Math.pow(hash(s, 43), 1.5)) * offK : 2.5;
+        at(AL, As); ax = ox + o.x * sc + o.nx * ro; ay = oy + o.y * sc + o.ny * ro; atx = o.tx * Ad; aty = o.ty * Ad;
+        d = Math.sqrt((ax - sx) * (ax - sx) + (ay - sy) * (ay - sy)); d1 = d * 0.45; d2 = Math.min(d * 0.4, 140);
+        for (i = 1; i <= 10; i++) { u = i / 10; qPush(bez(sx, sx + stx * d1, ax - atx * d2, ax, u), bez(sy, sy + sty * d1, ay - aty * d2, ay, u), 2); }
+        kr = qn - 1;
+        rl = Math.min(AL.len * sc * 0.85, 110 + 460 * Math.pow(hash(s, 45), 1.6)) * (mobile ? 0.55 : 1) * rideK; rn = Math.ceil(rl / 8);
+        for (i = 1; i <= rn; i++) { at(AL, As + Ad * i * 8 / sc); qPush(ox + o.x * sc + o.nx * ro, oy + o.y * sc + o.ny * ro, 3); }
+        qEmit(s); tap = 1; kr = qC[kr] / qC[qn - 1] * (K - 1);
+      } else {                             // peels off the mark and rejoins the river
+        qn = 0; var uJ = Math.min(0.97, u5 + 0.09 + rr * 0.13);
+        trunkAt(uJ, sheet(s, uJ)); sx = o.x; sy = o.y; stx = o.tx; sty = o.ty;
+        an = hash(s, 47) < 0.62 ? 2 : 3; AL = ancL[an]; Ad = ancD[an]; As = ancS[an] + (hash(s, 49) - 0.5) * 26 / sc;
+        ro = hash(s, 41) < 0.78 || thin ? -(1.5 + 20 * Math.pow(hash(s, 43), 1.5)) * offK : 2.5;
+        rl = Math.min(AL.len * sc * 0.85, 110 + 460 * Math.pow(hash(s, 45), 1.6)) * (mobile ? 0.55 : 1) * rideK; rn = Math.ceil(rl / 8);
+        for (i = rn; i >= 0; i--) { at(AL, As - Ad * i * 8 / sc); qPush(ox + o.x * sc + o.nx * ro, oy + o.y * sc + o.ny * ro, 3); }
+        kr = qn - 1;
+        ax = qX[qn - 1]; ay = qY[qn - 1]; atx = o.tx * Ad; aty = o.ty * Ad;
+        d = Math.sqrt((ax - sx) * (ax - sx) + (ay - sy) * (ay - sy)); d1 = Math.min(d * 0.4, 140); d2 = d * 0.45;
+        for (i = 1; i <= 10; i++) { u = i / 10; qPush(bez(ax, ax + atx * d1, sx - stx * d2, sx, u), bez(ay, ay + aty * d1, sy - sty * d2, sy, u), 2); }
+        for (i = 1; i <= 10; i++) { u = uJ + (1 - uJ) * i / 10; trunkAt(u, sheet(s, u)); qPush(o.x, o.y, 1); }
+        qEmit(s); tap = 2; kr = qC[kr] / qC[qn - 1] * (K - 1);
+      }
+      for (k = 0; k < K; k++) {                // feeders thin out along the stretch that rides the outline
+        var X = iX[b2 + k], Y = iY[b2 + k], tp = tap === 1 ? clamp((K - 1 - k) / (K - 1 - kr + 0.01), 0, 1) : tap === 2 ? clamp(k / (kr + 0.01), 0, 1) : 1;
+        if (tap) tp *= fa;
+        else if (thin && X > Lf - 10 && X < Rt + 10 && Y > Tp - 8 && Y < Bt + 8) tp = 0.1;   // nothing runs through a wordmark
+        iA[b2 + k] = tp * dimAt(X, Y); iW[b2 + k] = 1;
+        var dd = Math.sqrt((X - b.cx) * (X - b.cx) + (Y - b.cy) * (Y - b.cy));
+        amp[s * K + k] = (kind === 0 ? 12 : 8) * clamp(dd / 420 - 0.1, 0.16, 1) * (mobile ? 0.5 : 1);
+      }
+      riverStyle(s, rpal, rmul);
+    }
+    setNeb(pal, b.cx, b.cy, 0);
+    if (bd) { c = hex(bd); disc[0] = b.cx; disc[1] = b.cy; disc[2] = P.w * sc / 2; disc[3] = c[0]; disc[4] = c[1]; disc[5] = c[2]; discT = 1; }
+  }
+  function q5(j, c, wh) { jCol[j * 5] = c[0] + (1 - c[0]) * wh; jCol[j * 5 + 1] = c[1] + (1 - c[1]) * wh; jCol[j * 5 + 2] = c[2] + (1 - c[2]) * wh; }
+
+  /* The opening frame is not a logo. Thirteen years, nine stops: a railway in perspective —
+     the river comes in low on the left and becomes the track, which runs through nine arches
+     of light (one per employer, oldest nearest) to a vanishing point.                          */
+  function layoutHero(idx, sec, nT) {
+    var pal = sec.dataset.pal.split(','), j, k, s, u, c;
+    var vpx = W * (mobile ? 0.5 : 0.745), vpy = H * (mobile ? 0.2 : 0.44), F = H * (mobile ? 0.3 : 0.62);
+    var Zn = mobile ? 1.45 : 1.02, Z0 = 4.2, cv = mobile ? 0.15 : 0.17;
+    function pr(lat, Y, Z) {             // track-relative point -> screen (the track bends left towards the viewer)
+      var d = Z0 - Z, sl = d > 0 ? 2 * cv * d : 0, inv = 1 / Math.sqrt(1 + sl * sl);
+      var X = (d > 0 ? -cv * d * d : 0) + lat * inv, Zz = Math.max(0.3, Z - lat * sl * inv);
+      o.x = vpx + F * X / Zz; o.y = vpy + F * Y / Zz; o.z = Zz;
+    }
+    var gates = secs.filter(function (e) { return e.dataset.g === 'career'; }).map(function (e) { return e.dataset.pal.split(',')[0]; }).reverse();
+    if (gates.length < 2) gates = pal;
+    var G = gates.length, gw = 1.5, hs = 1.35, arc = Math.PI * gw, per = 2 * hs + arc, gl_ = 0, gy_ = 0;
+    function gate(a, scl) {
+      var d = clamp(a, 0, 1) * per, lat, Y;
+      if (d < hs) { lat = -gw; Y = 1 - d; }
+      else if (d < hs + arc) { var th = (d - hs) / gw; lat = -gw * Math.cos(th); Y = 1 - hs - gw * Math.sin(th); }
+      else { lat = gw; Y = 1 - hs + (d - hs - arc); }
+      gl_ = lat * scl; gy_ = 1 - (1 - Y) * scl;
+    }
+    fin = function (r) {
+      var Z = Zn * (1.1 + r * 0.6), lat = (Math.random() - 0.5) * 2; pr(lat, 1, Z * 1.15); var x1 = o.x, y1 = o.y; pr(lat, 1, Z);
+      var l = Math.sqrt((x1 - o.x) * (x1 - o.x) + (y1 - o.y) * (y1 - o.y)) || 1; o.tx = (x1 - o.x) / l; o.ty = (y1 - o.y) / l;
+    };
+    fout = function (r) {
+      pr((Math.random() - 0.5) * 1.4, 1, 12 + r * 40);
+      var l = Math.sqrt((vpx - o.x) * (vpx - o.x) + (vpy - o.y) * (vpy - o.y)) || 1; o.tx = (vpx - o.x) / l; o.ty = (vpy - o.y) / l;
+    };
+    var qmax = 1 / Zn, qmin = 1 / 70, NS = 44, gNear = 3.0, gFar = 40;
+    for (j = 0; j < nT; j++) {
+      var r = j / nT, jb = j * K, al, wd, wh = 0.1, col, Z, lat, Y, tpr;
+      var q0 = 0, dq = 0, side = 0, ph = 0, gi = 0, a0 = 0, span = 0, scl = 1, wi = 0;
+      if (r < 0.2) {                       // the two rails, each a tight braid
+        side = j & 1 ? 1 : -1; dq = (qmax - qmin) * (0.12 + 0.2 * Math.random()); q0 = qmin + dq + Math.random() * (qmax - qmin - dq); ph = Math.random() * 6.28;
+        col = pal[3] || '#ffffff'; al = 0.28; wd = 1.25; wh = 0.3;
+      } else if (r < 0.3) {                // sleepers
+        Z = 1.25 * Math.pow(26 / 1.25, ((j * 7) % NS) / (NS - 1)); col = pal[0]; al = 0.17; wd = 1.3; ph = (Math.random() - 0.5) * 0.02;
+      } else if (r < 0.86) {               // nine arches
+        gi = Math.min(G - 1, ((r - 0.3) / 0.56 * G) | 0); Z = gNear * Math.pow(gFar / gNear, gi / (G - 1));
+        var edge = Math.random() < 0.35; scl = 1 - 0.075 * (edge ? 0 : Math.pow(Math.random(), 0.8));
+        span = 0.26 + 0.3 * Math.random(); a0 = Math.random() * (1.1 - span) - 0.05;
+        col = gates[gi]; al = edge ? 0.5 : 0.19; wd = edge ? 1.15 : 1.9; wh = edge ? 0.25 : 0.05;
+      } else {                             // lines that tie the arches together: ridge and both feet
+        wi = j % 3; dq = (1 / gNear - 1 / 46) * (0.15 + 0.25 * Math.random()); q0 = 1 / 46 + dq + Math.random() * (1 / gNear - 1 / 46 - dq);
+        col = pal[1] || pal[0]; al = 0.11; wd = 1.1;
+      }
+      for (k = 0; k < K; k++) {
+        u = k / (K - 1); tpr = Math.min(1, k / 5, (K - 1 - k) / 5);
+        if (r < 0.2) { Z = 1 / (q0 - dq * u); var th = ph + Math.log(Z) * 9; lat = side * 0.72 + 0.03 * Math.cos(th); Y = 0.985 - 0.015 * (1 + Math.sin(th)); }
+        else if (r < 0.3) { lat = -0.98 + 1.96 * u; Y = 1 + ph; }
+        else if (r < 0.86) { gate(a0 + span * u, scl); lat = gl_; Y = gy_; }
+        else { Z = 1 / (q0 - dq * u); lat = wi === 0 ? 0 : wi === 1 ? -gw : gw; Y = wi === 0 ? 1 - hs - gw : 1; }
+        pr(lat, Y, Z);
+        TX[jb + k] = o.x; TY[jb + k] = o.y;
+        TA[jb + k] = tpr * dimAt(o.x, o.y) / (1 + o.z * 0.035);
+        TW[jb + k] = clamp(2.4 / o.z, 0.42, 2.6);
+      }
+      jKey[j] = TX[jb]; c = hex(col); q5(j, c, wh); jCol[j * 5 + 3] = al; jCol[j * 5 + 4] = wd; jAmp[j] = 0.3;
+    }
+    for (s = 0; s < SA; s++) {             // the river itself: streaks along the ground and the walls
+      if (isTracer(s)) continue;
+      var b2 = s * K2 + K, wall = hash(s, 61) < 0.22, la = wall ? 1.52 + 0.3 * hash(s, 63) : sLat[s] * 1.42;
+      var Yr = wall ? 1 - 2.7 * hash(s, 65) : 1, qa = 1 / (wall ? 3 : Zn * 0.85), qb = 1 / 90;
+      for (k = 0; k < K; k++) {
+        u = k / (K - 1); pr(la, Yr, 1 / (qa - (qa - qb) * u));
+        iX[b2 + k] = o.x; iY[b2 + k] = o.y; iW[b2 + k] = clamp(2 / o.z, 0.35, 2.4);
+        iA[b2 + k] = Math.min(1, k / 4, (K - 1 - k) / 4) * dimAt(o.x, o.y) / (1 + o.z * 0.05);
+        amp[s * K + k] = 1.6 * Math.min(1, 2.5 / o.z);
+      }
+      riverStyle(s, pal, wall ? 0.4 : 0.85);
+    }
+    setNeb(pal, vpx, vpy, 1);
+  }
+
+  /* ---------- hand every strand a new job ----------
+     No kicks, no scatter. A winding strand slides off downstream along its own curve (so the old
+     mark unravels), vanishes into the river, and slides in from upstream along the new curve.
+     Strands are dealt left-to-right and released in that order, so the change runs as a wave.   */
+  var inited = false, surge = 0, trs = [], jord = [];
+  function retarget(idx, instant) {
+    if (idx < 0 || !secs[idx] || !W) return;
+    var now = performance.now(), sec = secs[idx], first = !inited, snap = reduced || instant === 2;
+    var s, k, j, b, b2, q, nT = 0;
+    inited = true;
+    for (s = 0; s < SA; s++) {             // where everything is right now
+      b = s * K; b2 = s * K2; q = s * 5;
+      for (k = 0; k < K; k++) { oX[b2 + k] = bx[b + k]; oY[b2 + k] = by[b + k]; oA[b2 + k] = pa[b + k]; oW[b2 + k] = pw[b + k]; }
+      for (k = 0; k < 5; k++) c0[q + k] = cc[q + k];
+      if (isTracer(s)) nT++;
+    }
+    (sec.dataset.logo === 'rw' ? layoutHero : layoutLogo)(idx, sec, nT);
+
+    trs.length = jord.length = 0;
+    for (s = 0, j = 0; s < SA; s++) if (isTracer(s)) { trs.push(s); jord.push(j++); }
+    if (!first) trs.sort(function (a, c) { return oX[a * K2 + (K >> 1)] - oX[c * K2 + (K >> 1)]; });
+    jord.sort(function (a, c) { return jKey[a] - jKey[c]; });
+    for (j = 0; j < nT; j++) {
+      s = trs[j]; var jb = jord[j] * K; b2 = s * K2 + K; q = s * 5;
+      for (k = 0; k < K; k++) { iX[b2 + k] = TX[jb + k]; iY[b2 + k] = TY[jb + k]; iA[b2 + k] = TA[jb + k]; iW[b2 + k] = TW[jb + k]; amp[s * K + k] = jAmp[jord[j]]; }
+      for (k = 0; k < 5; k++) c1[q + k] = jCol[jord[j] * 5 + k];
+      sDI[s] = j / nT;                     // rank along the flow, turned into a delay below
+    }
+
+    for (s = 0; s < SA; s++) {
+      b = s * K; b2 = s * K2; q = s * 5;
+      if (snap) {
+        sMode[s] = 2;
+        for (k = 0; k < K; k++) { bx[b + k] = px[b + k] = iX[b2 + K + k]; by[b + k] = py[b + k] = iY[b2 + K + k]; pa[b + k] = iA[b2 + K + k]; pw[b + k] = iW[b2 + K + k]; }
+        for (k = 0; k < 5; k++) cc[q + k] = c1[q + k];
+        continue;
+      }
+      if (first) for (k = 0; k < K; k++) { oX[b2 + k] = iX[b2 + K + k]; oY[b2 + k] = iY[b2 + K + k]; oA[b2 + k] = 0; oW[b2 + k] = iW[b2 + K + k]; }
+      if (first) for (k = 0; k < 5; k++) c0[q + k] = c1[q + k];
+      if (instant === 1 || !isTracer(s)) {  // river (and resizes): ease across
+        sMode[s] = 1;
+        sT0[s] = now + (instant === 1 ? 0 : first ? 500 * hash(s, 77) : 320 * clamp(oX[b2 + (K >> 1)] / W, 0, 1) + 90 * hash(s, 77));
+        sDO[s] = instant === 1 ? 380 : first ? 1500 : 950;
+        continue;
+      }
+      var rank = sDI[s], hx = oX[b2 + K - 1], hy = oY[b2 + K - 1], tx = hx - oX[b2 + K - 3], ty = hy - oY[b2 + K - 3];
+      var tl = Math.sqrt(tx * tx + ty * ty), ha = oA[b2 + (K >> 1)], hw = oW[b2 + K - 1], u, d, d1, d2, ex, ey, etx, ety;
+      if (tl > 0.01) { tx /= tl; ty /= tl; } else { tx = 1; ty = 0; }
+      fout(Math.random()); ex = o.x; ey = o.y; etx = o.tx; ety = o.ty;
+      d = Math.sqrt((ex - hx) * (ex - hx) + (ey - hy) * (ey - hy)); d1 = Math.min(d * 0.45, 130); d2 = d * 0.4;
+      for (k = 1; k <= K; k++) {
+        u = k / K; j = b2 + K - 1 + k;
+        oX[j] = bez(hx, hx + tx * d1, ex - etx * d2, ex, u); oY[j] = bez(hy, hy + ty * d1, ey - ety * d2, ey, u);
+        oA[j] = ha * Math.pow(1 - u, 1.3) * dimAt(oX[j], oY[j]); oW[j] = hw + (1 - hw) * u;
+      }
+      var gx = iX[b2 + K], gy = iY[b2 + K], ux = iX[b2 + K + 2] - gx, uy = iY[b2 + K + 2] - gy, ul = Math.sqrt(ux * ux + uy * uy);
+      var ga = iA[b2 + K + (K >> 1)], gw = iW[b2 + K];
+      if (ul > 0.01) { ux /= ul; uy /= ul; } else { ux = 1; uy = 0; }
+      fin(Math.random()); ex = o.x; ey = o.y; etx = o.tx; ety = o.ty;
+      d = Math.sqrt((ex - gx) * (ex - gx) + (ey - gy) * (ey - gy)); d1 = d * 0.42; d2 = Math.min(d * 0.45, 110);
+      for (k = 0; k < K; k++) {
+        u = k / K; j = b2 + k;
+        iX[j] = bez(ex, ex + etx * d1, gx - ux * d2, gx, u); iY[j] = bez(ey, ey + ety * d1, gy - uy * d2, gy, u);
+        iA[j] = ga * Math.pow(u, 1.25) * dimAt(iX[j], iY[j]); iW[j] = 1 + (gw - 1) * u;
+      }
+      sMode[s] = 0;
+      sDO[s] = first ? 1 : 380 + 80 * Math.random();
+      sDI[s] = 700 + 160 * Math.random();
+      sT0[s] = now + rank * (first ? 700 : 460) + 60 * Math.random();
+    }
+    if (!instant && !first) surge = 1;
+    if (snap) { for (k = 0; k < 9; k++) nebC[k] = nebT[k]; stgC[0] = stgT[0]; stgC[1] = stgT[1]; heroC = heroT; discC = discT; }
+  }
+
+  /* ---------- simulation + drawing ---------- */
+  var mxp = -9999, myp = -9999, lmx = -9999, lmy = -9999, last = 0, ema = 16, slowFor = 0, started = 0;
+  var energy = 0, flowT = 0, lastSY = 0, level = 0, dprMul = 1, raf = 0, parX = 0, parY = 0, scrollPar = 0;
+  /* The pointer disturbs a coarse grid that behaves like a water surface (a damped wave equation
+     on a displacement field): it parts around the pointer, is dragged by it, and ripples back.   */
+  var GC = 32, gW = 0, gH = 0, gUx = null, gUy = null, gVx = null, gVy = null, gLive = 0;
+  function stir(dt, has, pvx, pvy) {
+    var w = Math.ceil(W / GC) + 3, h = Math.ceil(H / GC) + 3, n = w * h, x, y, i;
+    if (w !== gW || h !== gH) { gW = w; gH = h; gUx = f32(n); gUy = f32(n); gVx = f32(n); gVy = f32(n); gLive = 0; }
+    if (has) {
+      var R = 150, R2 = R * R, cx = mxp / GC + 1, cy = myp / GC + 1, r = Math.ceil(R / GC);
+      for (y = Math.max(1, Math.floor(cy - r)); y <= Math.min(h - 2, cy + r); y++) for (x = Math.max(1, Math.floor(cx - r)); x <= Math.min(w - 2, cx + r); x++) {
+        var rx = (x - cx) * GC, ry = (y - cy) * GC, r2 = rx * rx + ry * ry; if (r2 >= R2) continue;
+        var fo = 1 - r2 / R2, inv = 1 / Math.sqrt(r2 + 500); fo *= fo; i = y * w + x;
+        gVx[i] += (rx * inv * 1.5 + pvx * 0.26) * fo * dt; gVy[i] += (ry * inv * 1.5 + pvy * 0.26) * fo * dt;
+      }
+      gLive = 260;
+    }
+    if (gLive <= 0) return false;
+    if (--gLive === 0) { gUx.fill(0); gUy.fill(0); gVx.fill(0); gVy.fill(0); return false; }
+    for (y = 1; y < h - 1; y++) for (x = 1, i = y * w + 1; x < w - 1; x++, i++) {
+      gVx[i] = (gVx[i] + (((gUx[i - 1] + gUx[i + 1] + gUx[i - w] + gUx[i + w]) * 0.25 - gUx[i]) * 0.9 - gUx[i] * 0.04) * dt) * 0.94;
+      gVy[i] = (gVy[i] + (((gUy[i - 1] + gUy[i + 1] + gUy[i - w] + gUy[i + w]) * 0.25 - gUy[i]) * 0.9 - gUy[i] * 0.04) * dt) * 0.94;
+    }
+    for (i = 0; i < n; i++) { gUx[i] = clamp(gUx[i] + gVx[i] * dt, -42, 42); gUy[i] = clamp(gUy[i] + gVy[i] * dt, -42, 42); }
+    return true;
+  }
+  /* Sparks: points of light that ride the strands in the flow direction — down the river, through
+     the feeders, round the windings of the mark. Some twinkle; now and then one sheds off as an
+     ember that drifts and fades. This is what keeps a settled frame alive.                        */
+  var NP = mobile ? 560 : 1500, NPA = NP, spS = new Int32Array(NP).fill(-1), spU = f32(NP), spV = f32(NP), spZ = f32(NP), spB = f32(NP), spPh = f32(NP);
+  var spL = f32(NP), spL0 = f32(NP), spX = f32(NP), spY = f32(NP), spVX = f32(NP), spVY = f32(NP), spData = f32(NP * 8);
+  function spawn(p, anywhere) {
+    var river = p % 20 < 11, third = (SA / 3) | 0, s = ((Math.random() * third) | 0) * 3 + (river ? 2 : Math.random() < 0.5 ? 0 : 1), r = Math.random();
+    spS[p] = s; spU[p] = anywhere ? Math.random() * (K - 1.01) : 0; spL[p] = 0;
+    spV[p] = river ? 1.6 + 4.6 * r * r : 4 + 11 * r;                    // control points per second
+    r = Math.random(); spZ[p] = r < 0.82 ? 0.9 + 0.9 * Math.random() : 1.9 + 1.5 * Math.random();
+    spB[p] = (0.5 + 1.5 * Math.pow(Math.random(), 2)) * (r < 0.82 ? 1 : 0.6) * (river ? 1.7 : 1); spPh[p] = Math.random() * 6.283;
+    if (river) spZ[p] *= 1.25;
+  }
+  function sparks(dt) {
+    var ds = dt / 60, run = ds * (1 + energy * 2 + surge * 1.6), t = flowT, p, o8, s, u, i0, fr, i, q, x, y, a, tw, w;
+    for (p = 0; p < NPA; p++) {
+      o8 = p * 8; s = spS[p];
+      if (s < 0 || s >= SA) { spawn(p, true); s = spS[p]; }
+      q = s * 5; tw = 0.6 + 0.4 * Math.sin(t * (2 + (p % 7)) + spPh[p]);
+      if (spL[p] > 0) {                    // an ember, free of its strand
+        spL[p] -= ds; spX[p] += spVX[p] * ds; spY[p] += spVY[p] * ds; spVX[p] *= 1 - 0.9 * ds; spVY[p] = spVY[p] * (1 - 0.9 * ds) - 9 * ds;
+        a = spL[p] / spL0[p]; x = spX[p]; y = spY[p]; a = a * a * spB[p] * 0.8;
+        if (spL[p] <= 0) spawn(p, false);
+      } else {
+        u = spU[p] + spV[p] * run;
+        if (u >= K - 1.01) { spawn(p, false); s = spS[p]; q = s * 5; u = 0; }
+        spU[p] = u; i0 = u | 0; fr = u - i0; i = s * K + i0;
+        x = px[i] + (px[i + 1] - px[i]) * fr; y = py[i] + (py[i + 1] - py[i]) * fr;
+        a = (pa[i] + (pa[i + 1] - pa[i]) * fr) * spB[p] * clamp(cc[q + 3] * 9, 0.25, 1);
+        if (dt > 0 && a > 0.2 && Math.random() < 0.0011 * dt) {
+          var tx = px[i + 1] - px[i], ty = py[i + 1] - py[i], sp = spV[p] * 0.45, n = (Math.random() - 0.5) * 2;
+          spL[p] = spL0[p] = 0.7 + 1.5 * Math.random(); spX[p] = x; spY[p] = y;
+          spVX[p] = tx * sp - ty * n * 0.8 + (Math.random() - 0.5) * 14; spVY[p] = ty * sp + tx * n * 0.8 - 6 - Math.random() * 12;
+        }
+      }
+      w = spL[p] > 0 ? 0.75 : 0.5;         // embers burn whiter
+      spData[o8] = x; spData[o8 + 1] = y; spData[o8 + 2] = spZ[p] * (0.75 + 0.25 * tw) * pw[s * K + (spU[p] | 0)]; spData[o8 + 3] = a * tw;
+      spData[o8 + 4] = cc[q] + (1 - cc[q]) * w; spData[o8 + 5] = cc[q + 1] + (1 - cc[q + 1]) * w; spData[o8 + 6] = cc[q + 2] + (1 - cc[q + 2]) * w;
+    }
+  }
+  function step(now, dt) {
+    var t = now / 1000, s, k, i, j, b, b2, q, el, m, f, i0, fr, e, shift;
+    var has = mxp > -9000 && !mobile, pvx = 0, pvy = 0;
+    if (has && lmx > -9000) { pvx = clamp(mxp - lmx, -34, 34); pvy = clamp(myp - lmy, -34, 34); }
+    lmx = mxp; lmy = myp;
+    var live = stir(dt > 1.2 ? 1.2 : dt, has, pvx, pvy);
+    for (s = 0; s < SA; s++) {
+      b = s * K; b2 = s * K2; q = s * 5; el = now - sT0[s];
+      var mode = sMode[s], ph = sPh[s] * 6.283;
+      if (mode === 0) {                    // sliding: off along the out-track, then on along the in-track
+        var TXa, TYa, TAa, TWa;
+        if (el < sDO[s]) { e = el <= 0 ? 0 : el / sDO[s]; shift = K * Math.pow(e, 1.7); TXa = oX; TYa = oY; TAa = oA; TWa = oW; m = 0; }
+        else {
+          e = 1 - (el - sDO[s]) / sDI[s]; if (e <= 0) { e = 0; sMode[s] = 2; }
+          shift = K * (1 - e * e * e); TXa = iX; TYa = iY; TAa = iA; TWa = iW; m = 1;
+        }
+        for (k = 0; k < K; k++) {
+          f = k + shift; i0 = f | 0; if (i0 > K2 - 2) i0 = K2 - 2; fr = f - i0; j = b2 + i0; i = b + k;
+          bx[i] = TXa[j] + (TXa[j + 1] - TXa[j]) * fr; by[i] = TYa[j] + (TYa[j + 1] - TYa[j]) * fr;
+          pa[i] = TAa[j] + (TAa[j + 1] - TAa[j]) * fr; pw[i] = TWa[j] + (TWa[j + 1] - TWa[j]) * fr;
+        }
+        for (k = 0; k < 5; k++) cc[q + k] = m ? c1[q + k] : c0[q + k];
+      } else if (mode === 1) {             // easing across
+        e = el <= 0 ? 0 : el >= sDO[s] ? 1 : el / sDO[s]; e = e * e * (3 - 2 * e);
+        if (el >= sDO[s]) sMode[s] = 2;
+        for (k = 0, j = b2 + K; k < K; k++) {
+          i = b + k;
+          bx[i] = oX[b2 + k] + (iX[j + k] - oX[b2 + k]) * e; by[i] = oY[b2 + k] + (iY[j + k] - oY[b2 + k]) * e;
+          pa[i] = oA[b2 + k] + (iA[j + k] - oA[b2 + k]) * e; pw[i] = oW[b2 + k] + (iW[j + k] - oW[b2 + k]) * e;
+        }
+        for (k = 0; k < 5; k++) cc[q + k] = c0[q + k] + (c1[q + k] - c0[q + k]) * e;
+      } else if (mode === 2) {             // arrived
+        for (k = 0, j = b2 + K; k < K; k++) { i = b + k; bx[i] = iX[j + k]; by[i] = iY[j + k]; pa[i] = iA[j + k]; pw[i] = iW[j + k]; }
+        for (k = 0; k < 5; k++) cc[q + k] = c1[q + k];
+        sMode[s] = 3;
+      }
+      var wob = mode === 0 ? 0.35 : 1, give = s % 3 !== 2 ? 0.7 : 1;
+      for (k = 0; k < K; k++) {
+        i = b + k;
+        var a = amp[i] * wob, x = bx[i], y = by[i];
+        if (a > 0.01) { x += Math.sin(ph + k * 0.21 - t * 0.9) * a; y += Math.cos(ph * 1.3 + k * 0.17 - t * 0.74) * a; }
+        if (live) {                        // every strand reads the same ripple field, so marks bend, never scramble
+          var gx = x / GC + 1, gy = y / GC + 1;
+          if (gx >= 0 && gy >= 0 && gx < gW - 1 && gy < gH - 1) {
+            var ix = gx | 0, iy = gy | 0, u1 = gx - ix, v1 = gy - iy, gi = iy * gW + ix;
+            var w00 = (1 - u1) * (1 - v1) * give, w10 = u1 * (1 - v1) * give, w01 = (1 - u1) * v1 * give, w11 = u1 * v1 * give;
+            x += gUx[gi] * w00 + gUx[gi + 1] * w10 + gUx[gi + gW] * w01 + gUx[gi + gW + 1] * w11;
+            y += gUy[gi] * w00 + gUy[gi + 1] * w10 + gUy[gi + gW] * w01 + gUy[gi + gW + 1] * w11;
+          }
+        }
+        px[i] = x; py[i] = y;
+      }
+    }
+    var g = 1 - Math.pow(0.955, dt);
+    for (k = 0; k < 9; k++) nebC[k] += (nebT[k] - nebC[k]) * g;
+    stgC[0] += (stgT[0] - stgC[0]) * g; stgC[1] += (stgT[1] - stgC[1]) * g; heroC += (heroT - heroC) * g;
+    discC += (discT - discC) * (1 - Math.pow(discT ? 0.965 : 0.9, dt));
+    sparks(dt);
+    flowT += dt / 60 * (1 + energy * 2.5 + surge * 1.2);   // scrolling and section changes make the light run faster
+    surge *= Math.pow(0.968, dt); energy *= Math.pow(0.94, dt);
+    if (has) { parX += ((mxp / W - 0.5) - parX) * 0.05 * dt; parY += ((myp / H - 0.5) - parY) * 0.05 * dt; }
+  }
+
+  /* ---------- WebGL2 renderer ----------
+     strands -> HDR scene (additive ribbons, splined on the GPU) -> bloom pyramid -> composite
+     with nebula, stars, tone map, vignette and grain. One opaque canvas, no libraries.        */
+  var FH = '#version 300 es\nprecision highp float;\n';
+  var VQ = '#version 300 es\nout vec2 uv;void main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));uv=p;gl_Position=vec4(p*2.-1.,0.,1.);}';
+  // (octaves are rotated against each other so the value-noise lattice never shows as columns or bands)
+  var NOISE = 'float h(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}' +
+    'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}' +
+    'float fbm(vec2 p){float a=.5,s=0.;p=mat2(.8,.6,-.6,.8)*p;for(int i=0;i<5;i++){s+=a*n(p);p=mat2(1.62,1.18,-1.18,1.62)*p+vec2(17.3,9.1);a*=.5;}return s;}';
+  var VS_STRAND = FH +
+    'layout(location=0) in vec2 aC;layout(location=1) in vec4 aP0;layout(location=2) in vec4 aP1;layout(location=3) in vec4 aP2;layout(location=4) in vec4 aP3;' +
+    'uniform vec2 uRes;uniform float uDpr,uT,uSurge;uniform int uK;uniform highp sampler2D uStr;out vec3 vCol;out vec2 vSW;' +
+    'void main(){int k=gl_InstanceID%uK,s=gl_InstanceID/uK;' +
+    'if(k==uK-1){gl_Position=vec4(2.,2.,2.,1.);vCol=vec3(0.);vSW=vec2(0.,1.);return;}' +
+    'vec2 p0=aP0.xy,p1=aP1.xy,p2=aP2.xy,p3=aP3.xy;if(k==0)p0=2.*p1-p2;if(k==uK-2)p3=2.*p2-p1;' +
+    'float t=aC.x,t2=t*t,t3=t2*t;vec2 c1=p2-p0,c2=2.*p0-5.*p1+4.*p2-p3,c3=3.*p1-p0-3.*p2+p3;' +
+    'vec2 pos=.5*(2.*p1+c1*t+c2*t2+c3*t3),tn=c1+2.*c2*t+3.*c3*t2;float tl=length(tn);tn=tl>1e-5?tn/tl:vec2(1.,0.);' +
+    'vec4 A=texelFetch(uStr,ivec2(s,0),0),B=texelFetch(uStr,ivec2(s,1),0),C=texelFetch(uStr,ivec2(s,2),0);' +
+    'float al=mix(aP1.z,aP2.z,t)*A.a,wm=mix(aP1.w,aP2.w,t),v=(float(k)+t)/float(uK);' +
+    'float fl=fract(v*B.z-uT*B.w+B.y),pu=smoothstep(0.,.14,fl)*smoothstep(.62,.14,fl);' +
+    'al*=C.y+C.x*pu*(1.+uSurge*.9);float w=B.x*wm*uDpr*(.82+.36*pu);if(w<.75){al*=w/.75;w=.75;}' +
+    'float hw=w*2.1+.5;vec2 q=pos*uDpr+vec2(-tn.y,tn.x)*aC.y*hw;' +
+    'gl_Position=vec4(q.x/uRes.x*2.-1.,1.-q.y/uRes.y*2.,0.,1.);vCol=A.rgb*al;vSW=vec2(aC.y*hw,w);}';
+  var FS_STRAND = FH + 'in vec3 vCol;in vec2 vSW;out vec4 o;void main(){float g=exp(-(vSW.x*vSW.x)/(vSW.y*vSW.y));o=vec4(vCol*g,1.);}';
+  var VS_DUST = FH + 'layout(location=0) in vec4 aS;uniform float uT,uDpr;uniform vec2 uPar;uniform vec3 uA;uniform vec4 uBox;out vec4 vC;out float vZ;' +
+    'void main(){float z=aS.z;vec2 p=fract(aS.xy+vec2(.006,-.0025)*(.3+z*1.6)*uT+uPar*(.02+z*.07));p=uBox.xy+p*(uBox.zw-uBox.xy);' +
+    'float sz=mix(1.5,44.,pow(z,5.));gl_PointSize=sz*uDpr;gl_Position=vec4(p.x*2.-1.,1.-p.y*2.,0.,1.);' +
+    'float tw=.6+.4*sin(uT*(.5+aS.w*1.5)+aS.w*40.);vC=vec4(uA*1.7+.08+.3*aS.w*aS.w,mix(.5,.006,smoothstep(2.,22.,sz))*tw);vZ=sz;}';
+  var FS_DUST = FH + 'in vec4 vC;in float vZ;out vec4 o;void main(){float d=length(gl_PointCoord-.5)*2.;' +
+    'float a=vZ>5.?smoothstep(1.,.8,d)*(.65+.55*smoothstep(.35,.95,d)):exp(-d*d*3.5);o=vec4(vC.rgb*vC.a*a,1.);}';
+  var FS_NEB = FH + 'uniform float uT,uAsp,uHero;uniform vec3 uA,uB,uC;uniform vec2 uStg;in vec2 uv;out vec4 o;' + NOISE +
+    'void main(){vec2 s=vec2(uv.x,1.-uv.y),p=s*vec2(uAsp,1.)*1.5;float t=uT*.012;' +
+    'vec2 q=vec2(fbm(p+vec2(t,0.)),fbm(p+vec2(5.2,1.3)-vec2(0.,t)));float f=fbm(p*1.2+q*1.7+vec2(-t*.6,t*.3)),g=fbm(p*2.6-q*1.2+7.);' +
+    'vec2 d=(s-uStg)*vec2(uAsp,1.),e=(s-vec2(.04,1.06))*vec2(uAsp,1.);float st=exp(-dot(d,d)*mix(3.2,2.,uHero)),lo=exp(-dot(e,e)*2.4);' +
+    'vec3 c=uA*smoothstep(.3,.8,f)*(.3+1.5*st+.9*lo);c+=uB*smoothstep(.45,.9,g)*(.18+.9*st)*.6;c+=uC*pow(f,3.)*(.5+lo)*.5;' +
+    'c*=1.-.55*smoothstep(.35,.7,fbm(p*3.1+q*2.+3.));c+=(uA+uB)*.5*st*st*.3;o=vec4(c*.032,1.);}';
+  var FS_DOWN = FH + 'uniform sampler2D uTx;uniform vec2 uPx;in vec2 uv;out vec4 o;void main(){' +
+    'o=(texture(uTx,uv)*4.+texture(uTx,uv+uPx)+texture(uTx,uv-uPx)+texture(uTx,uv+vec2(uPx.x,-uPx.y))+texture(uTx,uv+vec2(-uPx.x,uPx.y)))/8.;}';
+  var FS_UP = FH + 'uniform sampler2D uTx;uniform vec2 uPx;uniform float uGain;in vec2 uv;out vec4 o;void main(){vec2 d=uPx;' +
+    'o=(texture(uTx,uv+vec2(-d.x*2.,0.))+texture(uTx,uv+vec2(d.x*2.,0.))+texture(uTx,uv+vec2(0.,d.y*2.))+texture(uTx,uv+vec2(0.,-d.y*2.))' +
+    '+(texture(uTx,uv+d)+texture(uTx,uv-d)+texture(uTx,uv+vec2(d.x,-d.y))+texture(uTx,uv+vec2(-d.x,d.y)))*2.)/12.*uGain;}';
+  var VS_SPARK = FH + 'layout(location=0) in vec4 aP;layout(location=1) in vec3 aC;uniform vec2 uRes;uniform float uDpr;out vec3 vC;' +
+    'void main(){gl_Position=vec4(aP.x*uDpr/uRes.x*2.-1.,1.-aP.y*uDpr/uRes.y*2.,0.,1.);gl_PointSize=max(3.,aP.z*uDpr*5.);vC=aC*aP.w;}';
+  var FS_SPARK = FH + 'in vec3 vC;out vec4 o;void main(){float d=length(gl_PointCoord-.5)*2.,d2=d*d;o=vec4(vC*(1.6*exp(-d2*14.)+.3*exp(-d2*3.5))*smoothstep(1.,.7,d),1.);}';
+  var FS_COMP = FH + 'uniform sampler2D uScene,uBloom,uNeb;uniform float uT,uDpr,uBloomAmt,uExp,uSurge;uniform vec3 uDisc;uniform vec4 uDiscCol;in vec2 uv;out vec4 o;' +
+    'float h(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}' +
+    'vec3 star(vec2 fc,float cell,float thr){vec2 g=fc/cell,id=floor(g),f=fract(g);float r=h(id);if(r<thr)return vec3(0.);' +
+    'vec2 c=.2+.6*vec2(h(id+1.7),h(id+9.3));float d=length((f-c)*cell),b=(r-thr)/(1.-thr),tw=.72+.28*sin(uT*(.6+b*2.)+r*90.),sz=(.55+b*.8)*uDpr;' +
+    'return mix(vec3(.72,.82,1.),vec3(1.,.86,.74),h(id+4.4))*b*b*tw*exp(-d*d/(sz*sz));}' +
+    'void main(){vec2 c=uv-.5;vec3 sc=texture(uScene,uv).rgb;' +
+    'vec3 bl=vec3(texture(uBloom,uv-c*.007).r,texture(uBloom,uv).g,texture(uBloom,uv+c*.007).b);' +
+    'vec3 col=texture(uNeb,uv).rgb+star(gl_FragCoord.xy,23.*uDpr,.83)*.16+star(gl_FragCoord.xy+9.,57.*uDpr,.7)*.5;' +
+    'vec2 dp=gl_FragCoord.xy-uDisc.xy;float dl=length(dp),dr=dl/uDisc.z;' +     // badge disc: a real fill over the sky, under the light
+    'vec3 dc=uDiscCol.rgb*(1.+.3*dp.y/uDisc.z+.9*pow(min(dr,1.),7.));' +
+    'col=mix(col,dc,smoothstep(uDisc.z+1.5*uDpr,uDisc.z-1.5*uDpr,dl)*uDiscCol.a)+uDiscCol.rgb*uDiscCol.a*.5*exp(-max(dr-1.,0.)*9.)*step(1.,dr);' +
+    'col+=sc+bl*uBloomAmt*(1.+uSurge*.5);col=1.-exp(-col*uExp);' +
+    'col*=mix(.5,1.,smoothstep(.95,.3,length(c*vec2(1.05,1.25))));col+=vec3(.0011,.0008,.0028);' +
+    'col=pow(col,vec3(1./2.2));col+=(h(gl_FragCoord.xy+fract(uT)*71.)-.5)*.022;o=vec4(col,1.);}';
+
+  var PR = {}, RT = { bl: [] }, vaoS = null, vaoQ = null, vaoD = null, vaoP = null, spBuf = null, ptBuf = null, strTex = null, hdr = false, bloomN = 6;
+  var ptData = f32((N + 3) * 4), strData = f32(S * 12), nDust = mobile ? 22 : 46;
+  function prog(vs, fs) {
+    var p = gl.createProgram(), i, n;
+    [[gl.VERTEX_SHADER, vs], [gl.FRAGMENT_SHADER, fs]].forEach(function (d) {
+      var s = gl.createShader(d[0]); gl.shaderSource(s, d[1]); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS) && !gl.isContextLost()) throw new Error('light shader: ' + gl.getShaderInfoLog(s));
+      gl.attachShader(p, s);
+    });
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS) && !gl.isContextLost()) throw new Error('light link: ' + gl.getProgramInfoLog(p));
+    var u = {}; n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS) || 0;
+    for (i = 0; i < n; i++) { var inf = gl.getActiveUniform(p, i); u[inf.name] = gl.getUniformLocation(p, inf.name); }
+    return { p: p, u: u };
+  }
+  function target(w, h) {
+    w = Math.max(1, w | 0); h = Math.max(1, h | 0);
+    var t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.texImage2D(gl.TEXTURE_2D, 0, hdr ? gl.RGBA16F : gl.RGBA8, w, h, 0, gl.RGBA, hdr ? gl.HALF_FLOAT : gl.UNSIGNED_BYTE, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    var f = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+    return { t: t, f: f, w: w, h: h };
+  }
+  function freeRT(r) { if (r) { gl.deleteTexture(r.t); gl.deleteFramebuffer(r.f); } }
+  function resizeGL() {
+    var w = fx.width, h = fx.height, i;
+    freeRT(RT.scene); freeRT(RT.neb); RT.bl.forEach(freeRT); RT.bl = [];
+    RT.scene = target(w, h); RT.neb = target(w / 4, h / 4);
+    for (i = 0; i < 6; i++) { w = Math.max(2, w >> 1); h = Math.max(2, h >> 1); RT.bl.push(target(w, h)); }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+  function initGL() {
+    var i, a;
+    hdr = !!(gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float'));
+    PR.strand = prog(VS_STRAND, FS_STRAND); PR.dust = prog(VS_DUST, FS_DUST); PR.neb = prog(VQ, FS_NEB); PR.spark = prog(VS_SPARK, FS_SPARK);
+    PR.down = prog(VQ, FS_DOWN); PR.up = prog(VQ, FS_UP); PR.comp = prog(VQ, FS_COMP);
+    vaoQ = gl.createVertexArray();
+    vaoS = gl.createVertexArray(); gl.bindVertexArray(vaoS);
+    var cv = f32((SUB + 1) * 4);
+    for (i = 0; i <= SUB; i++) { cv[i * 4] = cv[i * 4 + 2] = i / SUB; cv[i * 4 + 1] = -1; cv[i * 4 + 3] = 1; }
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, cv, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    ptBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, ptBuf); gl.bufferData(gl.ARRAY_BUFFER, ptData.byteLength, gl.DYNAMIC_DRAW);
+    for (a = 0; a < 4; a++) { gl.enableVertexAttribArray(1 + a); gl.vertexAttribPointer(1 + a, 4, gl.FLOAT, false, 16, a * 16); gl.vertexAttribDivisor(1 + a, 1); }
+    vaoP = gl.createVertexArray(); gl.bindVertexArray(vaoP);
+    spBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, spBuf); gl.bufferData(gl.ARRAY_BUFFER, spData.byteLength, gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 32, 0);
+    gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 32, 16);
+    vaoD = gl.createVertexArray(); gl.bindVertexArray(vaoD);
+    var dd = f32(nDust * 4), seed = 11;
+    for (i = 0; i < nDust * 4; i++) { seed = (seed * 16807) % 2147483647; dd[i] = seed / 2147483647; }
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, dd, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    strTex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, strTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, S, 3, 0, gl.RGBA, gl.FLOAT, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    RT = { bl: [] };
+    gl.disable(gl.DEPTH_TEST); gl.blendFunc(gl.ONE, gl.ONE);
+  }
+  function bindRT(r) { gl.bindFramebuffer(gl.FRAMEBUFFER, r ? r.f : null); gl.viewport(0, 0, r ? r.w : fx.width, r ? r.h : fx.height); }
+  function tex(unit, t) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t); }
+
+  function draw(now) {
+    if (!gl) { if (ctx) draw2d(); return; }
+    if (!glOK || !RT.scene) return;
+    if (reduced) sparks(0);              // frozen in place, but still on the strands
+    var t = reduced ? 14.2 : (now - started) / 1000, w = fx.width, h = fx.height, i, s, n = SA * K, u, src;
+    for (i = 0; i < n; i++) { var p4 = (i + 1) * 4; ptData[p4] = px[i]; ptData[p4 + 1] = py[i]; ptData[p4 + 2] = pa[i]; ptData[p4 + 3] = pw[i]; }
+    for (s = 0; s < SA; s++) {
+      var q = s * 5, a4 = s * 4, b4 = (S + s) * 4, c4 = (2 * S + s) * 4;
+      strData[a4] = cc[q]; strData[a4 + 1] = cc[q + 1]; strData[a4 + 2] = cc[q + 2]; strData[a4 + 3] = cc[q + 3];
+      strData[b4] = cc[q + 4]; strData[b4 + 1] = sPh[s]; strData[b4 + 2] = sPu[s]; strData[b4 + 3] = sSp[s];
+      strData[c4] = sGn[s]; strData[c4 + 1] = sBs[s];
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER, ptBuf); gl.bufferSubData(gl.ARRAY_BUFFER, 0, ptData, 0, (n + 3) * 4);
+    tex(0, strTex); gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, S, 3, gl.RGBA, gl.FLOAT, strData);
+
+    gl.disable(gl.BLEND); gl.bindVertexArray(vaoQ);
+    if (level < 5) {                       // nebula, quarter res
+      bindRT(RT.neb); gl.useProgram(PR.neb.p); u = PR.neb.u;
+      gl.uniform1f(u.uT, t); gl.uniform1f(u.uAsp, w / h); gl.uniform1f(u.uHero, heroC); gl.uniform2f(u.uStg, stgC[0], stgC[1]);
+      gl.uniform3f(u.uA, nebC[0], nebC[1], nebC[2]); gl.uniform3f(u.uB, nebC[3], nebC[4], nebC[5]); gl.uniform3f(u.uC, nebC[6], nebC[7], nebC[8]);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    bindRT(RT.scene); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); gl.enable(gl.BLEND);
+    gl.useProgram(PR.strand.p); u = PR.strand.u; gl.bindVertexArray(vaoS);
+    gl.uniform2f(u.uRes, w, h); gl.uniform1f(u.uDpr, DPR); gl.uniform1f(u.uT, reduced ? 14.2 : flowT); gl.uniform1f(u.uSurge, surge);
+    gl.uniform1i(u.uK, K); gl.uniform1i(u.uStr, 0);
+    gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, (SUB + 1) * 2, n);
+    gl.useProgram(PR.dust.p); u = PR.dust.u; gl.bindVertexArray(vaoD);
+    gl.uniform1f(u.uT, t); gl.uniform1f(u.uDpr, DPR); gl.uniform2f(u.uPar, -parX, -parY + scrollPar); gl.uniform3f(u.uA, nebC[0], nebC[1], nebC[2]);
+    if (mobile) gl.uniform4f(u.uBox, -0.05, -0.03, 1.05, 0.44); else gl.uniform4f(u.uBox, 0.52, -0.05, 1.06, 1.05);   // never over the copy
+    gl.drawArrays(gl.POINTS, 0, nDust);
+    gl.useProgram(PR.spark.p); u = PR.spark.u; gl.bindVertexArray(vaoP);
+    gl.bindBuffer(gl.ARRAY_BUFFER, spBuf); gl.bufferSubData(gl.ARRAY_BUFFER, 0, spData, 0, NPA * 8);
+    gl.uniform2f(u.uRes, w, h); gl.uniform1f(u.uDpr, DPR);
+    gl.drawArrays(gl.POINTS, 0, NPA);
+
+    gl.disable(gl.BLEND); gl.bindVertexArray(vaoQ); gl.useProgram(PR.down.p); u = PR.down.u; gl.uniform1i(u.uTx, 0);
+    for (i = 0; i < bloomN; i++) { src = i ? RT.bl[i - 1] : RT.scene; bindRT(RT.bl[i]); tex(0, src.t); gl.uniform2f(u.uPx, 1 / src.w, 1 / src.h); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    gl.enable(gl.BLEND); gl.useProgram(PR.up.p); u = PR.up.u; gl.uniform1i(u.uTx, 0); gl.uniform1f(u.uGain, 1);
+    for (i = bloomN - 2; i >= 0; i--) { src = RT.bl[i + 1]; bindRT(RT.bl[i]); tex(0, src.t); gl.uniform2f(u.uPx, 0.5 / src.w, 0.5 / src.h); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+
+    gl.disable(gl.BLEND); bindRT(null); gl.useProgram(PR.comp.p); u = PR.comp.u;
+    tex(0, RT.scene.t); tex(1, RT.bl[0].t); tex(2, RT.neb.t);
+    gl.uniform1i(u.uScene, 0); gl.uniform1i(u.uBloom, 1); gl.uniform1i(u.uNeb, 2);
+    gl.uniform1f(u.uT, t); gl.uniform1f(u.uDpr, DPR); gl.uniform3f(u.uDisc, disc[0] * DPR, h - disc[1] * DPR, Math.max(1, disc[2] * DPR)); gl.uniform4f(u.uDiscCol, disc[3] * 0.95, disc[4] * 0.95, disc[5] * 0.95, discC);
+    gl.uniform1f(u.uBloomAmt, 0.085); gl.uniform1f(u.uExp, hdr ? 1.35 : 1.1); gl.uniform1f(u.uSurge, surge);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function draw2d() {                    // no WebGL2 (or the context died): plain additive strokes
+    var s, k, i, e, q, a;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = 'lighter'; ctx.lineCap = ctx.lineJoin = 'round';
+    function ch(v) { return Math.round(255 * Math.pow(clamp(v, 0, 1), 1 / 2.2)); }
+    if (discC > 0.01) {                    // badge disc
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = discC;
+      ctx.fillStyle = 'rgb(' + ch(disc[3] * 1.3) + ',' + ch(disc[4] * 1.3) + ',' + ch(disc[5] * 1.3) + ')';
+      ctx.beginPath(); ctx.arc(disc[0], disc[1], disc[2], 0, 6.2832); ctx.fill(); ctx.globalCompositeOperation = 'lighter';
+    }
+    ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.75; ctx.beginPath();
+    for (s = 0; s < NPA; s += 3) {         // sparks, one path
+      q = s * 8; if (spData[q + 3] > 0.25) ctx.rect(spData[q] - 1, spData[q + 1] - 1, 2, 2);
+    }
+    ctx.fill();
+    for (s = 0; s < SA; s += 2) {
+      q = s * 5; i = s * K; e = i + K - 1; a = cc[q + 3] * pa[i + (K >> 1)] * 2.2;
+      if (cc[q + 4] > 5 || a < 0.03) continue;
+      ctx.strokeStyle = 'rgb(' + ch(cc[q]) + ',' + ch(cc[q + 1]) + ',' + ch(cc[q + 2]) + ')'; ctx.globalAlpha = Math.min(1, a); ctx.lineWidth = Math.max(1, cc[q + 4]);
+      ctx.beginPath(); ctx.moveTo(px[i], py[i]);
+      for (k = i + 1; k < e; k++) ctx.quadraticCurveTo(px[k], py[k], (px[k] + px[k + 1]) * 0.5, (py[k] + py[k + 1]) * 0.5);
+      ctx.lineTo(px[e], py[e]); ctx.stroke();
+    }
+  }
+  function frame(now) {
+    raf = 0;
+    if (document.hidden) return;         // paused; visibilitychange restarts it
+    var raw = clamp(now - last, 1, 1000); last = now;   // a very long frame is clamped, never ignored
+    ema += (raw - ema) * 0.1;
+    var sy = window.scrollY, dv = Math.abs(sy - lastSY) / (H || 1); scrollPar = sy / (H || 1) * 0.5; lastSY = sy;
+    if (dv > 0) energy = Math.min(1, Math.max(energy, dv * 9));
+    if (probe > 0) {                       // listening to the display's own rhythm: for a dozen frames nothing is simulated or drawn
+      if (probe <= 9) pMin = Math.min(pMin, raw);
+      if (--probe === 0) { refresh = clamp(pMin, 4, 50); slowT = okT = 0; ema = raw; }
+    } else {
+      step(now, clamp(raw / 16.667, 0.3, 2.5));
+      draw(now);
+      if (gl && glOK && now - started > 2500) judge(raw, now);
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function kick() { if (!raf && !reduced) { last = performance.now(); slowT = okT = 0; ema = refresh; raf = requestAnimationFrame(frame); } }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
+  /* Degrade ladder: 1 DPR x0.75 (hi-dpi only) · 2 shorter bloom chain · 3 fewer strands and sparks ·
+     4 DPR x0.56 · 5 the 2D canvas.
+     Frames are "late" against the display's refresh interval, not against 16.7ms: before the first
+     step down the engine stops drawing for a dozen frames and measures how fast rAF runs with no
+     work, so a 30Hz display (or Low Power Mode) is recognised and left alone. After 12s on time it
+     climbs back one rung; if that climb is followed by a fall it holds off (1 min, doubling).      */
+  var refresh = 16.7, probe = 0, pMin = 1e9, probed = false, slowT = 0, okT = 0, lastUp = -1e9, hold = 30000, holdUntil = 0, fastN = 0, blkN = 0, fastSum = 0;
+  function setLevel(l) {
+    var was = SA, s;
+    level = l; slowT = okT = 0; ema = Math.max(refresh, 16.7);
+    dprMul = l >= 4 ? 0.56 : l >= 1 && (window.devicePixelRatio || 1) > 1 ? 0.75 : 1;
+    bloomN = l >= 2 ? 4 : 6; SA = l >= 3 ? Math.round(S * 0.62 / 3) * 3 : S; NPA = l >= 3 ? NP >> 1 : NP;
+    size();
+    if (SA > was) { for (s = was * K; s < SA * K; s++) pa[s] = 0; if (active >= 0) retarget(active, 1); }
+  }
+  function judge(raw, now) {
+    var ref = Math.max(refresh, 16.7), late = ema > ref * 1.35 + 1;
+    if (raw < refresh * 0.8) { fastN++; fastSum += raw; }             // the display turns out faster than we thought
+    if (++blkN >= 60) { if (fastN > 30) refresh = Math.max(4, fastSum / fastN); blkN = fastN = fastSum = 0; }
+    if (late) {
+      okT = 0; if (!slowT) slowT = now;
+      if (now - slowT < 1500) return;
+      if (!probed) { probed = true; probe = 12; pMin = 1e9; return; }  // is it us, or the display?
+      if (now - lastUp < 20000) { hold = Math.min(hold * 2, 600000); holdUntil = now + hold; }
+      if (ema > ref * 6) { if (level < 4) setLevel(4); else { level = 5; to2d(); } }
+      else if (level < 4) setLevel(level + 1);
+      else if (ema > ref * 2.2) { level = 5; to2d(); }
+      else slowT = 0;
+    } else {
+      slowT = 0; if (!okT) okT = now;
+      if (now - okT > 5000) probed = false;
+      if (level > 0 && now > holdUntil && now - okT > 12000) { lastUp = now; setLevel(level - 1); }
+    }
+  }
+
+  /* ---------- context + sizing ---------- */
+  var lostT = 0;
+  function swapCanvas() { var c = fx.cloneNode(false); if (fx.parentNode) fx.parentNode.replaceChild(c, fx); return c; }
+  function to2d() {                    // a canvas that has had a GL context can't go 2D: swap the element
+    gl = null; glOK = false;
+    fx = swapCanvas();
+    ctx = fx.getContext('2d'); SA = Math.min(SA, 780); dprMul = 1;
+    if (W) { size(); if (reduced) draw(performance.now()); }
+  }
+  function startGL() {
+    // software GL is far slower than the 2D path, so refuse it up front
+    try { gl = fx.getContext('webgl2', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: true }); } catch (e) { gl = null; }
+    if (gl) {                              // ...and by name, since not every browser reports the caveat
+      var dbg = gl.getExtension('WEBGL_debug_renderer_info'), rend = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
+      if (/swiftshader|llvmpipe|softpipe|software|basic render/i.test(rend)) { gl = null; fx = swapCanvas(); }
+    }
+    if (!gl) { ctx = fx.getContext('2d'); SA = Math.min(SA, 780); return; }
+    fx.addEventListener('webglcontextlost', function (e) { e.preventDefault(); glOK = false; clearTimeout(lostT); lostT = setTimeout(to2d, 3000); });
+    fx.addEventListener('webglcontextrestored', function () {
+      clearTimeout(lostT);
+      try { initGL(); glOK = true; size(true); if (reduced) draw(performance.now()); } catch (e) { to2d(); }
+    });
+    try { initGL(); glOK = true; } catch (e) { if (window.console) console.warn(e.message); to2d(); }
+  }
+  function size(keep) {
+    W = window.innerWidth; H = window.innerHeight; mobile = W <= 820;
+    if (!keep) DPR = Math.max(0.6, Math.min(window.devicePixelRatio || 1, ctx ? 1 : mobile ? 2 : 1.5) * dprMul);
+    fx.width = Math.max(2, Math.round(W * DPR)); fx.height = Math.max(2, Math.round(H * DPR));
+    if (gl && glOK) resizeGL();
+  }
+
+  /* ---------- section state ---------- */
+  var active = -1;
+  // the line map is static markup (real links, works without JS); here it only learns where the train is
+  var lineEl = document.getElementById('line'), runEl = document.getElementById('run'), nowEl = document.getElementById('now');
+  var dots = secs.map(function (sec) { return document.querySelector('#bar a[data-stop][href="#' + sec.id + '"]'); });
+  var grps = [].slice.call(lineEl.querySelectorAll('.grp'));
+  function place() {                       // lit track runs from the origin to the current stop
+    var d = dots[active];
+    if (!d || !active) { runEl.style.width = '0px'; return; }
+    var a = d.getBoundingClientRect(), l = lineEl.getBoundingClientRect();
+    runEl.style.width = Math.max(0, a.left + a.width / 2 - l.left) + 'px';
+  }
+  function readout(i) {                    // phone readout: "Career  Comcast"
+    nowEl.textContent = '';
+    if (!i) return;
+    var c = document.createElement('i'), g = secs[i].dataset.g;
+    c.textContent = g.charAt(0).toUpperCase() + g.slice(1);
+    nowEl.appendChild(c); nowEl.appendChild(document.createTextNode(secs[i].dataset.label));
+  }
+  // touch: drag along the strip to scrub — the readout previews the stop, lifting the finger goes there
+  var aim = -1;
+  function aimAt(j) {
+    if (aim > 0 && dots[aim]) dots[aim].classList.remove('aim');
+    aim = j;
+    if (j > 0) { dots[j].classList.add('aim'); readout(j); } else readout(active);
+  }
+  function nearest(x) {
+    var best = -1, bd = 1e9;
+    for (var j = 1; j < dots.length; j++) {
+      if (!dots[j]) continue;
+      var r = dots[j].getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - x);
+      if (d < bd) { bd = d; best = j; }
+    }
+    return best;
+  }
+  function jumpTo(t) {
+    if (t < 0) return;
+    if (history.replaceState) history.replaceState(null, '', '#' + secs[t].id);
+    window.scrollTo({ top: secs[t].offsetTop, behavior: reduced ? 'auto' : 'smooth' });
+  }
+  var onStrip = function (e) { return mobile && !(e.target.closest && e.target.closest('.grp>a')); };
+  lineEl.addEventListener('touchmove', function (e) {
+    if (!onStrip(e)) return;
+    var best = nearest(e.touches[0].clientX);
+    if (best !== aim) aimAt(best);
+    e.preventDefault();
+  }, { passive: false });
+  lineEl.addEventListener('touchend', function (e) {
+    if (!onStrip(e)) return;               // desktop-width touch screens: stops are big enough, links do the job
+    // phone stops are ~15px wide: a tap anywhere on the strip goes to the nearest stop, a drag to where it ended
+    var t = aim >= 0 ? aim : nearest(e.changedTouches[0].clientX);
+    aimAt(-1); e.preventDefault(); jumpTo(t);
+  });
+  lineEl.addEventListener('touchcancel', function () { aimAt(-1); });
+  lineEl.addEventListener('click', function (e) {   // a click that lands between stops still resolves to one
+    if (e.target.closest('a')) return;
+    jumpTo(nearest(e.clientX));
+  });
+  function setActive(i, instant) {
+    if (i === active) return;
+    if (active >= 0) secs[active].classList.remove('on');
+    active = i;
+    var sec = secs[i];
+    sec.classList.add('on');
+    dots.forEach(function (d, j) {
+      if (!d) return;
+      d.classList.toggle('was', j < i);
+      if (j === i) d.setAttribute('aria-current', 'location'); else d.removeAttribute('aria-current');
+    });
+    grps.forEach(function (g) { g.classList.toggle('on', !!dots[i] && g.contains(dots[i])); });
+    readout(i);
+    place();
+    document.body.style.setProperty('--acc', sec.dataset.pal.split(',')[0]);
+    retarget(i, instant);
+    if (reduced) draw(performance.now());
+  }
+  function locate() {
+    var mid = window.innerHeight * 0.5, best = 0;
+    for (var i = 0; i < secs.length; i++) {
+      var r = secs[i].getBoundingClientRect();
+      if (r.top <= mid && r.bottom > mid) { best = i; break; }
+      if (r.top <= mid) best = i;
+    }
+    setActive(best);
+    if (mobile) {                         // long copy scrolls up over the logo — dim the strands under it
+      var top = secs[active].firstElementChild.getBoundingClientRect().top, edge = H * 0.40;
+      fx.style.opacity = top >= edge ? 1 : Math.max(0.16, 1 - (edge - top) / (H * 0.2));
+    } else if (fx.style.opacity) fx.style.opacity = '';
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () { ticking = false; locate(); });
+  }, { passive: true });
+  var rz, rzKeep = -1, rzW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (rzKeep < 0) rzKeep = active;       // the stop we were on before reflow moved everything
+    clearTimeout(rz);
+    rz = setTimeout(function () {
+      var keep = rzKeep, wChanged = window.innerWidth !== rzW; rzKeep = -1; rzW = window.innerWidth;
+      size();
+      // stay on the same stop (phones resize on every URL-bar show/hide — only re-anchor there if the width changed)
+      if (keep >= 0 && (wChanged || !mobile) && secs[keep].offsetHeight <= window.innerHeight + 4)
+        window.scrollTo({ top: secs[keep].offsetTop, behavior: 'instant' });
+      else if (keep >= 0 && wChanged) window.scrollTo({ top: secs[keep].offsetTop, behavior: 'instant' });
+      retarget(active, 1); locate(); place(); if (reduced) draw(performance.now());
+    }, 140);
+  });
+  window.addEventListener('load', place);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+  window.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch') { mxp = e.clientX; myp = e.clientY; } }, { passive: true });
+  document.addEventListener('pointerleave', function () { mxp = myp = -9999; });
+
+  /* ---------- one gesture = one section (mouse / trackpad / keys) ----------
+     Touch keeps native scrolling with CSS proximity snap. A section taller than
+     the viewport scrolls natively until its edge, then steps.                   */
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var lockUntil = 0, acc = 0, wLast = 0, wPrev = 0, wDone = false, wNative = false;
+  var navT = -1, navAt = 0;
+  if (fine) root.classList.add('step');
+  function goTo(i) {
+    i = Math.max(0, Math.min(secs.length - 1, i));
+    window.scrollTo({ top: secs[i].offsetTop, behavior: reduced ? 'auto' : 'smooth' });
+  }
+  function stepNav(dir) {                  // steps chain from the pending target, so quick presses each count
+    var now = performance.now(), base = navT >= 0 && now - navAt < 900 ? navT : active;
+    navT = Math.max(0, Math.min(secs.length - 1, base + dir)); navAt = now;
+    goTo(navT);
+  }
+  function roomInside(dir) {
+    var r = secs[active].getBoundingClientRect();
+    return r.height > H + 4 && (dir > 0 ? r.bottom > H + 2 : r.top < -2);
+  }
+  if (fine) window.addEventListener('wheel', function (e) {
+    if (e.ctrlKey || !e.deltaY) return;
+    // One gesture = one step. A gesture is a run of wheel events with no pause; it ends after a 180ms gap,
+    // or when the deltas surge again on top of a decaying inertia tail (a second flick).
+    var d = e.deltaY * (e.deltaMode === 1 ? 32 : 1), dir = d > 0 ? 1 : -1, now = performance.now();
+    var fresh = now - wLast > 180;
+    var surge = !fresh && now >= lockUntil && (wDone || wNative) && Math.abs(d) > Math.abs(wPrev) * 1.7 + 10;
+    if (fresh || surge) { wDone = false; wNative = false; acc = 0; }
+    wLast = now; wPrev = d;
+    if (!wDone && now >= lockUntil && roomInside(dir)) { wNative = true; acc = 0; return; }   // tall section: native scroll to its edge
+    e.preventDefault();
+    if (wDone || wNative || now < lockUntil) return;   // rest of this gesture (inertia tail) is spent
+    if (acc * d < 0) acc = 0;
+    acc += d;                                          // no leak: a slow, sustained scroll adds up
+    if (Math.abs(acc) > 40) { acc = 0; wDone = true; lockUntil = now + 520; stepNav(dir); }
+  }, { passive: false });
+  window.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    var tag = e.target && e.target.tagName, k = e.key, dir = 0;
+    if (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(tag || '')) return;
+    if (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) dir = 1;   // Space steps even with a link focused (links activate on Enter)
+    else if (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) dir = -1;
+    if (!dir || roomInside(dir)) return;
+    e.preventDefault();
+    if (e.repeat && performance.now() - navAt < 380) return;   // held key: one stop every ~0.4s
+    stepNav(dir);
+  });
+  // keyboard focus entering a stop brings the whole stop into place (the browser alone leaves it ~100px off)
+  secs.forEach(function (s) { s.tabIndex = -1; });
+  document.getElementById('main').addEventListener('focusin', function (e) {
+    var s = e.target.closest && e.target.closest('section.s'), i = secs.indexOf(s);
+    if (i < 0 || s.offsetHeight > window.innerHeight + 4) return;
+    if (Math.abs(s.getBoundingClientRect().top) > 2) { navT = i; navAt = performance.now(); goTo(i); }
+  });
+  var skip = document.querySelector('.skip');
+  if (skip) skip.addEventListener('click', function (e) {   // skip the 28 line-map links, land in the stop you're on
+    e.preventDefault(); secs[Math.max(active, 0)].focus({ preventScroll: true });
+  });
+
+  /* ---------- go ---------- */
+  startGL();
+  size();
+  secs[0].classList.remove('on');
+  started = last = performance.now();
+  locate();                                // first retarget: the river fades up and the strands wind in from upstream
+  if (reduced) draw(started); else kick();
+})();
+</script>
+</body>
+</html>

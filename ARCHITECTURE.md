@@ -1,7 +1,7 @@
 # Architecture
 
-> Note: counts in prose below ("five experiences") predate the sixth experience
-> (06-gridiron, added 2026-07). The tables are current.
+> Note: counts in prose below ("five experiences", "all six") predate the later experiences
+> (06-gridiron, added 2026-07; 07-light, added 2026-11). The tables are current.
 
 This document explains how the portfolio site is put together and gives step-by-step
 playbooks for the common content changes: **editing a bullet, adding a bullet, adding a
@@ -27,6 +27,7 @@ The five experiences and their theme:
 | 04 | `public/04-voyage.html` | Voyage | Deep-space trajectory; jobs = gravity assists, projects = planets, skills = constellations |
 | 05 | `public/05-arcade.html` | Arcade | 16-bit platformer; jobs = level zones, projects = cartridges |
 | 06 | `public/06-gridiron.html` | Gridiron | Night-game football; career = one scroll-driven drive down the field, projects = playbook diagrams, skills = depth chart |
+| 07 | `public/07-light.html` | Light | A river of light on a fixed WebGL2 canvas (2D fallback) weaves the logo of each employer/school (one full-height section per stop); a rail-style line map is the navigation; projects/skills/contact get drawn glyphs. Logo outlines are traced offline — see `build/logo-trace/README.md` |
 
 Two facts drive everything below:
 
@@ -177,6 +178,7 @@ yet. Check `src/experiences/` for the file:
 | 04-voyage | ✅ `src/experiences/04-voyage.html` | the **template**, then `npm run build` |
 | 05-arcade | ✅ `src/experiences/05-arcade.html` | the **template**, then `npm run build` |
 | 06-gridiron | ✅ `src/experiences/06-gridiron.html` | the **template**, then `npm run build` |
+| 07-light | ✅ `src/experiences/07-light.html` | the **template**, then `npm run build` |
 
 **Rule:** if `src/experiences/<file>` exists, that page is generated — never hand-edit
 `public/<file>` (the banner warns you); edit the template and rebuild. If it does **not** exist,

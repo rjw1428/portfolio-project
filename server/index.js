@@ -31,6 +31,7 @@ const EXPERIENCE_PAGES = {
   '/04-voyage.html': 'voyage',
   '/05-arcade.html': 'arcade',
   '/06-gridiron.html': 'gridiron',
+  '/07-light.html': 'light',
 };
 
 // Docker Desktop NATs every inbound connection to the same gateway address, so

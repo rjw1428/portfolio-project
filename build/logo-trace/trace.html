@@ -1,0 +1,215 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>logo tracer</title>
+<style>body{background:#05060c;color:#ccd;font:12px ui-monospace,monospace;margin:12px}
+.g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.g div{border:1px solid #223;padding:6px}
+canvas{width:100%;display:block}</style>
+<div class="g" id="g"></div>
+<script>
+/* Logo tracer — rasterises each source (SVG/PNG file or a canvas drawing) and
+   converts it into closed outline loops, per colour region.
+   Open over http (python3 -m http.server) and read window.RESULT.            */
+const UNIT = 1000;            // longest side, in output units
+const F = '"Helvetica Neue","Arial",sans-serif';
+
+function stroke(ctx, w, col){ ctx.lineWidth=w; ctx.strokeStyle=col; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke(); }
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); }
+
+const SHAPES = [
+  { key:'servicenow', src:'sources/servicenow.svg' },
+  { key:'xfinity',    src:'sources/xfinity.svg' },
+  { key:'xumo',       src:'sources/xumo.svg' },
+  { key:'fort',       src:'sources/fort.svg' },
+  { key:'comcast',    src:'sources/comcast.svg', drop:c=>c[0]+c[1]+c[2]>700 },
+  { key:'accenture',  src:'sources/accenture.svg' },
+  { key:'ssr',        src:'sources/ssr.png', drop:c=>c[0]+c[1]+c[2]>300 },
+  { key:'ns',         src:'sources/ns.svg' },
+  { key:'google',     src:'sources/google.svg' },
+  { key:'jhu',        src:'sources/jhu.svg' },
+  { key:'vt',         src:'sources/vt.svg' },
+  { key:'tud',        src:'sources/tud.svg', drop:c=>c[0]+c[1]+c[2]>700 },
+  // favicon: white "m" + gold "y" on a navy tile. Snap every pixel to one of the three
+  // flat colours first (anti-aliased white/navy edges otherwise read as gold), drop the tile,
+  // and trim to the lettering so it fills the box like the other logos.
+  { key:'myinkwell',  src:'sources/myinkwell.png', drop:c=>c[0]+c[1]+c[2]<250, trim:true,
+    snap:(r,g,b)=> r-b>50 ? [212,168,67] : r+g+b>440 ? [255,255,255] : [28,40,64] },
+
+  { key:'rw', w:1000, h:560, draw(c){
+      c.fillStyle='#fff'; c.font='900 600px '+F; c.textBaseline='alphabetic'; c.textAlign='center';
+      c.fillText('RW', 500, 500);
+  }},
+  { key:'navy', w:1000, h:900, draw(c){
+      // anchor
+      c.beginPath(); c.arc(500,110,62,0,7); stroke(c,40,'#f2c14e');
+      c.beginPath(); c.moveTo(500,172); c.lineTo(500,560); stroke(c,46,'#f2c14e');
+      c.beginPath(); c.moveTo(360,260); c.lineTo(640,260); stroke(c,42,'#f2c14e');
+      c.beginPath(); c.moveTo(230,360); c.quadraticCurveTo(250,590,500,590); c.quadraticCurveTo(750,590,770,360); stroke(c,46,'#f2c14e');
+      c.beginPath(); c.moveTo(170,430); c.lineTo(230,340); c.lineTo(310,420); stroke(c,40,'#f2c14e');
+      c.beginPath(); c.moveTo(690,420); c.lineTo(770,340); c.lineTo(830,430); stroke(c,40,'#f2c14e');
+      c.fillStyle='#8fb4ff'; c.font='800 200px '+F; c.textAlign='center';
+      if('letterSpacing' in c) c.letterSpacing='14px';
+      c.fillText('NAVSEA', 507, 860);
+  }},
+  { key:'chart', w:1000, h:820, draw(c){
+      [[110,560,150],[330,430,280],[550,300,410],[770,150,560]].forEach(([x,y,h])=>{ rr(c,x,y,130,h,22); stroke(c,40,'#fff'); });
+      c.beginPath(); c.moveTo(80,330); c.lineTo(330,210); c.lineTo(520,250); c.lineTo(860,40); stroke(c,34,'#fff');
+      c.beginPath(); c.moveTo(740,34); c.lineTo(866,36); c.lineTo(842,160); stroke(c,34,'#fff');
+      c.beginPath(); c.moveTo(60,770); c.lineTo(950,770); stroke(c,34,'#fff');
+  }},
+  { key:'heart', w:1000, h:860, draw(c){
+      c.beginPath(); c.moveTo(500,800);
+      c.bezierCurveTo(140,560,40,380,60,250); c.bezierCurveTo(90,40,380,20,500,210);
+      c.bezierCurveTo(620,20,910,40,940,250); c.bezierCurveTo(960,380,860,560,500,800); c.closePath(); stroke(c,46,'#fff');
+      c.beginPath(); c.moveTo(150,420); c.lineTo(350,420); c.lineTo(420,290); c.lineTo(520,560); c.lineTo(600,380); c.lineTo(650,420); c.lineTo(850,420); stroke(c,34,'#fff');
+  }},
+  { key:'kanban', w:1000, h:780, draw(c){
+      rr(c,50,50,900,680,50); stroke(c,42,'#fff');
+      c.beginPath(); c.moveTo(350,60); c.lineTo(350,720); c.moveTo(650,60); c.lineTo(650,720); stroke(c,28,'#fff');
+      [[120,150,160,120],[120,330,160,190],[420,150,160,220],[420,440,160,110],[720,150,160,110],[720,320,160,150],[720,530,160,110]]
+        .forEach(([x,y,w,h])=>{ rr(c,x,y,w,h,20); stroke(c,26,'#fff'); });
+  }},
+  { key:'target', w:1000, h:940, draw(c){
+      for(const r of [400,265,130]){ c.beginPath(); c.arc(470,500,r,0,7); stroke(c,42,'#fff'); }
+      c.beginPath(); c.moveTo(470,500); c.lineTo(880,90); stroke(c,40,'#fff');
+      c.beginPath(); c.moveTo(770,60); c.lineTo(790,180); c.lineTo(910,200); c.lineTo(950,80); c.closePath(); stroke(c,30,'#fff');
+  }},
+  { key:'hub', w:1000, h:900, draw(c){
+      const cx=500, cy=450; const hex=(x,y,r)=>{ c.beginPath(); for(let i=0;i<6;i++){ const a=Math.PI/6+i*Math.PI/3; c[i?'lineTo':'moveTo'](x+Math.cos(a)*r,y+Math.sin(a)*r);} c.closePath(); };
+      const nodes=[[500,90],[860,270],[860,640],[500,820],[140,640],[140,270]];
+      nodes.forEach(([x,y])=>{ c.beginPath(); c.moveTo(cx,cy); c.lineTo(x,y); stroke(c,30,'#fff'); });
+      c.globalCompositeOperation='destination-out'; hex(cx,cy,190); c.fill(); nodes.forEach(([x,y])=>{ c.beginPath(); c.arc(x,y,74,0,7); c.fill(); });
+      c.globalCompositeOperation='source-over';
+      hex(cx,cy,170); stroke(c,44,'#fff');
+      nodes.forEach(([x,y])=>{ c.beginPath(); c.arc(x,y,56,0,7); stroke(c,36,'#fff'); });
+      c.beginPath(); c.moveTo(430,410); c.lineTo(390,450); c.lineTo(430,490); c.moveTo(570,410); c.lineTo(610,450); c.lineTo(570,490); stroke(c,28,'#fff');
+  }},
+  { key:'layers', w:1000, h:860, draw(c){
+      const rh=(y)=>{ c.beginPath(); c.moveTo(500,y-170); c.lineTo(920,y); c.lineTo(500,y+170); c.lineTo(80,y); c.closePath(); };
+      rh(250); stroke(c,44,'#fff');
+      c.beginPath(); c.moveTo(80,440); c.lineTo(500,610); c.lineTo(920,440); stroke(c,44,'#fff');
+      c.beginPath(); c.moveTo(80,620); c.lineTo(500,790); c.lineTo(920,620); stroke(c,44,'#fff');
+  }},
+  { key:'code', w:1000, h:700, draw(c){
+      c.beginPath(); c.moveTo(310,130); c.lineTo(70,350); c.lineTo(310,570); stroke(c,84,'#fff');
+      c.beginPath(); c.moveTo(690,130); c.lineTo(930,350); c.lineTo(690,570); stroke(c,84,'#fff');
+      c.beginPath(); c.moveTo(580,70); c.lineTo(420,630); stroke(c,84,'#fff');
+  }},
+  { key:'at', w:1000, h:1000, draw(c){
+      c.fillStyle='#fff'; c.font='700 900px '+F; c.textAlign='center'; c.fillText('@', 500, 760);
+  }},
+];
+
+function loadImg(src){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('load '+src)); i.src=src; }); }
+
+async function raster(s){
+  const SS = 1;                                   // canvas px per output unit
+  let W,H,cv=document.createElement('canvas'),ctx;
+  if(s.src){
+    let img = await loadImg(s.src);
+    let iw = img.naturalWidth||img.width, ih = img.naturalHeight||img.height;
+    const k = UNIT/Math.max(iw,ih); W=Math.round(iw*k); H=Math.round(ih*k);
+    cv.width=W*SS; cv.height=H*SS; ctx=cv.getContext('2d',{willReadFrequently:true});
+    ctx.drawImage(img,0,0,W*SS,H*SS);
+    if(s.snap){ const im=ctx.getImageData(0,0,W,H), d=im.data;
+      for(let i=0;i<d.length;i+=4){ const c=s.snap(d[i],d[i+1],d[i+2]); d[i]=c[0]; d[i+1]=c[1]; d[i+2]=c[2]; }
+      ctx.putImageData(im,0,0); }
+  } else {
+    W=s.w; H=s.h; cv.width=W*SS; cv.height=H*SS; ctx=cv.getContext('2d',{willReadFrequently:true});
+    s.draw(ctx);
+  }
+  return {W,H,data:ctx.getImageData(0,0,W,H).data};
+}
+
+function palette(d,W,H){
+  const bins=new Map(); let tot=0;
+  for(let i=0;i<W*H;i++){ if(d[i*4+3]<200) continue; tot++;
+    const k=(d[i*4]>>4)<<8|(d[i*4+1]>>4)<<4|(d[i*4+2]>>4);
+    let b=bins.get(k); if(!b){ b=[0,0,0,0]; bins.set(k,b);} b[0]++; b[1]+=d[i*4]; b[2]+=d[i*4+1]; b[3]+=d[i*4+2]; }
+  const sorted=[...bins.values()].sort((a,b)=>b[0]-a[0]);
+  const cl=[];
+  for(const b of sorted){ const c=[b[1]/b[0],b[2]/b[0],b[3]/b[0]];
+    let hit=null; for(const k of cl){ if(Math.hypot(k.c[0]-c[0],k.c[1]-c[1],k.c[2]-c[2])<70){ hit=k; break; } }
+    if(hit) hit.n+=b[0]; else cl.push({c,n:b[0]}); }
+  return cl.filter(k=>k.n/tot>0.012).slice(0,8).map(k=>k.c.map(Math.round));
+}
+
+function traceMask(m,W,H){
+  const at=(x,y)=> x>=0&&y>=0&&x<W&&y<H&&m[y*W+x];
+  const VW=W+1, out=new Map();                      // vertex -> [end vertices]
+  const add=(a,b)=>{ let l=out.get(a); if(!l){ l=[]; out.set(a,l);} l.push(b); };
+  for(let y=0;y<H;y++) for(let x=0;x<W;x++){ if(!m[y*W+x]) continue;
+    const v00=y*VW+x, v10=v00+1, v01=v00+VW, v11=v01+1;
+    if(!at(x,y-1)) add(v00,v10);
+    if(!at(x+1,y)) add(v10,v11);
+    if(!at(x,y+1)) add(v11,v01);
+    if(!at(x-1,y)) add(v01,v00);
+  }
+  const loops=[];
+  for(const [start,l0] of out){
+    while(l0.length){
+      const pts=[]; let cur=start;
+      for(;;){ const l=out.get(cur); if(!l||!l.length) break; const nx=l.pop(); pts.push(cur%VW, (cur/VW)|0); cur=nx; if(cur===start) break; }
+      if(pts.length>=16) loops.push(pts);
+    }
+  }
+  return loops;
+}
+
+function smooth(p,rad){
+  const n=p.length/2, o=new Float32Array(p.length);
+  for(let i=0;i<n;i++){ let sx=0,sy=0; for(let k=-rad;k<=rad;k++){ const j=((i+k)%n+n)%n; sx+=p[j*2]; sy+=p[j*2+1]; } o[i*2]=sx/(2*rad+1); o[i*2+1]=sy/(2*rad+1); }
+  return o;
+}
+function rdp(p,eps){
+  const n=p.length/2, keep=new Uint8Array(n); keep[0]=keep[n-1]=1;
+  let far=1,fd=0; for(let i=1;i<n-1;i++){ const d=Math.hypot(p[i*2]-p[0],p[i*2+1]-p[1]); if(d>fd){fd=d;far=i;} }
+  keep[far]=1; const st=[[0,far],[far,n-1]];
+  while(st.length){ const [a,b]=st.pop(); let md=0,mi=-1; const ax=p[a*2],ay=p[a*2+1],bx=p[b*2],by=p[b*2+1],dx=bx-ax,dy=by-ay,L=Math.hypot(dx,dy)||1;
+    for(let i=a+1;i<b;i++){ const d=Math.abs((p[i*2]-ax)*dy-(p[i*2+1]-ay)*dx)/L; if(d>md){ md=d; mi=i; } }
+    if(md>eps){ keep[mi]=1; st.push([a,mi],[mi,b]); } }
+  const o=[]; for(let i=0;i<n;i++) if(keep[i]) o.push(Math.round(p[i*2]),Math.round(p[i*2+1])); return o;
+}
+function area(p){ let a=0; const n=p.length/2; for(let i=0;i<n;i++){ const j=(i+1)%n; a+=p[i*2]*p[j*2+1]-p[j*2]*p[i*2+1]; } return a/2; }
+
+async function run(){
+  const RESULT={}; const g=document.getElementById('g');
+  for(const s of SHAPES){
+    let r; try{ r=await raster(s); }catch(e){ RESULT[s.key]={error:String(e)}; continue; }
+    const {W,H,data}=r; const pal=palette(data,W,H); const loops=[];
+    pal.forEach((c,ci)=>{
+      if(s.drop && s.drop(c)) return;
+      const m=new Uint8Array(W*H);
+      for(let i=0;i<W*H;i++){ if(data[i*4+3]<110) continue; let best=0,bd=1e9;
+        for(let k=0;k<pal.length;k++){ const q=pal[k]; const dd=(q[0]-data[i*4])**2+(q[1]-data[i*4+1])**2+(q[2]-data[i*4+2])**2; if(dd<bd){bd=dd;best=k;} }
+        if(best===ci) m[i]=1; }
+      for(const raw of traceMask(m,W,H)){
+        const sm=smooth(smooth(raw,2),2); const closed=Array.from(sm); closed.push(sm[0],sm[1]);
+        const simp=rdp(closed,s.eps||1.1); simp.length-=2;
+        if(simp.length<8 || Math.abs(area(simp))<(s.minArea||90)) continue;
+        loops.push([ci].concat(simp));
+      }
+    });
+    let oW=W, oH=H;
+    if(s.trim && loops.length){                     // crop to the ink and rescale to the 1000-unit box
+      let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+      for(const l of loops) for(let i=1;i<l.length;i+=2){ x0=Math.min(x0,l[i]); x1=Math.max(x1,l[i]); y0=Math.min(y0,l[i+1]); y1=Math.max(y1,l[i+1]); }
+      const k=UNIT/Math.max(x1-x0,y1-y0);
+      for(const l of loops) for(let i=1;i<l.length;i+=2){ l[i]=Math.round((l[i]-x0)*k); l[i+1]=Math.round((l[i+1]-y0)*k); }
+      oW=Math.round((x1-x0)*k); oH=Math.round((y1-y0)*k);
+    }
+    loops.sort((a,b)=>b.length-a.length);
+    const hex=pal.map(c=>'#'+c.map(v=>v.toString(16).padStart(2,'0')).join(''));
+    RESULT[s.key]={w:oW,h:oH,c:hex,l:loops};
+    // preview
+    const d=document.createElement('div'), cv=document.createElement('canvas'); cv.width=oW; cv.height=oH; const x=cv.getContext('2d');
+    x.fillStyle='#05060c'; x.fillRect(0,0,oW,oH); x.lineWidth=2.5;
+    for(const l of loops){ x.strokeStyle=hex[l[0]]==='#000000'?'#888':hex[l[0]]; const lum=pal[l[0]][0]+pal[l[0]][1]+pal[l[0]][2]; if(lum<120) x.strokeStyle='#8899aa';
+      x.beginPath(); for(let i=1;i<l.length;i+=2) x[i===1?'moveTo':'lineTo'](l[i],l[i+1]); x.closePath(); x.stroke(); }
+    const pts=loops.reduce((a,l)=>a+(l.length-1)/2,0);
+    d.innerHTML='<b>'+s.key+'</b> '+oW+'×'+oH+' · '+loops.length+' loops · '+pts+' pts · '+hex.join(' ');
+    d.appendChild(cv); g.appendChild(d);
+  }
+  window.RESULT=RESULT; document.title='done';
+}
+run();
+</script>
